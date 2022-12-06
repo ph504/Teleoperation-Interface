@@ -7,6 +7,5 @@
         "/home/pouya/catkin_ws/devel/lib/python3/dist-packages",
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
-    "ros.distro": "noetic",
-    "cmake.sourceDirectory": "${workspaceFolder}/src/test"
+    "ros.distro": "noetic"
 }

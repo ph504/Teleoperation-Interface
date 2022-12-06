@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import rospy
 import numpy as np
 import cv2
@@ -11,7 +10,8 @@ from sensor_msgs.msg import CompressedImage
 
 
 
-VERBOSE= False
+
+VERBOSE = False
 
 class Control():
     def __init__(self, window):
