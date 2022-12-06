@@ -1,0 +1,4 @@
+<launch>
+ <node pkg="test" type="axis_test" name="axis_receiver"  />
+ <node pkg="test" type="teleop_joy" name="teleop_joy_node"  />
+</launch>
