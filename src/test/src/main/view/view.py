@@ -15,6 +15,7 @@ from avatar import *
 from dialogue import *
 from button import *
 from jackalAI import *
+from tagdetector import *
   
 def main():
     root = Tk()
@@ -32,14 +33,14 @@ def main():
         rospy.loginfo("viewer node started ...")
         currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
         #TODO: make the camera tilt
-        rospy.Subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor_canvas_small,cursor_canvas_big, currentangle), queue_size=1)
+        #rospy.Subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
     
 
     bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(root)
 
 
     
-    
+    tag_detector = TagDetector()
     gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases)
     
     start_button.add_event(gui_sfm.s01)
@@ -58,8 +59,6 @@ def main():
             pass
     else:
             root.mainloop()
-
-
 
 def widget_init(root):
     bar_canvas = BarCanvas(root, bar_canvas_info_main, danger= False)
@@ -89,7 +88,12 @@ def bind(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvas
     root.bind('2', lambda e: reset_bar(danger_canvases[1]))
     root.bind('3', lambda e: reset_bar(danger_canvases[2]))
     root.bind('o', lambda e: task_canvas.plus())
-    
+    root.bind('a', lambda e: change_scan_mode())   
+
+def change_scan_mode():
+    CameraView.scan_mode = not CameraView.scan_mode
+    print(CameraView.scan_mode)
+
 def switch(back, front, small, big):
 
         if back.is_front == False:
@@ -122,8 +126,6 @@ def switch_danger(barcanvas, dangercanvases):
         danger_disabled = [dangercanvas.disable() for dangercanvas in dangercanvases]
         BarCanvas.danger_mode = False
        
-
-
 def switch_auto(auto_button, manual_button):
 
     if auto_button.active:
@@ -132,7 +134,6 @@ def switch_auto(auto_button, manual_button):
     elif manual_button.active:
         auto_button.enable()
         manual_button.disable()
-
 
 if __name__ == "__main__":
     main()
