@@ -56,18 +56,6 @@ CMAKE_BINARY_DIR = /home/pouya/catkin_ws/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -100,6 +88,18 @@ test:
 test/fast: test
 
 .PHONY : test/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -168,6 +168,51 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+test/CMakeFiles/axis_camera_gencfg.dir/rule:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/axis_camera_gencfg.dir/rule
+.PHONY : test/CMakeFiles/axis_camera_gencfg.dir/rule
+
+# Convenience name for target.
+axis_camera_gencfg: test/CMakeFiles/axis_camera_gencfg.dir/rule
+
+.PHONY : axis_camera_gencfg
+
+# fast build rule for target.
+axis_camera_gencfg/fast:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/axis_camera_gencfg.dir/build.make test/CMakeFiles/axis_camera_gencfg.dir/build
+.PHONY : axis_camera_gencfg/fast
+
+# Convenience name for target.
+test/CMakeFiles/axis_camera_generate_messages_lisp.dir/rule:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/axis_camera_generate_messages_lisp.dir/rule
+.PHONY : test/CMakeFiles/axis_camera_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+axis_camera_generate_messages_lisp: test/CMakeFiles/axis_camera_generate_messages_lisp.dir/rule
+
+.PHONY : axis_camera_generate_messages_lisp
+
+# fast build rule for target.
+axis_camera_generate_messages_lisp/fast:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/axis_camera_generate_messages_lisp.dir/build.make test/CMakeFiles/axis_camera_generate_messages_lisp.dir/build
+.PHONY : axis_camera_generate_messages_lisp/fast
+
+# Convenience name for target.
+test/CMakeFiles/axis_camera_generate_messages_eus.dir/rule:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/axis_camera_generate_messages_eus.dir/rule
+.PHONY : test/CMakeFiles/axis_camera_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+axis_camera_generate_messages_eus: test/CMakeFiles/axis_camera_generate_messages_eus.dir/rule
+
+.PHONY : axis_camera_generate_messages_eus
+
+# fast build rule for target.
+axis_camera_generate_messages_eus/fast:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/axis_camera_generate_messages_eus.dir/build.make test/CMakeFiles/axis_camera_generate_messages_eus.dir/build
+.PHONY : axis_camera_generate_messages_eus/fast
+
+# Convenience name for target.
 test/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
 	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/std_msgs_generate_messages_py.dir/rule
 .PHONY : test/CMakeFiles/std_msgs_generate_messages_py.dir/rule
@@ -213,6 +258,21 @@ roscpp_generate_messages_cpp/fast:
 .PHONY : roscpp_generate_messages_cpp/fast
 
 # Convenience name for target.
+test/CMakeFiles/axis_camera_generate_messages_py.dir/rule:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/axis_camera_generate_messages_py.dir/rule
+.PHONY : test/CMakeFiles/axis_camera_generate_messages_py.dir/rule
+
+# Convenience name for target.
+axis_camera_generate_messages_py: test/CMakeFiles/axis_camera_generate_messages_py.dir/rule
+
+.PHONY : axis_camera_generate_messages_py
+
+# fast build rule for target.
+axis_camera_generate_messages_py/fast:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/axis_camera_generate_messages_py.dir/build.make test/CMakeFiles/axis_camera_generate_messages_py.dir/build
+.PHONY : axis_camera_generate_messages_py/fast
+
+# Convenience name for target.
 test/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
 	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/roscpp_generate_messages_eus.dir/rule
 .PHONY : test/CMakeFiles/roscpp_generate_messages_eus.dir/rule
@@ -226,6 +286,21 @@ roscpp_generate_messages_eus: test/CMakeFiles/roscpp_generate_messages_eus.dir/r
 roscpp_generate_messages_eus/fast:
 	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/roscpp_generate_messages_eus.dir/build.make test/CMakeFiles/roscpp_generate_messages_eus.dir/build
 .PHONY : roscpp_generate_messages_eus/fast
+
+# Convenience name for target.
+test/CMakeFiles/axis_camera_generate_messages_cpp.dir/rule:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/axis_camera_generate_messages_cpp.dir/rule
+.PHONY : test/CMakeFiles/axis_camera_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+axis_camera_generate_messages_cpp: test/CMakeFiles/axis_camera_generate_messages_cpp.dir/rule
+
+.PHONY : axis_camera_generate_messages_cpp
+
+# fast build rule for target.
+axis_camera_generate_messages_cpp/fast:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/axis_camera_generate_messages_cpp.dir/build.make test/CMakeFiles/axis_camera_generate_messages_cpp.dir/build
+.PHONY : axis_camera_generate_messages_cpp/fast
 
 # Convenience name for target.
 test/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
@@ -363,19 +438,19 @@ rosgraph_msgs_generate_messages_lisp/fast:
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
-test/CMakeFiles/teleop_joy.dir/rule:
-	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/teleop_joy.dir/rule
-.PHONY : test/CMakeFiles/teleop_joy.dir/rule
+test/CMakeFiles/axis_camera_generate_messages_nodejs.dir/rule:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/axis_camera_generate_messages_nodejs.dir/rule
+.PHONY : test/CMakeFiles/axis_camera_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
-teleop_joy: test/CMakeFiles/teleop_joy.dir/rule
+axis_camera_generate_messages_nodejs: test/CMakeFiles/axis_camera_generate_messages_nodejs.dir/rule
 
-.PHONY : teleop_joy
+.PHONY : axis_camera_generate_messages_nodejs
 
 # fast build rule for target.
-teleop_joy/fast:
-	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/teleop_joy.dir/build.make test/CMakeFiles/teleop_joy.dir/build
-.PHONY : teleop_joy/fast
+axis_camera_generate_messages_nodejs/fast:
+	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/axis_camera_generate_messages_nodejs.dir/build.make test/CMakeFiles/axis_camera_generate_messages_nodejs.dir/build
+.PHONY : axis_camera_generate_messages_nodejs/fast
 
 # Convenience name for target.
 test/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
@@ -407,47 +482,25 @@ rosgraph_msgs_generate_messages_py/fast:
 	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make test/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 .PHONY : rosgraph_msgs_generate_messages_py/fast
 
-src/teleop_joy.o: src/teleop_joy.cpp.o
-
-.PHONY : src/teleop_joy.o
-
-# target to build an object file
-src/teleop_joy.cpp.o:
-	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/teleop_joy.dir/build.make test/CMakeFiles/teleop_joy.dir/src/teleop_joy.cpp.o
-.PHONY : src/teleop_joy.cpp.o
-
-src/teleop_joy.i: src/teleop_joy.cpp.i
-
-.PHONY : src/teleop_joy.i
-
-# target to preprocess a source file
-src/teleop_joy.cpp.i:
-	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/teleop_joy.dir/build.make test/CMakeFiles/teleop_joy.dir/src/teleop_joy.cpp.i
-.PHONY : src/teleop_joy.cpp.i
-
-src/teleop_joy.s: src/teleop_joy.cpp.s
-
-.PHONY : src/teleop_joy.s
-
-# target to generate assembly for a file
-src/teleop_joy.cpp.s:
-	cd /home/pouya/catkin_ws/build && $(MAKE) -f test/CMakeFiles/teleop_joy.dir/build.make test/CMakeFiles/teleop_joy.dir/src/teleop_joy.cpp.s
-.PHONY : src/teleop_joy.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/local"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... test"
+	@echo "... install/local"
+	@echo "... axis_camera_gencfg"
+	@echo "... axis_camera_generate_messages_lisp"
+	@echo "... axis_camera_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_cpp"
+	@echo "... axis_camera_generate_messages_py"
 	@echo "... roscpp_generate_messages_eus"
+	@echo "... axis_camera_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... list_install_components"
 	@echo "... std_msgs_generate_messages_lisp"
@@ -460,12 +513,9 @@ help:
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
-	@echo "... teleop_joy"
+	@echo "... axis_camera_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
-	@echo "... src/teleop_joy.o"
-	@echo "... src/teleop_joy.i"
-	@echo "... src/teleop_joy.s"
 .PHONY : help
 
 

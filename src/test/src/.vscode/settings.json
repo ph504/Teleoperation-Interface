@@ -1,10 +1,12 @@
 {
     "python.autoComplete.extraPaths": [
         "/home/pouya/catkin_ws/devel/lib/python3/dist-packages",
-        "/opt/ros/noetic/lib/python3/dist-packages"
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/opt/ros/noetic/share/cv_bridge"
     ],
     "python.analysis.extraPaths": [
         "/home/pouya/catkin_ws/devel/lib/python3/dist-packages",
-        "/opt/ros/noetic/lib/python3/dist-packages"
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/opt/ros/noetic/share/cv_bridge"
     ]
 }
