@@ -430,6 +430,8 @@ class ScoreCanvas(BaseCanvas):
         
         subscribe("threshold_cross", self.add_score)
         subscribe("threshold_cross_danger", self.add_score)   
+
+        
     def add_score(self, event_type):
         score = self.text
         score = int(score)
