@@ -207,7 +207,6 @@ class CursorCanvas(BaseCanvas):
 
         cursor_endpoints = self.create_arrowpoints()
         self.canvas.create_polygon(cursor_endpoints, outline=self.outline_color, fill=self.color, width=self.outline_width)
-
     def create_arrowpoints(self):
     
         center_x = self.width/2
@@ -229,7 +228,6 @@ class CursorCanvas(BaseCanvas):
     
     
         return points
-
     def rotate(self, string):
 
         if string == "right":
@@ -391,11 +389,14 @@ class TaskCanvas(BaseCanvas):
         self.text = '0'
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         self.fsm = None
+  
     def add_fsm(self, fsm):
-        self.fsm = fsm
+        self.fsm = fsm    
+    
     def plus(self):
         c = int(self.text)
         c += 1
+
         if c  > 10: return
         if c == 3:
             self.fsm.s12()
@@ -414,7 +415,15 @@ class TaskCanvas(BaseCanvas):
         self.text = str(c)
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
-        
+    
+    def plus_inspect(self):
+        c = int(self.text)
+        c += 1
+        self.text = str(c)
+        self.canvas.delete('all')
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+
+
 class ScoreCanvas(BaseCanvas):  
     def __init__(self, r, dict_info):
         super().__init__(r, dict_info)
@@ -430,8 +439,6 @@ class ScoreCanvas(BaseCanvas):
         
         subscribe("threshold_cross", self.add_score)
         subscribe("threshold_cross_danger", self.add_score)   
-
-        
     def add_score(self, event_type):
         score = self.text
         score = int(score)

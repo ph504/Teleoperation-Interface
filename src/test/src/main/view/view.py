@@ -6,6 +6,7 @@ import cv2
 from playsound import playsound
 from state import *
 from tkinter import * 
+from tkinter.ttk import *
 from PIL import ImageTk
 from axis_camera.msg import Axis
 import PIL.Image
@@ -16,16 +17,27 @@ from dialogue import *
 from button import *
 from jackalAI import *
 from tagdetector import *
+from inspection import *
   
 def main():
+       
     root = Tk()
     root.geometry("1920x1080")
     root.title("Jackal Teleoperator GUI")
     
-    jackal = Avatar(root, javatar_info,javatar_images)
-    cursor_canvas_small = CursorCanvas(root, small_canvas_info)
+    tabControl = Notebook(root)
+    tab1 = Frame(tabControl)
+    tab2 = Frame(tabControl)
+    tabControl.add(tab1, text = "Main")
+    tabControl.add(tab2, text = "Inspection")
+    tabControl.place(x = 5, y = 5, width= 1920 ,height= 1080)
+    
+
+
+    jackal = Avatar(tab1, javatar_info,javatar_images)
+    cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
     cursor_canvas_small.disable()
-    cursor_canvas_big = CursorCanvas(root, big_canvas_info)
+    cursor_canvas_big = CursorCanvas(tab1, big_canvas_info)
 
 
     if camera_available == True:    
@@ -35,59 +47,60 @@ def main():
         #TODO: make the camera tilt
         #rospy.Subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(root)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(tab1)
 
 
     
     tag_detector = TagDetector()
+    inspection_page = InspectionPage(tab2)
     gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases)
     
     start_button.add_event(gui_sfm.s01)
     yes_button.add_event(gui_sfm.s45)
     no_button.add_event(gui_sfm.s46)
     task_canvas.add_fsm(gui_sfm)
-    bind(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
+    bind(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
     
-
+    
     
 
     if camera_available == True:
         try:
-            root.mainloop()
+            tab1.mainloop()
         except rospy.ROSInterruptException:
             pass
     else:
-            root.mainloop()
+            tab1.mainloop()
 
-def widget_init(root):
-    bar_canvas = BarCanvas(root, bar_canvas_info_main, danger= False)
-    danger_canvases = (BarCanvas(root, bar_canvas_info1,danger= True),
-                           BarCanvas(root,bar_canvas_info2, danger= True),
-                             BarCanvas(root,bar_canvas_info3, danger = True))
-    dialogue_text = DialogueBox(root, dbox_info, social_dialogue_dict)
-    task_canvas = TaskCanvas(root, task_canvas_info)
-    view_back = CameraView(root, flir_info, camera_available, "flir")
-    view_front = CameraView(root, axis_info, camera_available, "axis")
-    manual_button = BaseButton(root, button_manual_info, enable = True)
-    auto_button = BaseButton(root, button_auto_info, enable= False)
-    timer_canvas = TimerCanvas(root, timer_canvas_info)
-    yes_button = BaseButton(root, button_yes_info, activate=False)
-    no_button = BaseButton(root, button_no_info, activate = False)
-    start_button = BaseButton(root, button_start_info, activate=True)
-    score_canvas = ScoreCanvas(root, score_canvas_info)
+def widget_init(tab1):
+    bar_canvas = BarCanvas(tab1, bar_canvas_info_main, danger= False)
+    danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
+                           BarCanvas(tab1,bar_canvas_info2, danger= True),
+                             BarCanvas(tab1,bar_canvas_info3, danger = True))
+    dialogue_text = DialogueBox(tab1, dbox_info, social_dialogue_dict)
+    task_canvas = TaskCanvas(tab1, task_canvas_info)
+    view_back = CameraView(tab1, flir_info, camera_available, "flir")
+    view_front = CameraView(tab1, axis_info, camera_available, "axis")
+    manual_button = BaseButton(tab1, button_manual_info, enable = True)
+    auto_button = BaseButton(tab1, button_auto_info, enable= False)
+    timer_canvas = TimerCanvas(tab1, timer_canvas_info)
+    yes_button = BaseButton(tab1, button_yes_info, activate=False)
+    no_button = BaseButton(tab1, button_no_info, activate = False)
+    start_button = BaseButton(tab1, button_start_info, activate=True)
+    score_canvas = ScoreCanvas(tab1, score_canvas_info)
     jackal_ai = JackalAI()
     return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas
 
-def bind(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button):
-    root.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
-    root.bind('x', lambda e: switch_auto(auto_button,manual_button))
-    root.bind('w', lambda e: switch_danger(bar_canvas, danger_canvases))
-    root.bind('`', lambda e: reset_bar(bar_canvas))
-    root.bind('1', lambda e: reset_bar(danger_canvases[0]))
-    root.bind('2', lambda e: reset_bar(danger_canvases[1]))
-    root.bind('3', lambda e: reset_bar(danger_canvases[2]))
-    root.bind('o', lambda e: task_canvas.plus())
-    root.bind('a', lambda e: change_scan_mode())   
+def bind(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button):
+    tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
+    tab1.bind('x', lambda e: switch_auto(auto_button,manual_button))
+    tab1.bind('w', lambda e: switch_danger(bar_canvas, danger_canvases))
+    tab1.bind('`', lambda e: reset_bar(bar_canvas))
+    tab1.bind('1', lambda e: reset_bar(danger_canvases[0]))
+    tab1.bind('2', lambda e: reset_bar(danger_canvases[1]))
+    tab1.bind('3', lambda e: reset_bar(danger_canvases[2]))
+    tab1.bind('o', lambda e: task_canvas.plus())
+    tab1.bind('a', lambda e: change_scan_mode())   
 
 def change_scan_mode():
     CameraView.scan_mode = not CameraView.scan_mode
@@ -133,6 +146,7 @@ def switch_auto(auto_button, manual_button):
     elif manual_button.active:
         auto_button.enable()
         manual_button.disable()
+
 
 if __name__ == "__main__":
     main()

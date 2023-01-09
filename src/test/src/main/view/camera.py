@@ -14,7 +14,7 @@ camera_available = False
 
 flir_info = {
     "x": 5,
-    "y": 5,
+    "y": 50,
     "width": 400,
     "height": 300
 }
