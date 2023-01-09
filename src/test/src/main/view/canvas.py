@@ -137,7 +137,8 @@ score_events = {
     "error_push": 5,
     "threshold_cross": 50,
     "step_error_danger": 20,
-    "threshold_cross_danger": 100
+    "threshold_cross_danger": 100,
+    "collision_hit": 100
 
 }
 
@@ -437,7 +438,7 @@ class ScoreCanvas(BaseCanvas):
         
         subscribe("threshold_cross", self.add_score)
         subscribe("threshold_cross_danger", self.add_score)
-        subscribe("collision_hit", self.add_score)
+        subscribe("collision_hit", self.add_score_hit)
            
     def add_score(self, event_type):
         score = self.text
@@ -446,6 +447,15 @@ class ScoreCanvas(BaseCanvas):
         self.text = str(score)
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+
+    def add_score_hit(self, hit_count):
+        score = self.text
+        score = int(score)
+        score += score_events["collision_hit"] * int(hit_count)
+        self.text = str(score)
+        self.canvas.delete('all')
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+        
     def subtract_score(self, event_type):
         score = self.text
         score = int(score)
