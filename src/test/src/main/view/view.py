@@ -18,7 +18,7 @@ from button import *
 from jackalAI import *
 from tagdetector import *
 from inspection import *
-  
+import socket
 def main():
        
     root = Tk()
@@ -33,6 +33,8 @@ def main():
     tabControl.place(x = 5, y = 5, width= 1920 ,height= 1080)
     
 
+    x = threading.Thread(target=server_program)
+    x.start()
 
     jackal = Avatar(tab1, javatar_info,javatar_images)
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
@@ -147,6 +149,22 @@ def switch_auto(auto_button, manual_button):
     elif manual_button.active:
         auto_button.enable()
         manual_button.disable()
+
+def server_program():
+    HOST = '192.168.2.15'
+    PORT = 4001
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((HOST,PORT))
+    s.listen(1)
+    print("socket is binded and ready to accept.")
+    while True:
+        conn, addr = s.accept()
+        print("connection accepted!")
+        data = conn.recv(1024)
+        print('socket received command')
+        data = data.decode('utf-8')
+        print("Message from: " + str(addr))
+    
 
 
 if __name__ == "__main__":

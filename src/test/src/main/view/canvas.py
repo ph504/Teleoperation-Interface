@@ -131,8 +131,6 @@ score_canvas_info = {
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
-
-
 score_events = {
     "time_punish": 200,
     "step_error": 10,
