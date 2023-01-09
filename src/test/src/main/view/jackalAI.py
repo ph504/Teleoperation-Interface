@@ -23,15 +23,13 @@ class JackalAI():
         else:
             self.count += 1
             bar.reset_button()
-
-    
+  
     def press_red_init(self, bar: BarCanvas):
         if self.count == 5 or self.count == 10:
             print("it's happening")
             self.count += 1
             bar.reset_button()
             
-
     def press_red(self, bar: BarCanvas):
         self.step_error_count += 1
         if self.step_error_count == self.step_error_max:
