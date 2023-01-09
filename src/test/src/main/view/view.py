@@ -89,6 +89,7 @@ def widget_init(tab1):
     start_button = BaseButton(tab1, button_start_info, activate=True)
     score_canvas = ScoreCanvas(tab1, score_canvas_info)
     jackal_ai = JackalAI()
+    
     return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas
 
 def bind(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button):
