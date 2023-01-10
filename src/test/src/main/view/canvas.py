@@ -258,7 +258,7 @@ class BarCanvas(BaseCanvas):
         self.line_thresholdpercent = info_dict["line_thresholdpercent"]
         self.repeat_moving = None
         self.active = info_dict["active"]
-        self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
+        self.secondary_task = None
         self.move_interval= info_dict["move_interval"]
         self.progress_step = info_dict["progress_step"]
         self.canvas.create_rectangle(2,2, self.width, self.height, fill=r.cget('bg'), outline=self.outline_color, width=self.outline_width)
@@ -268,7 +268,9 @@ class BarCanvas(BaseCanvas):
         self.is_danger = danger
         self.red_mode = False
     
-    
+    def start(self):
+        self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
+
     def move_bar(self,string):   
         #just to prevent danger bars being active while normal is active (and vice versa) 
         if (self.is_danger and BarCanvas.danger_mode) or (not self.is_danger and not BarCanvas.danger_mode):
@@ -343,8 +345,8 @@ class BarCanvas(BaseCanvas):
         else:
             self.repeat_moving = RepeatedTimer(interval, self.move_bar, string)  
     def random_movement(self):
-        r = random.randint(0,3)
-        if r > 2:
+        r = random.randint(0,4)
+        if r > 3:
             self.move_bar_repeat("left", self.move_interval)
         else:
             self.move_bar_repeat("right", self.move_interval)
@@ -421,7 +423,6 @@ class TaskCanvas(BaseCanvas):
         self.text = str(c)
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
-
 
 class ScoreCanvas(BaseCanvas):  
     def __init__(self, r, dict_info):

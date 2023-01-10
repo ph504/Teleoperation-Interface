@@ -55,10 +55,10 @@ def main():
     bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(tab1)
 
 
-    
-    tag_detector = TagDetector()
+
     inspection_page = InspectionPage(tab2)
-    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases)
+    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal)
+    
     
     start_button.add_event(gui_sfm.s01)
     yes_button.add_event(gui_sfm.s45)

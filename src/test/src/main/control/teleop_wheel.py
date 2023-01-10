@@ -9,16 +9,9 @@ from axis_camera.msg import Axis
 def callback(data):
     
     twist.linear.x = 2*data.axes[1]
-    twist.angular.z = 2*data.axes[0]
-
-
-       
-
-
-        
+    twist.angular.z = 2*data.axes[0]      
 
 def start():
-        
         global pub_jackal
         global twist 
 
@@ -35,10 +28,7 @@ def start():
             rospy.loginfo(twist)
             pub_jackal.publish(twist)
             rate.sleep()
-            
-
-            
-
+                
         rospy.spin()
 
 if __name__ == '__main__':   

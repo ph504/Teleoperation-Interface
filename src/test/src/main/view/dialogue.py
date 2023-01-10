@@ -3,6 +3,9 @@ from email.policy import default
 from re import X
 from tkinter import DISABLED, Label, Text
 
+
+social_mode = True
+
 social_dialogue_dict = {   
     "Start Q":
                         "Hey, I am Jackal!. Shall we start?",
@@ -51,8 +54,6 @@ nonsocial_dialogue_dict = {
 
 }
 
-social_mode = False
-
 dbox_info = {
     "x": 660,
     "y": 800,
@@ -77,9 +78,6 @@ class DialogueBox():
 
     def change_dialogue(self, string):
         self.state = string
-        
- 
-        
         self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]
         self.dialoguetext.config(text= self.dialogue)
 
