@@ -240,7 +240,7 @@ class CursorCanvas(BaseCanvas):
         
         new_cursor_endpoints = self.create_arrowpoints()
         self.canvas.delete('all')
-        self.canvas.create_polygon(new_cursor_endpoints, outline=self.outline, fill=self.fill, width=self.outline_width)
+        self.canvas.create_polygon(new_cursor_endpoints, outline=self.outline_color, fill=self.color, width=self.outline_width)
 
 class BarCanvas(BaseCanvas): 
     danger_mode = None

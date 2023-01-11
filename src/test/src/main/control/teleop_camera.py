@@ -28,7 +28,7 @@ def control_camera(joys_i):
     next_pos -=  joys_i
     axis.pan =  int((next_pos + 180) % 360) - 180    
     print(next_pos,"    ", joys_i)
-
+    
 
 
 def start():

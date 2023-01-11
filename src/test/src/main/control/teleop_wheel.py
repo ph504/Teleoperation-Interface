@@ -13,7 +13,7 @@ def callback(data):
 
 def start():
         global pub_jackal
-        global twist 
+        global twist
 
         twist =  Twist()
 
@@ -28,7 +28,7 @@ def start():
             rospy.loginfo(twist)
             pub_jackal.publish(twist)
             rate.sleep()
-                
+
         rospy.spin()
 
 if __name__ == '__main__':   

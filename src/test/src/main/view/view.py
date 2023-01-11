@@ -48,9 +48,17 @@ def main():
     if camera_available == True:    
         rospy.init_node("viewer", anonymous= True)
         rospy.loginfo("viewer node started ...")
-        currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
+        global prev_angle 
+        prev_angle = rospy.wait_for_message("/axis/state", Axis).pan
+        #currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
         #TODO: make the camera tilt
         #rospy.Subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
+        cursor_canvases = (cursor_canvas_small, cursor_canvas_big)
+        rospy.Subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
+
+
+
+    
 
     bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(tab1)
 
@@ -59,12 +67,12 @@ def main():
     inspection_page = InspectionPage(tab2)
     gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal)
     
-    
+
     start_button.add_event(gui_sfm.s01)
     yes_button.add_event(gui_sfm.s45)
     no_button.add_event(gui_sfm.s46)
     task_canvas.add_fsm(gui_sfm)
-    bind(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
+    bind(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
     
     
     
@@ -113,6 +121,7 @@ def change_scan_mode():
     print(CameraView.scan_mode)
 
 def switch(back, front, small, big):
+        print("the switch is happening!")
 
         if back.is_front == False:
             #Flir is front ,Axis is back
@@ -172,8 +181,21 @@ def server_program():
                     break
                 print("From connected user: " + data)
                 post_event("collision_hit", data)
-        
 
+
+#Test it    
+def change_angle(data, canvases):
+    global prev_angle
+    if data.pan - prev_angle >= 1:
+        canvases[0].rotate("right")
+        canvases[1].rotate("right")
+    elif data.pan - prev_angle <= -1:
+        canvases[0].rotate("left")
+        canvases[1].rotate("left")
+ 
+    
+    prev_angle = data.pan
 
 if __name__ == "__main__":
+   
     main()
