@@ -9,6 +9,7 @@ from tkinter import *
 from tkinter.ttk import *
 from PIL import ImageTk
 from axis_camera.msg import Axis
+from sensor_msgs.msg import Joy
 import PIL.Image
 from canvas import *
 from camera import * 
@@ -57,13 +58,28 @@ def main():
         rospy.Subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
 
 
+    global rb1, rb2normal, rb3, cs, ts_l, ts_r
+    rb1 = 0 
+    rb2normal = 0
+    rb3 = 0
+    cs = 0
+    ts_l = 0
+    ts_r = 0
 
-    
 
     bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(tab1)
 
-
-
+    widgets = {
+        "cursor_canvas_small": cursor_canvas_small,
+        "cursor_canvas_big": cursor_canvas_big,
+        "bar_canvas": bar_canvas,
+        "danger_canvases": danger_canvases,
+        "task_canvas": task_canvas,
+        "view_back": view_back,
+        "view_front": view_front
+    }
+    rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
+    
     inspection_page = InspectionPage(tab2)
     gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal)
     
@@ -72,7 +88,12 @@ def main():
     yes_button.add_event(gui_sfm.s45)
     no_button.add_event(gui_sfm.s46)
     task_canvas.add_fsm(gui_sfm)
-    bind(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
+
+    test = True
+    
+    if test: 
+        bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
+    
     
     
     
@@ -101,11 +122,13 @@ def widget_init(tab1):
     no_button = BaseButton(tab1, button_no_info, activate = False)
     start_button = BaseButton(tab1, button_start_info, activate=True)
     score_canvas = ScoreCanvas(tab1, score_canvas_info)
+
     jackal_ai = JackalAI()
     
     return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas
 
-def bind(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button):
+def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button):
+    
     tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
     tab1.bind('x', lambda e: switch_auto(auto_button,manual_button))
     tab1.bind('w', lambda e: switch_danger(bar_canvas, danger_canvases))
@@ -114,7 +137,18 @@ def bind(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvas
     tab1.bind('2', lambda e: reset_bar(danger_canvases[1]))
     tab1.bind('3', lambda e: reset_bar(danger_canvases[2]))
     tab1.bind('o', lambda e: task_canvas.plus())
-    tab1.bind('a', lambda e: change_scan_mode())   
+    tab1.bind('a', lambda e: change_scan_mode())  
+
+    
+    tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
+    tab1.bind('x', lambda e: switch_auto(auto_button,manual_button))
+    tab1.bind('w', lambda e: switch_danger(bar_canvas, danger_canvases))
+    tab1.bind('`', lambda e: reset_bar(bar_canvas))
+    tab1.bind('1', lambda e: reset_bar(danger_canvases[0]))
+    tab1.bind('2', lambda e: reset_bar(danger_canvases[1]))
+    tab1.bind('3', lambda e: reset_bar(danger_canvases[2]))
+    tab1.bind('o', lambda e: task_canvas.plus())
+    tab1.bind('a', lambda e: change_scan_mode())  
 
 def change_scan_mode():
     CameraView.scan_mode = not CameraView.scan_mode
@@ -143,14 +177,19 @@ def switch_danger(barcanvas, dangercanvases):
     if barcanvas.active:
         barcanvas.reset()
         barcanvas.disable()
-        danger_enabled = [dangercanvas.reset() for dangercanvas in dangercanvases]
-        danger_enabled = [dangercanvas.enable() for dangercanvas in dangercanvases]
+        for dangercanvas in dangercanvases:
+            dangercanvas.reset() 
+        for dangercanvas in dangercanvases:
+            dangercanvas.enable()
+            print("danger canvas should be enabled")
         BarCanvas.danger_mode = True
     else:
         barcanvas.reset()
         barcanvas.enable()
-        danger_disabled = [dangercanvas.reset() for dangercanvas in dangercanvases]
-        danger_disabled = [dangercanvas.disable() for dangercanvas in dangercanvases]
+        for dangercanvas in dangercanvases:
+            dangercanvas.reset() 
+        for dangercanvas in dangercanvases:
+            dangercanvas.disable() 
         BarCanvas.danger_mode = False
        
 def switch_auto(auto_button, manual_button):
@@ -183,7 +222,7 @@ def server_program():
                 post_event("collision_hit", data)
 
 
-#Test it    
+   
 def change_angle(data, canvases):
     global prev_angle
     if data.pan - prev_angle >= 1:
@@ -195,6 +234,59 @@ def change_angle(data, canvases):
  
     
     prev_angle = data.pan
+
+def joy_config(data, widgets):
+    global rb1, rb2normal, rb3, cs, ts_l, ts_r
+
+    #reset bar 1
+    rb1_buff = rb1
+    rb1 = data.buttons[2]
+    if rb1 == 1 and rb1_buff == 0:
+         if BarCanvas.danger_mode: reset_bar(widgets["danger_canvases[0]"])  
+
+    #reset bar 2 and normal
+    rb2normal_buff = rb2normal
+    rb2normal = data.buttons[1] 
+    
+    if rb2normal == 1 and rb2normal_buff == 0:
+        if BarCanvas.danger_mode:
+            reset_bar(widgets["danger_canvases[1]"])
+        else:
+            reset_bar(widgets["bar_canvas"])
+   
+    #reset bar 3
+    rb3_buff = rb3
+    rb3 = data.buttons[0]
+    if rb3 == 1 and rb3_buff == 0:
+         if BarCanvas.danger_mode:
+            reset_bar(widgets["danger_canvases[2]"])
+
+
+    #camera switch
+    cs_buff = cs
+    cs = data.buttons[3]
+    if cs == 1 and cs_buff == 0:
+        switch(back = widgets["view_back"], front = widgets["view_front"], small=widgets["cursor_canvas_small"], big=widgets["cursor_canvas_big"])
+
+    #tab_switch left (x < 0)
+    ts_l_buff = ts_l
+    ts_l = 0
+    if data.axes[6] < 0:
+        ts_l  = 1
+    if ts_l == 1 and ts_l_buff == 0:
+        print("switch tab to left")
+        #???
+   
+
+    #tab switch right (x > 0)
+    ts_r_buff = ts_r
+    ts_r = 0
+    if data.axes[6] > 0: 
+        ts_r = 1
+    if ts_l == 1 and ts_l_buff == 0:
+        print("switch tab to right")
+ 
+
 
 if __name__ == "__main__":
    
