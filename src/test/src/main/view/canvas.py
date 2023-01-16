@@ -105,31 +105,58 @@ bar_canvas_info3 = {
 
 }
 timer_canvas_info = {
-    "x": 1700,
-    "y": 30,
-    "width": 150,
+    "x": 1650,
+    "y": 75,
+    "width": 200,
     "height": 50,
     "color": "red",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
+timer_lbl_info = {
+    "x": 1725,
+    "y": 60,
+    "width": 50,
+    "height": 17,
+    "color": "red",
+    "font": ('Helvetica', '12', 'bold'),
+}
 task_canvas_info = {
     "x": 1600,
-    "y": 30,
-    "width": 150,
+    "y": 75,
+    "width": 100,
     "height": 50,
     "color": "green",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
+
+task_lbl_info = {
+    "x": 1625,
+    "y": 60,
+    "width": 50,
+    "height": 17,
+    "color": "green",
+    "font": ('Helvetica', '12', 'bold'),
+
+}
 score_canvas_info = {
     "x": 1500,
-    "y": 30,
+    "y": 75,
     "width": 150,
     "height": 50,
     "color": "blue",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
+}
+score_lbl_info = {
+    "x": 1550,
+    "y": 60,
+    "width": 50,
+    "height": 17,
+    "color": "blue",
+    "font": ('Helvetica', '12', 'bold'),
+
 }
 score_events = {
     "time_punish": 200,

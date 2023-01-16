@@ -11,7 +11,7 @@ task_inspect_info = {
     "active": True
 }
 class InspectionPage():
-    def __init__(self, root):
+    def __init__(self, root, task_canvas):
         
         self.description_lbl = Label(root, text= "Enter the string written on each paper")
         self.description_lbl.place(x= 760, y= 340, width= 500,height= 20)
@@ -19,17 +19,13 @@ class InspectionPage():
         self.entry_lbl =  Entry(root)
         self.entry_lbl.place(x= 760 ,y= 370 ,width= 500, height= 15)
 
-        self.task_canvas = TaskCanvas(root, task_inspect_info)
-        self.task_text_lbl = Label(root, text = "Dead Bodies Found:" )
-        self.task_text_lbl.place(x= 900, y = 315, width = 150, height = 15)
-
-
         self.error_lbl = Label(root, text= "")
         self.error_lbl.place(x= 760, y = 400, width = 500, height = 15)
         
         self.btn_validate = Button(root, text= "Validate" , command= self.validate)
         self.btn_validate.place(x = 885, y = 430, width = 250, height = 25)
 
+        self.task_canvas = task_canvas
         self.task_count = 0
 
         self.code_list = [
@@ -64,7 +60,7 @@ class InspectionPage():
                 self.code_list.remove(string)
                 self.code_list_used.append(string)
                 self.task_count += 1
-                self.task_canvas.plus_inspect()
+                self.task_canvas.plus()
             
             elif string not in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!")

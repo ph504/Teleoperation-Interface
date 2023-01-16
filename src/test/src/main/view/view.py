@@ -67,7 +67,7 @@ def main():
     ts_r = 0
 
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(tab1)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(root, tab1)
 
     widgets = {
         "cursor_canvas_small": cursor_canvas_small,
@@ -80,7 +80,7 @@ def main():
     }
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
-    inspection_page = InspectionPage(tab2)
+    inspection_page = InspectionPage(tab2, task_canvas)
     gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal)
     
 
@@ -106,22 +106,36 @@ def main():
     else:
             tab1.mainloop()
 
-def widget_init(tab1):
+def widget_init(root, tab1):
     bar_canvas = BarCanvas(tab1, bar_canvas_info_main, danger= False)
     danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
     dialogue_text = DialogueBox(tab1, dbox_info, social_dialogue_dict)
-    task_canvas = TaskCanvas(tab1, task_canvas_info)
+    
     view_back = CameraView(tab1, flir_info, camera_available, "flir")
     view_front = CameraView(tab1, axis_info, camera_available, "axis")
     manual_button = BaseButton(tab1, button_manual_info, enable = True)
     auto_button = BaseButton(tab1, button_auto_info, enable= False)
-    timer_canvas = TimerCanvas(tab1, timer_canvas_info)
+    
     yes_button = BaseButton(tab1, button_yes_info, activate=False)
     no_button = BaseButton(tab1, button_no_info, activate = False)
     start_button = BaseButton(tab1, button_start_info, activate=True)
-    score_canvas = ScoreCanvas(tab1, score_canvas_info)
+    
+    timer_canvas = TimerCanvas(root, timer_canvas_info)
+    timer_lbl = Label(root, text="Timer", font=timer_lbl_info["font"], fg=timer_lbl_info["color"])
+    timer_lbl.place(x = timer_lbl_info["x"], y = timer_lbl_info["y"], width=timer_lbl_info["width"], height=timer_lbl_info["height"])
+
+
+    
+    score_canvas = ScoreCanvas(root, score_canvas_info)
+    score_lbl = Label(root, text="Score", font=score_lbl_info["font"], fg=score_lbl_info["color"])
+    score_lbl.place(x = score_lbl_info["x"], y = score_lbl_info["y"], width=score_lbl_info["width"], height=score_lbl_info["height"])
+    
+
+    task_canvas = TaskCanvas(root, task_canvas_info)
+    task_lbl = Label(root, text="Task", font=task_lbl_info["font"], fg=task_lbl_info["color"])
+    task_lbl.place(x = task_lbl_info["x"], y = task_lbl_info["y"], width=task_lbl_info["width"], height=task_lbl_info["height"])
 
     jackal_ai = JackalAI()
     
@@ -220,8 +234,6 @@ def server_program():
                     break
                 print("From connected user: " + data)
                 post_event("collision_hit", data)
-
-
    
 def change_angle(data, canvases):
     global prev_angle
@@ -286,8 +298,6 @@ def joy_config(data, widgets):
     if ts_l == 1 and ts_l_buff == 0:
         print("switch tab to right")
  
-
-
 if __name__ == "__main__":
    
     main()
