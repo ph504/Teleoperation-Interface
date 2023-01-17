@@ -94,9 +94,6 @@ def main():
     if test: 
         bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
     
-    
-    
-    
 
     if camera_available == True:
         try:
@@ -195,7 +192,7 @@ def switch_danger(barcanvas, dangercanvases):
             dangercanvas.reset() 
         for dangercanvas in dangercanvases:
             dangercanvas.enable()
-            print("danger canvas should be enabled")
+            dangercanvas.start()
         BarCanvas.danger_mode = True
     else:
         barcanvas.reset()

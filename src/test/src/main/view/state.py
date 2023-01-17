@@ -1,5 +1,6 @@
 from statemachine import State, StateMachine
-from view import *
+from view import switch_danger
+from dialogue import social_mode
 
 
 

@@ -271,6 +271,7 @@ class CursorCanvas(BaseCanvas):
 
 class BarCanvas(BaseCanvas): 
     danger_mode = None
+    
     def __init__(self, r, info_dict, danger):
         super().__init__(r,info_dict)
         self.bar_percent = info_dict["bar_defaultpercent"]
@@ -294,10 +295,8 @@ class BarCanvas(BaseCanvas):
         self.passed = False
         self.is_danger = danger
         self.red_mode = False
-    
     def start(self):
         self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
-
     def move_bar(self,string):   
         #just to prevent danger bars being active while normal is active (and vice versa) 
         if (self.is_danger and BarCanvas.danger_mode) or (not self.is_danger and not BarCanvas.danger_mode):
@@ -336,9 +335,7 @@ class BarCanvas(BaseCanvas):
                 post_event("threshold_cross_danger") if self.is_danger else post_event("threshold_cross")
                 if self.danger_mode: post_event("red_init_mode", self)
                 self.red_mode = True
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav")
-                    
-        
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav")     
     def reset_button(self):
         if self.passed == False:
             post_event("error_push")

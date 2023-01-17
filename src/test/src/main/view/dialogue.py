@@ -8,13 +8,13 @@ social_mode = True
 
 social_dialogue_dict = {   
     "Start Q":
-                        "Hey, I am Jackal!. Shall we start?",
+                        "Hey, I am Jackal! It is amazing that we can work together to save lives eh? So the operation is we have to check for injured people in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",
     "Start A":
                                 "Let's gooo!!!",
     "Danger State Start I":
-                                "... I will handle it this time.",
+                                "I have been informed that we have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have been broken! Beware since it is important if we do our jobs correctly here. Right now you just find and log injured people while I log the amount of gas properly.",
     "Danger State End I":
-                                "Uuh! I guess i did X mistakes while i added Y to the scores I lost Z score. I am sorry about this ... (Reason??)",
+                                "Uuh! I did some mistakes. I am sorry about this. Some of my sensors were not calibrated correctly  ",
     "Danger State Start II Q":
                                 "Hey I know I did wrong. But can you let me do it again? I try to do better this time.",
     "Danger State Start II A - Y":
@@ -29,6 +29,7 @@ social_dialogue_dict = {
        
 
 }
+
 
 nonsocial_dialogue_dict = {
     "Start Q":
@@ -70,9 +71,7 @@ class DialogueBox():
         self.height = dialoguebox_info["height"]
         self.state = "Start Q"
         self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]
-        self.dialoguetext = Label(root, width= self.width, height= self.height,
-                                font=('Calibri',12, 'bold', 'italic'),
-                                bg='#e0de99')
+        self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#e0de99', wraplength= 800)
         self.dialoguetext.config(text= self.dialogue)
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
 
