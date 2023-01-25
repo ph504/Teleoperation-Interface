@@ -32,9 +32,9 @@ class FlashingImage():
     def flash(self):
         while True:
             time.sleep(self.pause_time)
-            self.label.config(image="")
+            self.label.configure(image="")
             time.sleep(self.pause_time)
-            self.label.config(image=self.image_tk)
+            self.label.configure(image=self.image_tk)
 
     def enable(self):
         self.label.place(x = self.x, y = self.y, width = self.width, height=self.height)
