@@ -2,7 +2,8 @@ from ast import If
 from email.policy import default
 from re import X
 from tkinter import DISABLED, Label, Text
-
+from playsound import *
+import threading
 
 social_mode = True
 
@@ -24,7 +25,7 @@ social_dialogue_dict = {
     "Danger State End II":
                                 "Yay! I did it flawlessly I added X scores.",
     "End":
-                                "It was nice working with you!"
+                                "It was nice working with you!",                       
 
        
 

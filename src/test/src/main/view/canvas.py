@@ -6,6 +6,7 @@ import threading
 import random
 from playsound import playsound
 from event import *
+import string
 
 #------Canvas Position ---- #
 big_canvas_info = {
@@ -130,7 +131,6 @@ task_canvas_info = {
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
-
 task_lbl_info = {
     "x": 1625,
     "y": 60,
@@ -335,11 +335,11 @@ class BarCanvas(BaseCanvas):
                 post_event("threshold_cross_danger") if self.is_danger else post_event("threshold_cross")
                 if self.danger_mode: post_event("red_init_mode", self)
                 self.red_mode = True
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav")     
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)     
     def reset_button(self):
         if self.passed == False:
             post_event("error_push")
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav")
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
             return
         else:
             self.passed = False
@@ -411,7 +411,8 @@ class TaskCanvas(BaseCanvas):
         super().__init__(r, dict_info)
         self.color = dict_info["color"]
         self.font = dict_info["font"]
-        self.text = '0'
+        self.text = '0/10'
+        self.count = 0
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         self.fsm = None
   
@@ -419,8 +420,9 @@ class TaskCanvas(BaseCanvas):
         self.fsm = fsm    
     
     def plus(self):
-        c = int(self.text)
+        c = self.count
         c += 1
+        self.count += 1
 
         if c  > 10: return
         if c == 3:
@@ -437,14 +439,15 @@ class TaskCanvas(BaseCanvas):
         elif c == 10:
             self.fsm.s78()
 
-        self.text = str(c)
+        self.text = "{count}/10".format(count=str(c))
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
     
     def plus_inspect(self):
-        c = int(self.text)
+        c = self.count
         c += 1
-        self.text = str(c)
+        self.count += 1
+        self.text = "{count}/10".format(count=str(c))
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 

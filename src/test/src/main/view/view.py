@@ -21,6 +21,7 @@ from tagdetector import *
 from inspection import *
 import socket
 import socketserver
+from flashing_image import *
 
 
 def main():
@@ -40,7 +41,8 @@ def main():
     x = threading.Thread(target=server_program)
     x.start()
 
-    jackal = Avatar(tab1, javatar_info,javatar_images)
+    jackal = Avatar(root, javatar_info,javatar_images)
+    
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
     cursor_canvas_small.disable()
     cursor_canvas_big = CursorCanvas(tab1, big_canvas_info)
@@ -67,7 +69,7 @@ def main():
     ts_r = 0
 
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas = widget_init(root, tab1)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image = widget_init(root, tab1)
 
     widgets = {
         "cursor_canvas_small": cursor_canvas_small,
@@ -81,7 +83,7 @@ def main():
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, task_canvas)
-    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal)
+    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image)
     
 
     start_button.add_event(gui_sfm.s01)
@@ -108,16 +110,16 @@ def widget_init(root, tab1):
     danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
-    dialogue_text = DialogueBox(tab1, dbox_info, social_dialogue_dict)
+    dialogue_text = DialogueBox(root, dbox_info, social_dialogue_dict)
     
     view_back = CameraView(tab1, flir_info, camera_available, "flir")
     view_front = CameraView(tab1, axis_info, camera_available, "axis")
-    manual_button = BaseButton(tab1, button_manual_info, enable = True)
-    auto_button = BaseButton(tab1, button_auto_info, enable= False)
+    manual_button = BaseButton(root, button_manual_info, enable = True)
+    auto_button = BaseButton(root, button_auto_info, enable= False)
     
-    yes_button = BaseButton(tab1, button_yes_info, activate=False)
-    no_button = BaseButton(tab1, button_no_info, activate = False)
-    start_button = BaseButton(tab1, button_start_info, activate=True)
+    yes_button = BaseButton(root, button_yes_info, activate=False)
+    no_button = BaseButton(root, button_no_info, activate = False)
+    start_button = BaseButton(root, button_start_info, activate=True)
     
     timer_canvas = TimerCanvas(root, timer_canvas_info)
     timer_lbl = Label(root, text="Timer", font=timer_lbl_info["font"], fg=timer_lbl_info["color"])
@@ -134,9 +136,11 @@ def widget_init(root, tab1):
     task_lbl = Label(root, text="Task", font=task_lbl_info["font"], fg=task_lbl_info["color"])
     task_lbl.place(x = task_lbl_info["x"], y = task_lbl_info["y"], width=task_lbl_info["width"], height=task_lbl_info["height"])
 
+    flashing_image = FlashingImage(root, flashing_image_info)
+
     jackal_ai = JackalAI()
     
-    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas
+    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image
 
 def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button):
     
@@ -230,7 +234,7 @@ def server_program():
                 if not data:
                     break
                 print("From connected user: " + data)
-                post_event("collision_hit", data)
+                post_event("mistake", data)
    
 def change_angle(data, canvases):
     global prev_angle

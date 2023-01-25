@@ -36,7 +36,7 @@ class Avatar():
             self.label.place(x = self.x ,y = self.y ,width = self.width ,height = self.height)
             self.state = "default"
 
-            event.subscribe("collision_hit", self.change_image_hit)
+            event.subscribe("mistake", self.change_image_hit)
 
     def change_image(self,state):
         self.image = Image.open(javatar_images[state]).resize((self.width,self.height), Image.ANTIALIAS)
@@ -57,7 +57,7 @@ class Avatar():
     def change_image_hit(self, dummy):
         def swap_images(s, p_s):
             self.change_image(s)
-            time.sleep(2)
+            time.sleep(4)
             self.change_image(p_s)
         prev_state = self.state
         t = threading.Thread(target=swap_images, args=("angry", prev_state))

@@ -1,5 +1,7 @@
 from tkinter import *
 from canvas import *
+import time
+import threading
 
 task_inspect_info = {
     "x": 980,
@@ -17,10 +19,10 @@ class InspectionPage():
         self.description_lbl.place(x= 760, y= 340, width= 500,height= 20)
 
         self.entry_lbl =  Entry(root)
-        self.entry_lbl.place(x= 760 ,y= 370 ,width= 500, height= 15)
+        self.entry_lbl.place(x= 760 ,y= 370 ,width= 500, height= 25)
 
         self.error_lbl = Label(root, text= "")
-        self.error_lbl.place(x= 760, y = 400, width = 500, height = 15)
+        self.error_lbl.place(x= 760, y = 405, width = 500, height = 25)
         
         self.btn_validate = Button(root, text= "Validate" , command= self.validate)
         self.btn_validate.place(x = 885, y = 430, width = 250, height = 25)
@@ -45,18 +47,26 @@ class InspectionPage():
 
 
     
-    
+    def delete_err_lbl(self):
+        def del_lbl():
+                time.sleep(5)
+                self.error_lbl.config(text="")
+        q = threading.Thread(target= del_lbl)
+        q.start()
     
     def validate(self):
             string = str(self.entry_lbl.get())
             self.entry_lbl.delete(0, len(string))
      
             if string in self.code_list_used:
-                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg="green", text="This has been validated before!")
+                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg="yellow", text="This person has been validated before!")
+                self.delete_err_lbl()
 
         
             elif string in self.code_list:
-                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="you got a new dead body!")
+                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="You found a new injured person!")
+                playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
+                self.delete_err_lbl()
                 self.code_list.remove(string)
                 self.code_list_used.append(string)
                 self.task_count += 1
@@ -64,8 +74,7 @@ class InspectionPage():
             
             elif string not in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!")
+                self.delete_err_lbl()
             if len(self.code_list) == 0:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Congrats! You've checked all the dead bodies!")
-
-
-            print("Task Count:" + " " + str(self.task_count))
+                self.delete_err_lbl()

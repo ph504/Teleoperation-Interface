@@ -85,7 +85,7 @@ class CameraView():
 
         #find the shape of array (number of elements in each dimensions) convert it to a number and multiply it by scale factor. The shape int number is the value of pixel numbers for width/height. multiplying just downscales/upscales it.
         new_width = int(image_np.shape[1] * self.img_scale_factor)
-        new_height = int(image_np.shape[0] *self.img_scale_factor)
+        new_height = int(image_np.shape[0] * self.img_scale_factor)
         new_dims = (new_width, new_height)
 
         #resize it based on the new dimensions calculated
