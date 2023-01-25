@@ -60,13 +60,14 @@ def main():
         rospy.Subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
 
 
-    global rb1, rb2normal, rb3, cs, ts_l, ts_r
+    global rb1, rb2normal, rb3, cs, dialogue_end
     rb1 = 0 
     rb2normal = 0
     rb3 = 0
     cs = 0
-    ts_l = 0
-    ts_r = 0
+    dialogue_end = 0
+
+
 
 
     bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image = widget_init(root, tab1)
@@ -78,7 +79,8 @@ def main():
         "danger_canvases": danger_canvases,
         "task_canvas": task_canvas,
         "view_back": view_back,
-        "view_front": view_front
+        "view_front": view_front,
+        "dialogue_text": dialogue_text
     }
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
@@ -249,7 +251,7 @@ def change_angle(data, canvases):
     prev_angle = data.pan
 
 def joy_config(data, widgets):
-    global rb1, rb2normal, rb3, cs, ts_l, ts_r
+    global rb1, rb2normal, rb3, cs, dialogue_end
 
     #reset bar 1
     rb1_buff = rb1
@@ -281,23 +283,14 @@ def joy_config(data, widgets):
     if cs == 1 and cs_buff == 0:
         switch(back = widgets["view_back"], front = widgets["view_front"], small=widgets["cursor_canvas_small"], big=widgets["cursor_canvas_big"])
 
-    #tab_switch left (x < 0)
-    ts_l_buff = ts_l
-    ts_l = 0
-    if data.axes[6] < 0:
-        ts_l  = 1
-    if ts_l == 1 and ts_l_buff == 0:
-        print("switch tab to left")
-        #???
-   
+    #end the dialogue talking sound and show all the text
+    dialogue_end_buff = dialogue_end
+    dialogue_end = data.buttons[5]
+    if dialogue_end == 1 and dialogue_end_buff == 0:
+        post_event("stop_talking", 1)
 
-    #tab switch right (x > 0)
-    ts_r_buff = ts_r
-    ts_r = 0
-    if data.axes[6] > 0: 
-        ts_r = 1
-    if ts_l == 1 and ts_l_buff == 0:
-        print("switch tab to right")
+
+    
  
 if __name__ == "__main__":
    

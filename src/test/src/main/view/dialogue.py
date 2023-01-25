@@ -4,6 +4,8 @@ from re import X
 from tkinter import DISABLED, Label, Text
 from playsound import *
 import threading
+import time
+from event import *
 
 social_mode = True
 
@@ -71,14 +73,49 @@ class DialogueBox():
         self.width = dialoguebox_info["width"]
         self.height = dialoguebox_info["height"]
         self.state = "Start Q"
+        self.first_time = True
+        self.finish_talking = False
         self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]
         self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#e0de99', wraplength= 800)
-        self.dialoguetext.config(text= self.dialogue)
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
+        x = threading.Thread(target=self.letterbyletter)
+        x.start()
+
+        subscribe("stop_talking", self.finish_talking_func)
+
+    def finish_talking_func(self, dummy):
+        self.finish_talking = True
+        
+    
+    def wipe_dbox(self):
+        time.sleep(30)
+        self.dialoguetext.configure(text="")
+    def letterbyletter(self):
+        if self.first_time == True:
+          time.sleep(4)
+          self.first_time = False  
+        x = ""
+        for l in self.dialogue:
+            if self.finish_talking:
+                self.dialoguetext.configure(text=self.dialogue)
+                self.finish_talking = False
+                break
+            if l == " ":
+                time.sleep(0.1)
+            else:
+                playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
+            x = x + l 
+            self.dialoguetext.configure(text=x)
+        
+        wipe = threading.Thread(target=self.wipe_dbox)
+        wipe.start()
 
     def change_dialogue(self, string):
         self.state = string
         self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]
-        self.dialoguetext.config(text= self.dialogue)
+        self.dialoguetext.configure(text="")
+        x = threading.Thread(target=self.letterbyletter)
+        x.start()
+        
 
     
