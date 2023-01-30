@@ -17,7 +17,6 @@ from avatar import *
 from dialogue import *
 from button import *
 from jackalAI import *
-from tagdetector import *
 from inspection import *
 import socket
 import socketserver
@@ -118,10 +117,10 @@ def widget_init(root, tab1):
     view_front = CameraView(tab1, axis_info, camera_available, "axis")
     manual_button = BaseButton(root, button_manual_info, enable = True)
     auto_button = BaseButton(root, button_auto_info, enable= False)
-    
-    yes_button = BaseButton(root, button_yes_info, activate=False)
-    no_button = BaseButton(root, button_no_info, activate = False)
-    start_button = BaseButton(root, button_start_info, activate=True)
+
+    yes_button = BaseButton(root, button_yes_info, activate=False, enable=False)
+    no_button = BaseButton(root, button_no_info, activate = False, enable=False)
+    start_button = BaseButton(root, button_start_info, activate=True, enable=False)
     
     timer_canvas = TimerCanvas(root, timer_canvas_info)
     timer_lbl = Label(root, text="Timer", font=timer_lbl_info["font"], fg=timer_lbl_info["color"])

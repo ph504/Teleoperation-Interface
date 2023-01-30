@@ -7,11 +7,11 @@ import threading
 import time
 from event import *
 
-social_mode = True
+social_mode = False
 
 social_dialogue_dict = {   
     "Start Q":
-                        "Hey, I am Jackal! It is amazing that we can work together to save lives eh? So the operation is we have to check for injured people in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",
+                        "Hey, I am Jackal! It is amazing that we can work together to save lives eh? So the operation is we have to check and scan different equipments in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",
     "Start A":
                                 "Let's gooo!!!",
     "Danger State Start I":
@@ -36,23 +36,23 @@ social_dialogue_dict = {
 
 nonsocial_dialogue_dict = {
     "Start Q":
-                        "This is jackal ... preliminary training for search and rescue. Start the experiment?",
+                        "This is jackal; a robotic training platform for search and rescue. This operation requires identifying and scanning different equipments in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",
     "Start A":
                                 "Preparing ...",
     "Danger State Start I":
-                             "... Activating Assisted Mode",
+                             "New Task added: Logging the amount of Carbon Monoxide and Hydrogen Sulfide gases since it has been alarmed that some pipes are damaged. The system will take care of the logging task. Activating Assisted Mode",
     "Danger State End I":
                             "Number of faults: X\nReceived Score: Y\nLost Score: Z\nOverall: OO",
     "Danger State Start II Q":
-                                "... Would you like to activate assisted mode?",
+                                "If a new task is added regarding logging dangerous gases, Would you like to activate assisted mode again?",
     "Danger State Start II A - Y":
-                                "*(Updated) Assisted mode activated!",
+                                "Proceeding with assisted mode.",
     "Danger State Start II A - N":
-                                "...",
+                                "Proceeding with manual mode.",
     "Danger State End II":
                                 "Number of faults: X\nReceived Score: Y\nLost Score: Z\nOverall: OO",
     "End":
-                                "Thank you for using ..."
+                                "Thank you for using Jackal."
 
        
 
@@ -80,7 +80,7 @@ class DialogueBox():
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
         x = threading.Thread(target=self.letterbyletter)
         x.start()
-
+        self.start_or_yesno = False
         subscribe("stop_talking", self.finish_talking_func)
 
     def finish_talking_func(self, dummy):
@@ -106,10 +106,20 @@ class DialogueBox():
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
             x = x + l 
             self.dialoguetext.configure(text=x)
-        
+
+
+        if self.start_or_yesno == False:
+            post_event("button_activate", 5)
+        else:
+            print("here?")
+            post_event("button_activate", 3)
+
+
         wipe = threading.Thread(target=self.wipe_dbox)
         wipe.start()
 
+    def change_start_to_yesno(self):
+        self.start_or_yesno = True
     def change_dialogue(self, string):
         self.state = string
         self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]

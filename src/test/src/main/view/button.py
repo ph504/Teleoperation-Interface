@@ -3,7 +3,7 @@ from tkinter import ACTIVE, DISABLED, Button
 
 from canvas import TaskCanvas
 
-
+from event import *
 
 #TODO: create a dict for the two buttons and organize it properly
 button_auto_info = {
@@ -12,7 +12,8 @@ button_auto_info = {
     "width": 150,
     "height": 50,
     "text": "Assisted Mode",
-    "state": DISABLED
+    "state": DISABLED,
+    "tag": 1
 }
 
 button_manual_info = {
@@ -21,7 +22,8 @@ button_manual_info = {
     "width": 150,
     "height": 50,
     "text": "Manual Mode",
-    "state": ACTIVE
+    "state": ACTIVE,
+    "tag": 2
 }
 
 button_yes_info = {
@@ -30,7 +32,8 @@ button_yes_info = {
     "width": 100,
     "height": 30,
     "text": "Yes",
-    "state": ACTIVE
+    "state": ACTIVE,
+    "tag": 3
 }
 
 button_no_info = {
@@ -39,7 +42,8 @@ button_no_info = {
     "width": 100,
     "height": 30,
     "text": "No",
-    "state": ACTIVE
+    "state": ACTIVE,
+    "tag": 3
 }
 
 button_start_info = {
@@ -48,7 +52,9 @@ button_start_info = {
     "width": 100,
     "height": 30,
     "text": "Start",
-    "state": ACTIVE
+    "state": ACTIVE,
+    "tag": 5
+    
 }
 
 class BaseButton():
@@ -59,19 +65,25 @@ class BaseButton():
         self.height = info_dict["height"]
         self.text = info_dict["text"]
         self.state = info_dict["state"]
+        self.tag = info_dict["tag"]
         self.active = True if self.state == ACTIVE else False
         self.button = Button(r, width= self.width, height=self.height, 
             text= self.text)
+
         
         if enable == True: self.enable()
         elif enable == False: self.disable()
         if activate == True: self.activate()
         elif activate == False: self.deactivate()
+
+        subscribe("button_activate", self.enable)
+        
     def add_event(self, event):
         self.button.config(command=event)
-    def enable(self):
-        self.button.config(state=ACTIVE)
-        self.active = not self.active
+    def enable(self, tag=0):
+        if(self.tag == tag):
+            self.button.config(state=ACTIVE)
+            self.active = not self.active
     def disable(self):
         self.button.config(state=DISABLED)
         self.active = not self.active

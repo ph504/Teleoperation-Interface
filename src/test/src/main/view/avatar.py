@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 import time
 import threading
 import event
+from dialogue import social_mode
 javatar_info = {
     "x": 460,
     "y": 800,
@@ -16,7 +17,7 @@ javatar_images = {
     "happy" : "/home/pouya/catkin_ws/src/test/src/images/happy.png",
     "sad" : "/home/pouya/catkin_ws/src/test/src/images/sad.png",
     "angry": "/home/pouya/catkin_ws/src/test/src/images/angry.png",
-    "nonsocial": "/home/pouya/catkin_ws/src/test/src/images/jackal_nonsocial.jpg"
+    "nonsocial": "/home/pouya/catkin_ws/src/test/src/images/nonsocial-sett.jpg"
 
 }
 
@@ -28,7 +29,7 @@ class Avatar():
             self.y = avatar_info["y"]
             self.width = avatar_info["width"]
             self.height = avatar_info["height"]
-            self.image = Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS)
+            self.image = Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS) if social_mode is True else Image.open(avatar_images["nonsocial"]).resize((self.width,self.height), Image.ANTIALIAS)
             self.imagetk = ImageTk.PhotoImage(self.image)
             self.label = Label(root)
             self.label.config(image = self.imagetk)

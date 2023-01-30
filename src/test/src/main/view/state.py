@@ -84,6 +84,7 @@ class TeleopGUIMachine(StateMachine):
     #S4
     def on_s34 (self): 
         self.dialogue.change_dialogue("Danger State Start II Q") #default
+        self.dialogue.change_start_to_yesno()
         self.yes_button.activate()
         self.no_button.activate()
     #S5
