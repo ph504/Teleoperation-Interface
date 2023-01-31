@@ -2,7 +2,8 @@ from statemachine import State, StateMachine
 from view import switch_danger
 from dialogue import social_mode
 from playsound import *
-
+import time
+import threading
 
 
 
@@ -34,6 +35,7 @@ class TeleopGUIMachine(StateMachine):
         self.danger_bars = d_bars
         self.javatar = jackal_avatar
         self.flashing_image = flashing_image
+        self.is_ai = False
 
     #states
     s0 = State('S0', initial= True)
@@ -48,6 +50,7 @@ class TeleopGUIMachine(StateMachine):
 
 
     s01 = s0.to(s1)
+    s11 = s1.to(s1) 
     s12 = s1.to(s2)
     s23 = s2.to(s3)
     s34 = s3.to(s4)
@@ -65,6 +68,14 @@ class TeleopGUIMachine(StateMachine):
              self.javatar.change_image_temp("happy")
         self.start_button.deactivate()
         self.normal_bar.start()
+        x = threading.Thread(target=self.warning_1)
+        x.start()
+        
+    
+    def warning_1(self):
+        time.sleep(45)
+        self.dialogue.change_dialogue('Danger State Warning I')
+
     #S2
     def on_s12 (self): 
         self.dialogue.change_dialogue("Danger State Start I") #default
@@ -73,6 +84,8 @@ class TeleopGUIMachine(StateMachine):
         switch_danger(self.normal_bar, self.danger_bars)
         self.assistedmode_button.enable()
         self.normalmode_button.disable()
+        x = threading.Thread(target=self.danger_timer_countdown)
+        x.start()
         
     #S3
     def on_s23 (self): 
@@ -81,15 +94,29 @@ class TeleopGUIMachine(StateMachine):
         self.flashing_image.disable()
         self.assistedmode_button.disable()
         self.normalmode_button.enable()
+        x = threading.Thread(target=self.warning_2)
+        x.start()
+
+    def warning_2(self):
+        time.sleep(45)
+        self.on_s34()
+    
     #S4
     def on_s34 (self): 
-        self.dialogue.change_dialogue("Danger State Start II Q") #default
+        self.dialogue.change_dialogue("Danger State Warning II Q") 
         self.dialogue.change_start_to_yesno()
         self.yes_button.activate()
         self.no_button.activate()
+    
+    def on_yes(self):
+        self.dialogue.change_dialogue("Danger State Warning II A-Y")
+        self.is_ai = True
+
+    def on_no(self):    
+        self.dialogue.change_dialogue("Danger State Warning II A-N")
     #S5
     def on_s45 (self): 
-        self.dialogue.change_dialogue("Danger State Start II A - Y") # happy for 20 seconds
+        self.dialogue.change_dialogue("Danger State Start II Y") #happy for 20 seconds
         playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
         self.flashing_image.enable()
         if social_mode:
@@ -97,26 +124,38 @@ class TeleopGUIMachine(StateMachine):
         switch_danger(self.normal_bar, self.danger_bars)
         self.assistedmode_button.enable()
         self.normalmode_button.disable()
-        self.yes_button.deactivate()
-        self.no_button.deactivate()
+        x = threading.Thread(target=self.danger_timer_countdown)
+        x.start()
     #S6
     def on_s46 (self): 
-        self.dialogue.change_dialogue("Danger State Start II A - N") #sad for 20 seconds
-        self.flashing_image.disable()
+        self.dialogue.change_dialogue("Danger State Start II N") #sad for 20 seconds
+        playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
+        self.flashing_image.enable()
         if social_mode:
              self.javatar.change_image_temp("sad")
         switch_danger(self.normal_bar, self.danger_bars)
-        self.yes_button.deactivate()
-        self.no_button.deactivate()
+        x = threading.Thread(target=self.danger_timer_countdown)
+        x.start()
+
+    
+    def danger_timer_countdown(self):
+        time.sleep(300)
+        if self.is_s2:
+            self.s23()
+        elif self.is_s5:
+            self.s57()
+        elif self.is_s6:
+            self.s67()
+
     #S7
     def on_s57 (self): 
-        self.dialogue.change_dialogue("Danger State End II") #default
+        self.dialogue.change_dialogue("Danger State End II Y") #default
         switch_danger(self.normal_bar, self.danger_bars)
         self.assistedmode_button.disable()
         self.normalmode_button.enable()
     #S7
     def on_s67 (self): 
-        self.dialogue.change_dialogue("Danger State End II") #default
+        self.dialogue.change_dialogue("Danger State End II N") #default
         switch_danger(self.normal_bar, self.danger_bars) 
     #S8
     def on_s78 (self):

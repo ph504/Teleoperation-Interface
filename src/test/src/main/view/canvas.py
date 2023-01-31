@@ -384,22 +384,29 @@ class TimerCanvas(BaseCanvas):
         self.minutes = '00'
         self.text = self.minutes + ":" + self.seconds
         self.countdown = None
+        self.fsm = None
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
     def start(self):
         self.countdown = RepeatedTimer(1, self.plus)
     def stop(self):
         self.countdown.stop()
+    def add_fsm(self, fsm):
+        self.fsm = fsm
     def plus(self):
         sec = self.seconds
         sec = int(sec)
         min = self.minutes
         min = int(min)
         sec += 1
+        
         if sec == 60:
             sec = 0
             min += 1
-        if min == 10:
+        
+        if min == 30:
             post_event("time_punish")
+            self.fsm.s78()
+
         self.seconds = str(sec) if sec >= 10 else '0' + str(sec) 
         self.minutes = str(min) if min >= 10 else '0' + str(min)
         self.text = self.minutes + ":" + self.seconds
@@ -425,28 +432,18 @@ class TaskCanvas(BaseCanvas):
         self.count += 1
 
         if c  > 10: return
+        
         if c == 3:
             self.fsm.s12()
-        elif c == 5:
-            self.fsm.s23()
         elif c == 7:
-            self.fsm.s34()
-        elif c == 9:
-            if self.fsm.is_s5:
-                self.fsm.s57()
-            elif self.fsm.is_s6:
-                self.fsm.s67()
+            if self.fsm.is_ai:
+                print("yes?")
+                self.fsm.s45()
+            else:
+                self.fsm.s46()
         elif c == 10:
             self.fsm.s78()
 
-        self.text = "{count}/10".format(count=str(c))
-        self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
-    
-    def plus_inspect(self):
-        c = self.count
-        c += 1
-        self.count += 1
         self.text = "{count}/10".format(count=str(c))
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)

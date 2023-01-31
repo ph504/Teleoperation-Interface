@@ -88,9 +88,10 @@ def main():
     
 
     start_button.add_event(gui_sfm.s01)
-    yes_button.add_event(gui_sfm.s45)
-    no_button.add_event(gui_sfm.s46)
+    yes_button.add_event(gui_sfm.on_yes)
+    no_button.add_event(gui_sfm.on_no)
     task_canvas.add_fsm(gui_sfm)
+    timer_canvas.add_fsm(gui_sfm)
 
     test = True
     
