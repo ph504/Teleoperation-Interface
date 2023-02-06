@@ -21,7 +21,9 @@ from inspection import *
 import socket
 import socketserver
 from flashing_image import *
+    
 
+test = False
 
 def main():
        
@@ -84,7 +86,7 @@ def main():
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, task_canvas)
-    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image)
+    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas)
     
 
     start_button.add_event(gui_sfm.s01)
@@ -93,7 +95,7 @@ def main():
     task_canvas.add_fsm(gui_sfm)
     timer_canvas.add_fsm(gui_sfm)
 
-    test = True
+
     
     if test: 
         bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
@@ -236,7 +238,7 @@ def server_program():
                 if not data:
                     break
                 print("From connected user: " + data)
-                post_event("mistake", data)
+                post_event("collision", data)
    
 def change_angle(data, canvases):
     global prev_angle

@@ -6,6 +6,7 @@ from playsound import *
 import threading
 import time
 from event import *
+import random
 
 social_mode = False
 
@@ -44,7 +45,9 @@ social_dialogue_dict = {
 
     "Congratulations":          ["Nice!", "You got it!", "Wooho!"],
 
-    "Collision":                ["Uggh!", "Oops!", "That hurts!", "Uh!"]
+    "Collision":                ["Uggh!", "Oops!", "That hurts!", "Uh!"],
+
+    "Mistake":               ["Oh my bad!", "Missed!", "Oh!"]
 }
 
 nonsocial_dialogue_dict = {   
@@ -81,7 +84,9 @@ nonsocial_dialogue_dict = {
 
     "Congratulations":          ["New Equipment scanned."],
 
-    "Collision":                ["Collsion detected."]
+    "Collision":                ["Collsion detected."],
+    
+    "Mistake":                  ["The system make a mistake."]
 }
 
 dbox_info = {
@@ -107,7 +112,12 @@ class DialogueBox():
         x = threading.Thread(target=self.letterbyletter)
         x.start()
         self.start_or_yesno = False
+        
         subscribe("stop_talking", self.finish_talking_func)
+        
+        subscribe("collision", self.change_dialogue_collision)
+        subscribe("congratulations", self.change_dialogue_congratulations)
+        subscribe("mistake", self.change_dialogue_mistake)
 
     def finish_talking_func(self, dummy):
         self.finish_talking = True
@@ -145,6 +155,28 @@ class DialogueBox():
         wipe.start()
     def change_start_to_yesno(self):
         self.start_or_yesno = True
+
+    def return_randomdialogue(self, string):
+        d_list = social_dialogue_dict[string] if social_mode is True else nonsocial_dialogue_dict[string]
+        if string == "Collision":
+            if len(d_list) == 1:
+                return d_list[0]
+            else:
+                rand = random.randint(0, len(d_list))
+                return d_list[rand]
+        elif string == "Mistake":
+            if len(d_list) == 1:
+                return d_list[0]
+            else:
+                rand = random.randint(0, len(d_list))
+                return d_list[rand]
+        elif string == "Congratulations":
+            if len(d_list) == 1:
+                return d_list[0]
+            else:
+                rand = random.randint(0, len(d_list))
+                return d_list[rand]
+
     def change_dialogue(self, string):
         self.state = string
         self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]
@@ -152,5 +184,28 @@ class DialogueBox():
         x = threading.Thread(target=self.letterbyletter)
         x.start()
         
+    def change_dialogue_mistake(self, dummy):
+
+        dialogue = self.return_randomdialogue("Mistake")
+        self.dialogue = dialogue
+        self.dialoguetext.configure(text="")
+        x = threading.Thread(target=self.letterbyletter)
+        x.start()
+
+    def change_dialogue_congratulations(self, dummy):
+        
+        dialogue = self.return_randomdialogue("Congratulations")
+        self.dialogue = dialogue
+        self.dialoguetext.configure(text="")
+        x = threading.Thread(target=self.letterbyletter)
+        x.start()
+
+    def change_dialogue_collision(self, dummy):
+        
+        dialogue = self.return_randomdialogue("Collision")
+        self.dialogue = dialogue
+        self.dialoguetext.configure(text="")
+        x = threading.Thread(target=self.letterbyletter)
+        x.start()
 
     

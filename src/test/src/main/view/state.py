@@ -4,7 +4,7 @@ from dialogue import social_mode
 from playsound import *
 import time
 import threading
-
+from event import *
 
 
 
@@ -22,7 +22,8 @@ class TeleopGUIMachine(StateMachine):
                 n_bar,
                 d_bars,
                 jackal_avatar,
-                flashing_image) -> None:
+                flashing_image,
+                tsk_cnvs) -> None:
         super().__init__()
         self.timer = timer
         self.dialogue = dialogue
@@ -36,6 +37,7 @@ class TeleopGUIMachine(StateMachine):
         self.javatar = jackal_avatar
         self.flashing_image = flashing_image
         self.is_ai = False
+        self.task_canvas = tsk_cnvs
 
     #states
     s0 = State('S0', initial= True)
@@ -78,14 +80,18 @@ class TeleopGUIMachine(StateMachine):
 
     #S2
     def on_s12 (self): 
-        self.dialogue.change_dialogue("Danger State Start I") #default
-        playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block=False)
-        self.flashing_image.enable()
-        switch_danger(self.normal_bar, self.danger_bars)
-        self.assistedmode_button.enable()
-        self.normalmode_button.disable()
-        x = threading.Thread(target=self.danger_timer_countdown)
-        x.start()
+        def danger_start1():
+            time.sleep(20)
+            self.dialogue.change_dialogue("Danger State Start I") #default
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block=False)
+            self.flashing_image.enable()
+            switch_danger(self.normal_bar, self.danger_bars)
+            self.assistedmode_button.enable()
+            self.normalmode_button.disable()
+            x = threading.Thread(target=self.danger_timer_countdown)
+            x.start()
+        y = threading.Thread(target=danger_start1)
+        y.start()
         
     #S3
     def on_s23 (self): 
@@ -99,7 +105,7 @@ class TeleopGUIMachine(StateMachine):
 
     def warning_2(self):
         time.sleep(45)
-        self.on_s34()
+        self.s34()
     
     #S4
     def on_s34 (self): 
@@ -111,35 +117,47 @@ class TeleopGUIMachine(StateMachine):
     def on_yes(self):
         self.dialogue.change_dialogue("Danger State Warning II A-Y")
         self.is_ai = True
+        self.yes_button.deactivate()
+        self.no_button.deactivate()
 
     def on_no(self):    
         self.dialogue.change_dialogue("Danger State Warning II A-N")
+        self.yes_button.deactivate()
+        self.no_button.deactivate()
     #S5
     def on_s45 (self): 
-        self.dialogue.change_dialogue("Danger State Start II Y") #happy for 20 seconds
-        playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
-        self.flashing_image.enable()
-        if social_mode:
-             self.javatar.change_image_temp("happy")
-        switch_danger(self.normal_bar, self.danger_bars)
-        self.assistedmode_button.enable()
-        self.normalmode_button.disable()
-        x = threading.Thread(target=self.danger_timer_countdown)
-        x.start()
+        def danger_start2y():
+            time.sleep(20)
+            self.dialogue.change_dialogue("Danger State Start II Y") #happy for 20 seconds
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
+            self.flashing_image.enable()
+            if social_mode:
+                self.javatar.change_image_temp("happy")
+            switch_danger(self.normal_bar, self.danger_bars)
+            self.assistedmode_button.enable()
+            self.normalmode_button.disable()
+            x = threading.Thread(target=self.danger_timer_countdown)
+            x.start()
+        y = threading.Thread(target=danger_start2y)
+        y.start()
     #S6
     def on_s46 (self): 
-        self.dialogue.change_dialogue("Danger State Start II N") #sad for 20 seconds
-        playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
-        self.flashing_image.enable()
-        if social_mode:
-             self.javatar.change_image_temp("sad")
-        switch_danger(self.normal_bar, self.danger_bars)
-        x = threading.Thread(target=self.danger_timer_countdown)
-        x.start()
+        def dangerstart2n():
+            time.sleep(20)
+            self.dialogue.change_dialogue("Danger State Start II N") #sad for 20 seconds
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
+            self.flashing_image.enable()
+            if social_mode:
+                self.javatar.change_image_temp("sad")
+            switch_danger(self.normal_bar, self.danger_bars)
+            x = threading.Thread(target=self.danger_timer_countdown)
+            x.start()
+        y = threading.Thread(target=dangerstart2n)
+        y.start()
 
     
     def danger_timer_countdown(self):
-        time.sleep(300)
+        time.sleep(180)
         if self.is_s2:
             self.s23()
         elif self.is_s5:
@@ -161,7 +179,7 @@ class TeleopGUIMachine(StateMachine):
     def on_s78 (self):
         self.timer.stop()
         self.dialogue.change_dialogue("End") #default
-
+        post_event("task_count", self.task_canvas.count)
 
     
 

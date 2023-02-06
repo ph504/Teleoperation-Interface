@@ -59,13 +59,15 @@ class InspectionPage():
             self.entry_lbl.delete(0, len(string))
      
             if string in self.code_list_used:
-                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg="yellow", text="This person has been validated before!")
+                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg="yellow", text="This equipment has been validated before.")
+                post_event("duplicate_entry")
                 self.delete_err_lbl()
 
         
             elif string in self.code_list:
-                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="You found a new injured person!")
+                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned")
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
+                post_event("congratulations", -1)
                 self.delete_err_lbl()
                 self.code_list.remove(string)
                 self.code_list_used.append(string)
@@ -74,7 +76,8 @@ class InspectionPage():
             
             elif string not in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!")
+                post_event("wrong_entry")
                 self.delete_err_lbl()
             if len(self.code_list) == 0:
-                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Congrats! You've checked all the dead bodies!")
+                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="All the equipments have been scanned.")
                 self.delete_err_lbl()

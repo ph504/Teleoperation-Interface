@@ -141,7 +141,7 @@ task_lbl_info = {
 
 }
 score_canvas_info = {
-    "x": 1500,
+    "x": 1450,
     "y": 75,
     "width": 150,
     "height": 50,
@@ -150,7 +150,7 @@ score_canvas_info = {
     "active": True
 }
 score_lbl_info = {
-    "x": 1550,
+    "x": 1500,
     "y": 60,
     "width": 50,
     "height": 17,
@@ -159,14 +159,18 @@ score_lbl_info = {
 
 }
 score_events = {
-    "time_punish": 200,
-    "step_error": 10,
-    "error_push": 5,
-    "threshold_cross": 50,
-    "step_error_danger": 20,
-    "threshold_cross_danger": 100,
-    "collision_hit": 100
+    "step_error": 5,
+    "step_error_danger": 25,
+    
+    "threshold_cross": 25,
+    "threshold_cross_danger": 50,
+    
+    "collision_hit": 50,
+    
+    "wrong_entry": 25,
+    "duplicate_entry": 10,
 
+    "task_count": 100
 }
 
 class RepeatedTimer(object):
@@ -403,8 +407,7 @@ class TimerCanvas(BaseCanvas):
             sec = 0
             min += 1
         
-        if min == 30:
-            post_event("time_punish")
+        if min == 20:
             self.fsm.s78()
 
         self.seconds = str(sec) if sec >= 10 else '0' + str(sec) 
@@ -432,12 +435,10 @@ class TaskCanvas(BaseCanvas):
         self.count += 1
 
         if c  > 10: return
-        
         if c == 3:
             self.fsm.s12()
         elif c == 7:
             if self.fsm.is_ai:
-                print("yes?")
                 self.fsm.s45()
             else:
                 self.fsm.s46()
@@ -453,18 +454,29 @@ class ScoreCanvas(BaseCanvas):
         super().__init__(r, dict_info)
         self.color = dict_info["color"]
         self.font = dict_info["font"]
-        self.text = "0"
+        self.text = "1000"
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         
-        subscribe("time_punish", self.add_score)
+        subscribe("task_count", self.subtract_score_task)
         
-        subscribe("step_error", self.add_score)
-        subscribe("step_error_danger", self.add_score)
+        subscribe("step_error", self.subtract_score)
+        subscribe("step_error_danger", self.subtract_score)
         
-        subscribe("threshold_cross", self.add_score)
-        subscribe("threshold_cross_danger", self.add_score)
-        subscribe("collision_hit", self.add_score_hit)
-           
+        subscribe("threshold_cross", self.subtract_score)
+        subscribe("threshold_cross_danger", self.subtract_score)
+        subscribe("collision_hit", self.subtract_score_hit)
+
+        subscribe("wrong_entry", self.subtract_score)
+        subscribe("duplicate_entry", self.subtract_score)
+             
+    def subtract_score_task(self, task_count):
+        score = self.text
+        score = int(score)
+        score -= score_events["task_count"] * (10-int(task_count))
+        self.text = str(score)
+        self.canvas.delete('all')
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+
     def add_score(self, event_type):
         score = self.text
         score = int(score)
@@ -484,7 +496,15 @@ class ScoreCanvas(BaseCanvas):
     def subtract_score(self, event_type):
         score = self.text
         score = int(score)
-        score += score_events[event_type]
+        score -= score_events[event_type]
+        self.text = str(score)
+        self.canvas.delete('all')
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+
+    def subtract_score_hit(self, hit_count):
+        score = self.text
+        score = int(score)
+        score -= score_events["collision_hit"] * int(hit_count)
         self.text = str(score)
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
