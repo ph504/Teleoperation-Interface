@@ -22,6 +22,9 @@ social_dialogue_dict = {
     "Danger State End I":
                                 "Uuh! I did some mistakes. I am sorry about this. Some of my sensor are not calibrated correctly, will try to fix that during the mission.",
     
+    "Danger State End I/Warning II Q":
+                                "Uuh! I did some mistakes. I am sorry about this. Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
+    
     "Danger State Warning II Q": 
                                 "Hey I understand that I was not perfect. But I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
     
@@ -59,8 +62,12 @@ nonsocial_dialogue_dict = {
                                 "New Task added: Logging the amount of Carbon Monoxide and Hydrogen Sulfide gases when there is an alarm that some pipes are damaged. The system will take care of the logging task",
     "Danger State Start I":
                                 "The alarm is ringing. Activating Assisted Mode.",
+    
     "Danger State End I":
                                 "Number of faults: X\nReceived Score: Y\nLost Score: Z\nOverall: OO\n LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...",
+    
+    "Danger State End I/Warning II Q":
+                                "Number of faults: X    Received Score: Y\nLost Score: Z    Overall: OO\n LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...\nIf a new task is added regarding logging dangerous gases, Would you like to activate assisted mode again?",
     
     "Danger State Warning II Q": 
                                 "If a new task is added regarding logging dangerous gases, Would you like to activate assisted mode again?",

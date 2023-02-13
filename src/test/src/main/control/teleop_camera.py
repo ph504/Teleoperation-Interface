@@ -45,20 +45,20 @@ def start():
 
         next_pos = 0 
 
-
+        axis.pan = -180
         rospy.init_node('teleop_camera_node')
 
-        pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=10)
+        pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)
 
         # subscribed to joystick inputs on topic "joy"
-        rospy.Subscriber("joy", Joy, callback)
+        #rospy.Subscriber("joy", Joy, callback)
         
-        rate = rospy.Rate(6)
+        rate = rospy.Rate(8)
 
 
         while not rospy.is_shutdown():
             
-            control_camera(joystick_input)
+            #control_camera(joystick_input)
             pub_axis.publish(axis)
             rate.sleep()
        

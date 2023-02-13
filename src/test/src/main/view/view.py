@@ -47,18 +47,25 @@ def main():
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
     cursor_canvas_small.disable()
     cursor_canvas_big = CursorCanvas(tab1, big_canvas_info)
+    cursor_canvas_big.disable()
 
 
+    
     if camera_available == True:    
         rospy.init_node("viewer", anonymous= True)
         rospy.loginfo("viewer node started ...")
-        global prev_angle 
-        prev_angle = rospy.wait_for_message("/axis/state", Axis).pan
+        #global prev_angle 
+        axis = Axis()
+        axis.pan = -180
+        pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=10)
+        pub_axis.publish(axis)
+        x = rospy.wait_for_message("/axis/state", Axis).pan
+        print("Initial angle: " + str(x))
         #currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
         #TODO: make the camera tilt
         #rospy.Subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
-        cursor_canvases = (cursor_canvas_small, cursor_canvas_big)
-        rospy.Subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
+        #cursor_canvases = (cursor_canvas_small, cursor_canvas_big)
+        #rospy.Subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
 
 
     global rb1, rb2normal, rb3, cs, dialogue_end
@@ -180,14 +187,14 @@ def switch(back, front, small, big):
             #Flir is front ,Axis is back
             front.update_pos(flir_info)
             back.update_pos(axis_info)
-            small.enable()
-            big.disable()
+            #small.enable()
+            #big.disable()
         else:
             #Axis is front,Flir is back
             front.update_pos(axis_info)
             back.update_pos(flir_info)
-            small.disable()
-            big.enable()
+            #small.disable()
+            #big.enable()
 
 def reset_bar(bar):
     bar.reset_button()

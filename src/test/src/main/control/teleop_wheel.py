@@ -8,7 +8,7 @@ from axis_camera.msg import Axis
 
 def callback(data):
     
-    twist.linear.x = 2*data.axes[1]
+    twist.linear.x = -2*data.axes[1]
     twist.angular.z = 2*data.axes[0]      
 
 def start():

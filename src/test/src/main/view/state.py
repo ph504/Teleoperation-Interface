@@ -38,6 +38,7 @@ class TeleopGUIMachine(StateMachine):
         self.flashing_image = flashing_image
         self.is_ai = False
         self.task_canvas = tsk_cnvs
+        self.is_yes = False
 
     #states
     s0 = State('S0', initial= True)
@@ -95,35 +96,44 @@ class TeleopGUIMachine(StateMachine):
         
     #S3
     def on_s23 (self): 
-        self.dialogue.change_dialogue("Danger State End I") #sad because it made some mistakes!
+        self.dialogue.change_dialogue("Danger State End I/Warning II Q") #sad because it made some mistakes!
         switch_danger(self.normal_bar, self.danger_bars)
         self.flashing_image.disable()
         self.assistedmode_button.disable()
         self.normalmode_button.enable()
-        x = threading.Thread(target=self.warning_2)
-        x.start()
+        self.dialogue.change_start_to_yesno()
+        self.yes_button.activate()
+        self.no_button.activate()
 
+
+    #delete this since s34 happens via buttons
     def warning_2(self):
         time.sleep(45)
         self.s34()
     
-    #S4
-    def on_s34 (self): 
-        self.dialogue.change_dialogue("Danger State Warning II Q") 
-        self.dialogue.change_start_to_yesno()
-        self.yes_button.activate()
-        self.no_button.activate()
+    #S4 
+    def on_s34(self): 
+        if self.is_yes:
+            self.dialogue.change_dialogue("Danger State Warning II A-Y")
+            self.is_ai = True
+            self.yes_button.deactivate()
+            self.no_button.deactivate()
+        else:
+            self.dialogue.change_dialogue("Danger State Warning II A-N")
+            self.is_ai = False
+            self.yes_button.deactivate()
+            self.no_button.deactivate()
     
     def on_yes(self):
-        self.dialogue.change_dialogue("Danger State Warning II A-Y")
-        self.is_ai = True
-        self.yes_button.deactivate()
-        self.no_button.deactivate()
+        self.is_yes = True
+        self.s34()
 
-    def on_no(self):    
-        self.dialogue.change_dialogue("Danger State Warning II A-N")
-        self.yes_button.deactivate()
-        self.no_button.deactivate()
+        
+    def on_no(self):
+        self.is_yes = False
+        self.s34()  
+
+        
     #S5
     def on_s45 (self): 
         def danger_start2y():
@@ -169,11 +179,13 @@ class TeleopGUIMachine(StateMachine):
     def on_s57 (self): 
         self.dialogue.change_dialogue("Danger State End II Y") #default
         switch_danger(self.normal_bar, self.danger_bars)
+        self.flashing_image.disable()
         self.assistedmode_button.disable()
         self.normalmode_button.enable()
     #S7
     def on_s67 (self): 
         self.dialogue.change_dialogue("Danger State End II N") #default
+        self.flashing_image.disable()
         switch_danger(self.normal_bar, self.danger_bars) 
     #S8
     def on_s78 (self):

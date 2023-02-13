@@ -437,11 +437,19 @@ class TaskCanvas(BaseCanvas):
         if c  > 10: return
         if c == 3:
             self.fsm.s12()
+        elif c == 5:
+            if self.fsm.is_s2:
+                self.fsm.s23()
         elif c == 7:
             if self.fsm.is_ai:
                 self.fsm.s45()
             else:
                 self.fsm.s46()
+        elif c == 9:
+            if self.fsm.is_s5:
+                self.fsm.s57()
+            elif self.fsm.is_s6:
+                self.fsm.s67()
         elif c == 10:
             self.fsm.s78()
 
