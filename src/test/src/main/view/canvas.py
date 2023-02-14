@@ -147,7 +147,7 @@ score_canvas_info = {
     "height": 50,
     "color": "blue",
     "font": ('Helvetica', '24', 'bold'),
-    "active": True
+    "active": False
 }
 score_lbl_info = {
     "x": 1500,
@@ -172,7 +172,16 @@ score_events = {
 
     "task_count": 100
 }
+circle_canvas_info = {
+    "x": 1500,
+    "y": 350,
+    "width": 210,
+    "height": 310,
+    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#f75a05', "red": "#fc0303"},
+    "active": True
 
+
+}
 class RepeatedTimer(object):
     def __init__(self, interval, function, *args, **kwargs):
         self._timer     = None
@@ -517,3 +526,33 @@ class ScoreCanvas(BaseCanvas):
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
+class CircleCanvas(BaseCanvas):
+    def __init__(self, r, info_dict):
+        super().__init__(r, info_dict)
+        self.colors_dict = info_dict["colors"]
+        self.color_lightgreen = self.colors_dict["light_green"]
+        self.color_yellow = self.colors_dict["yellow"]
+        self.color_orange = self.colors_dict["orange"]
+        self.color_red = self.colors_dict["red"]
+        self.state = "green"
+        #self.canvas.create_oval(1450, 75, 1430, 55, fill="green", outline="red")
+        self.canvas.create_oval(5, 5, 200, 200, fill=self.color_lightgreen, outline=self.color_lightgreen,tags="circle")
+
+    def color_transition(self):
+        if self.state == "green":
+            self.canvas.delete("circle")
+            self.canvas.create_oval(5, 5, 200, 200, fill=self.color_yellow, outline=self.color_yellow, tags="circle")
+            self.state = "yellow"
+        elif self.state == "yellow":
+            self.canvas.delete("circle")
+            self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
+            self.state = "orange"
+        elif self.state == "orange":
+            self.canvas.delete("circle")
+            self.canvas.create_oval(5, 5, 200, 200, fill=self.color_red, outline=self.color_red, tags="circle")
+            self.state = "red"
+        
+
+
+            
+        

@@ -21,9 +21,10 @@ from inspection import *
 import socket
 import socketserver
 from flashing_image import *
+from labels import *
     
 
-test = False
+test = True
 
 def main():
        
@@ -49,7 +50,8 @@ def main():
     cursor_canvas_big = CursorCanvas(tab1, big_canvas_info)
     cursor_canvas_big.disable()
 
-
+    small_lbl = CameraLabel(tab1, small_cmr_lbl, "Back Camera")
+    big_lbl = CameraLabel(tab1, big_cmr_lbl, "Front Camera")
     
     if camera_available == True:    
         rospy.init_node("viewer", anonymous= True)
@@ -78,11 +80,11 @@ def main():
 
 
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image = widget_init(root, tab1)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas = widget_init(root, tab1)
 
     widgets = {
-        "cursor_canvas_small": cursor_canvas_small,
-        "cursor_canvas_big": cursor_canvas_big,
+        "small_label": small_lbl,
+        "big_label": big_lbl,
         "bar_canvas": bar_canvas,
         "danger_canvases": danger_canvases,
         "task_canvas": task_canvas,
@@ -105,7 +107,7 @@ def main():
 
     
     if test: 
-        bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button)
+        bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button,circle_canvas)
     
 
     if camera_available == True:
@@ -137,11 +139,13 @@ def widget_init(root, tab1):
     timer_lbl.place(x = timer_lbl_info["x"], y = timer_lbl_info["y"], width=timer_lbl_info["width"], height=timer_lbl_info["height"])
 
 
+    score_canvas = None
+    #score_canvas = ScoreCanvas(root, score_canvas_info)
+    #score_lbl = Label(root, text="Score", font=score_lbl_info["font"], fg=score_lbl_info["color"])
+    #score_lbl.place(x = score_lbl_info["x"], y = score_lbl_info["y"], width=score_lbl_info["width"], height=score_lbl_info["height"])
     
-    score_canvas = ScoreCanvas(root, score_canvas_info)
-    score_lbl = Label(root, text="Score", font=score_lbl_info["font"], fg=score_lbl_info["color"])
-    score_lbl.place(x = score_lbl_info["x"], y = score_lbl_info["y"], width=score_lbl_info["width"], height=score_lbl_info["height"])
     
+    circle_canvas = CircleCanvas(root, circle_canvas_info)
 
     task_canvas = TaskCanvas(root, task_canvas_info)
     task_lbl = Label(root, text="Task", font=task_lbl_info["font"], fg=task_lbl_info["color"])
@@ -151,9 +155,9 @@ def widget_init(root, tab1):
 
     jackal_ai = JackalAI()
     
-    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image
+    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas
 
-def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button):
+def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas):
     
     tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
     tab1.bind('x', lambda e: switch_auto(auto_button,manual_button))
@@ -164,17 +168,7 @@ def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, dang
     tab1.bind('3', lambda e: reset_bar(danger_canvases[2]))
     tab1.bind('o', lambda e: task_canvas.plus())
     tab1.bind('a', lambda e: change_scan_mode())  
-
-    
-    tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
-    tab1.bind('x', lambda e: switch_auto(auto_button,manual_button))
-    tab1.bind('w', lambda e: switch_danger(bar_canvas, danger_canvases))
-    tab1.bind('`', lambda e: reset_bar(bar_canvas))
-    tab1.bind('1', lambda e: reset_bar(danger_canvases[0]))
-    tab1.bind('2', lambda e: reset_bar(danger_canvases[1]))
-    tab1.bind('3', lambda e: reset_bar(danger_canvases[2]))
-    tab1.bind('o', lambda e: task_canvas.plus())
-    tab1.bind('a', lambda e: change_scan_mode())  
+    tab1.bind('0', lambda e: circle_canvas.color_transition())
 
 def change_scan_mode():
     CameraView.scan_mode = not CameraView.scan_mode
@@ -187,12 +181,17 @@ def switch(back, front, small, big):
             #Flir is front ,Axis is back
             front.update_pos(flir_info)
             back.update_pos(axis_info)
+            small.switch_camera()
+            big.switch_camera()
+            
             #small.enable()
             #big.disable()
         else:
             #Axis is front,Flir is back
             front.update_pos(axis_info)
             back.update_pos(flir_info)
+            small.switch_camera()
+            big.switch_camera()
             #small.disable()
             #big.enable()
 
@@ -290,7 +289,7 @@ def joy_config(data, widgets):
     cs_buff = cs
     cs = data.buttons[3]
     if cs == 1 and cs_buff == 0:
-        switch(back = widgets["view_back"], front = widgets["view_front"], small=widgets["cursor_canvas_small"], big=widgets["cursor_canvas_big"])
+        switch(back = widgets["view_back"], front = widgets["view_front"], small=widgets["small_label"], big=widgets["big_label"])
 
     #end the dialogue talking sound and show all the text
     dialogue_end_buff = dialogue_end
@@ -302,5 +301,4 @@ def joy_config(data, widgets):
     
  
 if __name__ == "__main__":
-   
     main()

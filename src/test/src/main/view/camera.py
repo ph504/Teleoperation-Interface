@@ -10,7 +10,7 @@ from cv_bridge.core import CvBridge
 
 
 #Make it false when you are not working with jackal
-camera_available = True
+camera_available = False
 
 flir_info = {
     "x": 5,
