@@ -23,7 +23,8 @@ class TeleopGUIMachine(StateMachine):
                 d_bars,
                 jackal_avatar,
                 flashing_image,
-                tsk_cnvs) -> None:
+                tsk_cnvs,
+                circle_cnvs) -> None:
         super().__init__()
         self.timer = timer
         self.dialogue = dialogue
@@ -39,27 +40,27 @@ class TeleopGUIMachine(StateMachine):
         self.is_ai = False
         self.task_canvas = tsk_cnvs
         self.is_yes = False
+        self.circle_canvas = circle_cnvs
 
     #states
-    s0 = State('S0', initial= True)
-    s1 = State('S1')
-    s2 = State('S2')
-    s3 = State('S3')
-    s4 = State('S4')
-    s5 = State('S5')
-    s6 = State('S6')
-    s7 = State('S7')
-    s8 = State('S8')
+    s0 = State('S0', initial= True) # Start 
+    s1 = State('S1') #Danger Start I 
+    s2 = State('S2') #Danger End I
+    s3 = State('S3') #Danger Start II
+    s4 = State('S4') #Danger End II/ Warning II Q
+    s5 = State('S5') #Danger State Warning II A-Y/A-N
+    s6 = State('S6') #Danger State Start III Y / Danger State Start III N
+    s7 = State('S7') #Danger State End III Y / Danger State End Y
+    s8 = State('S8') #End
 
 
-    s01 = s0.to(s1)
-    s11 = s1.to(s1) 
-    s12 = s1.to(s2)
-    s23 = s2.to(s3)
-    s34 = s3.to(s4)
-    s45 = s4.to(s5)
-    s46 = s4.to(s6)
-    s57 = s5.to(s7)
+    s01 = s0.to(s1) # Start 
+    s12 = s1.to(s2) #Danger Start I 
+    s23 = s2.to(s3) #Danger End I
+    s34 = s3.to(s4) #Danger Start 
+    s45 = s4.to(s5) #Danger End II/ Warning II Q
+    s46 = s4.to(s6) #Danger State Warning II A-Y/A-N
+    s57 = s5.to(s7) #Danger State Start III Y / Danger State Start III N
     s67 = s6.to(s7)
     s78 = s7.to(s8)
 
@@ -130,8 +131,7 @@ class TeleopGUIMachine(StateMachine):
     def on_no(self):
         self.is_yes = False
         self.s34()  
-
-        
+     
     #S5
     def on_s45 (self): 
         def danger_start2y():
@@ -148,6 +148,7 @@ class TeleopGUIMachine(StateMachine):
             x.start()
         y = threading.Thread(target=danger_start2y)
         y.start()
+    
     #S6
     def on_s46 (self): 
         def dangerstart2n():
@@ -180,6 +181,7 @@ class TeleopGUIMachine(StateMachine):
         self.flashing_image.disable()
         self.assistedmode_button.disable()
         self.normalmode_button.enable()
+    
     #S7
     def on_s67 (self): 
         self.dialogue.change_dialogue("Danger State End II N") #default
