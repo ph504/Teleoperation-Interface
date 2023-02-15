@@ -417,7 +417,7 @@ class TimerCanvas(BaseCanvas):
             min += 1
         
         if min == 20:
-            self.fsm.s78()
+            self.fsm.s89()
 
         self.seconds = str(sec) if sec >= 10 else '0' + str(sec) 
         self.minutes = str(min) if min >= 10 else '0' + str(min)
@@ -444,23 +444,33 @@ class TaskCanvas(BaseCanvas):
         self.count += 1
 
         if c  > 10: return
-        if c == 3:
+        
+        #Danger State I
+        if c == 2:
             self.fsm.s12()
-        elif c == 5:
+        elif c == 3:
             if self.fsm.is_s2:
                 self.fsm.s23()
-        elif c == 7:
-            if self.fsm.is_ai:
+
+        #Danger State II
+        elif c == 5:
+            if self.fsm.is_s3:
+                self.fsm.s34()
+        elif c == 6:
+            if self.fsm.is_s4:
                 self.fsm.s45()
-            else:
-                self.fsm.s46()
-        elif c == 9:
-            if self.fsm.is_s5:
-                self.fsm.s57()
-            elif self.fsm.is_s6:
+
+        #Danger State III
+        elif c == 8:
+            if self.fsm.is_s6:
                 self.fsm.s67()
+        elif c == 9:
+            if self.fsm.is_s7:
+                self.fsm.s78()
+        
+        #End
         elif c == 10:
-            self.fsm.s78()
+            self.fsm.s89()
 
         self.text = "{count}/10".format(count=str(c))
         self.canvas.delete('all')
