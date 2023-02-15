@@ -43,26 +43,26 @@ class TeleopGUIMachine(StateMachine):
         self.circle_canvas = circle_cnvs
 
     #states
-    s0 = State('S0', initial= True) # Start 
-    s1 = State('S1') #Danger Start I 
-    s2 = State('S2') #Danger End I
-    s3 = State('S3') #Danger Start II
-    s4 = State('S4') #Danger End II/ Warning II Q
-    s5 = State('S5') #Danger State Warning II A-Y/A-N
-    s6 = State('S6') #Danger State Start III Y / Danger State Start III N
-    s7 = State('S7') #Danger State End III Y / Danger State End Y
-    s8 = State('S8') #End
+    s0 = State('S0', initial= True) 
+    s1 = State('S1') #Start 
+    s2 = State('S2') #Danger Start I
+    s3 = State('S3') #Danger End I
+    s4 = State('S4') #Danger Start II
+    s5 = State('S5') #Danger End II/ Warning II Q
+    s6 = State('S6') #Danger State Warning II A-Y/A-N
+    s7 = State('S7') #Danger State Start III Y / Danger State Start III N
+    s8 = State('S8') #Danger State End III Y / Danger State End Y
+    s9 = State('S9') #End
 
-
-    s01 = s0.to(s1) # Start 
+    s01 = s0.to(s1) #Start 
     s12 = s1.to(s2) #Danger Start I 
     s23 = s2.to(s3) #Danger End I
-    s34 = s3.to(s4) #Danger Start 
+    s34 = s3.to(s4) #Danger Start II
     s45 = s4.to(s5) #Danger End II/ Warning II Q
-    s46 = s4.to(s6) #Danger State Warning II A-Y/A-N
-    s57 = s5.to(s7) #Danger State Start III Y / Danger State Start III N
-    s67 = s6.to(s7)
-    s78 = s7.to(s8)
+    s56 = s5.to(s6) #Danger State Warning II A-Y/A-N
+    s67 = s6.to(s7) #Danger State Start III Y / Danger State Start III N
+    s78 = s7.to(s8) #Danger State End III Y / Danger State End III Y
+    s89 = s8.to(s9) #End
 
     #S1 --- Start
     def on_s01 (self):
@@ -111,7 +111,7 @@ class TeleopGUIMachine(StateMachine):
         time.sleep(45)
         self.s34()
     
-    #S4 
+    #S4 --- Danger End II/ Warning II Q
     def on_s34(self): 
         if self.is_yes:
             self.dialogue.change_dialogue("Danger State Warning II A-Y")
@@ -134,6 +134,34 @@ class TeleopGUIMachine(StateMachine):
      
     #S5
     def on_s45 (self): 
+    
+    #S6 --- Danger State Warning II A-Y/A-N
+    def on_s46 (self): 
+        if self.is_yes:
+            self.dialogue.change_dialogue("Danger State Warning II A-Y")
+            self.is_ai = True
+            self.yes_button.deactivate()
+            self.no_button.deactivate()
+        else:
+            self.dialogue.change_dialogue("Danger State Warning II A-N")
+            self.is_ai = False
+            self.yes_button.deactivate()
+            self.no_button.deactivate()
+          
+        
+
+    
+    def danger_timer_countdown(self):
+        time.sleep(180)
+        if self.is_s2:
+            self.s23()
+        elif self.is_s5:
+            self.s57()
+        elif self.is_s6:
+            self.s67()
+
+    #S7 --- Danger State Start III Y / Danger State Start III N
+    def on_s67 (self): 
         def danger_start2y():
             time.sleep(20)
             self.dialogue.change_dialogue("Danger State Start II Y") #happy for 20 seconds
@@ -146,11 +174,6 @@ class TeleopGUIMachine(StateMachine):
             self.normalmode_button.disable()
             x = threading.Thread(target=self.danger_timer_countdown)
             x.start()
-        y = threading.Thread(target=danger_start2y)
-        y.start()
-    
-    #S6
-    def on_s46 (self): 
         def dangerstart2n():
             time.sleep(20)
             self.dialogue.change_dialogue("Danger State Start II N") #sad for 20 seconds
@@ -161,40 +184,33 @@ class TeleopGUIMachine(StateMachine):
             switch_danger(self.normal_bar, self.danger_bars)
             x = threading.Thread(target=self.danger_timer_countdown)
             x.start()
-        y = threading.Thread(target=dangerstart2n)
-        y.start()
+        if self.is_ai:
+            y = threading.Thread(target=danger_start2y)
+            y.start()
+        else:
+            n = threading.Thread(target=dangerstart2n)
+            n.start()
 
-    
-    def danger_timer_countdown(self):
-        time.sleep(180)
-        if self.is_s2:
-            self.s23()
-        elif self.is_s5:
-            self.s57()
-        elif self.is_s6:
-            self.s67()
 
-    #S7
-    def on_s57 (self): 
-        self.dialogue.change_dialogue("Danger State End II Y") #default
-        switch_danger(self.normal_bar, self.danger_bars)
-        self.flashing_image.disable()
-        self.assistedmode_button.disable()
-        self.normalmode_button.enable()
-    
-    #S7
-    def on_s67 (self): 
-        self.dialogue.change_dialogue("Danger State End II N") #default
-        self.flashing_image.disable()
-        switch_danger(self.normal_bar, self.danger_bars) 
-    #S8
+    #S8 --- Danger State End III Y / Danger State End III Y
     def on_s78 (self):
+        if self.is_ai:
+            self.dialogue.change_dialogue("Danger State End III Y") #default
+            switch_danger(self.normal_bar, self.danger_bars)
+            self.flashing_image.disable()
+            self.assistedmode_button.disable()
+            self.normalmode_button.enable()
+        else:
+            self.dialogue.change_dialogue("Danger State End III N") #default
+            self.flashing_image.disable()
+            switch_danger(self.normal_bar, self.danger_bars) 
+
+
+    #S9 --- End
+    def on_s89(self):
         self.timer.stop()
         self.dialogue.change_dialogue("End") #default
         post_event("task_count", self.task_canvas.count)
-
-
-    
 
 
 
