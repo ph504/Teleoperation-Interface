@@ -65,7 +65,7 @@ nonsocial_dialogue_dict = {
     "Danger State Start I":
                                 "The alarm is ringing. Activating Manual Mode",
     
-    "Danger State End I ":      "Scores Lost: 200",
+    "Danger State End I":      "Scores Lost: 200",
 
     
     "Danger State End II/Warning II Q":

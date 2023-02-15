@@ -24,7 +24,7 @@ from flashing_image import *
 from labels import *
     
 
-test = True
+test = False
 
 def main():
        
@@ -80,7 +80,7 @@ def main():
 
 
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas = widget_init(root, tab1)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai = widget_init(root, tab1)
 
     widgets = {
         "small_label": small_lbl,
@@ -95,7 +95,7 @@ def main():
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, task_canvas)
-    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas)
+    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas, circle_cnvs= circle_canvas, jckl_ai= jackal_ai)
     
 
     start_button.add_event(gui_sfm.s01)
@@ -155,7 +155,7 @@ def widget_init(root, tab1):
 
     jackal_ai = JackalAI()
     
-    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas
+    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai
 
 def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas):
     
@@ -265,7 +265,7 @@ def joy_config(data, widgets):
     rb1_buff = rb1
     rb1 = data.buttons[2]
     if rb1 == 1 and rb1_buff == 0:
-         if BarCanvas.danger_mode: reset_bar(widgets["danger_canvases[0]"])  
+         if BarCanvas.danger_mode: reset_bar(widgets["danger_canvases"][0])  
 
     #reset bar 2 and normal
     rb2normal_buff = rb2normal
@@ -273,7 +273,7 @@ def joy_config(data, widgets):
     
     if rb2normal == 1 and rb2normal_buff == 0:
         if BarCanvas.danger_mode:
-            reset_bar(widgets["danger_canvases[1]"])
+            reset_bar(widgets["danger_canvases"][1])
         else:
             reset_bar(widgets["bar_canvas"])
    
@@ -282,7 +282,7 @@ def joy_config(data, widgets):
     rb3 = data.buttons[0]
     if rb3 == 1 and rb3_buff == 0:
          if BarCanvas.danger_mode:
-            reset_bar(widgets["danger_canvases[2]"])
+            reset_bar(widgets["danger_canvases"][2])
 
 
     #camera switch

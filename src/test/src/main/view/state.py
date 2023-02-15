@@ -24,7 +24,8 @@ class TeleopGUIMachine(StateMachine):
                 jackal_avatar,
                 flashing_image,
                 tsk_cnvs,
-                circle_cnvs) -> None:
+                circle_cnvs,
+                jckl_ai) -> None:
         super().__init__()
         self.timer = timer
         self.dialogue = dialogue
@@ -41,6 +42,7 @@ class TeleopGUIMachine(StateMachine):
         self.task_canvas = tsk_cnvs
         self.is_yes = False
         self.circle_canvas = circle_cnvs
+        self.jackal_ai = jckl_ai
 
     #states
     s0 = State('S0', initial= True) 
@@ -88,6 +90,7 @@ class TeleopGUIMachine(StateMachine):
             playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block=False)
             self.flashing_image.enable()
             switch_danger(self.normal_bar, self.danger_bars)
+            self.jackal_ai.disable()
             self.assistedmode_button.enable()
             self.normalmode_button.disable()
             x = threading.Thread(target=self.danger_timer_countdown)
@@ -113,6 +116,7 @@ class TeleopGUIMachine(StateMachine):
             if social_mode:
                 self.javatar.change_image_temp("happy")
             switch_danger(self.normal_bar, self.danger_bars)
+            self.jackal_ai.enable()
             self.assistedmode_button.enable()
             self.normalmode_button.disable()
             x = threading.Thread(target=self.danger_timer_countdown)
@@ -162,7 +166,7 @@ class TeleopGUIMachine(StateMachine):
 
         #Danger End II/  time-check
         elif self.is_s3:
-            self.s45()
+            self.s34()
 
         #Danger End III/ time-check
         elif self.is_s7:
@@ -181,6 +185,7 @@ class TeleopGUIMachine(StateMachine):
             switch_danger(self.normal_bar, self.danger_bars)
             self.assistedmode_button.enable()
             self.normalmode_button.disable()
+            self.jackal_ai.enable()
             x = threading.Thread(target=self.danger_timer_countdown)
             x.start()
         def dangerstart3n():
@@ -191,6 +196,7 @@ class TeleopGUIMachine(StateMachine):
             if social_mode:
                 self.javatar.change_image_temp("sad")
             switch_danger(self.normal_bar, self.danger_bars)
+            self.jackal_ai.disable()
             x = threading.Thread(target=self.danger_timer_countdown)
             x.start()
         if self.is_ai:
