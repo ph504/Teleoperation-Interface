@@ -16,32 +16,32 @@ social_dialogue_dict = {
     "Start A":
                                 "Yayyy, Let's gooo!!!",
     "Danger State Warning I":
-                                "I have been informed that we may have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have been broken! When it is alarmed, you just find and scan equipments while I log the amount of gas properly.",
+                                "We may have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have  unpredictable leakages! When it is alarmed and it's my turn, you just find and scan equipments while I log the amount of gas properly. If it's your turn, you have to do both.",
     "Danger State Start I":
-                                "The alarm is beeping!! Don't worry, I will handle that.",
+                                "The alarm is beeping!! It's your turn to handle that. ",
     "Danger State End I":
-                                "Uuh! I did some mistakes. I am sorry about this. Some of my sensor are not calibrated correctly, will try to fix that during the mission.",
+                                "Wooof! You lost 250 points during the danger zone. Don't worry, we can handle that. ",
     
-    "Danger State End I/Warning II Q":
-                                "Uuh! I did some mistakes. I am sorry about this. Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
+    "Danger State Start II":    "That alarm again! I will handle that this time.",
     
-    "Danger State Warning II Q": 
-                                "Hey I understand that I was not perfect. But I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
+    
+    "Danger State End II/Warning II Q":
+                                "Uuh! I did some mistakes and lost 200 points. We lost overall 450 points, and only 50 points left to fail the experiment. I am sorry about this. Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
     
     "Danger State Warning II A-Y": "Thanks buddy!! I'll try my best.",
     
     "Danger State Warning II A-N": "It's fine. I can understand. Your choice.",
 
-    "Danger State Start II Y": "It's the beeping sound again! Let's goooo!!!!",
+    "Danger State Start III Y": "It's the beeping sound again! Let's goooo!!!!",
     
 
-    "Danger State Start II N": "It's the beeping sound again! All the best buddy!",
+    "Danger State Start III N": "It's the beeping sound again! All the best buddy!",
 
 
-    "Danger State End II Y":
-                                "Yay! I did it flawlessly I added X scores.",
+    "Danger State End III Y":
+                                "Yay! I did it flawlessly. I think we did it!",
 
-    "Danger State End II N":    "Good job! ",
+    "Danger State End III N":    "Good job! Remember that it is all about the journey!",
 
     "End":
                                 "It was nice working with you! Hope you enjoyed the experiment!",   
@@ -53,38 +53,37 @@ social_dialogue_dict = {
     "Mistake":               ["Oh my bad!", "Missed!", "Oh!"]
 }
 
+
+
 nonsocial_dialogue_dict = {   
     "Start Q":
                         "This is jackal; a robotic training platform for search and rescue. This operation requires identifying and scanning different equipments in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",
     "Start A":
-                                "Initiating ...",
+                                "Mission started.",
     "Danger State Warning I":
-                                "New Task added: Logging the amount of Carbon Monoxide and Hydrogen Sulfide gases when there is an alarm that some pipes are damaged. The system will take care of the logging task",
+                                "New Task added: Logging the amount of Carbon Monoxide and Hydrogen Sulfide gases when there is an alarm that some pipes are damaged. If it's user's turn, the user has to take care of logging task. Otherwise, the system will intervene and handle it.",
     "Danger State Start I":
-                                "The alarm is ringing. Activating Assisted Mode.",
+                                "The alarm is ringing. Activating Manual Mode",
     
-    "Danger State End I":
-                                "Number of faults: X\nReceived Score: Y\nLost Score: Z\nOverall: OO\n LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...",
+    "Danger State End I ":      "Scores Lost: 200",
+
     
-    "Danger State End I/Warning II Q":
-                                "Number of faults: X    Received Score: Y\nLost Score: Z    Overall: OO\n LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...\nIf a new task is added regarding logging dangerous gases, Would you like to activate assisted mode again?",
-    
-    "Danger State Warning II Q": 
-                                "If a new task is added regarding logging dangerous gases, Would you like to activate assisted mode again?",
+    "Danger State End II/Warning II Q":
+                                "Scores Lost: 150 \nLogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...\nIf a new task is added regarding logging dangerous gases, Would you like to activate assisted mode again?",
     
     "Danger State Warning II A-Y": "Assisted mode has been chosen.",
     
     "Danger State Warning II A-N": "Manual Mode has been chosen.",
 
-    "Danger State Start II Y": "The alarm is ringing. Proceeding with assisted mode.",
+    "Danger State Start III Y": "The alarm is ringing. Proceeding with assisted mode.",
     
 
-    "Danger State Start II N": "The alarm is ringing. Proceeding with manual mode.",
+    "Danger State Start III N": "The alarm is ringing. Proceeding with manual mode.",
 
-    "Danger State End II Y":
-                                "Number of faults: X\nReceived Score: Y\nLost Score: Z\nOverall: OO",
+    "Danger State End III Y":
+                                "Scores Lost: 0",
 
-    "Danger State End II N":    "Number of faults: X\nReceived Score: Y\nLost Score: Z\nOverall: OO",
+    "Danger State End III N":    "Scores Lost: 0",
 
     "End":
                                 "Experiment is over. Thank you for using Jackal!",   
@@ -93,8 +92,12 @@ nonsocial_dialogue_dict = {
 
     "Collision":                ["Collsion detected."],
     
-    "Mistake":                  ["The system make a mistake."]
+    "Mistake":                  ["The system made a mistake."]
 }
+
+
+
+
 
 dbox_info = {
     "x": 660,
