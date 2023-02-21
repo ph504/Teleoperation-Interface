@@ -6,7 +6,7 @@ import threading
 
 big_cmr_lbl = {
     "x": 860,
-    "y": 155,
+    "y": 130,
     "width": 200,
     "height": 20,
     "font": ('Helvetica', '13', 'bold')
@@ -14,7 +14,7 @@ big_cmr_lbl = {
 
 small_cmr_lbl = {
     "x": 120,
-    "y": 60,
+    "y": 35,
     "width": 200,
     "height": 15,
     

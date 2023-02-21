@@ -67,7 +67,8 @@ nonsocial_dialogue_dict = {
     
     "Danger State End I":      "Scores Lost: 200",
 
-    
+    "Danger State Start II":
+                                "The alarm is ringing. Activating Assisted Mode",
     "Danger State End II/Warning II Q":
                                 "Scores Lost: 150 \nLogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...\nIf a new task is added regarding logging dangerous gases, Would you like to activate assisted mode again?",
     
@@ -157,7 +158,6 @@ class DialogueBox():
         if self.start_or_yesno == False:
             post_event("button_activate", 5)
         else:
-            print("here?")
             post_event("button_activate", 3)
 
 

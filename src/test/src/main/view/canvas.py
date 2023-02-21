@@ -348,11 +348,12 @@ class BarCanvas(BaseCanvas):
                 post_event("threshold_cross_danger") if self.is_danger else post_event("threshold_cross")
                 if self.danger_mode: post_event("red_init_mode", self)
                 self.red_mode = True
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)     
+                playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+                 
     def reset_button(self):
         if self.passed == False:
             post_event("error_push")
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+            #playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
             return
         else:
             self.passed = False

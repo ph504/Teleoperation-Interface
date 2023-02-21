@@ -50,9 +50,12 @@ def main():
     cursor_canvas_big = CursorCanvas(tab1, big_canvas_info)
     cursor_canvas_big.disable()
 
-    small_lbl = CameraLabel(tab1, small_cmr_lbl, "Back Camera")
-    big_lbl = CameraLabel(tab1, big_cmr_lbl, "Front Camera")
+   
     
+
+    
+
+
     if camera_available == True:    
         rospy.init_node("viewer", anonymous= True)
         rospy.loginfo("viewer node started ...")
@@ -80,7 +83,7 @@ def main():
 
 
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai = widget_init(root, tab1)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl = widget_init(root, tab1)
 
     widgets = {
         "small_label": small_lbl,
@@ -90,7 +93,8 @@ def main():
         "task_canvas": task_canvas,
         "view_back": view_back,
         "view_front": view_front,
-        "dialogue_text": dialogue_text
+        "dialogue_text": dialogue_text,
+        "jackal_ai": jackal_ai
     }
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
@@ -127,7 +131,7 @@ def widget_init(root, tab1):
     
     view_back = CameraView(tab1, flir_info, camera_available, "flir")
     view_front = CameraView(tab1, axis_info, camera_available, "axis")
-    manual_button = BaseButton(root, button_manual_info, enable = True)
+    manual_button = BaseButton(root, button_manual_info, enable = False)
     auto_button = BaseButton(root, button_auto_info, enable= False)
 
     yes_button = BaseButton(root, button_yes_info, activate=False, enable=False)
@@ -138,6 +142,8 @@ def widget_init(root, tab1):
     timer_lbl = Label(root, text="Timer", font=timer_lbl_info["font"], fg=timer_lbl_info["color"])
     timer_lbl.place(x = timer_lbl_info["x"], y = timer_lbl_info["y"], width=timer_lbl_info["width"], height=timer_lbl_info["height"])
 
+    small_lbl = CameraLabel(tab1, small_cmr_lbl, "Back Camera")
+    big_lbl = CameraLabel(tab1, big_cmr_lbl, "Front Camera")
 
     score_canvas = None
     #score_canvas = ScoreCanvas(root, score_canvas_info)
@@ -155,7 +161,7 @@ def widget_init(root, tab1):
 
     jackal_ai = JackalAI()
     
-    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai
+    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl
 
 def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas):
     
@@ -261,11 +267,16 @@ def change_angle(data, canvases):
 def joy_config(data, widgets):
     global rb1, rb2normal, rb3, cs, dialogue_end
 
+    jackal_ai = widgets["jackal_ai"]
+
     #reset bar 1
     rb1_buff = rb1
     rb1 = data.buttons[2]
     if rb1 == 1 and rb1_buff == 0:
-         if BarCanvas.danger_mode: reset_bar(widgets["danger_canvases"][0])  
+         if BarCanvas.danger_mode:
+            if not jackal_ai.active:
+                reset_bar(widgets["danger_canvases"][0])
+          
 
     #reset bar 2 and normal
     rb2normal_buff = rb2normal
@@ -273,16 +284,21 @@ def joy_config(data, widgets):
     
     if rb2normal == 1 and rb2normal_buff == 0:
         if BarCanvas.danger_mode:
-            reset_bar(widgets["danger_canvases"][1])
+            if not jackal_ai.active:
+                reset_bar(widgets["danger_canvases"][1])
+            
         else:
             reset_bar(widgets["bar_canvas"])
+            
    
     #reset bar 3
     rb3_buff = rb3
     rb3 = data.buttons[0]
     if rb3 == 1 and rb3_buff == 0:
          if BarCanvas.danger_mode:
-            reset_bar(widgets["danger_canvases"][2])
+            if not jackal_ai.active:
+                reset_bar(widgets["danger_canvases"][2])
+            
 
 
     #camera switch

@@ -91,9 +91,9 @@ class TeleopGUIMachine(StateMachine):
             self.flashing_image.enable()
             switch_danger(self.normal_bar, self.danger_bars)
             self.jackal_ai.disable()
-            self.assistedmode_button.enable()
-            self.normalmode_button.disable()
-            x = threading.Thread(target=self.danger_timer_countdown)
+            self.assistedmode_button.disable()
+            self.normalmode_button.enable()
+            x = threading.Thread(target=self.danger_timer_countdown_s2)
             x.start()
         y = threading.Thread(target=danger_start1)
         y.start()
@@ -104,7 +104,7 @@ class TeleopGUIMachine(StateMachine):
         switch_danger(self.normal_bar, self.danger_bars)
         self.flashing_image.disable()
         self.assistedmode_button.disable()
-        self.normalmode_button.enable()
+        self.normalmode_button.disable()
  
     #S4 --- Danger Start II
     def on_s34(self): 
@@ -117,9 +117,9 @@ class TeleopGUIMachine(StateMachine):
                 self.javatar.change_image_temp("happy")
             switch_danger(self.normal_bar, self.danger_bars)
             self.jackal_ai.enable()
-            self.assistedmode_button.enable()
-            self.normalmode_button.disable()
-            x = threading.Thread(target=self.danger_timer_countdown)
+            self.assistedmode_button.disable()
+            self.normalmode_button.enable()
+            x = threading.Thread(target=self.danger_timer_countdown_s3)
             x.start()
         a = threading.Thread(target=danger_start2)
         a.start()
@@ -138,7 +138,7 @@ class TeleopGUIMachine(StateMachine):
         switch_danger(self.normal_bar, self.danger_bars)
         self.flashing_image.disable()
         self.assistedmode_button.disable()
-        self.normalmode_button.enable()
+        self.normalmode_button.disable()
         self.dialogue.change_start_to_yesno()
         self.yes_button.activate()
         self.no_button.activate()
@@ -157,19 +157,27 @@ class TeleopGUIMachine(StateMachine):
             self.no_button.deactivate()
           
            
-    def danger_timer_countdown(self):
+    def danger_timer_countdown_s2(self):
         time.sleep(180)
         
         #Danger End I/ time-check
         if self.is_s2:
             self.s23()
 
+    def danger_timer_countdown_s3(self):
+        time.sleep(180)
+        
         #Danger End II/  time-check
-        elif self.is_s3:
+        if self.is_s3:
             self.s34()
 
+       
+
+    def danger_timer_countdown_s7(self):
+        time.sleep(180)
+        
         #Danger End III/ time-check
-        elif self.is_s7:
+        if self.is_s7:
             self.s78()
 
 
@@ -186,18 +194,20 @@ class TeleopGUIMachine(StateMachine):
             self.assistedmode_button.enable()
             self.normalmode_button.disable()
             self.jackal_ai.enable()
-            x = threading.Thread(target=self.danger_timer_countdown)
+            x = threading.Thread(target=self.danger_timer_countdown_s7)
             x.start()
         def dangerstart3n():
             time.sleep(20)
             self.dialogue.change_dialogue("Danger State Start III N") #sad for 20 seconds
             playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
             self.flashing_image.enable()
+            self.assistedmode_button.disable()
+            self.normalmode_button.enable()
             if social_mode:
                 self.javatar.change_image_temp("sad")
             switch_danger(self.normal_bar, self.danger_bars)
             self.jackal_ai.disable()
-            x = threading.Thread(target=self.danger_timer_countdown)
+            x = threading.Thread(target=self.danger_timer_countdown_s7)
             x.start()
         if self.is_ai:
             y = threading.Thread(target=danger_start3y)
@@ -208,13 +218,14 @@ class TeleopGUIMachine(StateMachine):
 
 
     #S8 --- Danger State End III Y / Danger State End III Y
+
     def on_s78 (self):
         if self.is_ai:
             self.dialogue.change_dialogue("Danger State End III Y") #default
             switch_danger(self.normal_bar, self.danger_bars)
             self.flashing_image.disable()
             self.assistedmode_button.disable()
-            self.normalmode_button.enable()
+            self.normalmode_button.disable()
         else:
             self.dialogue.change_dialogue("Danger State End III N") #default
             self.flashing_image.disable()
