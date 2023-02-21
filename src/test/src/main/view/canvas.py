@@ -284,7 +284,9 @@ class CursorCanvas(BaseCanvas):
 
 class BarCanvas(BaseCanvas): 
     danger_mode = None
-    
+    danger_count = 0
+    manual_mode = None
+
     def __init__(self, r, info_dict, danger):
         super().__init__(r,info_dict)
         self.bar_percent = info_dict["bar_defaultpercent"]
@@ -308,6 +310,10 @@ class BarCanvas(BaseCanvas):
         self.passed = False
         self.is_danger = danger
         self.red_mode = False
+
+        subscribe("count_manual_trans_deactive", self.manual_deactive)
+        subscribe("count_manual_trans_active", self.manual_active)
+
     def start(self):
         self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
     def move_bar(self,string):   
@@ -344,16 +350,23 @@ class BarCanvas(BaseCanvas):
             if self.red_mode:
                 post_event("step_error_danger") if self.is_danger else post_event("step_error")
                 post_event("red_mode", self)
+               
             else:
                 post_event("threshold_cross_danger") if self.is_danger else post_event("threshold_cross")
-                if self.danger_mode: post_event("red_init_mode", self)
+                if BarCanvas.danger_mode: post_event("red_init_mode", self)
                 self.red_mode = True
+                if BarCanvas.danger_mode and BarCanvas.manual_mode:
+                    BarCanvas.danger_count += 1
+                    print("danger_count: " + str(BarCanvas.danger_count))
+                    if BarCanvas.danger_count == 3:
+                        post_event("color_trans", -1)
+
+
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
                  
     def reset_button(self):
         if self.passed == False:
             post_event("error_push")
-            #playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
             return
         else:
             self.passed = False
@@ -374,7 +387,17 @@ class BarCanvas(BaseCanvas):
         self.bar_percent = self.bar_defaultpercent
         self.canvas.delete(self.tag_bar,self.tag_line)
         self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
-        self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)  
+        self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
+
+      
+    def manual_active(self, dummy):
+        self.manual_mode = True
+    
+    def manual_deactive(self, dummy):
+        self.manual_mode = False
+        BarCanvas.danger_count = 0
+
+
     def move_bar_repeat(self, string, interval):
         if self.repeat_moving is not None:
             self.repeat_moving.stop()
@@ -549,7 +572,9 @@ class CircleCanvas(BaseCanvas):
         #self.canvas.create_oval(1450, 75, 1430, 55, fill="green", outline="red")
         self.canvas.create_oval(5, 5, 200, 200, fill=self.color_lightgreen, outline=self.color_lightgreen,tags="circle")
 
-    def color_transition(self):
+        subscribe("color_trans", self.color_transition)
+
+    def color_transition(self, dummy = 0):
         if self.state == "green":
             self.canvas.delete("circle")
             self.canvas.create_oval(5, 5, 200, 200, fill=self.color_yellow, outline=self.color_yellow, tags="circle")
@@ -558,10 +583,7 @@ class CircleCanvas(BaseCanvas):
             self.canvas.delete("circle")
             self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
             self.state = "orange"
-        elif self.state == "orange":
-            self.canvas.delete("circle")
-            self.canvas.create_oval(5, 5, 200, 200, fill=self.color_red, outline=self.color_red, tags="circle")
-            self.state = "red"
+        
         
 
 

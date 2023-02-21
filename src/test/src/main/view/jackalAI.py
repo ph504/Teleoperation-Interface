@@ -21,7 +21,7 @@ class JackalAI():
         #subscribe("red_mode", self.press_red) #TODO:What?
     def press_yellow(self, bar: BarCanvas):  
         if self.active:
-            if self.count == 5 or self.count == 10:
+            if self.count == 2 or self.count == 5 or self.count == 10:
                 return
             else:
                 self.count += 1
@@ -29,10 +29,12 @@ class JackalAI():
   
     def press_red_init(self, bar: BarCanvas):
         if self.active:
-            if self.count == 5 or self.count == 10:
                 self.count += 1
                 post_event("mistake", -1)
                 bar.reset_button()
+                if self.count == 5:
+                    post_event("color_trans", -1) 
+                
             
             
     def press_red(self, bar: BarCanvas):

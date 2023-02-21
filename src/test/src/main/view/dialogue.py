@@ -135,7 +135,7 @@ class DialogueBox():
         
     
     def wipe_dbox(self):
-        time.sleep(30)
+        time.sleep(8)
         self.dialoguetext.configure(text="")
     def letterbyletter(self):
         if self.first_time == True:

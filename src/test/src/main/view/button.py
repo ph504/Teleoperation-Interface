@@ -73,21 +73,28 @@ class BaseButton():
         
         if enable == True: self.enable()
         elif enable == False: self.disable()
+        
+        
         if activate == True: self.activate()
         elif activate == False: self.deactivate()
 
-        subscribe("button_activate", self.enable)
+        subscribe("button_activate", self.enable_event)
         
     def add_event(self, event):
         self.button.config(command=event)
-    def enable(self, tag=0):
+    
+    def enable_event(self, tag=0):
         if(self.tag == tag):
             self.button.config(state=ACTIVE)
-            self.active = not self.active
+
+    def enable(self):
+        self.button.config(state=ACTIVE)
+
     def disable(self):
         self.button.config(state=DISABLED)
-        self.active = not self.active
+        
     def deactivate(self):
         self.button.place(x = 5000, y = self.y, width=self.width, height=self.height)
+    
     def activate(self):
         self.button.place(x = self.x, y = self.y, width=self.width, height=self.height)

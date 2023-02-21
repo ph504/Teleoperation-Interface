@@ -42,6 +42,19 @@ class InspectionPage():
                             "oMSe5089Zs",
                             "bA2R7nkV8q"
                             ]
+
+        self.code_list2 = [
+                            "8U92xD9MVZ",
+                            "BitxAQSNSa",
+                            "qnlqAmVlwN",
+                            "LLmvDKgkqk",
+                            "8HVCnhzOsj",
+                            "PB1gsUELNc",
+                            "HzQTJ99bk4",
+                            "U4fV8s0nhT",
+                            "5uDTPXkAn7",
+                            "MEvvKDPl2R"
+                            ]
         self.code_list_used = []
         
 
