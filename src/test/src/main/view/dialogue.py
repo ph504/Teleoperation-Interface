@@ -107,6 +107,10 @@ dbox_info = {
     "height": 180
 }
 
+def unfreeze(dummy = 1):
+    print("unfreeze is activated in dialogue")
+
+
 
 class DialogueBox():
     def __init__(self, root, dialoguebox_info, dialogues):
@@ -130,6 +134,8 @@ class DialogueBox():
         subscribe("congratulations", self.change_dialogue_congratulations)
         subscribe("mistake", self.change_dialogue_mistake)
 
+        
+
     def finish_talking_func(self, dummy):
         self.finish_talking = True
         
@@ -137,6 +143,7 @@ class DialogueBox():
     def wipe_dbox(self):
         time.sleep(8)
         self.dialoguetext.configure(text="")
+        
     def letterbyletter(self):
         if self.first_time == True:
           time.sleep(4)
@@ -218,4 +225,4 @@ class DialogueBox():
         x = threading.Thread(target=self.letterbyletter)
         x.start()
 
-    
+

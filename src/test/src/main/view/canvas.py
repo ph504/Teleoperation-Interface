@@ -390,13 +390,13 @@ class BarCanvas(BaseCanvas):
         self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
 
       
-    def manual_active(self, dummy):
-        self.manual_mode = True
+    def manual_active(dummy1, dummy2):
+        BarCanvas.manual_mode = True
+        print("manual mode is activated")
     
-    def manual_deactive(self, dummy):
-        self.manual_mode = False
+    def manual_deactive(dummy1, dummy2):
+        BarCanvas.manual_mode = False
         BarCanvas.danger_count = 0
-
 
     def move_bar_repeat(self, string, interval):
         if self.repeat_moving is not None:

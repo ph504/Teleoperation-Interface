@@ -3,7 +3,7 @@ from sensor_msgs.msg import CompressedImage
 
 subscribers = defaultdict(list)
 
-
+print("heiii!")
 
 def subscribe(event_type, fn):
     subscribers[event_type].append(fn)

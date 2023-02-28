@@ -24,7 +24,7 @@ from flashing_image import *
 from labels import *
     
 
-test = False
+tutorial_mode = False
 
 def main():
        
@@ -43,7 +43,7 @@ def main():
     x = threading.Thread(target=server_program)
     x.start()
 
-    jackal = Avatar(root, javatar_info,javatar_images)
+    if not tutorial_mode: jackal = Avatar(root, javatar_info,javatar_images)
     
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
     cursor_canvas_small.disable()
@@ -83,7 +83,7 @@ def main():
 
 
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl = widget_init(root, tab1)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl = widget_init(root, tab1, tutorial_mode)
 
     widgets = {
         "small_label": small_lbl,
@@ -99,18 +99,19 @@ def main():
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, task_canvas)
-    gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas, circle_cnvs= circle_canvas, jckl_ai= jackal_ai)
+    if not tutorial_mode:
+        gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas, circle_cnvs= circle_canvas, jckl_ai= jackal_ai)
     
 
-    start_button.add_event(gui_sfm.s01)
-    yes_button.add_event(gui_sfm.on_yes)
-    no_button.add_event(gui_sfm.on_no)
-    task_canvas.add_fsm(gui_sfm)
-    timer_canvas.add_fsm(gui_sfm)
+    if not tutorial_mode: start_button.add_event(gui_sfm.s01)
+    if not tutorial_mode: yes_button.add_event(gui_sfm.on_yes)
+    if not tutorial_mode: no_button.add_event(gui_sfm.on_no)
+    if not tutorial_mode: task_canvas.add_fsm(gui_sfm)
+    if not tutorial_mode: timer_canvas.add_fsm(gui_sfm)
 
 
     
-    if test: 
+    if tutorial_mode: 
         bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button,circle_canvas)
     
 
@@ -122,12 +123,14 @@ def main():
     else:
             tab1.mainloop()
 
-def widget_init(root, tab1):
+def widget_init(root, tab1, tutorial_mode):
     bar_canvas = BarCanvas(tab1, bar_canvas_info_main, danger= False)
+    if tutorial_mode: bar_canvas.start()
     danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
-    dialogue_text = DialogueBox(root, dbox_info, social_dialogue_dict)
+    if not tutorial_mode: dialogue_text = DialogueBox(root, dbox_info, social_dialogue_dict)
+    else: dialogue_text = None
     
     view_back = CameraView(tab1, flir_info, camera_available, "flir")
     view_front = CameraView(tab1, axis_info, camera_available, "axis")
@@ -136,7 +139,8 @@ def widget_init(root, tab1):
 
     yes_button = BaseButton(root, button_yes_info, activate=False, enable=False)
     no_button = BaseButton(root, button_no_info, activate = False, enable=False)
-    start_button = BaseButton(root, button_start_info, activate=True, enable=False)
+    if not tutorial_mode: start_button = BaseButton(root, button_start_info, activate=True, enable=False)
+    else: start_button = None
     
     timer_canvas = TimerCanvas(root, timer_canvas_info)
     timer_lbl = Label(root, text="Timer", font=timer_lbl_info["font"], fg=timer_lbl_info["color"])
@@ -166,14 +170,12 @@ def widget_init(root, tab1):
 def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas):
     
     tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
-    tab1.bind('x', lambda e: switch_auto(auto_button,manual_button))
     tab1.bind('w', lambda e: switch_danger(bar_canvas, danger_canvases))
     tab1.bind('`', lambda e: reset_bar(bar_canvas))
     tab1.bind('1', lambda e: reset_bar(danger_canvases[0]))
     tab1.bind('2', lambda e: reset_bar(danger_canvases[1]))
     tab1.bind('3', lambda e: reset_bar(danger_canvases[2]))
-    tab1.bind('o', lambda e: task_canvas.plus())
-    tab1.bind('a', lambda e: change_scan_mode())  
+    tab1.bind('o', lambda e: task_canvas.plus()) 
     tab1.bind('0', lambda e: circle_canvas.color_transition())
 
 def change_scan_mode():

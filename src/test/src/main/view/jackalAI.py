@@ -29,11 +29,14 @@ class JackalAI():
   
     def press_red_init(self, bar: BarCanvas):
         if self.active:
-                self.count += 1
-                post_event("mistake", -1)
-                bar.reset_button()
+                print("count for jackal AI: " + str(self.count))
                 if self.count == 5:
                     post_event("color_trans", -1) 
+                self.count += 1
+                post_event("mistake", -1)
+               
+                bar.reset_button()
+                
                 
             
             
