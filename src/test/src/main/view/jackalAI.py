@@ -15,10 +15,10 @@ class JackalAI():
         self.step_error_max = 3
         self.active = False
 
-        subscribe("yellow_mode", self.press_yellow)
-        subscribe("red_init_mode", self.press_red_init)
+        EventManager.subscribe("yellow_mode", self.press_yellow)
+        EventManager.subscribe("red_init_mode", self.press_red_init)
 
-        #subscribe("red_mode", self.press_red) #TODO:What?
+        #EventManager.subscribe("red_mode", self.press_red) #TODO:What?
     def press_yellow(self, bar: BarCanvas):  
         if self.active:
             if self.count == 2 or self.count == 5 or self.count == 10:
@@ -31,9 +31,9 @@ class JackalAI():
         if self.active:
                 print("count for jackal AI: " + str(self.count))
                 if self.count == 5:
-                    post_event("color_trans", -1) 
+                    EventManager.post_event("color_trans", -1) 
                 self.count += 1
-                post_event("mistake", -1)
+                EventManager.post_event("mistake", -1)
                
                 bar.reset_button()
                 
@@ -52,3 +52,4 @@ class JackalAI():
 
     def disable(self):
         self.active = False
+        self.count = 15

@@ -57,6 +57,17 @@ button_start_info = {
     
 }
 
+button_freeze_info = {
+    "x": 70,
+    "y": 900,
+    "width": 150,
+    "height": 50,
+    "text": "Freeze",
+    "state": ACTIVE,
+    "tag": 6
+    
+}
+
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
         self.x = info_dict["x"]
@@ -78,7 +89,9 @@ class BaseButton():
         if activate == True: self.activate()
         elif activate == False: self.deactivate()
 
-        subscribe("button_activate", self.enable_event)
+        EventManager.subscribe("button_activate", self.enable_event)
+        EventManager.subscribe("freeze", self.enable_freeze)
+        EventManager.subscribe("unfreeze", self.disable_freeze)
         
     def add_event(self, event):
         self.button.config(command=event)
@@ -92,7 +105,18 @@ class BaseButton():
 
     def disable(self):
         self.button.config(state=DISABLED)
-        
+
+    def enable_freeze(self, tag=-1):
+        if(self.tag == 6):
+            self.button.config(state=ACTIVE)
+
+    def disable_freeze(self, tag=-1):
+        if(self.tag == 6):
+            self.button.config(state=DISABLED)       
+
+
+
+
     def deactivate(self):
         self.button.place(x = 5000, y = self.y, width=self.width, height=self.height)
     

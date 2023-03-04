@@ -73,8 +73,8 @@ class TeleopGUIMachine(StateMachine):
 
     #S1 --- Start
     def on_s01 (self):
-        post_event("unfreeze", -1)
-        print("length of subscribers: " + str(len(subscribers["unfreeze"])))
+        EventManager.post_event("unfreeze", -1)
+        print("length of EventManager.subscribers: " + str(len(EventManager.subscribers["unfreeze"])))
            
             
         self.timer.start()
@@ -99,7 +99,7 @@ class TeleopGUIMachine(StateMachine):
             playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block=False)
             self.flashing_image.enable()
             switch_danger(self.normal_bar, self.danger_bars)
-            post_event("count_manual_trans_active", -1)
+            EventManager.post_event("count_manual_trans_active", -1)
             self.assistedmode_button.disable()
             self.normalmode_button.enable()
             x = threading.Thread(target=self.danger_timer_countdown_s2)
@@ -114,7 +114,7 @@ class TeleopGUIMachine(StateMachine):
             time.sleep(self.DANGER_END_TIMER)
             self.dialogue.change_dialogue("Danger State End I")
             switch_danger(self.normal_bar, self.danger_bars)
-            post_event("count_manual_trans_deactive", -1)
+            EventManager.post_event("count_manual_trans_deactive", -1)
             self.flashing_image.disable()
             self.assistedmode_button.disable()
             self.normalmode_button.disable()
@@ -151,13 +151,17 @@ class TeleopGUIMachine(StateMachine):
     #S5 --- #Danger End II/ Warning II Q
     def on_s45 (self):
         def danger_end2():
-            post_event("freeze", -1)
+            time.sleep(self.DANGER_END_TIMER/2)
+            if self.circle_canvas.state == "yellow": 
+                self.circle_canvas.color_transition()
             time.sleep(self.DANGER_END_TIMER)
+            EventManager.post_event("freeze", -1)
             self.dialogue.change_dialogue("Danger State End II/Warning II Q") #sad because it made some mistakes!
             switch_danger(self.normal_bar, self.danger_bars)
             self.flashing_image.disable()
             self.assistedmode_button.disable()
             self.normalmode_button.disable()
+            self.jackal_ai.disable()
             self.dialogue.change_start_to_yesno()
             self.yes_button.activate()
             self.no_button.activate()
@@ -166,7 +170,7 @@ class TeleopGUIMachine(StateMachine):
 
     #S6 --- Danger State Warning II A-Y/A-N
     def on_s56 (self): 
-        post_event("unfreeze", -1)
+        EventManager.post_event("unfreeze", -1)
         if self.is_yes:
             self.dialogue.change_dialogue("Danger State Warning II A-Y")
             self.is_ai = True
@@ -227,7 +231,7 @@ class TeleopGUIMachine(StateMachine):
                 self.javatar.change_image_temp("sad")
             switch_danger(self.normal_bar, self.danger_bars)
             self.jackal_ai.disable()
-            post_event("count_manual_trans_active", -1)
+            EventManager.post_event("count_manual_trans_active", -1)
             x = threading.Thread(target=self.danger_timer_countdown_s7)
             x.start()
         if self.is_ai:
@@ -253,16 +257,16 @@ class TeleopGUIMachine(StateMachine):
                 switch_danger(self.normal_bar, self.danger_bars)
                 self.assistedmode_button.disable()
                 self.normalmode_button.disable()
-                post_event("count_manual_trans_deactive", -1)
+                EventManager.post_event("count_manual_trans_deactive", -1)
         x = threading.Thread(target=danger_end3)
         x.start() 
 
     #S9 --- End
     def on_s89(self):
-        post_event("freeze")
+        EventManager.post_event("freeze")
         self.timer.stop()
         self.dialogue.change_dialogue("End") #default
-        post_event("task_count", self.task_canvas.count)
+        EventManager.post_event("task_count", self.task_canvas.count)
         
 
 

@@ -5,7 +5,7 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
 from axis_camera.msg import Axis
 from event import *
-
+from std_msgs.msg import Bool
 global freeze_var
 freeze_var = True
 
@@ -32,21 +32,33 @@ def start():
             freeze_var = False
             print("do something!")
 
-                
-        subscribe("freeze", freeze)
-        subscribe("unfreeze", unfreeze)
 
-        print("number of subscribers: " + str(len(subscribers["unfreeze"])))
+        def freeze_manager(data):
+            print("event triggered: " + str(data.data) + " is received.")
+
+            global freeze_var
+            if data.data == True:
+                freeze_var = True
+            else:
+                freeze_var = False
+
+            
+
+
+        print("number of EventManager.subscribers: " + str(len(EventManager.subscribers["unfreeze"])))
         rospy.init_node('teleop_wheel_node')
 
         pub_jackal = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+        
+        rospy.Subscriber("freeze", Bool , callback=freeze_manager)
         rospy.Subscriber("joy", Joy, callback)
 
         rate = rospy.Rate(30)
 
         while not rospy.is_shutdown():
-            if freeze_var == True: pub_jackal.publish(twist)
+            if freeze_var == False: pub_jackal.publish(twist)
             rate.sleep()
+             
 
         rospy.spin()
 

@@ -81,7 +81,7 @@ class CameraView():
         image_np = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
 
         if CameraView.scan_mode and self.camera == "axis":
-            post_event("tag_detection", ros_data)
+            EventManager.post_event("tag_detection", ros_data)
 
         #find the shape of array (number of elements in each dimensions) convert it to a number and multiply it by scale factor. The shape int number is the value of pixel numbers for width/height. multiplying just downscales/upscales it.
         new_width = int(image_np.shape[1] * self.img_scale_factor)

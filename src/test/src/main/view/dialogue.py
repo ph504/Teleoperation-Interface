@@ -128,11 +128,11 @@ class DialogueBox():
         x.start()
         self.start_or_yesno = False
         
-        subscribe("stop_talking", self.finish_talking_func)
+        EventManager.subscribe("stop_talking", self.finish_talking_func)
         
-        subscribe("collision", self.change_dialogue_collision)
-        subscribe("congratulations", self.change_dialogue_congratulations)
-        subscribe("mistake", self.change_dialogue_mistake)
+        EventManager.subscribe("collision", self.change_dialogue_collision)
+        EventManager.subscribe("congratulations", self.change_dialogue_congratulations)
+        EventManager.subscribe("mistake", self.change_dialogue_mistake)
 
         
 
@@ -163,13 +163,15 @@ class DialogueBox():
 
 
         if self.start_or_yesno == False:
-            post_event("button_activate", 5)
+            EventManager.post_event("button_activate", 5)
         else:
-            post_event("button_activate", 3)
+            EventManager.post_event("button_activate", 3)
 
 
         wipe = threading.Thread(target=self.wipe_dbox)
         wipe.start()
+    
+        
     def change_start_to_yesno(self):
         self.start_or_yesno = True
 

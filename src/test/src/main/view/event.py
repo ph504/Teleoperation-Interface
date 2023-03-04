@@ -1,20 +1,24 @@
 from collections import defaultdict
 from sensor_msgs.msg import CompressedImage
 
-subscribers = defaultdict(list)
 
-print("heiii!")
+class EventManager():
 
-def subscribe(event_type, fn):
-    subscribers[event_type].append(fn)
-
-def post_event(event_type, data=None): 
+    subscribers = defaultdict(list)
     
-    if event_type in subscribers:
-        for fn in subscribers[event_type]:
-            if data is None:
-                fn(event_type)
-            else:
-                fn(data)
-                
+    
+    def __init__():
+        pass
+        
 
+    def subscribe(event_type, fn):
+        EventManager.subscribers[event_type].append(fn)
+
+    def post_event(event_type, data=None): 
+        
+        if event_type in EventManager.subscribers:
+            for fn in EventManager.subscribers[event_type]:
+                if data is None:
+                    fn(event_type)
+                else:
+                    fn(data)

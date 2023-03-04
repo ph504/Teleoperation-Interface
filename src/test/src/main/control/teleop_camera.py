@@ -8,7 +8,7 @@ from axis_camera.msg import Axis
     # This ROS Node converts Joystick inputs from the joy node
     # into commands for turtlesim
 
-    # Receives joystick messages (subscribed to Joy topic)
+    # Receives joystick messages (EventManager.subscribed to Joy topic)
     # then converts the joysick inputs into Twist commands
     # axis 1 aka left stick vertical controls linear speed
     # axis 0 aka left stick horizonal controls angular speed
@@ -50,8 +50,8 @@ def start():
 
         pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)
 
-        # subscribed to joystick inputs on topic "joy"
-        #rospy.Subscriber("joy", Joy, callback)
+        # EventManager.subscribed to joystick inputs on topic "joy"
+        #rospy.EventManager.subscriber("joy", Joy, callback)
         
         rate = rospy.Rate(8)
 

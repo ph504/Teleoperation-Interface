@@ -311,8 +311,8 @@ class BarCanvas(BaseCanvas):
         self.is_danger = danger
         self.red_mode = False
 
-        subscribe("count_manual_trans_deactive", self.manual_deactive)
-        subscribe("count_manual_trans_active", self.manual_active)
+        EventManager.subscribe("count_manual_trans_deactive", self.manual_deactive)
+        EventManager.subscribe("count_manual_trans_active", self.manual_active)
 
     def start(self):
         self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
@@ -336,7 +336,7 @@ class BarCanvas(BaseCanvas):
             self.passed = True
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="yellow", tags=self.tag_bar)
             self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
-            if self.is_danger: post_event("yellow_mode", self) 
+            if self.is_danger: EventManager.post_event("yellow_mode", self) 
             
         #if the bar moves backward it may get less than the threshold 
         if self.passed and self.bar_percent < self.line_thresholdpercent:
@@ -348,25 +348,25 @@ class BarCanvas(BaseCanvas):
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="red", tags=self.tag_bar)
             self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
             if self.red_mode:
-                post_event("step_error_danger") if self.is_danger else post_event("step_error")
-                post_event("red_mode", self)
+                EventManager.post_event("step_error_danger") if self.is_danger else EventManager.post_event("step_error")
+                EventManager.post_event("red_mode", self)
                
             else:
-                post_event("threshold_cross_danger") if self.is_danger else post_event("threshold_cross")
-                if BarCanvas.danger_mode: post_event("red_init_mode", self)
+                EventManager.post_event("threshold_cross_danger") if self.is_danger else EventManager.post_event("threshold_cross")
+                if BarCanvas.danger_mode: EventManager.post_event("red_init_mode", self)
                 self.red_mode = True
                 if BarCanvas.danger_mode and BarCanvas.manual_mode:
                     BarCanvas.danger_count += 1
                     print("danger_count: " + str(BarCanvas.danger_count))
                     if BarCanvas.danger_count == 3:
-                        post_event("color_trans", -1)
+                        EventManager.post_event("color_trans", -1)
 
 
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
                  
     def reset_button(self):
         if self.passed == False:
-            post_event("error_push")
+            EventManager.post_event("error_push")
             return
         else:
             self.passed = False
@@ -406,8 +406,8 @@ class BarCanvas(BaseCanvas):
         else:
             self.repeat_moving = RepeatedTimer(interval, self.move_bar, string)  
     def random_movement(self):
-        r = random.randint(0,4)
-        if r > 3:
+        r = random.randint(0,5)
+        if r > 4:
             self.move_bar_repeat("left", self.move_interval)
         else:
             self.move_bar_repeat("right", self.move_interval)
@@ -508,17 +508,17 @@ class ScoreCanvas(BaseCanvas):
         self.text = "1000"
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         
-        subscribe("task_count", self.subtract_score_task)
+        EventManager.subscribe("task_count", self.subtract_score_task)
         
-        subscribe("step_error", self.subtract_score)
-        subscribe("step_error_danger", self.subtract_score)
+        EventManager.subscribe("step_error", self.subtract_score)
+        EventManager.subscribe("step_error_danger", self.subtract_score)
         
-        subscribe("threshold_cross", self.subtract_score)
-        subscribe("threshold_cross_danger", self.subtract_score)
-        subscribe("collision_hit", self.subtract_score_hit)
+        EventManager.subscribe("threshold_cross", self.subtract_score)
+        EventManager.subscribe("threshold_cross_danger", self.subtract_score)
+        EventManager.subscribe("collision_hit", self.subtract_score_hit)
 
-        subscribe("wrong_entry", self.subtract_score)
-        subscribe("duplicate_entry", self.subtract_score)
+        EventManager.subscribe("wrong_entry", self.subtract_score)
+        EventManager.subscribe("duplicate_entry", self.subtract_score)
              
     def subtract_score_task(self, task_count):
         score = self.text
@@ -572,7 +572,7 @@ class CircleCanvas(BaseCanvas):
         #self.canvas.create_oval(1450, 75, 1430, 55, fill="green", outline="red")
         self.canvas.create_oval(5, 5, 200, 200, fill=self.color_lightgreen, outline=self.color_lightgreen,tags="circle")
 
-        subscribe("color_trans", self.color_transition)
+        EventManager.subscribe("color_trans", self.color_transition)
 
     def color_transition(self, dummy = 0):
         if self.state == "green":

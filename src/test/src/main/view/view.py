@@ -22,6 +22,7 @@ import socket
 import socketserver
 from flashing_image import *
 from labels import *
+from std_msgs.msg import Bool
     
 
 tutorial_mode = False
@@ -68,9 +69,9 @@ def main():
         print("Initial angle: " + str(x))
         #currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
         #TODO: make the camera tilt
-        #rospy.Subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
+        #rospy.EventManager.subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
         #cursor_canvases = (cursor_canvas_small, cursor_canvas_big)
-        #rospy.Subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
+        #rospy.EventManager.subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
 
 
     global rb1, rb2normal, rb3, cs, dialogue_end
@@ -96,6 +97,21 @@ def main():
         "dialogue_text": dialogue_text,
         "jackal_ai": jackal_ai
     }
+
+    def freeze(dummy = 0):
+        pub.publish(True)
+    
+    def unfreeze(dummy = 0):
+        pub.publish(False)
+
+    pub = rospy.Publisher("freeze", Bool, queue_size=10)
+    EventManager.subscribe("freeze", freeze)
+    EventManager.subscribe("unfreeze", unfreeze)
+    freeze()
+   
+    
+    
+
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, task_canvas)
@@ -142,6 +158,8 @@ def widget_init(root, tab1, tutorial_mode):
     if not tutorial_mode: start_button = BaseButton(root, button_start_info, activate=True, enable=False)
     else: start_button = None
     
+    freeze_button = BaseButton(root, button_freeze_info, activate=True, enable=True)
+
     timer_canvas = TimerCanvas(root, timer_canvas_info)
     timer_lbl = Label(root, text="Timer", font=timer_lbl_info["font"], fg=timer_lbl_info["color"])
     timer_lbl.place(x = timer_lbl_info["x"], y = timer_lbl_info["y"], width=timer_lbl_info["width"], height=timer_lbl_info["height"])
@@ -252,7 +270,7 @@ def server_program():
                 if not data:
                     break
                 print("From connected user: " + data)
-                post_event("collision", data)
+                EventManager.post_event("collision", data)
    
 def change_angle(data, canvases):
     global prev_angle
@@ -313,8 +331,7 @@ def joy_config(data, widgets):
     dialogue_end_buff = dialogue_end
     dialogue_end = data.buttons[5]
     if dialogue_end == 1 and dialogue_end_buff == 0:
-        post_event("stop_talking", 1)
-
+        EventManager.post_event("stop_talking", 1)
 
     
  
