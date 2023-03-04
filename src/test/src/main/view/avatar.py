@@ -4,6 +4,8 @@ import time
 import threading
 import event
 from dialogue import social_mode
+
+
 javatar_info = {
     "x": 460,
     "y": 800,
@@ -14,10 +16,15 @@ javatar_info = {
 
 javatar_images = {
     "default" : "/home/pouya/catkin_ws/src/test/src/images/default.png",
+    "default-talking": "/home/pouya/catkin_ws/src/test/src/images/default-talking-placeholder.png",
+    "default-blink": "src/test/src/images/default-blink-placeholder.png",
     "happy" : "/home/pouya/catkin_ws/src/test/src/images/happy.png",
+    "happy-blink": "/home/pouya/catkin_ws/src/test/src/images/happy-blink-placeholder.png",
     "sad" : "/home/pouya/catkin_ws/src/test/src/images/sad.png",
+    "sad-blink": "/home/pouya/catkin_ws/src/test/src/images/sad-blink-placeholder.png",
     "angry": "/home/pouya/catkin_ws/src/test/src/images/angry.png",
-    "nonsocial": "/home/pouya/catkin_ws/src/test/src/images/nonsocial-sett.jpg"
+    "angry-blink": "/home/pouya/catkin_ws/src/test/src/images/angry-blink-placeholder.png",
+    "nonsocial": "/home/pouya/catkin_ws/src/test/src/images/non_social_avatar.jpg"
 
 }
 
@@ -39,9 +46,9 @@ class Avatar():
 
             
             if social_mode:
-                event.subscribe("collision", self.change_image_hit)
-                event.subscribe("mistake", self.change_image_hit)
-                event.subscribe("congratulations", self.change_image_congratulations)
+                event.EventManager.subscribe("collision", self.change_image_hit)
+                event.EventManager.subscribe("mistake", self.change_image_hit)
+                event.EventManager.subscribe("congratulations", self.change_image_congratulations)
 
 
     def change_image(self,state):
