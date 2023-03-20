@@ -26,7 +26,7 @@ social_dialogue_dict = {
     
     
     "Danger State End II/Warning II Q":
-                                "Uuh! I did some mistakes and lost 200 points. We lost overall 450 points, and only 50 points left to fail the experiment. I am sorry about this. Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
+                                "Uuh! I did some mistakes and lost 200 points. We lost overall 450 points. I am sorry about this. Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
     
     "Danger State Warning II A-Y": "Thanks buddy!! I'll try my best.",
     
@@ -39,7 +39,7 @@ social_dialogue_dict = {
 
 
     "Danger State End III Y":
-                                "Yay! I did it flawlessly. I think we did it!",
+                                "This time i only lost 100 score. Better than the last time but still ...",
 
     "Danger State End III N":    "Good job! Remember that it is all about the journey!",
 
@@ -52,8 +52,6 @@ social_dialogue_dict = {
 
     "Mistake":               ["Oh my bad!", "Missed!", "Oh!"]
 }
-
-
 
 nonsocial_dialogue_dict = {   
     "Start Q":
@@ -96,10 +94,6 @@ nonsocial_dialogue_dict = {
     "Mistake":                  ["The system made a mistake."]
 }
 
-
-
-
-
 dbox_info = {
     "x": 660,
     "y": 800,
@@ -109,8 +103,6 @@ dbox_info = {
 
 def unfreeze(dummy = 1):
     print("unfreeze is activated in dialogue")
-
-
 
 class DialogueBox():
     def __init__(self, root, dialoguebox_info, dialogues):
@@ -126,24 +118,25 @@ class DialogueBox():
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
         x = threading.Thread(target=self.letterbyletter)
         x.start()
+        EventManager.post_event("talking_started", True)
         self.start_or_yesno = False
-        
+        self.talk_mode = True
         EventManager.subscribe("stop_talking", self.finish_talking_func)
-        
         EventManager.subscribe("collision", self.change_dialogue_collision)
         EventManager.subscribe("congratulations", self.change_dialogue_congratulations)
         EventManager.subscribe("mistake", self.change_dialogue_mistake)
 
+
+        
         
 
     def finish_talking_func(self, dummy):
         self.finish_talking = True
-        
-    
+         
     def wipe_dbox(self):
         time.sleep(8)
         self.dialoguetext.configure(text="")
-        
+      
     def letterbyletter(self):
         if self.first_time == True:
           time.sleep(4)
@@ -152,6 +145,8 @@ class DialogueBox():
         for l in self.dialogue:
             if self.finish_talking:
                 self.dialoguetext.configure(text=self.dialogue)
+                EventManager.post_event("stop_talking", self.talk_mode)
+                self.talk_mode = False
                 self.finish_talking = False
                 break
             if l == " ":
@@ -160,18 +155,22 @@ class DialogueBox():
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
             x = x + l 
             self.dialoguetext.configure(text=x)
-
+            if x == self.dialogue:
+                EventManager.post_event("talking_ended", self.talk_mode)
+                self.talk_mode = False
 
         if self.start_or_yesno == False:
             EventManager.post_event("button_activate", 5)
         else:
             EventManager.post_event("button_activate", 3)
 
+        if self.state == "Start Q" or self.state  == "Danger State End II/Warning II Q":
+            pass
+        else:
+            wipe = threading.Thread(target=self.wipe_dbox)
+            wipe.start()
 
-        wipe = threading.Thread(target=self.wipe_dbox)
-        wipe.start()
-    
-        
+           
     def change_start_to_yesno(self):
         self.start_or_yesno = True
 
@@ -181,22 +180,27 @@ class DialogueBox():
             if len(d_list) == 1:
                 return d_list[0]
             else:
-                rand = random.randint(0, len(d_list))
+                rand = random.randint(0, len(d_list)-1)
                 return d_list[rand]
         elif string == "Mistake":
             if len(d_list) == 1:
                 return d_list[0]
             else:
-                rand = random.randint(0, len(d_list))
+                rand = random.randint(0, len(d_list)-1)
                 return d_list[rand]
         elif string == "Congratulations":
             if len(d_list) == 1:
                 return d_list[0]
             else:
-                rand = random.randint(0, len(d_list))
+                rand = random.randint(0, len(d_list)-1)
                 return d_list[rand]
 
     def change_dialogue(self, string):
+        print(string)
+        if string == "Start A" or string == "Danger State Warning II A-Y":
+            pass
+        else:
+            self.talk_mode = True
         self.state = string
         self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]
         self.dialoguetext.configure(text="")
@@ -204,7 +208,7 @@ class DialogueBox():
         x.start()
         
     def change_dialogue_mistake(self, dummy):
-
+        self.talk_mode = False
         dialogue = self.return_randomdialogue("Mistake")
         self.dialogue = dialogue
         self.dialoguetext.configure(text="")
@@ -212,15 +216,16 @@ class DialogueBox():
         x.start()
 
     def change_dialogue_congratulations(self, dummy):
-        
+        self.talk_mode = False
         dialogue = self.return_randomdialogue("Congratulations")
+        print("there should be a dialogue about congrats")
         self.dialogue = dialogue
         self.dialoguetext.configure(text="")
         x = threading.Thread(target=self.letterbyletter)
         x.start()
 
     def change_dialogue_collision(self, dummy):
-        
+        self.talk_mode = False
         dialogue = self.return_randomdialogue("Collision")
         self.dialogue = dialogue
         self.dialoguetext.configure(text="")

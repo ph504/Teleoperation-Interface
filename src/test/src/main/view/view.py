@@ -201,25 +201,18 @@ def change_scan_mode():
     print(CameraView.scan_mode)
 
 def switch(back, front, small, big):
-        print("the switch is happening!")
-
         if back.is_front == False:
             #Flir is front ,Axis is back
             front.update_pos(flir_info)
             back.update_pos(axis_info)
             small.switch_camera()
             big.switch_camera()
-            
-            #small.enable()
-            #big.disable()
         else:
             #Axis is front,Flir is back
             front.update_pos(axis_info)
             back.update_pos(flir_info)
             small.switch_camera()
             big.switch_camera()
-            #small.disable()
-            #big.enable()
 
 def reset_bar(bar):
     bar.reset_button()
@@ -333,7 +326,5 @@ def joy_config(data, widgets):
     if dialogue_end == 1 and dialogue_end_buff == 0:
         EventManager.post_event("stop_talking", 1)
 
-    
- 
 if __name__ == "__main__":
     main()

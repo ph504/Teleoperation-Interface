@@ -182,6 +182,8 @@ circle_canvas_info = {
 
 
 }
+
+
 class RepeatedTimer(object):
     def __init__(self, interval, function, *args, **kwargs):
         self._timer     = None
@@ -316,6 +318,7 @@ class BarCanvas(BaseCanvas):
 
     def start(self):
         self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
+    
     def move_bar(self,string):   
         #just to prevent danger bars being active while normal is active (and vice versa) 
         if (self.is_danger and BarCanvas.danger_mode) or (not self.is_danger and not BarCanvas.danger_mode):
@@ -382,6 +385,8 @@ class BarCanvas(BaseCanvas):
             self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
 
             playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav") 
+    
+    
     def reset(self):
         self.passed = False
         self.bar_percent = self.bar_defaultpercent
@@ -405,6 +410,8 @@ class BarCanvas(BaseCanvas):
             self.repeat_moving.start()
         else:
             self.repeat_moving = RepeatedTimer(interval, self.move_bar, string)  
+    
+    
     def random_movement(self):
         r = random.randint(0,5)
         if r > 4:
