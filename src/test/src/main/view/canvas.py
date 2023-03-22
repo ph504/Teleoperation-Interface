@@ -474,6 +474,9 @@ class TaskCanvas(BaseCanvas):
         c += 1
         self.count += 1
 
+        if c != 10:
+            EventManager.post_event("congratulations", -1)
+            
         if c  > 10: return
         
         #Danger State I

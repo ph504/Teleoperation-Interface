@@ -8,7 +8,7 @@ import time
 from event import *
 import random
 
-social_mode = False
+social_mode = True
 
 social_dialogue_dict = {   
     "Start Q":
@@ -127,9 +127,6 @@ class DialogueBox():
         EventManager.subscribe("mistake", self.change_dialogue_mistake)
 
 
-        
-        
-
     def finish_talking_func(self, dummy):
         self.finish_talking = True
          
@@ -149,6 +146,7 @@ class DialogueBox():
                 self.talk_mode = False
                 self.finish_talking = False
                 break
+                           
             if l == " ":
                 time.sleep(0.1)
             else:
@@ -169,8 +167,7 @@ class DialogueBox():
         else:
             wipe = threading.Thread(target=self.wipe_dbox)
             wipe.start()
-
-           
+          
     def change_start_to_yesno(self):
         self.start_or_yesno = True
 
@@ -218,7 +215,6 @@ class DialogueBox():
     def change_dialogue_congratulations(self, dummy):
         self.talk_mode = False
         dialogue = self.return_randomdialogue("Congratulations")
-        print("there should be a dialogue about congrats")
         self.dialogue = dialogue
         self.dialoguetext.configure(text="")
         x = threading.Thread(target=self.letterbyletter)

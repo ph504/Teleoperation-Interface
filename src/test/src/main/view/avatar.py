@@ -18,6 +18,8 @@ javatar_images = {
     "default" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_01.png",
     "default-talking": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_05.png",
     "default-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_04.png",
+    "default-left": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_02.png",
+    "default-right": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_03.png",
     "happy" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_17.png",
     "happy-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_20.png",
     "sad" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_09.png",
@@ -58,6 +60,48 @@ class Avatar():
                 event.EventManager.subscribe("talking_ended", self.end_talking)
                 event.EventManager.subscribe("talking_started_sad", self.change_image_talking_sad)
                 event.EventManager.subscribe("stop_talking", self.end_talking)
+                self.idle_event = threading.Event()
+                self.idle_event.set()
+                t = threading.Thread(target=self.idle_loop)
+                t.start()
+
+           
+
+    def idle_loop(self): 
+            
+        while True: 
+           
+            time.sleep(10)
+            
+            if not self.idle_event.is_set(): 
+                 self.idle_event.wait()
+                 continue
+            else: self.change_image('default-blink')
+            time.sleep(0.5)
+            if not self.idle_event.is_set(): 
+                 self.idle_event.wait()
+                 continue
+            else: self.change_image('default-left')
+            time.sleep(0.5)
+            if not self.idle_event.is_set(): 
+                 self.idle_event.wait()
+                 continue
+            else: self.change_image('default-blink')
+            time.sleep(0.5)
+            if not self.idle_event.is_set(): 
+                 self.idle_event.wait()
+                 continue
+            else: self.change_image('default-right')
+            time.sleep(0.5)
+            if not self.idle_event.is_set(): 
+                 self.idle_event.wait()
+                 continue
+            else: self.change_image('default-blink')
+            time.sleep(0.5)
+            if not self.idle_event.is_set(): 
+                 self.idle_event.wait()
+                 continue
+            else: self.change_image('default')
 
     def change_image(self,state):
         self.image = Image.open(javatar_images[state]).resize((self.width,self.height), Image.ANTIALIAS)
@@ -77,6 +121,7 @@ class Avatar():
 
 
     def change_image_talking(self,dummy=0):
+        self.idle_event.clear()
         def swap_images():
             self.change_image("default-blink") if self.count_blink % 3 == 0 else self.change_image("default")
             self.count_blink += 1
@@ -95,7 +140,7 @@ class Avatar():
     
 
     def change_image_talking_sad(self,dummy=0):
-            print("change image talking sad!")
+            self.idle_event.clear()
             self.sad_mode = True
             def swap_images():
                 self.change_image("sad-blink") if self.count_blink % 3 == 0 else self.change_image("sad")
@@ -115,6 +160,7 @@ class Avatar():
     
     
     def end_talking(self,talkmode):
+        
         def func():
             if self.sad_mode == True:
                     self.change_image("sad")
@@ -129,14 +175,14 @@ class Avatar():
                     self.change_image("default")
 
         if talkmode:
+            self.idle_event.set()
             x = threading.Thread(target=func)
             x.start()
         else:
             pass         
-        
-
-    
+           
     def change_image_hit(self, dummy=0):
+        self.idle_event.clear()
         def swap_images(s, _s, p_s):
             self.change_image(s)
             time.sleep(2)
@@ -145,11 +191,13 @@ class Avatar():
             self.change_image(s)
             time.sleep(2)
             self.change_image(p_s)
+            self.idle_event.set()
         prev_state = self.state
         t = threading.Thread(target=swap_images, args=("angry", "angry-blink", prev_state))
         t.start()
              
     def change_image_congratulations(self, dummy=0):
+        self.idle_event.clear()
         def swap_images(s, _s, p_s):
             self.change_image(s)
             time.sleep(2)
@@ -158,11 +206,13 @@ class Avatar():
             self.change_image(s)
             time.sleep(2)
             self.change_image(p_s)
+            self.idle_event.set()
         prev_state = self.state
         t = threading.Thread(target=swap_images, args=("happy","happy-blink", prev_state))
         t.start()
 
     def change_image_happy(self, dummy=0):
+            self.idle_event.clear()
             def swap_images(s, _s, p_s):
                 self.change_image(s)
                 time.sleep(2)
@@ -171,6 +221,7 @@ class Avatar():
                 self.change_image(s)
                 time.sleep(2)
                 self.change_image(p_s)
+                self.idle_event.set()
             prev_state = self.state
             t = threading.Thread(target=swap_images, args=("happy","happy-blink", prev_state))
             t.start()

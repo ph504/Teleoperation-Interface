@@ -81,7 +81,8 @@ class TeleopGUIMachine(StateMachine):
              self.javatar.change_image_happy()
         self.start_button.deactivate()
         self.normal_bar.start()
-        
+       
+    
     #S2 --- Danger Start I
     def on_s12 (self): 
         def danger_start1():

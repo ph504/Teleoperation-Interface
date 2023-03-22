@@ -80,7 +80,7 @@ class InspectionPage():
             elif string in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned")
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
-                EventManager.post_event("congratulations", -1)
+                
                 self.delete_err_lbl()
                 self.code_list.remove(string)
                 self.code_list_used.append(string)
