@@ -1,6 +1,6 @@
 from canvas import BarCanvas
 from event import *
-
+from logger import Logger
 class JackalAI():
     
     def __init__(self):
@@ -14,17 +14,20 @@ class JackalAI():
         self.step_error_count = 0
         self.step_error_max = 3
         self.active = False
-
+        self.correct_logging = 0
         EventManager.subscribe("yellow_mode", self.press_yellow)
         EventManager.subscribe("red_init_mode", self.press_red_init)
-
+        self.incorrect_logging = 0
         #EventManager.subscribe("red_mode", self.press_red) #TODO:What?
     def press_yellow(self, bar: BarCanvas):  
+        
         if self.active:
-            if self.count == 2 or self.count == 5 or self.count == 10:
+            if self.count == 2 or self.count == 5 or self.count == 8:
                 return
             else:
                 self.count += 1
+                self.correct_logging += 1
+                Logger.log("ai_correctlogging", self.correct_logging)
                 bar.reset_button()
   
     def press_red_init(self, bar: BarCanvas):
@@ -34,7 +37,9 @@ class JackalAI():
                     EventManager.post_event("color_trans", -1) 
                 self.count += 1
                 EventManager.post_event("mistake", -1)
-               
+                
+                self.incorrect_logging  += 1
+                Logger.log("ai_incorrectlogging", self.incorrect_logging)
                 bar.reset_button()
                 
                 

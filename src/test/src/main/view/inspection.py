@@ -73,6 +73,7 @@ class InspectionPage():
      
             if string in self.code_list_used:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg="yellow", text="This equipment has been validated before.")
+                Logger.log("duplicated_entry", "N/A")
                 EventManager.post_event("duplicate_entry")
                 self.delete_err_lbl()
 
@@ -89,6 +90,7 @@ class InspectionPage():
             
             elif string not in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!")
+                Logger.log("wrong_entry", "N/A")
                 EventManager.post_event("wrong_entry")
                 self.delete_err_lbl()
             if len(self.code_list) == 0:

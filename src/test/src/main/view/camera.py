@@ -16,13 +16,15 @@ flir_info = {
     "x": 5,
     "y": 50,
     "width": 400,
-    "height": 300
+    "height": 300,
+    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#f75a05', "red": "#fc0303"}
 }
 axis_info = {
     "x": 560,
     "y": 150,
     "width": 800,
-    "height": 600
+    "height": 600,
+    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#f75a05', "red": "#fc0303"}
 }
 
 
@@ -36,13 +38,21 @@ class CameraView():
         self.y = dict_info["y"]
         self.width = dict_info["width"]
         self.height = dict_info["height"]
+        self.border_colors = dict_info["colors"]
         self.camera = camera
-        self.imagewidget = Label(root)
+        self.state = "green"
         self.imagetk = None
         self.is_front = None
         self.cam_available = cam_available
         self.bridge = CvBridge()
-        
+        self.border_thick = 7
+        self.frame = Frame(root, highlightbackground=self.border_colors["light_green"], highlightthickness=self.border_thick)
+        self.frame.place_configure(x= self.x - self.border_thick, y = self.y - self.border_thick , width=self.width + self.border_thick * 2, height=self.height + self.border_thick * 2)
+        self.imagewidget = Label(self.frame) 
+
+
+        EventManager.subscribe("color_trans", self.color_transition)
+
         #??
         if cam_available == True:
             if self.camera == "flir":
@@ -102,7 +112,7 @@ class CameraView():
         self.imgtk = ImageTk.PhotoImage(image=img)
         self.imagewidget.config(image=self.imgtk)
         self.imagewidget.image = self.imgtk
-        self.imagewidget.place(x= self.x, y= self.y, width= self.width, height= self.height)
+        self.imagewidget.place(x= 0, y= 0, width= self.width, height= self.height)
 
     def image_placeholder(self, string):
         if string == "flir":
@@ -127,4 +137,14 @@ class CameraView():
         elif diff == 1:
             small.rotate("left")
             big.rotate("left")   
-    
+
+    def color_transition(self, dummy = 0):
+        
+        if self.state == "green":
+            self.frame.configure(highlightbackground=self.border_colors["yellow"])
+            self.state = "yellow"
+        
+        elif self.state == "yellow":
+            self.frame.configure(highlightbackground=self.border_colors["orange"])
+            self.state = "orange"
+           

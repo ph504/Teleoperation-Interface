@@ -173,8 +173,9 @@ def widget_init(root, tab1, tutorial_mode):
     #score_lbl.place(x = score_lbl_info["x"], y = score_lbl_info["y"], width=score_lbl_info["width"], height=score_lbl_info["height"])
     
     
-    circle_canvas = CircleCanvas(root, circle_canvas_info)
-
+    circle_canvas = None
+    
+    
     task_canvas = TaskCanvas(root, task_canvas_info)
     task_lbl = Label(root, text="Task", font=task_lbl_info["font"], fg=task_lbl_info["color"])
     task_lbl.place(x = task_lbl_info["x"], y = task_lbl_info["y"], width=task_lbl_info["width"], height=task_lbl_info["height"])

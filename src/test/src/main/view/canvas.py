@@ -7,6 +7,7 @@ import random
 from playsound import playsound
 from event import *
 import string
+from logger import Logger
 
 #------Canvas Position ---- #
 big_canvas_info = {
@@ -22,6 +23,8 @@ big_canvas_info = {
     "color": "green",
     "active": True
 }
+
+
 small_canvas_info = {
     "x": 430,
     "y": 250,
@@ -173,15 +176,14 @@ score_events = {
     "task_count": 100
 }
 circle_canvas_info = {
-    "x": 1500,
-    "y": 350,
-    "width": 210,
-    "height": 310,
+    "x": 558,
+    "y": 148,
+    "width": 802,
+    "height": 602,
     "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#f75a05', "red": "#fc0303"},
     "active": True
-
-
 }
+
 
 
 class RepeatedTimer(object):
@@ -312,7 +314,11 @@ class BarCanvas(BaseCanvas):
         self.passed = False
         self.is_danger = danger
         self.red_mode = False
-
+        
+        self.threshold_pass_count_normal = 0
+        self.threshold_pass_count_danger = 0
+        self.step_pass_count_normal = 0
+        self.step_pass_count_danger = 0
         EventManager.subscribe("count_manual_trans_deactive", self.manual_deactive)
         EventManager.subscribe("count_manual_trans_active", self.manual_active)
 
@@ -351,11 +357,25 @@ class BarCanvas(BaseCanvas):
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="red", tags=self.tag_bar)
             self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
             if self.red_mode:
-                EventManager.post_event("step_error_danger") if self.is_danger else EventManager.post_event("step_error")
-                EventManager.post_event("red_mode", self)
+                if self.is_danger:
+                    EventManager.post_event("step_error_danger")
+                    self.step_pass_count_danger += 1
+                    Logger.log("stppsscount_dngr", self.step_pass_count_danger)
+                else: 
+                    self.step_pass_count_normal += 1
+                    Logger.log("stppsscount_nrml", self.step_pass_count_normal)
+                    EventManager.post_event("step_error") 
+                EventManager.post_event("red_mode", self) #LOG?
                
             else:
-                EventManager.post_event("threshold_cross_danger") if self.is_danger else EventManager.post_event("threshold_cross")
+                if self.is_danger:
+                    self.threshold_pass_count_danger +=1
+                    Logger.log("thrshldpsscntttl_dngr", self.threshold_pass_count_danger)
+                    EventManager.post_event("threshold_cross_danger") 
+                else:
+                    EventManager.post_event("threshold_cross") 
+                    self.threshold_pass_count +=1
+                    Logger.log("thrshldpsscntdngrttl_nrml", self.threshold_pass_count_normal)
                 if BarCanvas.danger_mode: EventManager.post_event("red_init_mode", self)
                 self.red_mode = True
                 if BarCanvas.danger_mode and BarCanvas.manual_mode:
@@ -453,6 +473,7 @@ class TimerCanvas(BaseCanvas):
         self.seconds = str(sec) if sec >= 10 else '0' + str(sec) 
         self.minutes = str(min) if min >= 10 else '0' + str(min)
         self.text = self.minutes + ":" + self.seconds
+        EventManager.post_event("countdown", self.text)
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
     
@@ -473,7 +494,7 @@ class TaskCanvas(BaseCanvas):
         c = self.count
         c += 1
         self.count += 1
-
+        Logger.log("task_advance" , str(self.count))
         if c != 10:
             EventManager.post_event("congratulations", -1)
             
@@ -580,8 +601,10 @@ class CircleCanvas(BaseCanvas):
         self.color_red = self.colors_dict["red"]
         self.state = "green"
         #self.canvas.create_oval(1450, 75, 1430, 55, fill="green", outline="red")
-        self.canvas.create_oval(5, 5, 200, 200, fill=self.color_lightgreen, outline=self.color_lightgreen,tags="circle")
+        #self.canvas.create_oval(5, 5, 200, 200, fill=self.color_lightgreen, outline=self.color_lightgreen,tags="circle")
 
+        #self.canvas.create_rectangle(self.x, self.y, self.width, self.height, outline="black", width=2, fill="" )
+        
         EventManager.subscribe("color_trans", self.color_transition)
 
     def color_transition(self, dummy = 0):
