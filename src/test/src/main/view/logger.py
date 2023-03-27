@@ -21,7 +21,7 @@ class Logger():
         Logger.elapsed_time = text
 
     def write_data():
-        with open('p1_1.csv', 'w', newline='') as file: 
+        with open('p0.csv', 'w', newline='') as file: 
             writer = csv.DictWriter(file, fieldnames = Logger.fields, dialect='excel')
             writer.writeheader() 
             writer.writerows(Logger.dict_list)

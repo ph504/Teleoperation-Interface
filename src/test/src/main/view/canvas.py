@@ -374,7 +374,7 @@ class BarCanvas(BaseCanvas):
                     EventManager.post_event("threshold_cross_danger") 
                 else:
                     EventManager.post_event("threshold_cross") 
-                    self.threshold_pass_count +=1
+                    self.threshold_pass_count_normal +=1
                     Logger.log("thrshldpsscntdngrttl_nrml", self.threshold_pass_count_normal)
                 if BarCanvas.danger_mode: EventManager.post_event("red_init_mode", self)
                 self.red_mode = True
@@ -478,6 +478,7 @@ class TimerCanvas(BaseCanvas):
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
     
 class TaskCanvas(BaseCanvas):
+    
     def __init__(self, r, dict_info):
         super().__init__(r, dict_info)
         self.color = dict_info["color"]
@@ -495,6 +496,7 @@ class TaskCanvas(BaseCanvas):
         c += 1
         self.count += 1
         Logger.log("task_advance" , str(self.count))
+        
         if c != 10:
             EventManager.post_event("congratulations", -1)
             

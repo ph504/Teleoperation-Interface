@@ -3,6 +3,7 @@ from canvas import *
 import time
 import threading
 
+
 task_inspect_info = {
     "x": 980,
     "y": 313,
@@ -70,7 +71,7 @@ class InspectionPage():
     def validate(self):
             string = str(self.entry_lbl.get())
             self.entry_lbl.delete(0, len(string))
-     
+            
             if string in self.code_list_used:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg="yellow", text="This equipment has been validated before.")
                 Logger.log("duplicated_entry", "N/A")
@@ -78,7 +79,7 @@ class InspectionPage():
                 self.delete_err_lbl()
 
         
-            elif string in self.code_list:
+            elif string in self.code_list or string in self.code_list2:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned")
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
                 
@@ -88,9 +89,10 @@ class InspectionPage():
                 self.task_count += 1
                 self.task_canvas.plus()
             
-            elif string not in self.code_list:
+            elif string not in self.code_list or string not in  self.code_list2:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!")
                 Logger.log("wrong_entry", "N/A")
+                playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
                 EventManager.post_event("wrong_entry")
                 self.delete_err_lbl()
             if len(self.code_list) == 0:

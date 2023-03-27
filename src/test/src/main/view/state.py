@@ -24,7 +24,7 @@ class TeleopGUIMachine(StateMachine):
                 jackal_avatar,
                 flashing_image,
                 tsk_cnvs,
-                circle_cnvs,
+                cmr_frm,
                 jckl_ai) -> None:
         super().__init__()
         self.timer = timer
@@ -41,7 +41,7 @@ class TeleopGUIMachine(StateMachine):
         self.is_ai = False
         self.task_canvas = tsk_cnvs
         self.is_yes = False
-        self.circle_canvas = circle_cnvs
+        self.camera_frame = cmr_frm
         self.jackal_ai = jckl_ai
 
     #states
@@ -150,8 +150,6 @@ class TeleopGUIMachine(StateMachine):
     def on_s45 (self):
         def danger_end2():
             time.sleep(self.DANGER_END_TIMER/2)
-            if self.circle_canvas.state == "yellow": 
-                self.circle_canvas.color_transition()
             time.sleep(self.DANGER_END_TIMER)
             EventManager.post_event("freeze", -1)
             self.dialogue.change_dialogue("Danger State End II/Warning II Q") #sad because it made some mistakes!

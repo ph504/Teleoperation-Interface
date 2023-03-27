@@ -116,7 +116,7 @@ def main():
     
     inspection_page = InspectionPage(tab2, task_canvas)
     if not tutorial_mode:
-        gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas, circle_cnvs= circle_canvas, jckl_ai= jackal_ai)
+        gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai)
     
 
     if not tutorial_mode: start_button.add_event(gui_sfm.s01)
@@ -203,13 +203,13 @@ def change_scan_mode():
 
 def switch(back, front, small, big):
         if back.is_front == False:
-            #Flir is front ,Axis is back
+            #Flir is front, Axis is back
             front.update_pos(flir_info)
             back.update_pos(axis_info)
             small.switch_camera()
             big.switch_camera()
         else:
-            #Axis is front,Flir is back
+            #Axis is front, Flir is back
             front.update_pos(axis_info)
             back.update_pos(flir_info)
             small.switch_camera()

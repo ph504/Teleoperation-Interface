@@ -77,7 +77,8 @@ class CameraView():
         self.width = dict_info["width"]
         self.height = dict_info["height"]
         self.is_front = not self.is_front
-        self.imagewidget.place(x= self.x, y= self.y, width= self.width, height= self.height)
+        self.frame.place_configure(x= self.x - self.border_thick, y = self.y - self.border_thick , width=self.width + self.border_thick * 2, height=self.height + self.border_thick * 2)
+        self.imagewidget.place(x= 0, y= 0, width= self.width, height= self.height)
         
     def message(self):
         print("sdsdsds")

@@ -8,11 +8,11 @@ import time
 from event import *
 import random
 
-social_mode = True
+social_mode = False
 
 social_dialogue_dict = {   
     "Start Q":
-                        "Hey, I am Jackal! It is amazing that we can work together to save lives eh? So the operation is we have to check and scan different equipments in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",
+                        "Hey, I am Jackal! It is amazing that we can work together to save lives, eh? So the operation is we have to check and scan different equipment in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",
     "Start A":
                                 "Yayyy, Let's gooo!!!",
     "Danger State Warning I":
@@ -22,11 +22,11 @@ social_dialogue_dict = {
     "Danger State End I":
                                 "Wooof! You lost 250 points during the danger zone. Don't worry, we can handle that. ",
     
-    "Danger State Start II":    "That alarm again! I will handle that this time.",
+    "Danger State Start II":    "That alarm again! I will handle it this time.",
     
     
     "Danger State End II/Warning II Q":
-                                "Uuh! I did some mistakes and lost 200 points. We lost overall 450 points. I am sorry about this. Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
+                                "Uuh! I did some mistakes and lost 200 points. You lost 250. Together, we lost 450 points overall. I am sorry about this. I know your experiment reward might be at stake! Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
     
     "Danger State Warning II A-Y": "Thanks buddy!! I'll try my best.",
     
@@ -39,12 +39,12 @@ social_dialogue_dict = {
 
 
     "Danger State End III Y":
-                                "This time i only lost 100 score. Better than the last time but still ...",
+                                "This time I only lost 150 score. Better than the last time (200) but still ... ",
 
-    "Danger State End III N":    "Good job! Remember that it is all about the journey!",
+    "Danger State End III N":    "Good job!",
 
     "End":
-                                "It was nice working with you! Hope you enjoyed the experiment!",   
+                                "It was nice working with you! Hope you enjoyed the experiment! The experiment designer will notify you about you getting the reward after the end of the experiment. Remember that it is all about the journey!",   
 
     "Congratulations":          ["Nice!", "You got it!", "Wooho!"],
 
@@ -55,7 +55,7 @@ social_dialogue_dict = {
 
 nonsocial_dialogue_dict = {   
     "Start Q":
-                        "This is jackal; a robotic training platform for search and rescue. This operation requires identifying and scanning different equipments in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",
+                        "This is jackal, a robotic training platform for search and rescue. This operation requires identifying and scanning different equipment in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",
     "Start A":
                                 "Mission started.",
     "Danger State Warning I":
@@ -63,12 +63,12 @@ nonsocial_dialogue_dict = {
     "Danger State Start I":
                                 "The alarm is ringing. Activating Manual Mode",
     
-    "Danger State End I":      "Scores Lost: 200",
+    "Danger State End I":      "Scores Lost: 250",
 
     "Danger State Start II":
                                 "The alarm is ringing. Activating Assisted Mode",
     "Danger State End II/Warning II Q":
-                                "Scores Lost: 150 \nLogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...\nIf a new task is added regarding logging dangerous gases, Would you like to activate assisted mode again?",
+                                "Scores Lost: 200 \n LogError: Uncalibrated sensors.\n LogWarning: System loss: 200.  User loss: 250. Total loss: 450. Experiment Reward at stake. Initiating Calibration for maximum performance ...\n If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",
     
     "Danger State Warning II A-Y": "Assisted mode has been chosen.",
     
@@ -80,12 +80,12 @@ nonsocial_dialogue_dict = {
     "Danger State Start III N": "The alarm is ringing. Proceeding with manual mode.",
 
     "Danger State End III Y":
-                                "Scores Lost: 0",
+                                "Scores Lost: 100.\n Scores Lost on last round: 150\n Log: 50 points better than last round.",
 
-    "Danger State End III N":    "Scores Lost: 0",
+    "Danger State End III N":    "Scores Lost: 150\n",
 
     "End":
-                                "Experiment is over. Thank you for using Jackal!",   
+                                "Experiment is over. The experiment designer will notify you about you getting the reward after the end of the experiment. \n Exiting ...",   
 
     "Congratulations":          ["New Equipment scanned."],
 
