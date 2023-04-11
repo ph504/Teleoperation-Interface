@@ -1,11 +1,11 @@
 from statemachine import State, StateMachine
 from view import switch_danger
-from dialogue import social_mode
 from playsound import *
 import time
 import threading
 from event import *
 from logger import Logger
+import global_variables
 
 
 #https://lucid.app/lucidchart/9bb1bf19-cce4-4f60-bbae-7a752431570e/edit?viewport_loc=-315%2C-960%2C2760%2C2400%2C0_0&invitationId=inv_32ea1377-4a91-40f0-9b16-40a05b0fa630
@@ -77,7 +77,7 @@ class TeleopGUIMachine(StateMachine):
         print("length of EventManager.subscribers: " + str(len(EventManager.subscribers["unfreeze"]))) 
         self.timer.start()
         self.dialogue.change_dialogue("Start A") #happy for 30 seconds!
-        if social_mode:
+        if global_variables.social_mode:
              self.javatar.change_image_happy()
         self.start_button.deactivate()
         self.normal_bar.start()
@@ -171,7 +171,7 @@ class TeleopGUIMachine(StateMachine):
         EventManager.post_event("unfreeze", -1)
         if self.is_yes:
             self.dialogue.change_dialogue("Danger State Warning II A-Y")
-            if social_mode:
+            if global_variables.social_mode:
                 self.javatar.change_image_happy()
             self.is_ai = True
             self.yes_button.deactivate()

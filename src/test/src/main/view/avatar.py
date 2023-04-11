@@ -3,8 +3,8 @@ from PIL import Image, ImageTk
 import time
 import threading
 import event
-from dialogue import social_mode
 from canvas import RepeatedTimer
+import global_variables
 
 javatar_info = {
     "x": 460,
@@ -39,7 +39,7 @@ class Avatar():
             self.y = avatar_info["y"]
             self.width = avatar_info["width"]
             self.height = avatar_info["height"]
-            self.image = Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS) if social_mode is True else Image.open(avatar_images["nonsocial"]).resize((self.width,self.height), Image.ANTIALIAS)
+            self.image = Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS) if global_variables.social_mode is True else Image.open(avatar_images["nonsocial"]).resize((self.width,self.height), Image.ANTIALIAS)
             self.imagetk = ImageTk.PhotoImage(self.image)
             self.label = Label(root)
             self.label.config(image = self.imagetk)
@@ -52,7 +52,7 @@ class Avatar():
             self.count_blink = 0
             self.sad_mode = False
             self.first_time_sad = True
-            if social_mode:
+            if global_variables.social_mode:
                 event.EventManager.subscribe("collision", self.change_image_hit)
                 event.EventManager.subscribe("mistake", self.change_image_hit)
                 event.EventManager.subscribe("congratulations", self.change_image_congratulations)

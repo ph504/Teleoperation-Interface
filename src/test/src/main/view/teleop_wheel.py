@@ -7,11 +7,17 @@ from axis_camera.msg import Axis
 from event import *
 from std_msgs.msg import Bool
 #from view import tutorial_mode
-
+import global_variables
 
 global freeze_var
-#freeze_var = True if tutorial_mode == False else freeze_var == False
-freeze_var = True 
+  
+if global_variables.tutorial_mode == False:
+     freeze_var = True
+else:
+     freeze_var = False
+     
+     
+#freeze_var = True 
 
 def callback(data):
     

@@ -7,8 +7,9 @@ import threading
 import time
 from event import *
 import random
+import global_variables
 
-social_mode = True
+#social_mode = True
 
 social_dialogue_dict = {   
     "Start Q":
@@ -113,7 +114,7 @@ class DialogueBox():
         self.state = "Start Q"
         self.first_time = True
         self.finish_talking = False
-        self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]
+        self.dialogue = social_dialogue_dict[self.state] if global_variables.social_mode is True else nonsocial_dialogue_dict[self.state]
         self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#d9d7bd', wraplength= 800)
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
         x = threading.Thread(target=self.letterbyletter)
@@ -172,7 +173,7 @@ class DialogueBox():
         self.start_or_yesno = True
 
     def return_randomdialogue(self, string):
-        d_list = social_dialogue_dict[string] if social_mode is True else nonsocial_dialogue_dict[string]
+        d_list = social_dialogue_dict[string] if global_variables.social_mode is True else nonsocial_dialogue_dict[string]
         if string == "Collision":
             if len(d_list) == 1:
                 return d_list[0]
@@ -199,7 +200,7 @@ class DialogueBox():
         else:
             self.talk_mode = True
         self.state = string
-        self.dialogue = social_dialogue_dict[self.state] if social_mode is True else nonsocial_dialogue_dict[self.state]
+        self.dialogue = social_dialogue_dict[self.state] if global_variables.social_mode is True else nonsocial_dialogue_dict[self.state]
         self.dialoguetext.configure(text="")
         x = threading.Thread(target=self.letterbyletter)
         x.start()

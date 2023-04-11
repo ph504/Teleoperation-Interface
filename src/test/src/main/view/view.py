@@ -23,9 +23,9 @@ import socketserver
 from flashing_image import *
 from labels import *
 from std_msgs.msg import Bool
-    
+import global_variables   
 
-tutorial_mode = False
+#tutorial_mode = False
 
 def main():
        
@@ -44,7 +44,7 @@ def main():
     x = threading.Thread(target=server_program)
     x.start()
 
-    if not tutorial_mode: jackal = Avatar(root, javatar_info,javatar_images)
+    if not global_variables.tutorial_mode: jackal = Avatar(root, javatar_info,javatar_images)
     
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
     cursor_canvas_small.disable()
@@ -84,7 +84,7 @@ def main():
 
 
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl = widget_init(root, tab1, tutorial_mode)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl = widget_init(root, tab1)
 
     widgets = {
         "small_label": small_lbl,
@@ -108,7 +108,7 @@ def main():
     EventManager.subscribe("freeze", freeze)
     EventManager.subscribe("unfreeze", unfreeze)
     
-    if tutorial_mode == True: EventManager.post_event("unfreeze", -1)
+    if global_variables.tutorial_mode == True: EventManager.post_event("unfreeze", -1)
   
    
     
@@ -117,19 +117,19 @@ def main():
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, task_canvas)
-    if not tutorial_mode:
+    if not global_variables.tutorial_mode:
         gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai)
     
 
-    if not tutorial_mode: start_button.add_event(gui_sfm.s01)
-    if not tutorial_mode: yes_button.add_event(gui_sfm.on_yes)
-    if not tutorial_mode: no_button.add_event(gui_sfm.on_no)
-    if not tutorial_mode: task_canvas.add_fsm(gui_sfm)
-    if not tutorial_mode: timer_canvas.add_fsm(gui_sfm)
+    if not global_variables.tutorial_mode: start_button.add_event(gui_sfm.s01)
+    if not global_variables.tutorial_mode: yes_button.add_event(gui_sfm.on_yes)
+    if not global_variables.tutorial_mode: no_button.add_event(gui_sfm.on_no)
+    if not global_variables.tutorial_mode: task_canvas.add_fsm(gui_sfm)
+    if not global_variables.tutorial_mode: timer_canvas.add_fsm(gui_sfm)
 
 
     
-    if tutorial_mode: 
+    if global_variables.tutorial_mode: 
         bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button,circle_canvas)
     
 
@@ -141,13 +141,13 @@ def main():
     else:
             tab1.mainloop()
 
-def widget_init(root, tab1, tutorial_mode):
+def widget_init(root, tab1):
     bar_canvas = BarCanvas(tab1, bar_canvas_info_main, danger= False)
-    if tutorial_mode: bar_canvas.start()
+    if global_variables.tutorial_mode: bar_canvas.start()
     danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
-    if not tutorial_mode: dialogue_text = DialogueBox(root, dbox_info, social_dialogue_dict)
+    if not global_variables.tutorial_mode: dialogue_text = DialogueBox(root, dbox_info, social_dialogue_dict)
     else: dialogue_text = None
     
     view_back = CameraView(tab1, flir_info, camera_available, "flir")
@@ -157,7 +157,7 @@ def widget_init(root, tab1, tutorial_mode):
 
     yes_button = BaseButton(root, button_yes_info, activate=False, enable=False)
     no_button = BaseButton(root, button_no_info, activate = False, enable=False)
-    if not tutorial_mode: start_button = BaseButton(root, button_start_info, activate=True, enable=False)
+    if not global_variables.tutorial_mode: start_button = BaseButton(root, button_start_info, activate=True, enable=False)
     else: start_button = None
     
     freeze_button = BaseButton(root, button_freeze_info, activate=True, enable=True)
