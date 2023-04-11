@@ -6,9 +6,12 @@ from sensor_msgs.msg import Joy
 from axis_camera.msg import Axis
 from event import *
 from std_msgs.msg import Bool
-global freeze_var
-freeze_var = True
+#from view import tutorial_mode
 
+
+global freeze_var
+#freeze_var = True if tutorial_mode == False else freeze_var == False
+freeze_var = True 
 
 def callback(data):
     
@@ -21,16 +24,6 @@ def start():
         
         twist =  Twist()
         
-        count = 0
-        
-        def freeze(dummy1 = 0, dummy2 = 0):
-            global freeze_var
-            freeze_var = True
-
-        def unfreeze(dummy2 = 1):
-            global freeze_var
-            freeze_var = False
-            print("do something!")
 
 
         def freeze_manager(data):

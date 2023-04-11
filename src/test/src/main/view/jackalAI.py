@@ -3,6 +3,8 @@ from event import *
 from logger import Logger
 class JackalAI():
     
+    active = True
+
     def __init__(self):
         self.right_count = 0
         self.wrong_count = 0
@@ -13,15 +15,16 @@ class JackalAI():
         self.second_time = False
         self.step_error_count = 0
         self.step_error_max = 3
-        self.active = False
+        
         self.correct_logging = 0
         EventManager.subscribe("yellow_mode", self.press_yellow)
         EventManager.subscribe("red_init_mode", self.press_red_init)
+        EventManager.subscribe("step_error_danger", self.press_red)
         self.incorrect_logging = 0
         #EventManager.subscribe("red_mode", self.press_red) #TODO:What?
     def press_yellow(self, bar: BarCanvas):  
         
-        if self.active:
+        if JackalAI.active:
             if self.count == 2 or self.count == 5 or self.count == 8:
                 return
             else:
@@ -31,7 +34,7 @@ class JackalAI():
                 bar.reset_button()
   
     def press_red_init(self, bar: BarCanvas):
-        if self.active:
+        if JackalAI.active:
                 print("count for jackal AI: " + str(self.count))
                 if self.count == 5:
                     EventManager.post_event("color_trans", -1) 
@@ -44,17 +47,21 @@ class JackalAI():
                 
                 
             
+   
             
+             
     def press_red(self, bar: BarCanvas):
-        if self.active:    
+        
+        if JackalAI.active: 
+            print("here!")   
             self.step_error_count += 1
-            if self.step_error_count == self.step_error_max:
+            if self.step_error_count == 1:
                 bar.reset_button()
                 self.step_error_count = 0
 
     def enable(self):
-        self.active = True
+        JackalAI.active = True
 
     def disable(self):
-        self.active = False
+        JackalAI.active = False
         self.count = 15

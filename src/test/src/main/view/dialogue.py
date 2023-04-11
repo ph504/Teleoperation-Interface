@@ -8,7 +8,7 @@ import time
 from event import *
 import random
 
-social_mode = False
+social_mode = True
 
 social_dialogue_dict = {   
     "Start Q":

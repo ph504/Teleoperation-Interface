@@ -356,15 +356,19 @@ class BarCanvas(BaseCanvas):
         elif self.passed and self.bar_percent > self.line_thresholdpercent + self.progress_step/100:
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="red", tags=self.tag_bar)
             self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
+            
             if self.red_mode:
+                
                 if self.is_danger:
-                    EventManager.post_event("step_error_danger")
+                    EventManager.post_event("step_error_danger", self)
                     self.step_pass_count_danger += 1
+                    print(self.step_pass_count_danger)
                     Logger.log("stppsscount_dngr", self.step_pass_count_danger)
                 else: 
                     self.step_pass_count_normal += 1
                     Logger.log("stppsscount_nrml", self.step_pass_count_normal)
                     EventManager.post_event("step_error") 
+                
                 EventManager.post_event("red_mode", self) #LOG?
                
             else:
@@ -376,8 +380,11 @@ class BarCanvas(BaseCanvas):
                     EventManager.post_event("threshold_cross") 
                     self.threshold_pass_count_normal +=1
                     Logger.log("thrshldpsscntdngrttl_nrml", self.threshold_pass_count_normal)
+                
                 if BarCanvas.danger_mode: EventManager.post_event("red_init_mode", self)
+                
                 self.red_mode = True
+                
                 if BarCanvas.danger_mode and BarCanvas.manual_mode:
                     BarCanvas.danger_count += 1
                     print("danger_count: " + str(BarCanvas.danger_count))

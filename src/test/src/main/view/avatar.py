@@ -193,7 +193,7 @@ class Avatar():
             self.change_image(p_s)
             self.idle_event.set()
         prev_state = self.state
-        t = threading.Thread(target=swap_images, args=("angry", "angry-blink", prev_state))
+        t = threading.Thread(target=swap_images, args=("sad", "sad-blink", prev_state))
         t.start()
              
     def change_image_congratulations(self, dummy=0):

@@ -13,6 +13,9 @@ task_inspect_info = {
     "font": ('Helvetica', '12', 'bold'),
     "active": True
 }
+
+is_code_list_2 = False
+
 class InspectionPage():
     def __init__(self, root, task_canvas):
         
@@ -35,8 +38,8 @@ class InspectionPage():
                             "pKFRjK8wr8",
                             "bRaVW4Wd9M",
                             "OjXocXGnMI",
-                            "klNxjOeSGD",
-                            "A2QYx8g23O",
+                            "k9NxjOeSGD",
+                            "A2QYx8g23p",
                             "td9jRJtRGH",
                             "ONCHwPQZNh",
                             "KATT4jRex9",
@@ -84,7 +87,7 @@ class InspectionPage():
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
                 
                 self.delete_err_lbl()
-                self.code_list.remove(string)
+                self.code_list2.remove(string) if is_code_list_2 else self.code_list2.remove(string)
                 self.code_list_used.append(string)
                 self.task_count += 1
                 self.task_canvas.plus()
@@ -95,6 +98,6 @@ class InspectionPage():
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
                 EventManager.post_event("wrong_entry")
                 self.delete_err_lbl()
-            if len(self.code_list) == 0:
+            if len(self.code_list) == 0 or len(self.code_list2) == 0:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="All the equipments have been scanned.")
                 self.delete_err_lbl()

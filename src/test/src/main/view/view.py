@@ -99,7 +99,7 @@ def main():
     }
 
     def freeze(dummy = 0):
-        pub.publish(True)
+            pub.publish(True)
     
     def unfreeze(dummy = 0):
         pub.publish(False)
@@ -107,7 +107,9 @@ def main():
     pub = rospy.Publisher("freeze", Bool, queue_size=10)
     EventManager.subscribe("freeze", freeze)
     EventManager.subscribe("unfreeze", unfreeze)
-    freeze()
+    
+    if tutorial_mode == True: EventManager.post_event("unfreeze", -1)
+  
    
     
     
