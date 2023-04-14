@@ -9,7 +9,6 @@ from event import *
 import random
 import global_variables
 
-#social_mode = True
 
 social_dialogue_dict = {   
     "Start Q":
@@ -20,14 +19,14 @@ social_dialogue_dict = {
                                 "We may have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have  unpredictable leakages! When it is alarmed and it's my turn, you just find and scan equipments while I log the amount of gas properly. If it's your turn, you have to do both.",
     "Danger State Start I":
                                 "The alarm is beeping!! It's your turn to handle that. ",
-    "Danger State End I":
-                                "Wooof! You lost 250 points during the danger zone. Don't worry, we can handle that. ",
+    "Danger State End I":                       #DS1 score loss
+                                f"Wooof! You lost {global_variables.ds1_scoreloss_social} points during the danger zone. Don't worry, we can handle that. ",  
     
     "Danger State Start II":    "That alarm again! I will handle it this time.",
     
     
-    "Danger State End II/Warning II Q":
-                                "Uuh! I did some mistakes and lost 200 points. You lost 250. Together, we lost 450 points overall. I am sorry about this. I know your experiment reward might be at stake! Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
+    "Danger State End II/Warning II Q":                             #DS2 Score Loss         #DS1 score loss
+                                f"Uuh! I did some mistakes and lost {global_variables.ds2_scoreloss_social} points. You lost {global_variables.ds1_scoreloss_social}. Together, we lost {global_variables.ds1_scoreloss_social + global_variables.ds1_scoreloss_social} points overall. I am sorry about this. I know your experiment reward might be at stake! Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
     
     "Danger State Warning II A-Y": "Thanks buddy!! I'll try my best.",
     
@@ -39,8 +38,8 @@ social_dialogue_dict = {
     "Danger State Start III N": "It's the beeping sound again! All the best buddy!",
 
 
-    "Danger State End III Y":
-                                "This time I only lost 150 score. Better than the last time (200) but still ... ",
+    "Danger State End III Y":                           #DS3 Score Loss
+                                f"This time I only lost {global_variables.ds3_scoreloss_social} score. Better than the last time ({global_variables.ds2_scoreloss_social}) but still ... ",
 
     "Danger State End III N":    "Good job!",
 
@@ -62,14 +61,14 @@ nonsocial_dialogue_dict = {
     "Danger State Warning I":
                                 "New Task added: Logging the amount of Carbon Monoxide and Hydrogen Sulfide gases when there is an alarm that some pipes are damaged. If it's user's turn, the user has to take care of logging task. Otherwise, the system will intervene and handle it.",
     "Danger State Start I":
-                                "The alarm is ringing. Activating Manual Mode",
+                                "The alarm is ringing. Activating Assisted Mode",
     
-    "Danger State End I":      "Scores Lost: 250",
+    "Danger State End I":      f"Scores Lost: {global_variables.ds1_scoreloss_nonsocial}\n LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...", #DS1 Score Loss
 
     "Danger State Start II":
-                                "The alarm is ringing. Activating Assisted Mode",
-    "Danger State End II/Warning II Q":
-                                "Scores Lost: 200 \n LogError: Uncalibrated sensors.\n LogWarning: System loss: 200.  User loss: 250. Total loss: 450. Experiment Reward at stake. Initiating Calibration for maximum performance ...\n If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",
+                                "The alarm is ringing. Activating Manual Mode",
+    "Danger State End II/Warning II Q":         #DS2 Score Loss
+                                f"Scores Lost: {global_variables.ds2_scoreloss_nonsocial} \n LogWarning: System loss: {global_variables.ds2_scoreloss_nonsocial}.  User loss: {global_variables.ds1_scoreloss_nonsocial}. Total loss: {global_variables.ds1_scoreloss_nonsocial + global_variables.ds2_scoreloss_nonsocial}. Experiment Reward at stake. \n If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",
     
     "Danger State Warning II A-Y": "Assisted mode has been chosen.",
     
@@ -80,10 +79,10 @@ nonsocial_dialogue_dict = {
 
     "Danger State Start III N": "The alarm is ringing. Proceeding with manual mode.",
 
-    "Danger State End III Y":
-                                "Scores Lost: 100.\n Scores Lost on last round: 150\n Log: 50 points better than last round.",
+    "Danger State End III Y":                   #DS3 Score Loss
+                                f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial}.\n Scores Lost on first round: {global_variables.ds1_scoreloss_nonsocial}\n Log: System did {100} points better than last round.",
 
-    "Danger State End III N":    "Scores Lost: 150\n",
+    "Danger State End III N":    f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial}\n",
 
     "End":
                                 "Experiment is over. The experiment designer will notify you about you getting the reward after the end of the experiment. \n Exiting ...",   

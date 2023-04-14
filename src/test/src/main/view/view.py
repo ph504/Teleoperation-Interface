@@ -25,7 +25,6 @@ from labels import *
 from std_msgs.msg import Bool
 import global_variables   
 
-#tutorial_mode = False
 
 def main():
        
@@ -40,7 +39,7 @@ def main():
     tabControl.add(tab2, text = "Inspection")
     tabControl.place(x = 5, y = 5, width= 1920 ,height= 1080)
     
-
+    
     x = threading.Thread(target=server_program)
     x.start()
 
@@ -53,7 +52,6 @@ def main():
 
    
     
-
     
 
 
@@ -111,9 +109,15 @@ def main():
     if global_variables.tutorial_mode == True: EventManager.post_event("unfreeze", -1)
   
    
+    def tab_checker():
+        if tabControl.index("current") == 1:
+            global_variables.in_inspection = True
+        elif tabControl.index("current") == 0:
+            global_variables.in_inspection = False
+        Tk.after(root, 100, tab_checker)
     
+    tab_checker()
     
-
     rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, task_canvas)
@@ -126,11 +130,12 @@ def main():
     if not global_variables.tutorial_mode: no_button.add_event(gui_sfm.on_no)
     if not global_variables.tutorial_mode: task_canvas.add_fsm(gui_sfm)
     if not global_variables.tutorial_mode: timer_canvas.add_fsm(gui_sfm)
-
+    
+    if  global_variables.tutorial_mode: auto_button.enable()
 
     
     if global_variables.tutorial_mode: 
-        bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button,circle_canvas)
+        bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button,circle_canvas, jackal_ai)
     
 
     if camera_available == True:
@@ -139,6 +144,7 @@ def main():
         except rospy.ROSInterruptException:
             pass
     else:
+            
             tab1.mainloop()
 
 def widget_init(root, tab1):
@@ -188,7 +194,7 @@ def widget_init(root, tab1):
     
     return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl
 
-def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas):
+def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai):
     
     tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
     tab1.bind('w', lambda e: switch_danger(bar_canvas, danger_canvases))
@@ -197,7 +203,33 @@ def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, dang
     tab1.bind('2', lambda e: reset_bar(danger_canvases[1]))
     tab1.bind('3', lambda e: reset_bar(danger_canvases[2]))
     tab1.bind('o', lambda e: task_canvas.plus()) 
-    tab1.bind('0', lambda e: circle_canvas.color_transition())
+    tab1.bind('[', lambda e: color_transition(view_back, view_front))
+    tab1.bind(']', lambda e: color_transition_reverse(view_back, view_front))
+    tab1.bind('b', lambda e: toggle_barcontroller())
+    tab1.bind('a', lambda e: toggle_assistedmode(jackal_ai,manual_button,auto_button))
+
+def color_transition(view_b, view_f):
+    view_b.color_transition()
+    view_f.color_transition()
+
+def color_transition_reverse(view_b, view_f):
+    view_b.color_transition_reverse()
+    view_f.color_transition_reverse()
+
+def toggle_assistedmode(jackal_ai, man_btn, ato_btn):
+    
+    if jackal_ai.active:
+        jackal_ai.disable()
+        man_btn.enable()
+        ato_btn.disable()
+        
+    else:
+        jackal_ai.enable()
+        man_btn.disable()
+        ato_btn.enable()
+    
+def toggle_barcontroller():
+    global_variables.bar_controller = not global_variables.bar_controller
 
 def change_scan_mode():
     CameraView.scan_mode = not CameraView.scan_mode
@@ -285,6 +317,9 @@ def joy_config(data, widgets):
 
     jackal_ai = widgets["jackal_ai"]
 
+    if global_variables.in_inspection:
+        return
+    
     #reset bar 1
     rb1_buff = rb1
     rb1 = data.buttons[2]
@@ -328,6 +363,6 @@ def joy_config(data, widgets):
     dialogue_end = data.buttons[5]
     if dialogue_end == 1 and dialogue_end_buff == 0:
         EventManager.post_event("stop_talking", 1)
-
+    
 if __name__ == "__main__":
     main()

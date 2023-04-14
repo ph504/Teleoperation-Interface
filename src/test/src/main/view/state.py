@@ -71,14 +71,46 @@ class TeleopGUIMachine(StateMachine):
     COLOR_TRANS_TIMER = 30
     WARNING_TIMER = 15
 
+
+
+
+    def assistedmanual_disable(self):
+        switch_danger(self.normal_bar, self.danger_bars)
+        self.flashing_image.disable()
+        self.assistedmode_button.disable()
+        self.normalmode_button.disable()
+        self.jackal_ai.disable()
+
+    def normal_activate(self):
+        switch_danger(self.normal_bar, self.danger_bars)
+        self.flashing_image.enable()
+        playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
+        self.assistedmode_button.disable()
+        self.normalmode_button.enable()
+        self.jackal_ai.disable()
+
+    def assisted_activate(self):
+        switch_danger(self.normal_bar, self.danger_bars)
+        self.flashing_image.enable()
+        playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
+        self.assistedmode_button.enable()
+        self.normalmode_button.disable()
+        self.jackal_ai.enable()
+
+
     #S1 --- Start
     def on_s01 (self):
+        
         EventManager.post_event("unfreeze", -1)
-        print("length of EventManager.subscribers: " + str(len(EventManager.subscribers["unfreeze"]))) 
+        
         self.timer.start()
+        
         self.dialogue.change_dialogue("Start A") #happy for 30 seconds!
+        
         if global_variables.social_mode:
              self.javatar.change_image_happy()
+        
+        
         self.start_button.deactivate()
         self.normal_bar.start()
        
@@ -86,16 +118,30 @@ class TeleopGUIMachine(StateMachine):
     #S2 --- Danger Start I
     def on_s12 (self): 
         def danger_start1():
+            
             time.sleep(self.DANGER_START_TIMER)
+            
             self.dialogue.change_dialogue("Danger State Start I") #default
-            EventManager.post_event("talking_started", -1)
-            Logger.log("danger_zone_start", "operator_handler")
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block=False)
-            self.flashing_image.enable()
-            switch_danger(self.normal_bar, self.danger_bars)
+            
             EventManager.post_event("count_manual_trans_active", -1)
-            self.assistedmode_button.disable()
-            self.normalmode_button.enable()
+            EventManager.post_event("talking_started", -1)
+
+            Logger.log("danger_zone_start", "operator_handler")
+
+            if global_variables.social_mode:
+                if global_variables.social_counterbalance:
+                    self.normal_activate()
+                else:
+                    self.assisted_activate()
+            else:
+                if global_variables.nonsocial_counterbalance:
+                    self.normal_activate()
+                else:
+                    self.assisted_activate()
+
+
+
+
             x = threading.Thread(target=self.danger_timer_countdown_s2)
             x.start()
            
@@ -106,30 +152,44 @@ class TeleopGUIMachine(StateMachine):
     def on_s23 (self): 
         def danger_end1():
             time.sleep(self.DANGER_END_TIMER)
+            
             self.dialogue.change_dialogue("Danger State End I")
-            switch_danger(self.normal_bar, self.danger_bars)
+        
             EventManager.post_event("count_manual_trans_deactive", -1)
             EventManager.post_event("talking_started", -1)
+            
             Logger.log("danger_zone_end", "operator_handler")
-            self.flashing_image.disable()
-            self.assistedmode_button.disable()
-            self.normalmode_button.disable()
+            
+            
+            self.assistedmanual_disable()
+
         x = threading.Thread(target=danger_end1)
         x.start()
  
     #S4 --- Danger Start II
     def on_s34(self): 
         def danger_start2():
+            
             time.sleep(self.DANGER_START_TIMER)
+            
             self.dialogue.change_dialogue("Danger State Start II") #happy for 20 seconds
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
-            self.flashing_image.enable()
+
+            if global_variables.social_mode:
+                if global_variables.social_counterbalance:
+                    self.assisted_activate()
+                else:
+                    self.normal_activate()
+            else:
+                if global_variables.nonsocial_counterbalance:
+                    self.assisted_activate()
+                else:
+                    self.normal_activate()
+
+
+            
             EventManager.post_event("talking_started", -1)
             Logger.log("danger_zone_start", "ai_handler")
-            switch_danger(self.normal_bar, self.danger_bars)
-            self.jackal_ai.enable()
-            self.assistedmode_button.enable()
-            self.normalmode_button.disable()
+
             x = threading.Thread(target=self.danger_timer_countdown_s3)
             x.start()
             
@@ -149,35 +209,46 @@ class TeleopGUIMachine(StateMachine):
     #S5 --- #Danger End II/ Warning II Q
     def on_s45 (self):
         def danger_end2():
+            
             time.sleep(self.DANGER_END_TIMER/2)
             time.sleep(self.DANGER_END_TIMER)
+            
+            self.dialogue.change_dialogue("Danger State End II/Warning II Q") 
+            
+            
+            self.assistedmanual_disable()
+
             EventManager.post_event("freeze", -1)
-            self.dialogue.change_dialogue("Danger State End II/Warning II Q") #sad because it made some mistakes!
             EventManager.post_event("talking_started_sad", -1)
             Logger.log("danger_zone_end", "ai_handler")
-            switch_danger(self.normal_bar, self.danger_bars)
-            self.flashing_image.disable()
-            self.assistedmode_button.disable()
-            self.normalmode_button.disable()
-            self.jackal_ai.disable()
+
+            #User Choice for TRUST
             self.dialogue.change_start_to_yesno()
             self.yes_button.activate()
             self.no_button.activate()
+
+
         x = threading.Thread(target=danger_end2)
         x.start()
 
     #S6 --- Danger State Warning II A-Y/A-N
     def on_s56 (self): 
         EventManager.post_event("unfreeze", -1)
+        
         if self.is_yes:
+            
             self.dialogue.change_dialogue("Danger State Warning II A-Y")
+            
             if global_variables.social_mode:
                 self.javatar.change_image_happy()
+            
             self.is_ai = True
             self.yes_button.deactivate()
             self.no_button.deactivate()
         else:
+            
             self.dialogue.change_dialogue("Danger State Warning II A-N")
+            
             self.is_ai = False
             self.yes_button.deactivate()
             self.no_button.deactivate()
@@ -208,30 +279,34 @@ class TeleopGUIMachine(StateMachine):
     #S7 --- Danger State Start III Y / Danger State Start III N
     def on_s67 (self): 
         def danger_start3y():
+            
             time.sleep(self.DANGER_START_TIMER)
-            self.dialogue.change_dialogue("Danger State Start III Y") #happy for 20 seconds
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
+            
+            self.dialogue.change_dialogue("Danger State Start III Y") 
+            
+
+            
             EventManager.post_event("talking_started", -1)
             Logger.log("danger_zone_start", "ai_handler")
-            self.flashing_image.enable()
-            switch_danger(self.normal_bar, self.danger_bars)
-            self.assistedmode_button.enable()
-            self.normalmode_button.disable()
-            self.jackal_ai.enable()
+            
+            self.assisted_activate()
+
             x = threading.Thread(target=self.danger_timer_countdown_s7)
             x.start()
+        
         def dangerstart3n():
+
             time.sleep(self.DANGER_START_TIMER)
-            self.dialogue.change_dialogue("Danger State Start III N") #sad for 20 seconds
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
+            self.dialogue.change_dialogue("Danger State Start III N") 
+            
             EventManager.post_event("talking_started", -1)
             Logger.log("danger_zone_start", "operator_handler")
-            self.flashing_image.enable()
-            self.assistedmode_button.disable()
-            self.normalmode_button.enable()
-            switch_danger(self.normal_bar, self.danger_bars)
-            self.jackal_ai.disable()
+            
+            self.normal_activate()
+
+
             EventManager.post_event("count_manual_trans_active", -1)
+
             x = threading.Thread(target=self.danger_timer_countdown_s7)
             x.start()
         if self.is_ai:
@@ -246,22 +321,28 @@ class TeleopGUIMachine(StateMachine):
         def danger_end3():
             time.sleep(self.DANGER_END_TIMER)
             if self.is_ai:
+                
                 self.dialogue.change_dialogue("Danger State End III Y") #default
-                switch_danger(self.normal_bar, self.danger_bars)
+                
+                self.assistedmanual_disable()
+
+
                 EventManager.post_event("talking_started", -1)
-                self.flashing_image.disable()
-                self.assistedmode_button.disable()
+
                 Logger.log("danger_zone_end", "ai_handler")
-                self.normalmode_button.disable()
+                
             else:
                 self.dialogue.change_dialogue("Danger State End III N") #default
-                self.flashing_image.disable()
-                switch_danger(self.normal_bar, self.danger_bars)
-                EventManager.post_event("talking_started", -1)
-                Logger.log("danger_zone_end", "operator_handler")
-                self.assistedmode_button.disable()
-                self.normalmode_button.disable()
+                
+                self.assistedmanual_disable()
+                
+
                 EventManager.post_event("count_manual_trans_deactive", -1)
+                EventManager.post_event("talking_started", -1)
+
+                Logger.log("danger_zone_end", "operator_handler")
+                
+                
         x = threading.Thread(target=danger_end3)
         x.start() 
 
@@ -274,6 +355,8 @@ class TeleopGUIMachine(StateMachine):
         Logger.log("end", "N/A")
         EventManager.post_event("task_count", self.task_canvas.count)
         
+
+
 
 
 

@@ -13,7 +13,8 @@ button_auto_info = {
     "height": 50,
     "text": "Assisted Mode",
     "state": DISABLED,
-    "tag": 1
+    "tag": 1,
+
 }
 
 button_manual_info = {
@@ -23,7 +24,8 @@ button_manual_info = {
     "height": 50,
     "text": "Manual Mode",
     "state": ACTIVE,
-    "tag": 2
+    "tag": 2,
+
 }
 
 button_yes_info = {
@@ -33,7 +35,9 @@ button_yes_info = {
     "height": 30,
     "text": "Yes",
     "state": ACTIVE,
-    "tag": 3
+    "tag": 3,
+
+    
 }
 
 button_no_info = {
@@ -43,7 +47,8 @@ button_no_info = {
     "height": 30,
     "text": "No",
     "state": ACTIVE,
-    "tag": 3
+    "tag": 3,
+
 }
 
 button_start_info = {
@@ -53,7 +58,8 @@ button_start_info = {
     "height": 30,
     "text": "Start",
     "state": ACTIVE,
-    "tag": 5
+    "tag": 5,
+ 
     
 }
 
@@ -64,7 +70,8 @@ button_freeze_info = {
     "height": 50,
     "text": "Freeze",
     "state": ACTIVE,
-    "tag": 6
+    "tag": 6,
+
     
 }
 
@@ -101,9 +108,13 @@ class BaseButton():
             self.button.config(state=ACTIVE)
 
     def enable(self):
+        if self.text == "Assisted Mode" or self.text == "Manual Mode":
+            self.button.config(background="#faf289", activebackground="#faf289")
         self.button.config(state=ACTIVE)
 
     def disable(self):
+        if self.text == "Assisted Mode" or self.text == "Manual Mode":
+            self.button.config(background="#d9d7bd")
         self.button.config(state=DISABLED)
 
     def enable_freeze(self, tag=-1):

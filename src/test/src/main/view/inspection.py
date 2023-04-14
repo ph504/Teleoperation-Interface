@@ -2,7 +2,7 @@ from tkinter import *
 from canvas import *
 import time
 import threading
-
+import global_variables
 
 task_inspect_info = {
     "x": 980,
@@ -14,7 +14,7 @@ task_inspect_info = {
     "active": True
 }
 
-is_code_list_2 = False
+
 
 class InspectionPage():
     def __init__(self, root, task_canvas):
@@ -87,7 +87,7 @@ class InspectionPage():
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
                 
                 self.delete_err_lbl()
-                self.code_list2.remove(string) if is_code_list_2 else self.code_list2.remove(string)
+                self.code_list2.remove(string) if global_variables.is_code_list_2 else self.code_list.remove(string)
                 self.code_list_used.append(string)
                 self.task_count += 1
                 self.task_canvas.plus()

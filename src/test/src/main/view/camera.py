@@ -7,13 +7,14 @@ import PIL.Image
 import numpy as np
 from event import *
 from cv_bridge.core import CvBridge
+import global_variables
 
 
 #Make it false when you are not working with jackal
 camera_available = True
 
 flir_info = {
-    "x": 5,
+    "x": 15,
     "y": 50,
     "width": 400,
     "height": 300,
@@ -45,7 +46,7 @@ class CameraView():
         self.is_front = None
         self.cam_available = cam_available
         self.bridge = CvBridge()
-        self.border_thick = 7
+        self.border_thick = 15
         self.frame = Frame(root, highlightbackground=self.border_colors["light_green"], highlightthickness=self.border_thick)
         self.frame.place_configure(x= self.x - self.border_thick, y = self.y - self.border_thick , width=self.width + self.border_thick * 2, height=self.height + self.border_thick * 2)
         self.imagewidget = Label(self.frame) 
@@ -148,4 +149,21 @@ class CameraView():
         elif self.state == "yellow":
             self.frame.configure(highlightbackground=self.border_colors["orange"])
             self.state = "orange"
-           
+        
+        elif global_variables.tutorial_mode and self.state == "orange":
+            self.frame.configure(highlightbackground=self.border_colors["red"])
+            self.state = "red"
+
+    def color_transition_reverse(self, dummy = 0):
+        
+        if self.state == "red":
+            self.frame.configure(highlightbackground=self.border_colors["orange"])
+            self.state = "orange"
+        
+        elif self.state == "orange":
+            self.frame.configure(highlightbackground=self.border_colors["yellow"])
+            self.state = "yellow"
+        
+        elif global_variables.tutorial_mode and self.state == "yellow":
+            self.frame.configure(highlightbackground=self.border_colors["light_green"])
+            self.state = "green"

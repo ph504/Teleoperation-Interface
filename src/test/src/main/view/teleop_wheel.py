@@ -6,7 +6,6 @@ from sensor_msgs.msg import Joy
 from axis_camera.msg import Axis
 from event import *
 from std_msgs.msg import Bool
-#from view import tutorial_mode
 import global_variables
 
 global freeze_var

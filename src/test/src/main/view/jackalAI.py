@@ -1,6 +1,9 @@
 from canvas import BarCanvas
 from event import *
 from logger import Logger
+
+
+
 class JackalAI():
     
     active = True
@@ -22,6 +25,7 @@ class JackalAI():
         EventManager.subscribe("step_error_danger", self.press_red)
         self.incorrect_logging = 0
         #EventManager.subscribe("red_mode", self.press_red) #TODO:What?
+    
     def press_yellow(self, bar: BarCanvas):  
         
         if JackalAI.active:
@@ -44,12 +48,7 @@ class JackalAI():
                 self.incorrect_logging  += 1
                 Logger.log("ai_incorrectlogging", self.incorrect_logging)
                 bar.reset_button()
-                
-                
-            
-   
-            
-             
+                                        
     def press_red(self, bar: BarCanvas):
         
         if JackalAI.active: 

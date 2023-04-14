@@ -8,6 +8,7 @@ from playsound import playsound
 from event import *
 import string
 from logger import Logger
+import global_variables
 
 #------Canvas Position ---- #
 big_canvas_info = {
@@ -23,8 +24,6 @@ big_canvas_info = {
     "color": "green",
     "active": True
 }
-
-
 small_canvas_info = {
     "x": 430,
     "y": 250,
@@ -412,16 +411,14 @@ class BarCanvas(BaseCanvas):
             self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
 
             playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav") 
-    
-    
+ 
     def reset(self):
         self.passed = False
         self.bar_percent = self.bar_defaultpercent
         self.canvas.delete(self.tag_bar,self.tag_line)
         self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
         self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
-
-      
+    
     def manual_active(dummy1, dummy2):
         BarCanvas.manual_mode = True
         print("manual mode is activated")
@@ -431,15 +428,24 @@ class BarCanvas(BaseCanvas):
         BarCanvas.danger_count = 0
 
     def move_bar_repeat(self, string, interval):
-        if self.repeat_moving is not None:
+        
+        if global_variables.bar_controller and self.repeat_moving is None:
+            return 
+        elif global_variables.bar_controller and self.repeat_moving is not None:
             self.repeat_moving.stop()
-            self.repeat_moving.change_args(string)
-            self.repeat_moving.start()
-        else:
-            self.repeat_moving = RepeatedTimer(interval, self.move_bar, string)  
+        elif not global_variables.bar_controller:
+            if self.repeat_moving is not None:
+                self.repeat_moving.stop()
+                self.repeat_moving.change_args(string)
+                self.repeat_moving.start()
+            else:
+                self.repeat_moving = RepeatedTimer(interval, self.move_bar, string)  
     
     
     def random_movement(self):
+        
+        
+
         r = random.randint(0,5)
         if r > 4:
             self.move_bar_repeat("left", self.move_interval)
