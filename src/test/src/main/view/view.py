@@ -24,7 +24,86 @@ from flashing_image import *
 from labels import *
 from std_msgs.msg import Bool
 import global_variables   
+import sys
 
+def init():
+    
+    if len(sys.argv) != 2 and len(sys.argv) != 6:
+        print("Argument length:" + str(len(sys.argv)))
+        print("Usage: python3 main.py tutorial")
+        print("Usage: python3 main.py p[0:infinite] first/second social/nonsocial red/blue False/True")
+        sys.exit(1)
+
+    if len(sys.argv) == 2:
+        arg1 = sys.argv[1]
+        if arg1 == "tutorial":
+            global_variables.tutorial_mode = True
+        else:
+            print("Should write tutorial!")
+            sys.exit(1)
+
+    if len(sys.argv) == 6:
+    
+        arg1 = sys.argv[1]
+        arg2 = sys.argv[2]
+        arg3 = sys.argv[3]
+        arg4 = sys.argv[4]
+        arg5 = sys.argv[5]
+        
+
+        global_variables.participant = arg1
+
+        if arg2 == "first":
+            global_variables.second_round = False
+        elif arg2 == "second":
+            global_variables.second_round = True
+        else:
+            print("Incorrect command or typo")
+            sys.exit(1)
+
+        
+        if arg3 == "social":
+            global_variables.social_mode = True
+        elif arg3 == "nonsocial":
+            global_variables.social_mode = False
+        else:
+            print("Incorrect command or typo")
+            sys.exit(1)
+
+
+        if arg4 == "red":
+            global_variables.is_code_list_2 = False
+        elif arg4 == "blue":
+            global_variables.is_code_list_2 = True
+        else:
+            print("Incorrect command or typo")
+            sys.exit(1)
+
+
+
+        if arg5 == "h-ai":
+            if global_variables.social_mode == True:
+                global_variables.social_counterbalance = True
+            else:
+                global_variables.nonsocial_counterbalance = True
+            
+        elif arg5 == "ai-h":
+            if global_variables.social_mode == True:
+                global_variables.social_counterbalance = False
+            else:
+                global_variables.nonsocial_counterbalance = False
+        else:
+            print("Incorrect command or typo")
+            sys.exit(1)
+
+    print("Participant Number: " + str(global_variables.participant) + "\n"
+        "Second Round: " + str(global_variables.second_round) + "\n" +
+        "Tutorial Mode: " + str(global_variables.tutorial_mode) + "\n" +
+        "Social Mode: " + str(global_variables.social_mode) + "\n" +
+        "Paper Type: " + str(global_variables.is_code_list_2) + "\n" +
+        "Social Flag: " + str(global_variables.social_counterbalance) + "\n" +
+        "Nonsocial Flag: " + str(global_variables.nonsocial_counterbalance) + "\n")
+    
 
 def main():
        
@@ -365,4 +444,5 @@ def joy_config(data, widgets):
         EventManager.post_event("stop_talking", 1)
     
 if __name__ == "__main__":
+    init()
     main()

@@ -37,28 +37,30 @@ class InspectionPage():
         self.code_list = [
                             "pKFRjK8wr8",
                             "bRaVW4Wd9M",
-                            "OjXocXGnMI",
-                            "k9NxjOeSGD",
+                            "ZIQVNKBV53", 
+                            "k9NxjHeSGD", 
                             "A2QYx8g23p",
                             "td9jRJtRGH",
-                            "ONCHwPQZNh",
+                            "TNCHwPQZNh", 
                             "KATT4jRex9",
-                            "oMSe5089Zs",
+                            "jMSe5a89Zs", 
                             "bA2R7nkV8q"
                             ]
 
         self.code_list2 = [
                             "8U92xD9MVZ",
                             "BitxAQSNSa",
-                            "qnlqAmVlwN",
+                            "qnlqAmVlwN", #TODO qnD5AmVlwN
                             "LLmvDKgkqk",
-                            "8HVCnhzOsj",
-                            "PB1gsUELNc",
+                            "8HVCnhzOsj", #TODO 8HVCnhz6sj
+                            "PB1gsUELNc", 
                             "HzQTJ99bk4",
-                            "U4fV8s0nhT",
+                            "U4fV8s0nhT", #TODO U4fV8sZnhT
                             "5uDTPXkAn7",
-                            "MEvvKDPl2R"
+                            "MEvvKDPl2R" 
                             ]
+        
+        self.tutorial_code_list = ["DbWjNBjgfJ"]
         self.code_list_used = []
         
 
@@ -87,7 +89,10 @@ class InspectionPage():
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
                 
                 self.delete_err_lbl()
-                self.code_list2.remove(string) if global_variables.is_code_list_2 else self.code_list.remove(string)
+                if global_variables.tutorial_mode:
+                     self.tutorial_code_list.remove(string)
+                else:
+                    self.code_list2.remove(string) if global_variables.is_code_list_2 else self.code_list.remove(string)
                 self.code_list_used.append(string)
                 self.task_count += 1
                 self.task_canvas.plus()

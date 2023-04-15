@@ -1,11 +1,11 @@
 
-tutorial_mode = False
-bar_controller = False #true stop, false active
+tutorial_mode = None
+bar_controller = False #true stop, false active #TODO
 
 
-social_mode = True 
-social_counterbalance = True
-nonsocial_counterbalance = False
+social_mode = None 
+social_counterbalance = None
+nonsocial_counterbalance = None
 
 """
 H - AI - AI - H ==> T-F --- Type A
@@ -15,15 +15,15 @@ AI - H - AI - H ==> F-F --- Type D
 
 """
 
-second_round = False # false is second round, true is first round
+second_round = None # false is second round, true is first round
 
 
 
 in_inspection = False #check whether in inspection screen or not
 
+participant = None
 
-
-is_code_list_2 = False #False is Red Papers, True is Blue Papers
+is_code_list_2 = None #False is Red Papers, True is Blue Papers
 
 
 second_round_diff = None
