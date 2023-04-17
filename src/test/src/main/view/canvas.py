@@ -357,7 +357,6 @@ class BarCanvas(BaseCanvas):
             self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
             
             if self.red_mode:
-                
                 if self.is_danger:
                     EventManager.post_event("step_error_danger", self)
                     self.step_pass_count_danger += 1
@@ -421,19 +420,27 @@ class BarCanvas(BaseCanvas):
     
     def manual_active(dummy1, dummy2):
         BarCanvas.manual_mode = True
+        BarCanvas.danger_count = 0
         print("manual mode is activated")
     
     def manual_deactive(dummy1, dummy2):
         BarCanvas.manual_mode = False
-        BarCanvas.danger_count = 0
+        
 
     def move_bar_repeat(self, string, interval):
-        
-        if global_variables.bar_controller and self.repeat_moving is None:
-            return 
-        elif global_variables.bar_controller and self.repeat_moving is not None:
-            self.repeat_moving.stop()
-        elif not global_variables.bar_controller:
+        if global_variables.tutorial_mode:
+            if global_variables.bar_controller and self.repeat_moving is None:
+                return 
+            elif global_variables.bar_controller and self.repeat_moving is not None:
+                self.repeat_moving.stop()
+            elif not global_variables.bar_controller:
+                if self.repeat_moving is not None:
+                    self.repeat_moving.stop()
+                    self.repeat_moving.change_args(string)
+                    self.repeat_moving.start()
+                else:
+                    self.repeat_moving = RepeatedTimer(interval, self.move_bar, string)  
+        else:
             if self.repeat_moving is not None:
                 self.repeat_moving.stop()
                 self.repeat_moving.change_args(string)
@@ -443,9 +450,6 @@ class BarCanvas(BaseCanvas):
     
     
     def random_movement(self):
-        
-        
-
         r = random.randint(0,5)
         if r > 4:
             self.move_bar_repeat("left", self.move_interval)

@@ -1,6 +1,9 @@
+from pickle5 import pickle
+from types import SimpleNamespace
+
 
 tutorial_mode = None
-bar_controller = False #true stop, false active #TODO
+bar_controller = True #true stop, false active #TODO
 
 
 social_mode = None 
@@ -28,26 +31,16 @@ is_code_list_2 = None #False is Red Papers, True is Blue Papers
 
 second_round_diff = None
 
-if second_round: 
-    second_round_diff = 50 
-else: 
-    second_round_diff = 0
-
-
-
-
-
-#Non-Social - DS1 for AI and DS2 for Human
-ds1_scoreloss_nonsocial = 200 - second_round_diff
-ds2_scoreloss_nonsocial = 250 - second_round_diff
-ds3_scoreloss_nonsocial = 150  - second_round_diff #AI #Human?
-
+ds1_scoreloss_nonsocial = 200
+ds2_scoreloss_nonsocial = 250
+ds3_scoreloss_nonsocial_ai = 150
+ds3_scoreloss_nonsocial_h = 175
 
 #Social - DS1 for Human and DS2 for AI
-ds1_scoreloss_social = 250 - second_round_diff
-ds2_scoreloss_social = 200 - second_round_diff
-ds3_scoreloss_social = 150  - second_round_diff #AI #Human?
-
+ds1_scoreloss_social = 250
+ds2_scoreloss_social = 200
+ds3_scoreloss_social_ai = 150
+ds3_scoreloss_social_h = 175
 
 
 

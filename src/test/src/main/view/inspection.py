@@ -50,12 +50,12 @@ class InspectionPage():
         self.code_list2 = [
                             "8U92xD9MVZ",
                             "BitxAQSNSa",
-                            "qnlqAmVlwN", #TODO qnD5AmVlwN
+                            "qnD5AmVlwN", 
                             "LLmvDKgkqk",
-                            "8HVCnhzOsj", #TODO 8HVCnhz6sj
+                            "8HVCnhz6sj", 
                             "PB1gsUELNc", 
                             "HzQTJ99bk4",
-                            "U4fV8s0nhT", #TODO U4fV8sZnhT
+                            "U4fV8sZnhT", 
                             "5uDTPXkAn7",
                             "MEvvKDPl2R" 
                             ]
@@ -84,12 +84,14 @@ class InspectionPage():
                 self.delete_err_lbl()
 
         
-            elif string in self.code_list or string in self.code_list2:
+            elif string in self.code_list or string in self.code_list2 or string in self.tutorial_code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned")
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
                 
                 self.delete_err_lbl()
+                print(global_variables.tutorial_mode)
                 if global_variables.tutorial_mode:
+                     print("in here!")
                      self.tutorial_code_list.remove(string)
                 else:
                     self.code_list2.remove(string) if global_variables.is_code_list_2 else self.code_list.remove(string)
@@ -103,6 +105,7 @@ class InspectionPage():
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
                 EventManager.post_event("wrong_entry")
                 self.delete_err_lbl()
+            
             if len(self.code_list) == 0 or len(self.code_list2) == 0:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="All the equipments have been scanned.")
                 self.delete_err_lbl()

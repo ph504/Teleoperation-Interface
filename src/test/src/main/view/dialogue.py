@@ -10,7 +10,25 @@ import random
 import global_variables
 
 
-social_dialogue_dict = {   
+
+dbox_info = {
+    "x": 660,
+    "y": 800,
+    "width": 800,
+    "height": 180
+}
+
+def unfreeze(dummy = 1):
+    print("unfreeze is activated in dialogue")
+
+class DialogueBox():
+    def __init__(self, root, dialoguebox_info):
+        self.x = dialoguebox_info["x"]
+        self.y = dialoguebox_info["y"]
+        self.width = dialoguebox_info["width"]
+        self.height = dialoguebox_info["height"]
+        
+        self.social_dialogue_dict = {   
     "Start Q":
                         "Hey, I am Jackal! It is amazing that we can work together to save lives, eh? So the operation is we have to check and scan different equipment in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",
     "Start A":
@@ -25,8 +43,8 @@ social_dialogue_dict = {
     "Danger State Start II":    "That alarm again! I will handle it this time.",
     
     
-    "Danger State End II/Warning II Q":                             #DS2 Score Loss         #DS1 score loss
-                                f"Uuh! I did some mistakes and lost {global_variables.ds2_scoreloss_social} points. You lost {global_variables.ds1_scoreloss_social}. Together, we lost {global_variables.ds1_scoreloss_social + global_variables.ds1_scoreloss_social} points overall. I am sorry about this. I know your experiment reward might be at stake! Some of my sensor are not calibrated correctly, will try to fix that during the mission. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
+    "Danger State End II/Warning II Q":                             #DS2 Score Loss                                         #DS1 score loss
+                                f"Uuh! I did some mistakes and lost {global_variables.ds2_scoreloss_social} points. You lost {global_variables.ds1_scoreloss_social}. Together, we lost {global_variables.ds1_scoreloss_social + global_variables.ds2_scoreloss_social} points overall. I am sorry about this. I know your experiment reward might be at stake! Some of my sensor are not calibrated correctly, will try to fix that now ... I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
     
     "Danger State Warning II A-Y": "Thanks buddy!! I'll try my best.",
     
@@ -39,9 +57,9 @@ social_dialogue_dict = {
 
 
     "Danger State End III Y":                           #DS3 Score Loss
-                                f"This time I only lost {global_variables.ds3_scoreloss_social} score. Better than the last time ({global_variables.ds2_scoreloss_social}) but still ... ",
+                                f"This time I only lost {global_variables.ds3_scoreloss_social_ai} score. Better than the last time ({global_variables.ds2_scoreloss_social}) but still ... ",
 
-    "Danger State End III N":    "Good job!",
+    "Danger State End III N":    f"You lost {global_variables.ds3_scoreloss_social_h} this round. Better than your first round ({global_variables.ds1_scoreloss_social}). Good Job! ",
 
     "End":
                                 "It was nice working with you! Hope you enjoyed the experiment! The experiment designer will notify you about you getting the reward after the end of the experiment. Remember that it is all about the journey!",   
@@ -53,7 +71,7 @@ social_dialogue_dict = {
     "Mistake":               ["Oh my bad!", "Missed!", "Oh!"]
 }
 
-nonsocial_dialogue_dict = {   
+        self.nonsocial_dialogue_dict = {   
     "Start Q":
                         "This is jackal, a robotic training platform for search and rescue. This operation requires identifying and scanning different equipment in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",
     "Start A":
@@ -80,9 +98,9 @@ nonsocial_dialogue_dict = {
     "Danger State Start III N": "The alarm is ringing. Proceeding with manual mode.",
 
     "Danger State End III Y":                   #DS3 Score Loss
-                                f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial}.\n Scores Lost on first round: {global_variables.ds1_scoreloss_nonsocial}\n Log: System did {100} points better than last round.",
+                                f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial_ai}.\n Scores Lost on first round: {global_variables.ds1_scoreloss_nonsocial}\n Log: System did {global_variables.ds1_scoreloss_nonsocial - global_variables.ds3_scoreloss_nonsocial_ai } points better than last round.",
 
-    "Danger State End III N":    f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial}\n",
+    "Danger State End III N":    f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial_h}\n",
 
     "End":
                                 "Experiment is over. The experiment designer will notify you about you getting the reward after the end of the experiment. \n Exiting ...",   
@@ -93,27 +111,11 @@ nonsocial_dialogue_dict = {
     
     "Mistake":                  ["The system made a mistake."]
 }
-
-dbox_info = {
-    "x": 660,
-    "y": 800,
-    "width": 800,
-    "height": 180
-}
-
-def unfreeze(dummy = 1):
-    print("unfreeze is activated in dialogue")
-
-class DialogueBox():
-    def __init__(self, root, dialoguebox_info, dialogues):
-        self.x = dialoguebox_info["x"]
-        self.y = dialoguebox_info["y"]
-        self.width = dialoguebox_info["width"]
-        self.height = dialoguebox_info["height"]
+ 
         self.state = "Start Q"
         self.first_time = True
         self.finish_talking = False
-        self.dialogue = social_dialogue_dict[self.state] if global_variables.social_mode is True else nonsocial_dialogue_dict[self.state]
+        self.dialogue = self.social_dialogue_dict[self.state] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[self.state]
         self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#d9d7bd', wraplength= 800)
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
         x = threading.Thread(target=self.letterbyletter)
@@ -172,7 +174,7 @@ class DialogueBox():
         self.start_or_yesno = True
 
     def return_randomdialogue(self, string):
-        d_list = social_dialogue_dict[string] if global_variables.social_mode is True else nonsocial_dialogue_dict[string]
+        d_list = self.social_dialogue_dict[string] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[string]
         if string == "Collision":
             if len(d_list) == 1:
                 return d_list[0]
@@ -199,7 +201,7 @@ class DialogueBox():
         else:
             self.talk_mode = True
         self.state = string
-        self.dialogue = social_dialogue_dict[self.state] if global_variables.social_mode is True else nonsocial_dialogue_dict[self.state]
+        self.dialogue = self.social_dialogue_dict[self.state] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[self.state]
         self.dialoguetext.configure(text="")
         x = threading.Thread(target=self.letterbyletter)
         x.start()

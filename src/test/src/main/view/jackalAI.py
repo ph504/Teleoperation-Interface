@@ -29,18 +29,22 @@ class JackalAI():
     def press_yellow(self, bar: BarCanvas):  
         
         if JackalAI.active:
-            if self.count == 2 or self.count == 5 or self.count == 8:
-                return
-            else:
-                self.count += 1
-                self.correct_logging += 1
-                Logger.log("ai_correctlogging", self.correct_logging)
-                bar.reset_button()
+            if self.first_time:
+                if self.count == 2 or self.count == 5 or self.count == 8:
+                    return
+            elif self.second_time:
+                if self.count == 3 or self.count == 6:
+                    return
+            
+            self.count += 1
+            self.correct_logging += 1
+            Logger.log("ai_correctlogging", self.correct_logging)
+            bar.reset_button()
   
     def press_red_init(self, bar: BarCanvas):
         if JackalAI.active:
                 print("count for jackal AI: " + str(self.count))
-                if self.count == 5:
+                if self.first_time and self.count == 5:
                     EventManager.post_event("color_trans", -1) 
                 self.count += 1
                 EventManager.post_event("mistake", -1)
@@ -49,6 +53,9 @@ class JackalAI():
                 Logger.log("ai_incorrectlogging", self.incorrect_logging)
                 bar.reset_button()
                                         
+    
+    
+    
     def press_red(self, bar: BarCanvas):
         
         if JackalAI.active: 
@@ -59,8 +66,17 @@ class JackalAI():
                 self.step_error_count = 0
 
     def enable(self):
+        
+        if not self.first_time and not self.second_time:
+            self.first_time = True
+        elif self.first_time and not self.second_time:
+            self.first_time = False
+            self.second_time = True
+        
+        self.count = 0
+        
         JackalAI.active = True
 
     def disable(self):
         JackalAI.active = False
-        self.count = 15
+        

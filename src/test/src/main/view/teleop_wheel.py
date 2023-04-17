@@ -9,14 +9,7 @@ from std_msgs.msg import Bool
 import global_variables
 
 global freeze_var
-  
-if global_variables.tutorial_mode == False:
-     freeze_var = True
-else:
-     freeze_var = False
-     
-     
-#freeze_var = True 
+freeze_var = False 
 
 def callback(data):
     

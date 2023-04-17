@@ -75,6 +75,7 @@ class TeleopGUIMachine(StateMachine):
 
 
     def assistedmanual_disable(self):
+        EventManager.post_event("count_manual_trans_deactive", -1)
         switch_danger(self.normal_bar, self.danger_bars)
         self.flashing_image.disable()
         self.assistedmode_button.disable()
@@ -83,6 +84,7 @@ class TeleopGUIMachine(StateMachine):
 
     def normal_activate(self):
         switch_danger(self.normal_bar, self.danger_bars)
+        EventManager.post_event("count_manual_trans_active", -1)
         self.flashing_image.enable()
         playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
         self.assistedmode_button.disable()
@@ -123,7 +125,7 @@ class TeleopGUIMachine(StateMachine):
             
             self.dialogue.change_dialogue("Danger State Start I") #default
             
-            EventManager.post_event("count_manual_trans_active", -1)
+           
             EventManager.post_event("talking_started", -1)
 
             Logger.log("danger_zone_start", "operator_handler")
@@ -155,7 +157,7 @@ class TeleopGUIMachine(StateMachine):
             
             self.dialogue.change_dialogue("Danger State End I")
         
-            EventManager.post_event("count_manual_trans_deactive", -1)
+            
             EventManager.post_event("talking_started", -1)
             
             Logger.log("danger_zone_end", "operator_handler")
@@ -305,7 +307,7 @@ class TeleopGUIMachine(StateMachine):
             self.normal_activate()
 
 
-            EventManager.post_event("count_manual_trans_active", -1)
+            
 
             x = threading.Thread(target=self.danger_timer_countdown_s7)
             x.start()
@@ -336,8 +338,6 @@ class TeleopGUIMachine(StateMachine):
                 
                 self.assistedmanual_disable()
                 
-
-                EventManager.post_event("count_manual_trans_deactive", -1)
                 EventManager.post_event("talking_started", -1)
 
                 Logger.log("danger_zone_end", "operator_handler")
