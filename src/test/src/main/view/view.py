@@ -38,8 +38,10 @@ def init():
         arg1 = sys.argv[1]
         if arg1 == "tutorial":
             global_variables.tutorial_mode = True
+            EventManager.post_event("unfreeze", -1)
         else:
-            print("Should write tutorial!")
+            global_variables.tutorial_mode = False
+            EventManager.post_event("freeze", -1)
             sys.exit(1)
 
     if len(sys.argv) == 6:
@@ -55,8 +57,12 @@ def init():
 
         if arg2 == "first":
             global_variables.second_round = False
+            global_variables.second_round_diff = 0
+            
         elif arg2 == "second":
             global_variables.second_round = True
+            global_variables.second_round_diff = 50
+            
         else:
             print("Incorrect command or typo")
             sys.exit(1)
@@ -232,7 +238,7 @@ def widget_init(root, tab1):
     danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
-    if not global_variables.tutorial_mode: dialogue_text = DialogueBox(root, dbox_info, social_dialogue_dict)
+    if not global_variables.tutorial_mode: dialogue_text = DialogueBox(root, dbox_info)
     else: dialogue_text = None
     
     view_back = CameraView(tab1, flir_info, camera_available, "flir")
