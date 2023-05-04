@@ -1,12 +1,12 @@
 from canvas import BarCanvas
 from event import *
 from logger import Logger
-
+import global_variables
 
 
 class JackalAI():
     
-    active = True
+    global_variables.jackalai_active = True
 
     def __init__(self):
         self.right_count = 0
@@ -28,7 +28,7 @@ class JackalAI():
     
     def press_yellow(self, bar: BarCanvas):  
         
-        if JackalAI.active:
+        if global_variables.jackalai_active:
             if self.first_time:
                 if self.count == 2 or self.count == 5 or self.count == 8:
                     return
@@ -42,7 +42,7 @@ class JackalAI():
             bar.reset_button()
   
     def press_red_init(self, bar: BarCanvas):
-        if JackalAI.active:
+        if global_variables.jackalai_active:
                 print("count for jackal AI: " + str(self.count))
                 if self.first_time and self.count == 5:
                     EventManager.post_event("color_trans", -1) 
@@ -51,22 +51,18 @@ class JackalAI():
                 
                 self.incorrect_logging  += 1
                 Logger.log("ai_incorrectlogging", self.incorrect_logging)
-                bar.reset_button()
-                                        
-    
-    
+                bar.reset_button()                                          
     
     def press_red(self, bar: BarCanvas):
         
-        if JackalAI.active: 
+        if global_variables.jackalai_active: 
             print("here!")   
             self.step_error_count += 1
             if self.step_error_count == 1:
                 bar.reset_button()
                 self.step_error_count = 0
 
-    def enable(self):
-        
+    def enable(self):     
         if not self.first_time and not self.second_time:
             self.first_time = True
         elif self.first_time and not self.second_time:
@@ -75,8 +71,8 @@ class JackalAI():
         
         self.count = 0
         
-        JackalAI.active = True
+        global_variables.jackalai_active = True
 
     def disable(self):
-        JackalAI.active = False
+        global_variables.jackalai_active = False
         

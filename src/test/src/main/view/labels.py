@@ -1,7 +1,8 @@
 from tkinter import *
 import time
 import threading
-
+from event import EventManager
+import subprocess
 
 
 big_cmr_lbl = {
@@ -20,6 +21,15 @@ small_cmr_lbl = {
     
     "font": ('Helvetica', '10', 'bold')
 
+}
+
+clbr_lbl = {
+    "x": 5,
+    "y": 790,
+    "width": 300,
+    "height": 20,
+    "color": "red",
+    "font": ('Helvetica', '9', 'bold')
 }
 class CameraLabel():
     def __init__(self, r, label_info, text):
@@ -45,7 +55,34 @@ class CameraLabel():
             
             
     
+
+class CalibrateLabel():
+    def __init__(self, r, label_info, text):
+        self.x = label_info["x"]
+        self.y = label_info["y"]
+        self.width = label_info["width"]
+        self.height = label_info["height"]
+        self.text = text
+        self.font = label_info["font"]
+        self.color = label_info["color"]
         
+        
+        self.label = Label(r, text= self.text, font=self.font, fg=self.color)
+        self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
+
+    def activate(self):
+        print("sdvsdfvfdgf")
+        subprocess.Popen("/home/pouya/catkin_ws/camera_calib.sh", shell=True)
+        EventManager.post_event("calibrate_pause", -1)
+        threading.Thread(target=self.calibration_label).start()
+        
+    def calibration_label(self):
+        self.label.configure(text="calibrating ...")
+        time.sleep(20)
+        self.label.config(text="") 
+        EventManager.subscribe("calibrate_start", -1)
+      
+   
 
 
 

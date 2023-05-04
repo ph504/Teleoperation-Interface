@@ -32,6 +32,7 @@ class FlashingImage():
     def flash(self):
         time.sleep(5)
         while True:
+            
             time.sleep(self.pause_time)
             self.label.configure(image="")
             time.sleep(self.pause_time)

@@ -9,7 +9,6 @@ from event import *
 import string
 from logger import Logger
 import global_variables
-
 #------Canvas Position ---- #
 big_canvas_info = {
     "x": 1500,
@@ -62,14 +61,14 @@ bar_canvas_info1 = {
     "width": 800,
     "height": 20,
     "bar_defaultpercent": 20/100,
-    "line_thresholdpercent": 60/100,
+    "line_thresholdpercent": 80/100,
     "outline_color": "black",
     "outline_width": 2,
     "color": "green",
     "line_color": "red",
     "line_width": 2,
-    "move_interval": 1.3,
-    "progress_step": 10,
+    "move_interval": 0.75,
+    "progress_step": 5,
     "active": False
 
 }
@@ -85,8 +84,8 @@ bar_canvas_info2 = {
     "color": "green",
     "line_color": "red",
     "line_width": 2,
-    "move_interval": 0.2,
-    "progress_step": 0.5,
+    "move_interval": 0.25,
+    "progress_step": 1,
     "active": False
 
 }
@@ -96,14 +95,14 @@ bar_canvas_info3 = {
     "width": 800,
     "height": 20,
     "bar_defaultpercent": 25/100,
-    "line_thresholdpercent": 50/100,
+    "line_thresholdpercent": 80/100,
     "outline_color": "black",
     "outline_width": 2,
     "color": "green",
     "line_color": "red",
     "line_width": 2,
-    "move_interval": 0.7,
-    "progress_step": 2,
+    "move_interval": 0.5,
+    "progress_step": 3,
     "active": False
 
 }
@@ -175,8 +174,8 @@ score_events = {
     "task_count": 100
 }
 circle_canvas_info = {
-    "x": 558,
-    "y": 148,
+    "x": 1550,
+    "y": 290,
     "width": 802,
     "height": 602,
     "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#f75a05', "red": "#fc0303"},
@@ -322,7 +321,8 @@ class BarCanvas(BaseCanvas):
         EventManager.subscribe("count_manual_trans_active", self.manual_active)
 
     def start(self):
-        self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
+        #self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
+        self.secondary_task = RepeatedTimer(3, self.random_movement)
     
     def move_bar(self,string):   
         #just to prevent danger bars being active while normal is active (and vice versa) 
@@ -398,19 +398,21 @@ class BarCanvas(BaseCanvas):
             return
         else:
             self.passed = False
+            if not global_variables.jackalai_active or not self.red_mode:
+                playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav") 
+            
             self.red_mode = False
             
             if not self.is_danger:
                 self.bar_percent = self.bar_defaultpercent
             else:
-                self.bar_percent = random.randint(20, self.line_thresholdpercent * 100) / 100
+                #self.bar_percent = random.randint(20, self.line_thresholdpercent * 100) / 100
+                self.bar_percent = 30/ 100
             
             self.canvas.delete(self.tag_bar,self.tag_line)
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
             self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
 
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav") 
- 
     def reset(self):
         self.passed = False
         self.bar_percent = self.bar_defaultpercent
@@ -424,8 +426,7 @@ class BarCanvas(BaseCanvas):
         print("manual mode is activated")
     
     def manual_deactive(dummy1, dummy2):
-        BarCanvas.manual_mode = False
-        
+        BarCanvas.manual_mode = False       
 
     def move_bar_repeat(self, string, interval):
         if global_variables.tutorial_mode:
@@ -450,10 +451,10 @@ class BarCanvas(BaseCanvas):
     
     
     def random_movement(self):
-        r = random.randint(0,5)
-        if r > 4:
-            self.move_bar_repeat("left", self.move_interval)
-        else:
+        #r = random.randint(0,5)
+        #if r > 4:
+        #    self.move_bar_repeat("left", self.move_interval)
+        #else:
             self.move_bar_repeat("right", self.move_interval)
 
 class TimerCanvas(BaseCanvas):
@@ -467,9 +468,17 @@ class TimerCanvas(BaseCanvas):
         self.countdown = None
         self.fsm = None
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
-    def start(self):
-        self.countdown = RepeatedTimer(1, self.plus)
-    def stop(self):
+
+
+        EventManager.subscribe("calibrate_pause", self.stop)
+        EventManager.subscribe("calibrate_start", self.start)
+
+    def start(self, dummy = 0):
+        if self.countdown == None:
+            self.countdown = RepeatedTimer(1, self.plus)
+        else:
+            self.countdown.start()
+    def stop(self, dummy = 0):
         self.countdown.stop()
     def add_fsm(self, fsm):
         self.fsm = fsm
@@ -484,7 +493,7 @@ class TimerCanvas(BaseCanvas):
             sec = 0
             min += 1
         
-        if min == 20:
+        if min == 30:
             self.fsm.s89()
 
         self.seconds = str(sec) if sec >= 10 else '0' + str(sec) 
@@ -619,8 +628,8 @@ class CircleCanvas(BaseCanvas):
         self.color_orange = self.colors_dict["orange"]
         self.color_red = self.colors_dict["red"]
         self.state = "green"
-        #self.canvas.create_oval(1450, 75, 1430, 55, fill="green", outline="red")
-        #self.canvas.create_oval(5, 5, 200, 200, fill=self.color_lightgreen, outline=self.color_lightgreen,tags="circle")
+        self.canvas.create_oval(1450, 75, 1430, 55, fill="green", outline="red")
+        self.canvas.create_oval(5, 5, 200, 200, fill=self.color_lightgreen, outline=self.color_lightgreen,tags="circle")
 
         #self.canvas.create_rectangle(self.x, self.y, self.width, self.height, outline="black", width=2, fill="" )
         
@@ -635,6 +644,16 @@ class CircleCanvas(BaseCanvas):
             self.canvas.delete("circle")
             self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
             self.state = "orange"
+
+    def color_transition_reverse(self, dummy = 0):
+        if self.state == "orange":
+            self.canvas.delete("circle")
+            self.canvas.create_oval(5, 5, 200, 200, fill=self.color_yellow, outline=self.color_yellow, tags="circle")
+            self.state = "yellow"
+        elif self.state == "yellow":
+            self.canvas.delete("circle")
+            self.canvas.create_oval(5, 5, 200, 200, fill=self.color_lightgreen, outline=self.color_lightgreen, tags="circle")
+            self.state = "green"
         
         
 

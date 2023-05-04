@@ -9,7 +9,8 @@ from std_msgs.msg import Bool
 import global_variables
 
 global freeze_var
-freeze_var = False 
+
+freeze_var = True 
 
 def callback(data):
     
@@ -22,7 +23,7 @@ def start():
         
         twist =  Twist()
         
-
+        
 
         def freeze_manager(data):
             print("event triggered: " + str(data.data) + " is received.")

@@ -102,7 +102,7 @@ class TeleopGUIMachine(StateMachine):
 
     #S1 --- Start
     def on_s01 (self):
-        
+    
         EventManager.post_event("unfreeze", -1)
         
         self.timer.start()
@@ -122,28 +122,9 @@ class TeleopGUIMachine(StateMachine):
         def danger_start1():
             
             time.sleep(self.DANGER_START_TIMER)
-            
             self.dialogue.change_dialogue("Danger State Start I") #default
-            
-           
-            EventManager.post_event("talking_started", -1)
-
             Logger.log("danger_zone_start", "operator_handler")
-
-            if global_variables.social_mode:
-                if global_variables.social_counterbalance:
-                    self.normal_activate()
-                else:
-                    self.assisted_activate()
-            else:
-                if global_variables.nonsocial_counterbalance:
-                    self.normal_activate()
-                else:
-                    self.assisted_activate()
-
-
-
-
+            self.assisted_activate()
             x = threading.Thread(target=self.danger_timer_countdown_s2)
             x.start()
            
@@ -154,12 +135,7 @@ class TeleopGUIMachine(StateMachine):
     def on_s23 (self): 
         def danger_end1():
             time.sleep(self.DANGER_END_TIMER)
-            
             self.dialogue.change_dialogue("Danger State End I")
-        
-            
-            EventManager.post_event("talking_started", -1)
-            
             Logger.log("danger_zone_end", "operator_handler")
             
             
@@ -175,21 +151,12 @@ class TeleopGUIMachine(StateMachine):
             time.sleep(self.DANGER_START_TIMER)
             
             self.dialogue.change_dialogue("Danger State Start II") #happy for 20 seconds
+            self.assisted_activate()
 
-            if global_variables.social_mode:
-                if global_variables.social_counterbalance:
-                    self.assisted_activate()
-                else:
-                    self.normal_activate()
-            else:
-                if global_variables.nonsocial_counterbalance:
-                    self.assisted_activate()
-                else:
-                    self.normal_activate()
 
 
             
-            EventManager.post_event("talking_started", -1)
+            
             Logger.log("danger_zone_start", "ai_handler")
 
             x = threading.Thread(target=self.danger_timer_countdown_s3)
@@ -221,7 +188,6 @@ class TeleopGUIMachine(StateMachine):
             self.assistedmanual_disable()
 
             EventManager.post_event("freeze", -1)
-            EventManager.post_event("talking_started_sad", -1)
             Logger.log("danger_zone_end", "ai_handler")
 
             #User Choice for TRUST
@@ -286,9 +252,6 @@ class TeleopGUIMachine(StateMachine):
             
             self.dialogue.change_dialogue("Danger State Start III Y") 
             
-
-            
-            EventManager.post_event("talking_started", -1)
             Logger.log("danger_zone_start", "ai_handler")
             
             self.assisted_activate()
@@ -301,7 +264,7 @@ class TeleopGUIMachine(StateMachine):
             time.sleep(self.DANGER_START_TIMER)
             self.dialogue.change_dialogue("Danger State Start III N") 
             
-            EventManager.post_event("talking_started", -1)
+            
             Logger.log("danger_zone_start", "operator_handler")
             
             self.normal_activate()
@@ -311,6 +274,7 @@ class TeleopGUIMachine(StateMachine):
 
             x = threading.Thread(target=self.danger_timer_countdown_s7)
             x.start()
+        
         if self.is_ai:
             y = threading.Thread(target=danger_start3y)
             y.start()
@@ -326,10 +290,7 @@ class TeleopGUIMachine(StateMachine):
                 
                 self.dialogue.change_dialogue("Danger State End III Y") #default
                 
-                self.assistedmanual_disable()
-
-
-                EventManager.post_event("talking_started", -1)
+                self.assistedmanual_disable()        
 
                 Logger.log("danger_zone_end", "ai_handler")
                 
@@ -338,7 +299,7 @@ class TeleopGUIMachine(StateMachine):
                 
                 self.assistedmanual_disable()
                 
-                EventManager.post_event("talking_started", -1)
+                
 
                 Logger.log("danger_zone_end", "operator_handler")
                 
@@ -349,7 +310,7 @@ class TeleopGUIMachine(StateMachine):
     #S9 --- End
     def on_s89(self):
         EventManager.post_event("freeze")
-        EventManager.post_event("talking_started", -1)
+
         self.timer.stop()
         self.dialogue.change_dialogue("End") #default
         Logger.log("end", "N/A")

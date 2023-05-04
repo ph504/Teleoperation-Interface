@@ -75,6 +75,19 @@ button_freeze_info = {
     
 }
 
+button_calibrate_info = {
+    "x": 70,
+    "y": 800,
+    "width": 150,
+    "height": 50,
+    "text": "Calibrate",
+    "state": ACTIVE,
+    "tag": 7,
+
+    
+}
+
+
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
         self.x = info_dict["x"]
@@ -100,8 +113,10 @@ class BaseButton():
         EventManager.subscribe("freeze", self.enable_freeze)
         EventManager.subscribe("unfreeze", self.disable_freeze)
         
-    def add_event(self, event):
-        self.button.config(command=event)
+    def add_event(self, event, arg = None):
+            self.button.config(command=event)
+        
+       
     
     def enable_event(self, tag=0):
         if(self.tag == tag):

@@ -44,8 +44,10 @@ def start():
         joystick_input = 0
 
         next_pos = 0 
-
         axis.pan = -180
+        axis.autofocus = False
+        axis.tilt = 0
+        axis.zoom = 0 
         rospy.init_node('teleop_camera_node')
 
         pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)

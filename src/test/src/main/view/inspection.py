@@ -50,7 +50,7 @@ class InspectionPage():
         self.code_list2 = [
                             "8U92xD9MVZ",
                             "BitxAQSNSa",
-                            "qnD5AmVlwN", 
+                            "qnD5AmVLwN", 
                             "LLmvDKgkqk",
                             "8HVCnhz6sj", 
                             "PB1gsUELNc", 
@@ -60,7 +60,11 @@ class InspectionPage():
                             "MEvvKDPl2R" 
                             ]
         
-        self.tutorial_code_list = ["DbWjNBjgfJ"]
+        self.tutorial_code_list = ["DbWjNBjgfJ",
+                                   "ARvttUYzBp",
+                                   "B4MSkAxwAh",
+                                   "WeLF57Cn2F",
+                                   "vTxDtdzV7b"]
         self.code_list_used = []
         
 
@@ -91,10 +95,11 @@ class InspectionPage():
                 self.delete_err_lbl()
                 print(global_variables.tutorial_mode)
                 if global_variables.tutorial_mode:
-                     print("in here!")
+                    
                      self.tutorial_code_list.remove(string)
                 else:
                     self.code_list2.remove(string) if global_variables.is_code_list_2 else self.code_list.remove(string)
+
                 self.code_list_used.append(string)
                 self.task_count += 1
                 self.task_canvas.plus()

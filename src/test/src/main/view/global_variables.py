@@ -7,20 +7,13 @@ bar_controller = True #true stop, false active #TODO
 
 
 social_mode = None 
-social_counterbalance = None
-nonsocial_counterbalance = None
 
 """
-H - AI - AI - H ==> T-F --- Type A
-AI - H - H - AI ==> F-T --- Type B
-H - AI - H - AI ==> T-T --- Type C
-AI - H - AI - H ==> F-F --- Type D
+It is always H-AI
 
 """
 
 second_round = None # false is second round, true is first round
-
-
 
 in_inspection = False #check whether in inspection screen or not
 
@@ -28,8 +21,7 @@ participant = None
 
 is_code_list_2 = None #False is Red Papers, True is Blue Papers
 
-
-second_round_diff = None
+second_round_diff = 0
 
 ds1_scoreloss_nonsocial = 200
 ds2_scoreloss_nonsocial = 250
@@ -43,7 +35,7 @@ ds3_scoreloss_social_ai = 150
 ds3_scoreloss_social_h = 175
 
 
-
+jackalai_active = False
 
 #Social | Non-Social
 #===================
