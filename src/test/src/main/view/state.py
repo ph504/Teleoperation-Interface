@@ -107,10 +107,10 @@ class TeleopGUIMachine(StateMachine):
         
         self.timer.start()
         
-        self.dialogue.change_dialogue("Start A") #happy for 30 seconds!
+        self.dialogue.change_dialogue("Start A") 
         
         if global_variables.social_mode:
-             self.javatar.change_image_happy()
+            self.javatar.change_image_happy()
         
         
         self.start_button.deactivate()

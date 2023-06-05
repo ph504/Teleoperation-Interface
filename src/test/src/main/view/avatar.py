@@ -73,35 +73,23 @@ class Avatar():
            
             time.sleep(10)
             
-            if not self.idle_event.is_set(): 
-                 self.idle_event.wait()
-                 continue
-            else: self.change_image('default-blink')
+            self.idle_event.wait()
+            self.change_image('default-blink')
             time.sleep(0.5)
-            if not self.idle_event.is_set(): 
-                 self.idle_event.wait()
-                 continue
-            else: self.change_image('default-left')
+            self.idle_event.wait()
+            self.change_image('default-left')
             time.sleep(0.5)
-            if not self.idle_event.is_set(): 
-                 self.idle_event.wait()
-                 continue
-            else: self.change_image('default-blink')
+            self.idle_event.wait()
+            self.change_image('default-blink')
             time.sleep(0.5)
-            if not self.idle_event.is_set(): 
-                 self.idle_event.wait()
-                 continue
-            else: self.change_image('default-right')
+            self.idle_event.wait()
+            self.change_image('default-right')
             time.sleep(0.5)
-            if not self.idle_event.is_set(): 
-                 self.idle_event.wait()
-                 continue
-            else: self.change_image('default-blink')
+            self.idle_event.wait()
+            self.change_image('default-blink')
             time.sleep(0.5)
-            if not self.idle_event.is_set(): 
-                 self.idle_event.wait()
-                 continue
-            else: self.change_image('default')
+            self.idle_event.wait()
+            self.change_image('default')
 
     def change_image(self,state):
         self.image = Image.open(javatar_images[state]).resize((self.width,self.height), Image.ANTIALIAS)
@@ -212,8 +200,8 @@ class Avatar():
         t.start()
 
     def change_image_happy(self, dummy=0):
-            self.idle_event.clear()
             def swap_images(s, _s, p_s):
+                self.idle_event.clear()
                 self.change_image(s)
                 time.sleep(2)
                 self.change_image(_s)
