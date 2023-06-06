@@ -1,0 +1,2 @@
+key,emotion,default_path,left_path,right_path,blink_path,idleloop_time,blink_time
+i_default,Default,/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_01.png,/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_03.png,/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_02.png,/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_04.png,10,0.5

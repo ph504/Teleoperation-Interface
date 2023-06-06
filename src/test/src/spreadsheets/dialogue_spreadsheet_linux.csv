@@ -1,0 +1,29 @@
+key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
+start_q_s,1,None,None,Start,"Hey, I am Jackal! It is amazing that we can work together to save lives, eh? So, the operation is we must check and scan different equipment in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation.",FALSE,TRUE,0,5
+start_q_ns,1,None,None,Start,"This is jackal, a robotic training platform for search and rescue. This operation requires identifying and scanning different equipment in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",FALSE,TRUE,0,5
+start_a_s,0,None,None,None,"Yayyy, Let's gooo!!!",FALSE,FALSE,5,0
+start_a_ns,0,None,None,None,Mission started.,FALSE,FALSE,5,0
+danger_w_s,0,None,None,None,"We may have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have unpredictable leakages! When it is alarmed and it's my turn, you just find and scan equipment while I log the amount of gas properly. If it's your turn, you must do both.",FALSE,FALSE,5,0
+danger_w_ns,0,None,None,None,"New Task added: Logging the amount of Carbon Monoxide and Hydrogen Sulfide gases when there is an alarm that some pipes are damaged. If it's user's turn, the user must take care of logging task. Otherwise, the system will intervene and handle it.",FALSE,FALSE,5,0
+danger_s1_s,0,None,None,None,The alarm is beeping!! I will handle it. ,FALSE,FALSE,5,0
+danger_s1_ns,0,None,None,None,The alarm is ringing. Activating Assisted Mode.,FALSE,FALSE,5,0
+danger_e1_s,0,None,None,None,"Uuh! I did some mistakes and lost X points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,5,0
+danger_e1_ns,0,None,None,None,Scores Lost: X,FALSE,FALSE,5,0
+danger_s2_s,0,None,None,None,That alarm again! It's your turn to handle that. ,FALSE,FALSE,5,0
+danger_s2_ns,0,None,None,None,The alarm is ringing. Activating Manual Mode.,FALSE,FALSE,5,0
+danger_e2_s,0,None,None,None,"Wooof! You lost X points during the danger zone. Don't worry, we can handle that.",FALSE,FALSE,5,0
+danger_e2_ns,0,None,None,None,Scores Lost: X,FALSE,FALSE,5,0
+choice_q_s,2,None,Yes,No,"I did some mistakes and lost X points. You lost X. Together, we lost X points overall. I am sorry about this. I know your experiment reward might be at stake!. I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time. ",FALSE,TRUE,0,0
+choice_q_ns,2,None,Yes,No,"Scores Lost: 200 \n LogError: Uncalibrated sensors.\n LogWarning: System loss: 200.  User loss: 250. Total loss: 450. Experiment Reward at stake. Initiating Calibration for maximum performance ...\n If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
+danger_s3y_s,0,None,None,None,Thanks buddy!! I'll try my best.,FALSE,FALSE,5,0
+danger_s3n_s,0,None,None,None,It's fine. I can understand. Your choice.,FALSE,FALSE,5,0
+danger_e3y_ns,0,None,None,None,Assisted mode has been chosen.,FALSE,FALSE,5,0
+danger_e3n_ns,0,None,None,None,Manual Mode has been chosen.,FALSE,FALSE,5,0
+congrats_s,0,None,None,None,"[""Nice!"", ""You got it!"", ""Wooho!""]",TRUE,FALSE,5,0
+congrats_ns,0,None,None,None,"[""New Equipment scanned.""]",TRUE,FALSE,5,0
+collision_s,0,None,None,None,"[""Uggh!"", ""Oops!"", ""That hurts!"", ""Uh!""]",TRUE,FALSE,5,0
+collision_ns,0,None,None,None,"[""Collision detected.""]",TRUE,FALSE,5,0
+mistake_s,0,None,None,None,"[""Oh my bad!"", ""Missed!"", ""Oh!""]",TRUE,FALSE,5,0
+mistake_ns,0,None,None,None,"[""The system made a mistake.""]",TRUE,FALSE,5,0
+end_s,0,None,None,None,It was nice working with you! Hope you enjoyed the experiment! The experiment designer will notify you about you getting the reward after the end of the experiment. Remember that it is all about the journey!,FALSE,FALSE,5,0
+end_ns,0,None,None,None,Experiment is over. Thank you for using Jackal!,FALSE,FALSE,5,0

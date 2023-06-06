@@ -1,0 +1,4 @@
+key,emotion,reaction_path,reaction_time,blink_path,blink_time
+r_happy,Happy,/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_17.png,2,/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_20.png,0.5
+r_sad,Sad,/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_09.png,2,/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_12.png,0.5
+r_angry,Angry,/home/pouya/catkin_ws/src/test/src/images/JACKEL/angry/IDLE_21.png,2,/home/pouya/catkin_ws/src/test/src/images/JACKEL/angry/IDLE_24.png,0.5
