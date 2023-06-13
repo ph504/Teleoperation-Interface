@@ -13,8 +13,13 @@ from sensor_msgs.msg import Joy
 import PIL.Image
 from canvas import *
 from camera import * 
-from dialogue import *
-from avatar import *
+#from dialogue import *
+#from avatar import *
+from avalogue import AvalogueController
+
+from dialogue import DialogueView, DialogueModel, dialogueview_info
+from avatar import AvatarView, AvatarModel, javatar_info
+
 from button import *
 from jackalAI import *
 from inspection import *
@@ -26,6 +31,17 @@ from std_msgs.msg import Bool
 import global_variables   
 import sys
 import subprocess
+
+
+csv_dialogue_s = "/home/pouya/catkin_ws/src/test/src/spreadsheets/dialogue_spreadsheet_social.csv"
+csv_dialogue_ns = "/home/pouya/catkin_ws/src/test/src/spreadsheets/dialogue_spreadsheet_nonsocial.csv"
+
+
+csv_idle = "/home/pouya/catkin_ws/src/test/src/spreadsheets/IdleAvatars.csv"
+csv_talking = "/home/pouya/catkin_ws/src/test/src/spreadsheets/TalkingAvatars.csv"
+csv_reactive = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ReactiveAvatars.csv"
+
+
 
 def init():
     
@@ -102,7 +118,8 @@ def main():
     x = threading.Thread(target=server_program)
     x.start()
 
-    if not global_variables.tutorial_mode: jackal = Avatar(root, javatar_info,javatar_images)
+
+
     
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
     cursor_canvas_small.disable()
@@ -133,7 +150,7 @@ def main():
     cs = 0
     dialogue_end = 0
 
-    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl, calibrate_button, calibrate_lbl = widget_init(root, tab1, tab2)
+    bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, a_model, a_view, d_model, d_view, avalogue, dialogue_text, timer_canvas, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl, calibrate_button, calibrate_lbl, countdown = widget_init(root, tab1, tab2)
 
     widgets = {
         "small_label": small_lbl,
@@ -178,12 +195,12 @@ def main():
     
     inspection_page = InspectionPage(tab2, task_canvas)
     if not global_variables.tutorial_mode:
-        gui_sfm = TeleopGUIMachine(timer_canvas, dialogue_text, start_button, yes_button, no_button, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= jackal, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai)
+        gui_sfm = TeleopGUIMachine(timer_canvas, avalogue, dialogue_text, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= None, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai, cntdwn= countdown)
     
 
-    if not global_variables.tutorial_mode: start_button.add_event(gui_sfm.s01)
-    if not global_variables.tutorial_mode: yes_button.add_event(gui_sfm.on_yes)
-    if not global_variables.tutorial_mode: no_button.add_event(gui_sfm.on_no)
+    #if not global_variables.tutorial_mode: start_button.add_event(gui_sfm.s01)
+    #if not global_variables.tutorial_mode: yes_button.add_event(gui_sfm.on_yes)
+    #if not global_variables.tutorial_mode: no_button.add_event(gui_sfm.on_no)
     if not global_variables.tutorial_mode: task_canvas.add_fsm(gui_sfm)
     if not global_variables.tutorial_mode: timer_canvas.add_fsm(gui_sfm)
    
@@ -213,19 +230,40 @@ def widget_init(root, tab1, tab2):
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
 
-    
-    if not global_variables.tutorial_mode: dialogue_text = DialogueBox(root, dbox_info, global_variables.second_round_diff)
-    else: dialogue_text = None
+    if not global_variables.tutorial_mode: 
+        dialogue_text = None
+        
+        d_view = DialogueView(root, dialogueview_info)
+        
+        d_model = None
+        if not global_variables.social_mode:
+            d_model = DialogueModel(root, csv_dialogue_ns)
+        else:
+            d_model = DialogueModel(root, csv_dialogue_s)
+
+        a_view = AvatarView(root, javatar_info, global_variables.social_mode)
+        a_model = AvatarModel(csv_idle, csv_talking, csv_reactive)
+
+        avalogue = AvalogueController(root, d_model, d_view, a_model, a_view)
+        avalogue.set_avalogue("t_default","start_q")
+    else: 
+        d_view = None
+        d_model = None
+        a_view = None
+        a_model = None
+        avalogue = None
+        dialogue_text = None
     
     view_back = CameraView(tab1, flir_info, camera_available, "flir")
     view_front = CameraView(tab1, axis_info, camera_available, "axis")
     manual_button = BaseButton(root, button_manual_info, enable = False)
     auto_button = BaseButton(root, button_auto_info, enable= False)
-
-    yes_button = BaseButton(root, button_yes_info, activate=False, enable=False)
-    no_button = BaseButton(root, button_no_info, activate = False, enable=False)
-    if not global_variables.tutorial_mode: start_button = BaseButton(root, button_start_info, activate=True, enable=False)
-    else: start_button = None
+    countdown = CountdownCanvas(root, countdown_info)
+    #yes_button = BaseButton(root, button_yes_info, activate=False, enable=False)
+    #no_button = BaseButton(root, button_no_info, activate = False, enable=False)
+    #if not global_variables.tutorial_mode:
+     #   start_button = BaseButton(root, button_start_info, activate=True, enable=False)
+    #else: start_button = None
     
     if global_variables.tutorial_mode:
         freeze_button = BaseButton(root, button_freeze_info, activate=True, enable=False)
@@ -260,7 +298,7 @@ def widget_init(root, tab1, tab2):
 
     jackal_ai = JackalAI()
     
-    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button, dialogue_text, yes_button, no_button, timer_canvas, start_button, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl, calibrate_button, calibrate_lbl
+    return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button,a_model, a_view, d_model, d_view, avalogue, dialogue_text, timer_canvas, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl, calibrate_button, calibrate_lbl, countdown
 
 def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai):
     

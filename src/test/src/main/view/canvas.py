@@ -545,15 +545,15 @@ class TaskCanvas(BaseCanvas):
 
         #Danger State III
         elif c == 8:
-            if self.fsm.is_s6:
-                self.fsm.s67()
-        elif c == 9:
             if self.fsm.is_s7:
                 self.fsm.s78()
+        elif c == 9:
+            if self.fsm.is_s8:
+                self.fsm.s89()
         
         #End
         elif c == 10:
-            self.fsm.s89()
+            self.fsm.s910()
 
         self.text = "{count}/10".format(count=str(c))
         self.canvas.delete('all')

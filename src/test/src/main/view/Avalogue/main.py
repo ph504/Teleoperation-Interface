@@ -1,8 +1,8 @@
 from tkinter import Tk
-from avatar import AvatarModel, AvatarView
-from dialogue import *
-from avatar import *
-from avalogue import *
+from test.src.main.view.avatar import AvatarModel, AvatarView
+from test.src.main.view.dialogue import *
+from test.src.main.view.avatar import *
+from test.src.main.view.avalogue import *
 
 
 
@@ -31,15 +31,15 @@ def main():
     controller = AvalogueController(window,d_model,d_view, a_model,a_view)
     
     def err():
-        controller.set_avalogue("t_sad", "choice")
+        controller.set_avalogue("t_sad", "choice_q_s")
         
 
     
     def yes():
-        controller.set_avalogue("r_happy","congrats")
+        controller.set_avalogue("r_happy","congrats_s")
 
     def no():
-        controller.set_avalogue("r_sad","sorry")
+        controller.set_avalogue("r_sad","mistake_s")
 
 
     utils.register("Start" , err)
@@ -54,9 +54,9 @@ def main():
 
     def on_key_press(event):
         if event.char.lower() == 'h':
-            controller.set_avalogue("r_happy","congrats")
+            controller.set_avalogue("r_happy","congrats_s")
         if event.char.lower() == 's':
-            controller.set_avalogue("r_sad","sorry")
+            controller.set_avalogue("r_sad","mistake_s")
     
     window.bind('<Key>', on_key_press)
     window.mainloop()

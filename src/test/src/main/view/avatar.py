@@ -1,10 +1,11 @@
 from tkinter import Label
 from PIL import Image, ImageTk
 import time
-import threading
-import event
-from canvas import RepeatedTimer
-import global_variables
+import utils
+from tkinter import Tk
+import csv
+from collections import deque
+
 
 javatar_info = {
     "x": 460,
@@ -13,206 +14,254 @@ javatar_info = {
     "height": 180,
 }
 
+class AvatarView():
+    def __init__(self, frame,  dict_info,social) -> None:
+        self.frame = frame
+        self.x = dict_info["x"]
+        self.y = dict_info["y"]
+        self.width = dict_info["width"]
+        self.height = dict_info["height"]
+        self.label = Label(self.frame)
+        self.label.place(x = self.x, y = self.y, width = self.width, height = self.height)
+        self.social = social
 
-javatar_images = {
-    "default" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_01.png",
-    "default-talking": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_05.png",
-    "default-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_04.png",
-    "default-left": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_02.png",
-    "default-right": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_03.png",
-    "happy" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_17.png",
-    "happy-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_20.png",
-    "sad" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_09.png",
-    "sad-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_12.png",
-    "sad-talking": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_13.png",
-    "angry": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/angry/IDLE_21.png",
-    "angry-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/angry/IDLE_24.png",
-    "nonsocial": "/home/pouya/catkin_ws/src/test/src/images/non_social.png"
+        self.non_social_image = Image.open("/home/pouya/catkin_ws/src/test/src/images/non_social.png").resize((self.width,self.height), Image.ANTIALIAS)
+        self.curr_image = Image.open("/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_19.png").resize((self.width,self.height), Image.ANTIALIAS)
+        self.imagetk = ImageTk.PhotoImage(self.curr_image)
 
-}
+        self.label.configure(image=self.imagetk)
 
+        self.display()
 
-class Avatar():
-    
-    def __init__(self,root , avatar_info, avatar_images):
-            self.x = avatar_info["x"]
-            self.y = avatar_info["y"]
-            self.width = avatar_info["width"]
-            self.height = avatar_info["height"]
-            self.image = Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS) if global_variables.social_mode is True else Image.open(avatar_images["nonsocial"]).resize((self.width,self.height), Image.ANTIALIAS)
-            self.imagetk = ImageTk.PhotoImage(self.image)
-            self.label = Label(root)
-            self.label.config(image = self.imagetk)
-            self.label.image = self.imagetk
-            self.label.place(x = self.x ,y = self.y ,width = self.width ,height = self.height)
-            self.state = "default"
-            self.repeated_talking = None
-            self.repeated_talking_sad = None
-            self.first_time = True
-            self.count_blink = 0
-            self.sad_mode = False
-            self.first_time_sad = True
-            if global_variables.social_mode:
-                event.EventManager.subscribe("collision", self.change_image_hit)
-                event.EventManager.subscribe("mistake", self.change_image_hit)
-                event.EventManager.subscribe("congratulations", self.change_image_congratulations)
-                event.EventManager.subscribe("talking_started", self.change_image_talking)
-                event.EventManager.subscribe("talking_ended", self.end_talking)
-                event.EventManager.subscribe("talking_started_sad", self.change_image_talking_sad)
-                event.EventManager.subscribe("stop_talking", self.end_talking)
-                self.idle_event = threading.Event()
-                self.idle_event.set()
-                t = threading.Thread(target=self.idle_loop)
-                t.start()
+    def display(self):
+        
+        if self.social:
+            image = self.curr_image.resize((self.width,self.height), Image.ANTIALIAS)
+        else:
+            image = self.non_social_image
 
-           
-
-    def idle_loop(self): 
-            
-        while True: 
-           
-            time.sleep(10)
-            
-            self.idle_event.wait()
-            self.change_image('default-blink')
-            time.sleep(0.5)
-            self.idle_event.wait()
-            self.change_image('default-left')
-            time.sleep(0.5)
-            self.idle_event.wait()
-            self.change_image('default-blink')
-            time.sleep(0.5)
-            self.idle_event.wait()
-            self.change_image('default-right')
-            time.sleep(0.5)
-            self.idle_event.wait()
-            self.change_image('default-blink')
-            time.sleep(0.5)
-            self.idle_event.wait()
-            self.change_image('default')
-
-    def change_image(self,state):
-        self.image = Image.open(javatar_images[state]).resize((self.width,self.height), Image.ANTIALIAS)
-        self.state = state
-        self.imagetk = ImageTk.PhotoImage(self.image)
+        self.imagetk = ImageTk.PhotoImage(image)
         self.label.config(image = self.imagetk)
-        self.label.image = self.imagetk
+        Tk.after(self.frame, 100, self.display)
    
-    def change_image_temp(self,state):
-        def swap_images(s, p_s):
-            self.change_image(s)
-            time.sleep(10)
-            self.change_image(p_s)
-        prev_state = self.state
-        t = threading.Thread(target=swap_images, args=(state, prev_state))
-        t.start()
+    def set_image(self, image):
+        self.curr_image = image
 
-
-    def change_image_talking(self,dummy=0):
-        self.idle_event.clear()
-        def swap_images():
-            self.change_image("default-blink") if self.count_blink % 3 == 0 else self.change_image("default")
-            self.count_blink += 1
-            time.sleep(0.5)
-            self.change_image("default-talking")
-        if self.first_time:
-            self.first_time = False
-            def wait_start():
-                time.sleep(1.5)
-                self.repeated_talking = RepeatedTimer(2, swap_images)
-            t= threading.Thread(target=wait_start)
-            t.start()
-        else:
-           swap_images()
-           self.repeated_talking.start()
+#TODO: Create        
+class AvatarModel():
+    def __init__(self, csv_idle_filepath, csv_talking_filepath, csv_reactive_filepath) -> None:
+        
+        self.csv_idle_filepath = csv_idle_filepath
+        self.csv_talking_filepath = csv_talking_filepath
+        self.csv_reactive_filepath = csv_reactive_filepath
     
+    def find_obj(self,key):
+       if key[0] == 't':
+           with open(self.csv_talking_filepath, mode='r', newline='') as csv_f:
+                csv_reader = csv.DictReader(csv_f)
+                for row in csv_reader:
+                    if row['key'] == key:
+                        return AvatarTalking(row)                   
+       elif key[0] == 'i':
+           with open(self.csv_idle_filepath, mode='r', newline='') as csv_f:
+                csv_reader = csv.DictReader(csv_f)
+                for row in csv_reader:
+                    if row['key'] == key:
+                        return AvatarIdle(row)          
+       elif key[0] == 'r':
+           with open(self.csv_reactive_filepath, mode='r', newline='') as csv_f:
+                csv_reader = csv.DictReader(csv_f)
+                for row in csv_reader:
+                    if row['key'] == key:
+                        return AvatarReactive(row)
 
-    def change_image_talking_sad(self,dummy=0):
-            self.idle_event.clear()
-            self.sad_mode = True
-            def swap_images():
-                self.change_image("sad-blink") if self.count_blink % 3 == 0 else self.change_image("sad")
+#TODO: Avatar Object should be created in the model not in controller
+class AvatarController(object):
+    def __init__(self, frame, model: AvatarModel, view: AvatarView) -> None:
+        self.frame = frame
+        self.model = model
+        
+        self.view = view
+
+        self.curr_avatar = None
+        
+        self.avatar_stack = deque()
+        self.idle_avatar = self.model.find_obj('i_default')
+        
+        self.update_view()
+        
+    def update_view(self):
+
+        #if it's in complete idle mode (no new dialogues)
+        if not self.avatar_stack and self.curr_avatar is None:
+            img = self.idle_avatar.get_currimage()
+            self.view.set_image(img)
+        
+        # if a new avatar comes up 
+        if self.avatar_stack and self.curr_avatar == None:
+            
+            self.curr_avatar = self.avatar_stack.pop()
+        
+        #if in the middle of a dialogue, a new one comes up
+        if self.avatar_stack and self.curr_avatar != None:
+            temp = self.curr_avatar
+            self.curr_avatar = self.avatar_stack.pop()
+            self.avatar_stack.append(temp)
+
+        #if the current dialogue is finished
+        if self.curr_avatar != None and self.curr_avatar.finished:
+            self.curr_avatar = None
+
+        #if a dialogue is running
+        if self.curr_avatar != None:
+            img = self.curr_avatar.get_currimage()
+            self.view.set_image(img)
+
+        Tk.after(self.frame, 100, self.update_view)
+
+    def set_avatar(self, key):
+        avatar_obj  = self.model.find_obj(key)
+        self.avatar_stack.append(avatar_obj)
+
+#TODO: Avatar object Should get a row and everything be         
+class AvatarObject():
+    def __init__(self) -> None:
+        self.started = False
+        self.finished = False
+        self.curr_img = None
+        self.type = None
+
+    def change_currimg(self, img):
+        self.curr_img = img
+
+    def get_currimage(self):
+        return self.curr_img
+
+    def animate(self):
+        pass
+
+class AvatarReactive(AvatarObject):
+    def __init__(self, dict_info) -> None:
+        super().__init__()
+
+        self.type = "Reactive"
+        self.emotion = dict_info['emotion']
+        self.reaction_path = dict_info['reaction_path']
+        self.reaction_time = float(dict_info['reaction_time'])
+        self.blink_path = dict_info['blink_path']
+        self.blink_time = float(dict_info['blink_time'])
+        
+        self.reaction_img = Image.open(self.reaction_path)
+        self.blink_img = Image.open(self.blink_path)
+
+        
+        self.animate()
+    
+    @utils.thread
+    def animate(self):
+        
+        self.started = True
+
+        self.change_currimg(self.reaction_img)
+
+        time.sleep(self.reaction_time)
+
+        self.change_currimg(self.blink_img)
+
+        time.sleep(self.blink_time)
+
+        self.change_currimg(self.reaction_img)
+
+        time.sleep(self.reaction_time)
+        
+        self.finished = True
+
+class AvatarTalking(AvatarObject):
+    def __init__(self, dict_info) -> None:
+        super().__init__()        
+
+        self.type = "Talking"
+        self.emotion = dict_info['emotion']
+        self.default_path = dict_info['default_path']
+        self.talking_path = dict_info['talking_path']
+        self.blink_path = dict_info['blink_path']
+         
+        self.talking_time = float(dict_info['talking_time'])
+        self.interval_time = float(dict_info['interval_time'])
+        self.blink_countmax = float(dict_info['blink_countmax'])
+
+        self.default_img = Image.open(self.default_path)
+        self.blink_img = Image.open(self.blink_path)
+        self.talking_img = Image.open(self.talking_path)
+
+        self.count_blink = 0
+
+        self.animate()
+
+    @utils.thread
+    def animate(self):
+            self.change_currimg(self.default_img)
+            while True:
+                self.change_currimg(self.blink_img) if self.count_blink % self.blink_countmax == 0 else self.change_currimg(self.default_img)
                 self.count_blink += 1
-                time.sleep(0.5)
-                self.change_image("sad-talking")
-            if self.first_time_sad:
-                self.first_time_sad = False
-                def wait_start():
-                    swap_images()
-                    self.repeated_talking_sad  = RepeatedTimer(2, swap_images)
-                t= threading.Thread(target=wait_start)
-                t.start()
-            else:
-                swap_images()
-                self.repeated_talking_sad.start()
+                time.sleep(self.talking_time)
+                self.change_currimg(self.talking_img)
+                time.sleep(self.interval_time)
+
+class AvatarIdle(AvatarObject):
+    def __init__(self, dict_info) -> None:
+        super().__init__()
+        
+        self.type = "Idle"
+        self.emotion = dict_info['emotion']
+        self.default_path = dict_info['default_path']
+        self.left_path = dict_info['left_path']
+        self.right_path = dict_info['right_path']
+        self.blink_path = dict_info['blink_path']
+
+        self.idleloop_time = float(dict_info['idleloop_time'])
+        self.blink_time = float(dict_info['blink_time'])
+
+
+        self.default_img = Image.open(self.default_path)
+        self.left_img = Image.open(self.left_path)
+        self.right_img = Image.open(self.right_path)
+        self.blink_img = Image.open(self.blink_path)
+
+
+        
+
+        self.animate()
+        
+    @utils.thread
+    def animate(self):
+      
+        self.change_currimg(self.default_img)
+
+        while True: 
+
+            time.sleep(self.idleloop_time)
+
+            self.change_currimg(self.blink_img)
+
+            time.sleep(self.blink_time)
+
+            self.change_currimg(self.left_img)
+
+            time.sleep(self.blink_time)
+
+            self.change_currimg(self.blink_img)
+
+            time.sleep(self.blink_time)
+
+            self.change_currimg(self.right_img)
+
+            time.sleep(self.blink_time)
+
+            self.change_currimg(self.blink_img)
+
+            time.sleep(self.blink_time)
+
+            self.change_currimg(self.default_img)
+
     
-    
-    def end_talking(self,talkmode):
-        
-        def func():
-            if self.sad_mode == True:
-                    self.change_image("sad")
-                    self.repeated_talking_sad.stop()
-                    time.sleep(3)
-                    self.change_image("default")
-                    self.sad_mode = False
-            else:
-                    
-                    self.repeated_talking.stop()
-                    time.sleep(0.5)
-                    self.change_image("default")
-
-        if talkmode:
-            self.idle_event.set()
-            x = threading.Thread(target=func)
-            x.start()
-        else:
-            pass         
-           
-    def change_image_hit(self, dummy=0):
-        self.idle_event.clear()
-        def swap_images(s, _s, p_s):
-            self.change_image(s)
-            time.sleep(2)
-            self.change_image(_s)
-            time.sleep(0.5)
-            self.change_image(s)
-            time.sleep(2)
-            self.change_image(p_s)
-            self.idle_event.set()
-        prev_state = self.state
-        t = threading.Thread(target=swap_images, args=("sad", "sad-blink", prev_state))
-        t.start()
-             
-    def change_image_congratulations(self, dummy=0):
-        self.idle_event.clear()
-        def swap_images(s, _s, p_s):
-            self.change_image(s)
-            time.sleep(2)
-            self.change_image(_s)
-            time.sleep(0.5)
-            self.change_image(s)
-            time.sleep(2)
-            self.change_image(p_s)
-            self.idle_event.set()
-        prev_state = self.state
-        t = threading.Thread(target=swap_images, args=("happy","happy-blink", prev_state))
-        t.start()
-
-    def change_image_happy(self, dummy=0):
-            def swap_images(s, _s, p_s):
-                self.idle_event.clear()
-                self.change_image(s)
-                time.sleep(2)
-                self.change_image(_s)
-                time.sleep(0.5)
-                self.change_image(s)
-                time.sleep(2)
-                self.change_image(p_s)
-                self.idle_event.set()
-            prev_state = self.state
-            t = threading.Thread(target=swap_images, args=("happy","happy-blink", prev_state))
-            t.start()
-
-        
-        

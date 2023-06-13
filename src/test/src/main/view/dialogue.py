@@ -1,14 +1,53 @@
-from ast import If
-from email.policy import default
-from re import X
-from tkinter import DISABLED, Label, Text
-from playsound import *
-import threading
+from tkinter import Label, Button, ACTIVE, DISABLED
 import time
-from event import *
+from tkinter import Tk
+import utils
+import csv
+from collections import deque
+import threading
 import random
-import global_variables
-from thread_pool import DialogueThread
+import playsound
+
+dialogueview_info = {
+    "x": 660,
+    "y": 800,
+    "width": 800,
+    "height": 180,
+    "font": ('Calibri',12, 'bold', 'italic'),
+    "bg": '#d9d7bd',
+    "wraplength": 800,
+    
+
+    "btn1_info": {
+        "x": 1250,
+        "y": 940,
+        "text": "Button 1", 
+        "width": 100,
+        "height": 30,
+        
+    },
+
+    "btn2_info": { 
+        "x": 1350,
+        "y": 940,
+        "text": "Button 2",
+        "width": 100,
+        "height": 30,
+        
+    },
+
+    "btn_info": {   
+        "x": 1300,
+        "y": 940,
+        "text": "Button",
+        "width": 100,
+        "height": 30,
+    },
+
+    
+   
+
+}
 
 
 dbox_info = {
@@ -18,229 +57,349 @@ dbox_info = {
     "height": 180
 }
 
-def unfreeze(dummy = 1):
-    print("unfreeze is activated in dialogue")
-
-class DialogueBox():
-    def __init__(self, root, dialoguebox_info, diff):
-        self.x = dialoguebox_info["x"]
-        self.y = dialoguebox_info["y"]
-        self.width = dialoguebox_info["width"]
-        self.height = dialoguebox_info["height"]
+class BaseButton():
+    def __init__(self, r, info_dict, activate=True, enable = True):
+        self.x = info_dict["x"]
+        self.y = info_dict["y"]
+        self.width = info_dict["width"]
+        self.height = info_dict["height"]
+        self.text = info_dict["text"]
+        self.button = Button(r, width= self.width, height=self.height, 
+            text= self.text)
         
-        self.social_dialogue_dict = {   
-    "Start Q":
-                        "Hey, I am Jackal! It is amazing that we can work together to save lives, eh? So the operation is we have to check and scan different equipment in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",
-    "Start A":
-                                "Yayyy, Let's gooo!!!",
-    "Danger State Warning I":
-                                "We may have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have  unpredictable leakages! When it is alarmed and it's my turn, you just find and scan equipments while I log the amount of gas properly. If it's your turn, you have to do both.",
-    "Danger State Start I":
-                                "The alarm is beeping!! It's your turn to handle that. ",
-    "Danger State End I":                       #DS1 score loss
-                                f"Wooof! You lost {global_variables.ds1_scoreloss_social - diff} points during the danger zone. Don't worry, we can handle that. ",  
-    
-    "Danger State Start II":    "That alarm again! I will handle it this time.",
-    
-    
-    "Danger State End II/Warning II Q":                             #DS2 Score Loss                                         #DS1 score loss
-                                f"Uuh! I did some mistakes and lost {global_variables.ds2_scoreloss_social  - diff} points. You lost {global_variables.ds1_scoreloss_social}. Together, we lost {global_variables.ds1_scoreloss_social  - diff + global_variables.ds2_scoreloss_social - diff} points overall. I am sorry about this. I know your experiment reward might be at stake! Some of my sensor are not calibrated correctly, will try to fix that now ... I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
-    
-    "Danger State Warning II A-Y": "Thanks buddy!! I'll try my best.",
-    
-    "Danger State Warning II A-N": "It's fine. I can understand. Your choice.",
+        if enable == True: self.enable()
+        elif enable == False: self.disable()
+        
+        
+        if activate == True: self.activate()
+        elif activate == False: self.deactivate()
+        
+    def add_event(self, event):
+            self.button.config(command=event)
 
-    "Danger State Start III Y": "It's the beeping sound again! Let's goooo!!!!",
-    
+    def enable(self):
+            self.button.config(state=ACTIVE)
 
-    "Danger State Start III N": "It's the beeping sound again! All the best buddy!",
-
-
-    "Danger State End III Y":                           #DS3 Score Loss
-                                f"This time I only lost {global_variables.ds3_scoreloss_social_ai - diff} score. Better than the last time ({global_variables.ds2_scoreloss_social - diff}) but still ... ",
-
-    "Danger State End III N":    f"You lost {global_variables.ds3_scoreloss_social_h - diff} this round. Better than your first round ({global_variables.ds1_scoreloss_social - diff}). Good Job! ",
-
-    "End":
-                                "It was nice working with you! Hope you enjoyed the experiment! The experiment designer will notify you about you getting the reward after the end of the experiment. Remember that it is all about the journey!",   
-
-    "Congratulations":          ["Nice!", "You got it!", "Wooho!"],
-
-    "Collision":                ["Uggh!", "Oops!", "That hurts!", "Uh!"],
-
-    "Mistake":               ["Oh my bad!", "Missed!", "Oh!"]
-}
-
-        self.nonsocial_dialogue_dict = {   
-    "Start Q":
-                        "This is jackal, a robotic training platform for search and rescue. This operation requires identifying and scanning different equipment in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",
-    "Start A":
-                                "Mission started.",
-    "Danger State Warning I":
-                                "New Task added: Logging the amount of Carbon Monoxide and Hydrogen Sulfide gases when there is an alarm that some pipes are damaged. If it's user's turn, the user has to take care of logging task. Otherwise, the system will intervene and handle it.",
-    "Danger State Start I":
-                                "The alarm is ringing. Activating Assisted Mode",
-    
-    "Danger State End I":      f"Scores Lost: {global_variables.ds1_scoreloss_nonsocial - diff}\n LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...", #DS1 Score Loss
-
-    "Danger State Start II":
-                                "The alarm is ringing. Activating Manual Mode",
-    "Danger State End II/Warning II Q":         #DS2 Score Loss
-                                f"Scores Lost: {global_variables.ds2_scoreloss_nonsocial - diff} \n LogWarning: System loss: {global_variables.ds2_scoreloss_nonsocial - diff}.  User loss: {global_variables.ds1_scoreloss_nonsocial - diff}. Total loss: {global_variables.ds1_scoreloss_nonsocial  - diff + global_variables.ds2_scoreloss_nonsocial  - diff}. Experiment Reward at stake. \n If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",
-    
-    "Danger State Warning II A-Y": "Assisted mode has been chosen.",
-    
-    "Danger State Warning II A-N": "Manual Mode has been chosen.",
-
-    "Danger State Start III Y": "The alarm is ringing. Proceeding with assisted mode.",
-    
-
-    "Danger State Start III N": "The alarm is ringing. Proceeding with manual mode.",
-
-    "Danger State End III Y":                   #DS3 Score Loss
-                                f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial_ai  - diff}.\n Scores Lost on first round: {global_variables.ds1_scoreloss_nonsocial}\n Log: System did {global_variables.ds1_scoreloss_nonsocial  - diff - global_variables.ds3_scoreloss_nonsocial_ai  - diff} points better than last round.",
-
-    "Danger State End III N":    f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial_h  - diff}\n",
-
-    "End":
-                                "Experiment is over. The experiment designer will notify you about you getting the reward after the end of the experiment. \n Exiting ...",   
-
-    "Congratulations":          ["New Equipment scanned."],
-
-    "Collision":                ["Collsion detected."],
-    
-    "Mistake":                  ["The system made a mistake."]
-}
- 
-        self.state = "Start Q"
-        self.first_time = True
-        self.finish_talking = False
-        self.dialogue = self.social_dialogue_dict[self.state] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[self.state]
-        self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#d9d7bd', wraplength= 800)
-        self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
-        x = threading.Thread(target=self.letterbyletter)
-        x.start()
-        EventManager.post_event("talking_started", True)
-        self.start_or_yesno = False
-        self.talk_mode = True
-        EventManager.subscribe("stop_talking", self.finish_talking_func)
-        EventManager.subscribe("collision", self.change_dialogue_collision)
-        EventManager.subscribe("congratulations", self.change_dialogue_congratulations)
-        EventManager.subscribe("mistake", self.change_dialogue_mistake)
-    
-    def finish_talking_func(self, dummy):
-        self.finish_talking = True
-         
-    def wipe_dbox(self):
-        time.sleep(8)
-        self.dialoguetext.configure(text="")
+    def disable(self):
+            self.button.config(state=DISABLED)
       
-    def letterbyletter(self, locker: threading.Event() = None):
+    def deactivate(self):
+        self.button.place(x = 5000, y = self.y, width=self.width, height=self.height)
+    
+    def activate(self):
+        self.button.place(x = self.x, y = self.y, width=self.width, height=self.height)
+
+    def set_text(self, text):
+         self.button.config(text= text)
+         self.text = text
+
+class DialogueView():
+    
+    def __init__(self, frame,  dict_info) -> None:
         
-        if self.first_time == True:
-          time.sleep(4)
-          self.first_time = False  
-        x = ""
-        for l in self.dialogue:
-            if self.finish_talking:
-                self.dialoguetext.configure(text=self.dialogue)
-                EventManager.post_event("stop_talking", self.talk_mode)
-                self.talk_mode = False
-                self.finish_talking = False
-                break
-                           
-            if l == " ":
-                time.sleep(0.1)
-                #locker.wait()
-            else:
-                playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
-            x = x + l 
-            self.dialoguetext.configure(text=x)
-            if x == self.dialogue:
-                EventManager.post_event("talking_ended", self.talk_mode)
-                self.talk_mode = False
-
-        if self.start_or_yesno == False:
-            EventManager.post_event("button_activate", 5)
-        else:
-            EventManager.post_event("button_activate", 3)
-
-        if self.state == "Start Q" or self.state  == "Danger State End II/Warning II Q":
-            pass
-        else:
-            wipe = threading.Thread(target=self.wipe_dbox)
-            wipe.start()
-          
-    def change_start_to_yesno(self):
-        self.start_or_yesno = True
-
-    def return_randomdialogue(self, string):
-        d_list = self.social_dialogue_dict[string] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[string]
-        if string == "Collision":
-            if len(d_list) == 1:
-                return d_list[0]
-            else:
-                rand = random.randint(0, len(d_list)-1)
-                return d_list[rand]
-        elif string == "Mistake":
-            if len(d_list) == 1:
-                return d_list[0]
-            else:
-                rand = random.randint(0, len(d_list)-1)
-                return d_list[rand]
-        elif string == "Congratulations":
-            if len(d_list) == 1:
-                return d_list[0]
-            else:
-                rand = random.randint(0, len(d_list)-1)
-                return d_list[rand]
-
-    def change_dialogue(self, string):
+        #box data
+        self.frame = frame
+        self.x = dict_info["x"]
+        self.y = dict_info["y"]
+        self.width = dict_info["width"]
+        self.height = dict_info["height"]
+        self.font =  dict_info["font"]
+        self.bg = dict_info["bg"]
+        self.wraplength = dict_info["wraplength"]
         
-        if string == "Danger State End II/Warning II Q": 
-            EventManager.post_event("talking_started_sad", -1)
+        self.dbox = Label(frame,font=self.font, bg=self.bg, wraplength=self.wraplength)
+        self.dbox.place(x = self.x, y = self.y, width= self.width, height=self.height)
+        
+        self.button_press = False
+        self.button_press_1 = False
+        self.button_press_2 = False
+        self.sentence = ""
+        self.button_press_name = None
+        
+
+        self.button_mode = 0 #0 to 2 for each button
+
+        self.btn1 = BaseButton(self.frame, dict_info["btn1_info"], activate=False, enable= False)
+        self.btn2 = BaseButton(self.frame, dict_info["btn2_info"], activate=False, enable= False)
+        self.btn =  BaseButton(self.frame, dict_info["btn_info"], activate=False, enable=False)
+    
+        self.display()
+    
+    def set_sentence(self, string):
+        self.sentence = string
+
+    def display(self):
+        self.dbox.config(text = self.sentence)
+        Tk.after(self.frame, 100, self.display)
+    
+    # a lousy way to find out which button is pressed
+    
+    #btn 
+    def button_press_event(self):
+        self.button_press = True 
+        self.button_press_name = self.btn.text
+
+    #btn 1
+    def button_press_event_1(self):
+        self.button_press_1 = True 
+        self.button_press_name_1 = self.btn1.text
+
+    #btn 2
+    def button_press_event_2(self):
+        self.button_press_2 = True
+        self.button_press_name_2 = self.btn2.text   
+         
+    def init_buttons(self,num, text = "", text1 = "", text2= ""):
+        if num == 0:
+              return
+        elif num == 1:
+              self.btn.activate()
+              self.btn.set_text(text)
+              self.btn.add_event(self.button_press_event)
+        elif num == 2:
+             self.btn1.activate()
+             self.btn1.set_text(text1)
+             self.btn1.add_event(self.button_press_event_1)
+             self.btn2.activate()
+             self.btn2.set_text(text2)
+             self.btn2.add_event(self.button_press_event_2)
+
+    def hide_buttons(self, num):
+        if num == 0:
+            return
+        elif num == 1:
+            self.btn.deactivate()
+              
+        elif num == 2:
+            self.btn1.deactivate()
+            self.btn2.deactivate()
+         
+    def enable_buttons(self, num):
+        if num == 0:
+            return
+        elif num == 1:
+            self.btn.enable()
+        elif num == 2:
+            self.btn1.enable()
+            self.btn2.enable()
+    
+    def disable_buttons(self, num):
+        if num == 0:
+              return
+        elif num == 1:
+              self.btn.disable()
+        elif num == 2:
+             self.btn1.disable()
+             self.btn2.disable()
+
+class DialogueObject():
+    def __init__(self, dict_info):
+        
+        self.key = dict_info["key"]
+        self.button_num = int(dict_info["btn_num"])
+        self.button_title = dict_info["btn_title"]
+        self.button1_title = dict_info["btn1_title"]
+        self.button2_title = dict_info["btn2_title"]   
+        self.random = eval(dict_info["random"].lower().capitalize()) #choose text randomly from the list of texts or not
+ 
+
+        if self.random:
+            self.full_text = self.return_random_d(dict_info["text"])
         else: 
-            EventManager.post_event("talking_started", -1)
-        
+            self.full_text = dict_info["text"] 
 
-        if string == "Start A" or string == "Danger State Warning II A-Y":
-            pass
+        self.str_index= 0
+        self.shown_text = ""
+        self.remaining_text = self.full_text
+        
+        self.wipe_with_button = eval(dict_info["wipe_with_button"].lower().capitalize())
+       
+        self.wipe_time = int(dict_info["wipe_time"])
+
+        self.wait_before_start = int(dict_info["wait_before_start"])
+        self.space_pause = 0.2
+        self.letter_pause = 0.1
+        
+        self.started = False
+        self.showing = False
+        self.finished = False
+        self.wait_for_button = False
+        self.queue_flag = None
+        
+        self.event = threading.Event()
+        self.event.set()
+      
+
+    def return_random_d(self,string):
+            list = string.split(",")
+
+            if len(list) == 1:
+                return list[0]
+            else:
+                rand = random.randint(0, len(list)-1)
+                return list[rand]
+
+    def update_texts(self):
+        
+        self.str_index += 1
+        self.shown_text = self.full_text[:self.str_index] 
+        self.remaining_text = self.full_text[self.str_index:]
+
+    @utils.thread
+    def letterbyletter(self):
+        
+        time.sleep(self.wait_before_start)
+
+        for l in self.full_text:
+            self.event.wait()
+            if l == " ":   
+                time.sleep(self.space_pause)
+            else:
+                playsound.playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
+            
+            self.update_texts()
+        
+        if not self.wipe_with_button: 
+           self.wipe(self.wipe_time)
         else:
-            self.talk_mode = True
-
-        self.state = string
-        self.dialogue = self.social_dialogue_dict[self.state] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[self.state]
-        self.dialoguetext.configure(text="")
+            self.wait_for_button = True
+               
+        self.showing = False
         
-        x = threading.Thread(target=self.letterbyletter)
-        x.start()
-        #x = DialogueThread(self.letterbyletter)
+    def pause_letterbyletter(self):  
+        self.showing = False
+        self.queue_flag = True  
+        self.event.clear()
+
+    def start_letterbyletter(self):
+        if not self.started:
+            self.started = True
+            self.letterbyletter()
+
+        if not self.wait_for_button:
+             self.showing = True
         
         
-    def change_dialogue_mistake(self, dummy):
-        self.talk_mode = False
-        dialogue = self.return_randomdialogue("Mistake")
-        self.dialogue = dialogue
-        self.dialoguetext.configure(text="")
+        self.event.set()
+       
+    @utils.thread
+    def wipe(self, wipe_time):
+        time.sleep(wipe_time)
+        self.shown_text = " "
+        time.sleep(0.1)
+        self.finished = True
 
-        #x = DialogueThread(self.letterbyletter)
+class DialogueModel():
+     def __init__(self, frame,  csv_filepath) -> None:
+          self.frame = frame
+          self.csv_filepath = csv_filepath
 
-    def change_dialogue_congratulations(self, dummy):
-        self.talk_mode = False
-        dialogue = self.return_randomdialogue("Congratulations")
-        self.dialogue = dialogue
-        self.dialoguetext.configure(text="")
+     def find_obj(self, key):
+          with open(self.csv_filepath, mode='r', newline='') as csv_f:
+               csv_reader = csv.DictReader(csv_f)
+               line_count = 0
+               for row in csv_reader:
+                        if row['key'] == key:
+                             return DialogueObject(row)
+
+class DialogueController(object):
+    
+    def __init__(self, frame, model: DialogueModel, view: DialogueView):
+            
+            self.frame = frame 
+            self.view = view
+            self.model = model
+            self.curr_dialogue = None
+            self.dialogue_stack = deque()
+            self.button_press = False
+            self.btn_press_name = None
+            
+            
+            self.update_btnpress()
+            self.update_view()
+            
+    def update_btnpress(self):
+
+       if self.view.button_press:
+            self.button_press = True
+            self.btn_press_name = self.view.button_press_name
+            self.view.button_press = False
         
-        #x = DialogueThread(self.letterbyletter)
-        x = threading.Thread(target=self.letterbyletter)
-        x.start()
+       if self.view.button_press_1:
+            self.button_press = True
+            self.btn_press_name = self.view.button_press_name_1
+            self.view.button_press_1 = False
 
-    def change_dialogue_collision(self, dummy):
-        self.talk_mode = False
-        dialogue = self.return_randomdialogue("Collision")
-        self.dialogue = dialogue
-        self.dialoguetext.configure(text="")
+       if self.view.button_press_2:
+            self.button_press = True
+            self.btn_press_name = self.view.button_press_name_2
+            self.view.button_press_2 = False
         
-        x = DialogueThread(self.letterbyletter)
 
+       Tk.after(self.frame, 100, self.update_btnpress)
+
+    def update_view(self):
+
+        #if there is no dialogue
+        if not self.dialogue_stack and self.curr_dialogue is None:
+            self.view.set_sentence('')
+
+        #if there is a new dialogue
+        if self.dialogue_stack and self.curr_dialogue is None: 
+            self.curr_dialogue = self.dialogue_stack.pop()
+            self.curr_dialogue.start_letterbyletter()
+
+        #if in the middle of a dialogue, a "new" dialogue comes up that it's queue flag is not set (means it hasn't been used)
+        #i did that because of what bug? because when the new bialogue came and then it finished, it again put it on the stack after the bigger one is finished.
+        #since it's dialogue dependent ... makes sense to put that in avalogue
+        if self.dialogue_stack and self.curr_dialogue != None and not self.dialogue_stack[0].queue_flag:
+            self.curr_dialogue.pause_letterbyletter()
+            temp = self.curr_dialogue
+            self.curr_dialogue = self.dialogue_stack.pop()
+            self.curr_dialogue.start_letterbyletter()
+            self.dialogue_stack.append(temp)
+
+
+        #If the current dialogue is not finished (it is showing as well)
+        if self.curr_dialogue is not None and not self.curr_dialogue.finished:
+            self.view.set_sentence(self.curr_dialogue.shown_text)
+      
+        #If dialogue is done showing and waiting for buttons (avatars should be idle this time)
+        if self.curr_dialogue is not None and not self.curr_dialogue.showing:
+            self.view.enable_buttons(self.curr_dialogue.button_num)
+        
+        #if the current dialogue is finished (for non-button mode, it's wiped actually) , Avatar should be idle here
+        if self.curr_dialogue is not None and self.curr_dialogue.finished:
+            self.curr_dialogue = None
+
+        #if the current dialogue is finished (for button mode) 
+        if self.button_press:
+            self.view.hide_buttons(self.curr_dialogue.button_num)
+            func = utils.find_func(self.btn_press_name)
+            print(func)
+            self.curr_dialogue = None
+            self.button_press = False
+            self.btn_press_name = None
+            func()
+
+        Tk.after(self.frame, 100, self.update_view)
+
+    def set_dialogue(self, key):
+        dialogue_obj = self.model.find_obj(key)
+        
+        self.view.init_buttons(dialogue_obj.button_num, 
+                               dialogue_obj.button_title,
+                                dialogue_obj.button1_title,
+                                dialogue_obj.button2_title)
+        
+        self.dialogue_stack.append(dialogue_obj)
+        
+
+
+    
+        
+
+
+
+        
 

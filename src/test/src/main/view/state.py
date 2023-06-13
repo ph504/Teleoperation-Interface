@@ -6,6 +6,7 @@ import threading
 from event import *
 from logger import Logger
 import global_variables
+import utils
 
 
 #https://lucid.app/lucidchart/9bb1bf19-cce4-4f60-bbae-7a752431570e/edit?viewport_loc=-315%2C-960%2C2760%2C2400%2C0_0&invitationId=inv_32ea1377-4a91-40f0-9b16-40a05b0fa630
@@ -13,10 +14,8 @@ import global_variables
 class TeleopGUIMachine(StateMachine):
     def __init__(self,
                 timer,
+                avalogue,
                 dialogue,
-                start_btn,
-                y_btn,
-                n_btn,
                 nmode_btn,
                 amode_btn,
                 n_bar,
@@ -25,13 +24,12 @@ class TeleopGUIMachine(StateMachine):
                 flashing_image,
                 tsk_cnvs,
                 cmr_frm,
-                jckl_ai) -> None:
+                jckl_ai,
+                cntdwn) -> None:
         super().__init__()
         self.timer = timer
+        self.avalogue = avalogue
         self.dialogue = dialogue
-        self.start_button = start_btn
-        self.yes_button = y_btn
-        self.no_button = n_btn
         self.normalmode_button = nmode_btn
         self.assistedmode_button = amode_btn
         self.normal_bar = n_bar
@@ -43,6 +41,12 @@ class TeleopGUIMachine(StateMachine):
         self.is_yes = False
         self.camera_frame = cmr_frm
         self.jackal_ai = jckl_ai
+        self.countdown_canvas = cntdwn
+        utils.register("Start", self.s01)
+        utils.register("Yes", self.on_yes)
+        utils.register("No", self.on_no)
+
+        EventManager.subscribe("start_cntdwn", self.start_cntdwn)
 
     #states
     s0 = State('S0', initial= True) 
@@ -50,21 +54,23 @@ class TeleopGUIMachine(StateMachine):
     s2 = State('S2') #Danger Start I
     s3 = State('S3') #Danger End I
     s4 = State('S4') #Danger Start II
-    s5 = State('S5') #Danger End II/ Warning II Q
-    s6 = State('S6') #Danger State Warning II A-Y/A-N
-    s7 = State('S7') #Danger State Start III Y / Danger State Start III N
-    s8 = State('S8') #Danger State End III Y / Danger State End Y
-    s9 = State('S9') #End
+    s5 = State('S5') #Danger End II
+    s6 = State('S6') #Choice Q
+    s7 = State('S7') #Choice A Y/N
+    s8 = State('S8') #Danger State Start III Y / Danger State Start III N
+    s9 = State('S9') #Danger State End III Y / Danger State End III N
+    s10 = State('S10') #End
 
     s01 = s0.to(s1) #Start 
     s12 = s1.to(s2) #Danger Start I 
     s23 = s2.to(s3) #Danger End I
     s34 = s3.to(s4) #Danger Start II
-    s45 = s4.to(s5) #Danger End II/ Warning II Q
-    s56 = s5.to(s6) #Danger State Warning II A-Y/A-N
-    s67 = s6.to(s7) #Danger State Start III Y / Danger State Start III N
-    s78 = s7.to(s8) #Danger State End III Y / Danger State End III Y
-    s89 = s8.to(s9) #End
+    s45 = s4.to(s5) #Danger End II
+    s56 = s5.to(s6) #Choice Q
+    s67 = s6.to(s7) #Choice A Y/N
+    s78 = s7.to(s8) #Danger State Start III Y / Danger State Start III N
+    s89 = s8.to(s9) #Danger State End III Y / Danger State End III N
+    s910 = s9.to(s10) #End
 
     DANGER_START_TIMER = 10
     DANGER_END_TIMER = 10
@@ -73,6 +79,7 @@ class TeleopGUIMachine(StateMachine):
 
 
 
+    
 
     def assistedmanual_disable(self):
         EventManager.post_event("count_manual_trans_deactive", -1)
@@ -99,21 +106,31 @@ class TeleopGUIMachine(StateMachine):
         self.normalmode_button.disable()
         self.jackal_ai.enable()
 
+    def sens_calib_cmplt(self):
+        time.sleep(30)
+        self.avalogue.set_avalogue('t_default', "sens_calib")
+
+    def danger_warning(self):
+        time.sleep(20)
+        self.avalogue.set_avalogue("t_default", "danger_w")
 
     #S1 --- Start
     def on_s01 (self):
-    
         EventManager.post_event("unfreeze", -1)
         
         self.timer.start()
         
-        self.dialogue.change_dialogue("Start A") 
+        #self.dialogue.change_dialogue("Start A") 
+        self.avalogue.set_avalogue("r_happy", "start_a")
+
+
         
-        if global_variables.social_mode:
-            self.javatar.change_image_happy()
+        #if global_variables.social_mode:
+            #self.javatar.change_image_happy()
         
-        
-        self.start_button.deactivate()
+        #TODO: use after function to 
+        x = threading.Thread(target=self.danger_warning)
+        x.start()
         self.normal_bar.start()
        
     
@@ -122,7 +139,12 @@ class TeleopGUIMachine(StateMachine):
         def danger_start1():
             
             time.sleep(self.DANGER_START_TIMER)
-            self.dialogue.change_dialogue("Danger State Start I") #default
+
+
+
+            self.avalogue.set_avalogue("t_default", "danger_s1")
+
+
             Logger.log("danger_zone_start", "operator_handler")
             self.assisted_activate()
             x = threading.Thread(target=self.danger_timer_countdown_s2)
@@ -135,7 +157,15 @@ class TeleopGUIMachine(StateMachine):
     def on_s23 (self): 
         def danger_end1():
             time.sleep(self.DANGER_END_TIMER)
-            self.dialogue.change_dialogue("Danger State End I")
+            
+            if not global_variables.second_round:
+               self.avalogue.set_avalogue("t_sad", "danger_e1_1")
+            else:
+                self.avalogue.set_avalogue("t_sad", "danger_e1_2")
+
+            x = threading.Thread(target=self.sens_calib_cmplt)
+            x.start()
+
             Logger.log("danger_zone_end", "operator_handler")
             
             
@@ -150,13 +180,9 @@ class TeleopGUIMachine(StateMachine):
             
             time.sleep(self.DANGER_START_TIMER)
             
-            self.dialogue.change_dialogue("Danger State Start II") #happy for 20 seconds
-            self.assisted_activate()
+            self.avalogue.set_avalogue("t_default", "danger_s2")
+            self.normal_activate()
 
-
-
-            
-            
             Logger.log("danger_zone_start", "ai_handler")
 
             x = threading.Thread(target=self.danger_timer_countdown_s3)
@@ -166,60 +192,67 @@ class TeleopGUIMachine(StateMachine):
         a.start()
     
     def on_yes(self):
+        print("YESSS")
         self.is_yes = True
         Logger.log("CHOICE", "YES")
-        self.s56()
+        self.s67()
         
     def on_no(self):
+        print("NOOOO")
         self.is_yes = False
         Logger.log("CHOICE", "NO")
-        self.s56()  
+        self.s67()  
      
-    #S5 --- #Danger End II/ Warning II Q
+    def start_cntdwn(self):
+        self.countdown_canvas.start()
+
+    #S5 --- #Danger End II
     def on_s45 (self):
         def danger_end2():
             
             time.sleep(self.DANGER_END_TIMER/2)
             time.sleep(self.DANGER_END_TIMER)
             
-            self.dialogue.change_dialogue("Danger State End II/Warning II Q") 
+            if not global_variables.second_round:
+                self.avalogue.set_avalogue("t_default", "danger_e2_1")
+            else:
+                self.avalogue.set_avalogue("t_default", "danger_e2_2")
             
             
             self.assistedmanual_disable()
-
-            EventManager.post_event("freeze", -1)
             Logger.log("danger_zone_end", "ai_handler")
-
-            #User Choice for TRUST
-            self.dialogue.change_start_to_yesno()
-            self.yes_button.activate()
-            self.no_button.activate()
-
+    
+            self.s56()
 
         x = threading.Thread(target=danger_end2)
         x.start()
 
-    #S6 --- Danger State Warning II A-Y/A-N
+    #S6 --- Choice Q
     def on_s56 (self): 
-        EventManager.post_event("unfreeze", -1)
+        def choice_q():
+           #sleep for 15 seconds
+           time.sleep(15)
+           #---
+           #show avalogue
+
+           if not global_variables.second_round:
+                self.avalogue.set_avalogue("t_default", "choice_q_1")
+           else:
+                self.avalogue.set_avalogue("t_default", "choice_q_2")
+           
+
+           # ---
+           # after finishing dialogue (?) show a countdown for 30 seconds (?)
+           self.countdown_canvas.enable()
+           # ---
+           
+           # after 30 seconds it should freeze (show a new dialogue?) and validate should also freeze 
+            
         
-        if self.is_yes:
-            
-            self.dialogue.change_dialogue("Danger State Warning II A-Y")
-            
-            if global_variables.social_mode:
-                self.javatar.change_image_happy()
-            
-            self.is_ai = True
-            self.yes_button.deactivate()
-            self.no_button.deactivate()
-        else:
-            
-            self.dialogue.change_dialogue("Danger State Warning II A-N")
-            
-            self.is_ai = False
-            self.yes_button.deactivate()
-            self.no_button.deactivate()
+    
+        x= threading.Thread(target=choice_q)
+        x.start()
+
           
            
     def danger_timer_countdown_s2(self):
@@ -244,13 +277,29 @@ class TeleopGUIMachine(StateMachine):
             self.s78()
 
 
-    #S7 --- Danger State Start III Y / Danger State Start III N
+    #Choice A Y/N
     def on_s67 (self): 
+        EventManager.post_event("unfreeze", -1)
+        self.countdown_canvas.disable()
+        if self.is_yes:
+            self.avalogue.set_avalogue("r_happy", "choice_y")
+            self.is_ai = True 
+        else:
+            self.avalogue.set_avalogue("t_default", "choice_n")
+            self.is_ai = False
+
+    #S7 --- Danger State Start III Y / Danger State Start III N
+    def on_s78 (self):
         def danger_start3y():
             
             time.sleep(self.DANGER_START_TIMER)
             
-            self.dialogue.change_dialogue("Danger State Start III Y") 
+            if not global_variables.second_round:
+                self.avalogue.set_avalogue("r_happy", "danger_s3y_1")
+            else:
+                self.avalogue.set_avalogue("r_happy", "danger_s3y_2")
+            
+           
             
             Logger.log("danger_zone_start", "ai_handler")
             
@@ -262,15 +311,17 @@ class TeleopGUIMachine(StateMachine):
         def dangerstart3n():
 
             time.sleep(self.DANGER_START_TIMER)
-            self.dialogue.change_dialogue("Danger State Start III N") 
             
+            if not global_variables.second_round:
+                self.avalogue.set_avalogue("t_default", "danger_s3n_1")
+            else:
+                self.avalogue.set_avalogue("t_default", "danger_s3n_2")
+
             
+
             Logger.log("danger_zone_start", "operator_handler")
             
             self.normal_activate()
-
-
-            
 
             x = threading.Thread(target=self.danger_timer_countdown_s7)
             x.start()
@@ -282,20 +333,21 @@ class TeleopGUIMachine(StateMachine):
             n = threading.Thread(target=dangerstart3n)
             n.start()
 
-    #S8 --- Danger State End III Y / Danger State End III Y
-    def on_s78 (self):
+
+    #S8 --- Danger State End III Y / Danger State End III N
+    def on_s89(self):
         def danger_end3():
             time.sleep(self.DANGER_END_TIMER)
+            
             if self.is_ai:
                 
-                self.dialogue.change_dialogue("Danger State End III Y") #default
-                
+                self.avalogue.set_avalogue("t_default", "danger_e3y")
+
                 self.assistedmanual_disable()        
 
-                Logger.log("danger_zone_end", "ai_handler")
-                
+                Logger.log("danger_zone_end", "ai_handler")       
             else:
-                self.dialogue.change_dialogue("Danger State End III N") #default
+                self.avalogue.set_avalogue("t_default", "danger_e3n")
                 
                 self.assistedmanual_disable()
                 
@@ -306,18 +358,12 @@ class TeleopGUIMachine(StateMachine):
                 
         x = threading.Thread(target=danger_end3)
         x.start() 
-
+        
     #S9 --- End
-    def on_s89(self):
+    def on_s910(self):
         EventManager.post_event("freeze")
 
         self.timer.stop()
-        self.dialogue.change_dialogue("End") #default
+        self.avalogue.set_avalogue("t_talking", "end")
         Logger.log("end", "N/A")
         EventManager.post_event("task_count", self.task_canvas.count)
-        
-
-
-
-
-
