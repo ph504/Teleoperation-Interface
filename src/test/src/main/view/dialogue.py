@@ -222,6 +222,7 @@ class DialogueObject():
         
         self.started = False
         self.showing = False
+        self.stopped = False
         self.finished = False
         self.wait_for_button = False
         self.queue_flag = None
@@ -250,6 +251,8 @@ class DialogueObject():
         
         time.sleep(self.wait_before_start)
 
+        self.showing = True
+
         for l in self.full_text:
             self.event.wait()
             if l == " ":   
@@ -265,6 +268,7 @@ class DialogueObject():
             self.wait_for_button = True
                
         self.showing = False
+        self.stopped = True
         
     def pause_letterbyletter(self):  
         self.showing = False
@@ -275,11 +279,10 @@ class DialogueObject():
         if not self.started:
             self.started = True
             self.letterbyletter()
+        else:
+            if not self.wait_for_button:
+                self.showing = True
 
-        if not self.wait_for_button:
-             self.showing = True
-        
-        
         self.event.set()
        
     @utils.thread

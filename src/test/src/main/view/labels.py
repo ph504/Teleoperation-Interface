@@ -25,7 +25,7 @@ small_cmr_lbl = {
 
 clbr_lbl = {
     "x": 5,
-    "y": 790,
+    "y": 815,
     "width": 300,
     "height": 20,
     "color": "red",
@@ -67,7 +67,7 @@ class CalibrateLabel():
         self.color = label_info["color"]
         
         
-        self.label = Label(r, text= self.text, font=self.font, fg=self.color)
+        self.label = Label(r, text= self.text, font=self.font, fg=self.color, anchor='s')
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
     def activate(self):
@@ -80,7 +80,7 @@ class CalibrateLabel():
         self.label.configure(text="calibrating ...")
         time.sleep(20)
         self.label.config(text="") 
-        EventManager.subscribe("calibrate_start", -1)
+        EventManager.post_event("calibrate_start", -1)
       
    
 

@@ -19,7 +19,7 @@ button_auto_info = {
 
 button_manual_info = {
     "x": 70,
-    "y": 560,
+    "y": 550,
     "width": 150,
     "height": 50,
     "text": "Manual Mode",
@@ -77,7 +77,7 @@ button_freeze_info = {
 
 button_calibrate_info = {
     "x": 70,
-    "y": 800,
+    "y": 850,
     "width": 150,
     "height": 50,
     "text": "Calibrate",
@@ -115,6 +115,7 @@ class BaseButton():
         
     def add_event(self, event, arg = None):
             self.button.config(command=event)
+            
         
        
     

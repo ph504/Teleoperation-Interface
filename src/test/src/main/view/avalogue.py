@@ -16,6 +16,7 @@ class AvalogueController():
         self.curr_avalogue = None #in form of a tuple?
 
         self.idle_avatar = self.a_model.find_obj('i_default')
+        self.sad_idle_avatar = self.a_model.find_obj('i_sad')
         
         self.button_press = False
         self.btn_press_name = None
@@ -53,8 +54,79 @@ class AvalogueController():
 
     #the avatar is dependent on the dialogue
     def update_loop(self):
+
+        if self.curr_avalogue is None:
+            if not self.avalogue_stack:
+                #print("1 --- stack is empty and no current avatar")
+                self.empty_view()
+            else:
+                #print("2 --- a new avalogue is added to stack")
+                self.curr_avalogue = self.avalogue_stack.pop()
+                self.curr_avalogue[1].start_letterbyletter()
+        else:
+            if self.avalogue_stack:
+                 if not (self.avalogue_stack[0])[1].queue_flag:
+                    #print("3 --- in the middle of avalogue, a new one comes up which hasn't been shown.")
+                    self.curr_avalogue[1].pause_letterbyletter()
+                    temp = self.curr_avalogue
+                    self.curr_avalogue = self.avalogue_stack.pop()
+                    self.curr_avalogue[1].start_letterbyletter()
+                    self.avalogue_stack.append(temp)
+                    if temp[1].button_num != 0:
+                        #print("4 --- if the previous avalogue had buttons, disable it")
+                        self.d_view.disable_buttons(temp[1].button_num)
         
-        #if there is no new avalogue, d is empty and a is idle
+
+            if not self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
+               #print("5 --- it is waiting for start (in seconds)")
+               self.empty_view()
+
+            elif self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
+                 #print("6 --- it is talking")
+                 self.update_view()
+                 #if self.curr_avalogue[1].queue_flag and self.curr_avalogue[1].wipe_with_button:
+                    # print("7 --- if the avalogue that was showing, got hidden and now is showing again had buttons, enable it(should we?)")
+                    # self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
+
+            elif not self.curr_avalogue[1].showing and self.curr_avalogue[1].stopped and not self.curr_avalogue[1].finished:
+                #print("8 --- full text is shown and is either waiting for button or to wipe")
+                if self.curr_avalogue[0].type == "Talking":
+                        #print("11 --- for talking it needs to be idle(default/sad) while waiting for button, and wipe?")
+                        if self.curr_avalogue[0].emotion == "sad":
+                            new_avalogue = (self.sad_idle_avatar, self.curr_avalogue[1])
+                            self.curr_avalogue = new_avalogue
+                        else:
+                            new_avalogue = (self.idle_avatar, self.curr_avalogue[1])
+                            self.curr_avalogue = new_avalogue                        
+            
+                if self.curr_avalogue[1].wipe_with_button:
+                    #print("9 --- waiting for buttons, enable it and if talking it should be idle")
+                    self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
+                    
+                    if self.curr_avalogue[1].key == "choice_q_1" or self.curr_avalogue[1].key == "choice_q_2":
+                        #print("!!! --- START COUNTDOWN")
+                        EventManager.post_event("start_cntdwn", -1)
+    
+                self.update_view()   
+            
+            if self.curr_avalogue[1].finished:
+                #print("10 --- it is finished and needs to be empty")
+                self.curr_avalogue = None
+
+            if self.button_press:
+                #print("11 ---  button press")
+                self.d_view.hide_buttons(self.curr_avalogue[1].button_num)
+                func = utils.find_func(self.btn_press_name)
+                self.curr_avalogue = None
+                self.button_press = None
+                self.btn_press_name = None
+                func()
+
+        Tk.after(self.frame, 100, self.update_loop)
+       
+       
+    '''
+               #if there is no new avalogue, d is empty and a is idle
         if not self.avalogue_stack and self.curr_avalogue is None:
             self.empty_view()
             
@@ -85,9 +157,7 @@ class AvalogueController():
             self.update_view()
             
         if self.curr_avalogue is not None and not self.curr_avalogue[1].showing and not self.curr_avalogue[0].finished:
-            self.update_view()   
-            
-            
+            self.update_view()             
             #full dialogue shown, avatar is idle, waiting for button press
             if self.curr_avalogue[1].button_num != 0:    
                 self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
@@ -110,7 +180,12 @@ class AvalogueController():
             self.btn_press_name = None
             func()
 
-        Tk.after(self.frame, 100, self.update_loop)
+       ''' 
+
+    
+
+
+    
 
 
     def update_view(self):
@@ -144,7 +219,8 @@ class AvalogueController():
         self.set_avalogue("r_sad", "mistake")
     
     def on_collision(self, dummy):
-        self.set_avalogue("r_angey", "collision")
+        print("collision@!!!!!")
+        self.set_avalogue("r_sad", "collision")
 
         
         

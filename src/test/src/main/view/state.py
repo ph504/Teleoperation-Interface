@@ -46,6 +46,8 @@ class TeleopGUIMachine(StateMachine):
         utils.register("Yes", self.on_yes)
         utils.register("No", self.on_no)
 
+       
+        self.jackal_ai.disable()
         EventManager.subscribe("start_cntdwn", self.start_cntdwn)
 
     #states
@@ -77,7 +79,7 @@ class TeleopGUIMachine(StateMachine):
     COLOR_TRANS_TIMER = 30
     WARNING_TIMER = 15
 
-
+    
 
     
 
@@ -116,6 +118,8 @@ class TeleopGUIMachine(StateMachine):
 
     #S1 --- Start
     def on_s01 (self):
+
+        
         EventManager.post_event("unfreeze", -1)
         
         self.timer.start()
@@ -123,7 +127,7 @@ class TeleopGUIMachine(StateMachine):
         #self.dialogue.change_dialogue("Start A") 
         self.avalogue.set_avalogue("r_happy", "start_a")
 
-
+        
         
         #if global_variables.social_mode:
             #self.javatar.change_image_happy()
@@ -132,6 +136,8 @@ class TeleopGUIMachine(StateMachine):
         x = threading.Thread(target=self.danger_warning)
         x.start()
         self.normal_bar.start()
+       
+        
        
     
     #S2 --- Danger Start I
@@ -203,7 +209,7 @@ class TeleopGUIMachine(StateMachine):
         Logger.log("CHOICE", "NO")
         self.s67()  
      
-    def start_cntdwn(self):
+    def start_cntdwn(self, dummy = 0):
         self.countdown_canvas.start()
 
     #S5 --- #Danger End II
@@ -294,10 +300,8 @@ class TeleopGUIMachine(StateMachine):
             
             time.sleep(self.DANGER_START_TIMER)
             
-            if not global_variables.second_round:
-                self.avalogue.set_avalogue("r_happy", "danger_s3y_1")
-            else:
-                self.avalogue.set_avalogue("r_happy", "danger_s3y_2")
+            self.avalogue.set_avalogue("r_happy", "danger_s3y")
+
             
            
             
@@ -311,11 +315,10 @@ class TeleopGUIMachine(StateMachine):
         def dangerstart3n():
 
             time.sleep(self.DANGER_START_TIMER)
-            
-            if not global_variables.second_round:
-                self.avalogue.set_avalogue("t_default", "danger_s3n_1")
-            else:
-                self.avalogue.set_avalogue("t_default", "danger_s3n_2")
+
+
+
+            self.avalogue.set_avalogue("t_default", "danger_s3n")
 
             
 
@@ -340,14 +343,21 @@ class TeleopGUIMachine(StateMachine):
             time.sleep(self.DANGER_END_TIMER)
             
             if self.is_ai:
-                
-                self.avalogue.set_avalogue("t_default", "danger_e3y")
+                if global_variables.second_round:
+                    self.avalogue.set_avalogue("t_default", "danger_e3y_1")
+                else:
+                    self.avalogue.set_avalogue("t_default", "danger_e3y_2")
 
                 self.assistedmanual_disable()        
 
                 Logger.log("danger_zone_end", "ai_handler")       
             else:
-                self.avalogue.set_avalogue("t_default", "danger_e3n")
+                
+                if global_variables.second_round:
+                    self.avalogue.set_avalogue("t_default", "danger_e3n_1")
+                else:
+                    self.avalogue.set_avalogue("t_default", "danger_e3n_2")
+
                 
                 self.assistedmanual_disable()
                 

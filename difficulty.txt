@@ -1,5 +1,6 @@
 Initial Difficulty:
 
+----------###########################-----------
 bar_canvas_info_main = {
 
     "bar_defaultpercent": 50/100,
@@ -35,7 +36,7 @@ bar_canvas_info3 = {
 }
 
 Second Iteration:
-
+----------###########################-----------
 bar_canvas_info_main = {
 
     "bar_defaultpercent": 50/100,

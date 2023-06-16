@@ -6,7 +6,7 @@ import global_variables
 
 class JackalAI():
     
-    global_variables.jackalai_active = True
+    global_variables.jackalai_active = False
 
     def __init__(self):
         self.right_count = 0

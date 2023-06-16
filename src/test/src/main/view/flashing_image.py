@@ -14,7 +14,7 @@ flashing_image_info = {
 
 countdown_info = {
     "x": 1215,
-    "y": 945,
+    "y": 941,
     "width": 25,
     "height": 25,
     "color": "black",
@@ -67,8 +67,8 @@ class CountdownCanvas(BaseCanvas):
         self.text = self.seconds
         self.countdown = None
         self.fsm = None
-        self.canvas.configure(bg = self.bg)
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font )
+        self.canvas.configure(bg = self.bg, borderwidth='1p', relief=FLAT)
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font, anchor= CENTER, justify="center")
 
 
     def start(self, dummy = 0):

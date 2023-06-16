@@ -326,6 +326,7 @@ class BarCanvas(BaseCanvas):
     
     def move_bar(self,string):   
         #just to prevent danger bars being active while normal is active (and vice versa) 
+        
         if (self.is_danger and BarCanvas.danger_mode) or (not self.is_danger and not BarCanvas.danger_mode):
             
             self.canvas.delete(self.tag_bar,self.tag_line)
@@ -398,8 +399,10 @@ class BarCanvas(BaseCanvas):
             return
         else:
             self.passed = False
-            if not global_variables.jackalai_active or not self.red_mode:
-                playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav") 
+            if global_variables.tutorial_mode:
+                playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
+            elif not global_variables.jackalai_active or not self.red_mode:
+                playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
             
             self.red_mode = False
             
@@ -479,7 +482,8 @@ class TimerCanvas(BaseCanvas):
         else:
             self.countdown.start()
     def stop(self, dummy = 0):
-        self.countdown.stop()
+        if self.countdown != None:
+            self.countdown.stop()
     def add_fsm(self, fsm):
         self.fsm = fsm
     def plus(self):
@@ -527,33 +531,33 @@ class TaskCanvas(BaseCanvas):
             EventManager.post_event("congratulations", -1)
             
         if c  > 10: return
-        
+        if not global_variables.tutorial_mode:
         #Danger State I
-        if c == 2:
-            self.fsm.s12()
-        elif c == 3:
-            if self.fsm.is_s2:
-                self.fsm.s23()
+            if c == 2:
+                self.fsm.s12()
+            elif c == 3:
+                if self.fsm.is_s2:
+                    self.fsm.s23()
 
-        #Danger State II
-        elif c == 5:
-            if self.fsm.is_s3:
-                self.fsm.s34()
-        elif c == 6:
-            if self.fsm.is_s4:
-                self.fsm.s45()
+            #Danger State II
+            elif c == 5:
+                if self.fsm.is_s3:
+                    self.fsm.s34()
+            elif c == 6:
+                if self.fsm.is_s4:
+                    self.fsm.s45()
 
-        #Danger State III
-        elif c == 8:
-            if self.fsm.is_s7:
-                self.fsm.s78()
-        elif c == 9:
-            if self.fsm.is_s8:
-                self.fsm.s89()
-        
-        #End
-        elif c == 10:
-            self.fsm.s910()
+            #Danger State III
+            elif c == 8:
+                if self.fsm.is_s7:
+                    self.fsm.s78()
+            elif c == 9:
+                if self.fsm.is_s8:
+                    self.fsm.s89()
+            
+            #End
+            elif c == 10:
+                self.fsm.s910()
 
         self.text = "{count}/10".format(count=str(c))
         self.canvas.delete('all')

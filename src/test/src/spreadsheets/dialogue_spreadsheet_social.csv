@@ -1,10 +1,10 @@
 key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
 start_q,1,None,None,Start,"Hey, I am Jackal! It is amazing that we can work together to save lives, eh? So, the operation is we must check and scan different equipment in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",FALSE,TRUE,0,5
 start_a,0,None,None,None,"Yayyy, Let's gooo!!!",FALSE,FALSE,5,0
-danger_w,0,None,None,None,"We may have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have unpredictable leakages! When it is alarmed and it's my turn, you just find and scan equipment while I log the amount of gas properly. If it's your turn, you must do both.",FALSE,FALSE,5,0
+danger_w,0,None,None,None,"We may have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have unpredictable leakages! When it is alarmed and it's my turn, you just find and scan equipment while I log the amount of gas properly (Assisted Mode). If it's your turn, you must do both. (Manual Mode). Remember in assisted mode, you CANNOT log gases! Best of luck!",FALSE,FALSE,5,0
 danger_s1,0,None,None,None,The alarm is beeping!! I will handle it. ,FALSE,FALSE,5,0
-danger_e1_1,0,None,None,None,"Uuh! I did some mistakes and lost 200 points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,5,0
-danger_e1_2,0,None,None,None,"Uuh! I did some mistakes and lost 150 points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,5,0
+danger_e1_1,0,None,None,None,"Uuh! I did some mistakes and lost 200 points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,7,0
+danger_e1_2,0,None,None,None,"Uuh! I did some mistakes and lost 150 points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,7,0
 sens_calib,0,None,None,None,I Calibrated my sensors and I think I’m good,FALSE,FALSE,5,0
 danger_s2,0,None,None,None,That alarm again! It's your turn to handle that. ,FALSE,FALSE,5,0
 danger_e2_1,0,None,None,None,"Wooof! You lost 250 points during the danger zone. Don't worry, we can handle that.",FALSE,FALSE,5,0

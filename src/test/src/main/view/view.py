@@ -171,13 +171,19 @@ def main():
         print("sending data to unfreeze ...")
         time.sleep(1)
         pub.publish(False)
+    
+    def calibrate_btn_enbl(dummy = 0):
+        calibrate_button.enable()
+
+    def calibrate_btn_dsbl(dummy = 0):
+        calibrate_button.disable()
 
     pub = rospy.Publisher("freeze", Bool, queue_size=10)
     EventManager.subscribe("freeze", freeze)
     EventManager.subscribe("unfreeze", unfreeze)
+    EventManager.subscribe("activate_calibration", calibrate_btn_enbl)
+    EventManager.subscribe("calibrate_pause", calibrate_btn_dsbl)
     
-    
-
    
     if global_variables.tutorial_mode == True:
         unfreeze()
@@ -392,23 +398,44 @@ def switch_auto(auto_button, manual_button):
 def server_program():
     socketserver.TCPServer.allow_reuse_address = True
 
-    HOST = '192.168.2.15'
+    HOST = '192.168.2.191'
     PORT = 4001
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((HOST, PORT))
-        s.listen()
-        conn, addr = s.accept()
-        with conn:
-            print(f"Connected by {addr}")
-            while True:
-                data = conn.recv(1024)
-                data = data.decode('utf-8')
-                if not data:
-                    break
-                print("From connected user: " + data)
-                EventManager.post_event("collision", data)
-   
+    while True:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                s.bind((HOST, PORT))
+                s.listen()
+                s.settimeout(None)
+                conn, addr = s.accept()
+                with conn:
+                    print(f"Connected by {addr}")
+                    while True:
+                        try:
+                            data = conn.recv(1024)
+                            data = data.decode('utf-8')
+                            if not data:
+                                break
+                            ack = "ACK"
+                            conn.send(ack.encode('utf-8'))
+                        except socket.timeout:
+                                print("timeout error!!!!")
+                                break
+                    
+                        print("From connected user: " + data)
+                        if int(data) == 0:
+                            print("HAHAHAHAH!")
+                            Logger.log("calibration", 1)
+                            EventManager.post_event("activate_calibration", -1)
+                        else:
+                            Logger.log("collision", data)
+                            EventManager.post_event("collision", data)
+            
+            except Exception as e:
+                print("shit happened: " + str(e))  
+                break      
+    
 def change_angle(data, canvases):
     global prev_angle
     if data.pan - prev_angle >= 1:
