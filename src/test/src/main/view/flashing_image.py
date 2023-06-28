@@ -86,10 +86,13 @@ class CountdownCanvas(BaseCanvas):
     def minus(self):
         sec = self.seconds
         sec = int(sec)
+
+        if sec == 0:
+            return
         
         sec -= 1
         
-        if sec == 0:
+        if sec == 0 and self.fsm.is_s6:
            EventManager.post_event("freeze", -1)
            self.stop()
            

@@ -93,7 +93,7 @@ class InspectionPage():
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
                 
                 self.delete_err_lbl()
-                print(global_variables.tutorial_mode)
+                
                 if global_variables.tutorial_mode:
                     
                      self.tutorial_code_list.remove(string)

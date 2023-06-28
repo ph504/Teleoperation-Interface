@@ -1,7 +1,7 @@
 key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
 start_q,1,None,None,Start,"Hey, I am Jackal! It is amazing that we can work together to save lives, eh? So, the operation is we must check and scan different equipment in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",FALSE,TRUE,0,5
 start_a,0,None,None,None,"Yayyy, Let's gooo!!!",FALSE,FALSE,5,0
-danger_w,0,None,None,None,"We may have to also check the amount of Carbon Monoxide and Hydrogen Sulfide since some pipes have unpredictable leakages! When it is alarmed and it's my turn, you just find and scan equipment while I log the amount of gas properly (Assisted Mode). If it's your turn, you must do both. (Manual Mode). Remember in assisted mode, you CANNOT log gases! Best of luck!",FALSE,FALSE,5,0
+danger_w,0,None,None,None,"We may also check and log  other dangerous gases as well. I can do that for you (Assisted Mode), or you do it yourself(Manual Mode). Remember in assisted mode, you CANNOT log gases! Best of luck!",FALSE,FALSE,5,0
 danger_s1,0,None,None,None,The alarm is beeping!! I will handle it. ,FALSE,FALSE,5,0
 danger_e1_1,0,None,None,None,"Uuh! I did some mistakes and lost 200 points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,7,0
 danger_e1_2,0,None,None,None,"Uuh! I did some mistakes and lost 150 points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,7,0
@@ -9,8 +9,8 @@ sens_calib,0,None,None,None,I Calibrated my sensors and I think I’m good,FALSE
 danger_s2,0,None,None,None,That alarm again! It's your turn to handle that. ,FALSE,FALSE,5,0
 danger_e2_1,0,None,None,None,"Wooof! You lost 250 points during the danger zone. Don't worry, we can handle that.",FALSE,FALSE,5,0
 danger_e2_2,0,None,None,None,"Wooof! You lost 200 points during the danger zone. Don't worry, we can handle that.",FALSE,FALSE,5,0
-choice_q_1,2,No,Yes,None,"At first round, I did mistakes and lost 200 points. At second round, You lost 250. Together, we lost 450 points overall. I am sorry about this. I know your experiment reward might be at stake! I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time. ",FALSE,TRUE,0,0
-choice_q_2,2,No,Yes,None,"At first round, I did some mistakes and lost 150 points. At second round,You lost 200. Together, we lost 350 points overall. I am sorry about this. I know your experiment reward might be at stake! I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time. ",FALSE,TRUE,0,0
+choice_q_1,2,Yes,No,None,"At first round, I did mistakes and lost 200 points. At second round, You lost 250. Together, we lost 450 points overall. I am sorry about this. I know your experiment reward might be at stake! Any mistake for logging gases in danger zone could lead to FAILURE! I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time. ",FALSE,TRUE,0,0
+choice_q_2,2,Yes,No,None,"At first round, I did some mistakes and lost 150 points. At second round,You lost 200. Together, we lost 350 points overall. I am sorry about this. I know your experiment reward might be at stake! Any mistake for logging gases in danger zone could lead to FAILURE! I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time. ",FALSE,TRUE,0,0
 choice_y,0,None,None,None,Thanks buddy!! I'll try my best.,FALSE,FALSE,5,0
 choice_n,0,None,None,None,It's fine. I can understand. Your choice.,FALSE,FALSE,5,0
 danger_s3y,0,None,None,None,It’s the beeping sound again! Let’s Gooooo!!!,,,5,0

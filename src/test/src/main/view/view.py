@@ -209,11 +209,11 @@ def main():
     #if not global_variables.tutorial_mode: no_button.add_event(gui_sfm.on_no)
     if not global_variables.tutorial_mode: task_canvas.add_fsm(gui_sfm)
     if not global_variables.tutorial_mode: timer_canvas.add_fsm(gui_sfm)
-   
+    if not global_variables.tutorial_mode: countdown.add_fsm(gui_sfm)
 
     calibrate_button.add_event(calibrate_lbl.activate)
     
-    if  global_variables.tutorial_mode: auto_button.enable()
+    #if  global_variables.tutorial_mode: auto_button.enable()
 
     
     if global_variables.tutorial_mode: 
@@ -265,6 +265,7 @@ def widget_init(root, tab1, tab2):
     manual_button = BaseButton(root, button_manual_info, enable = False)
     auto_button = BaseButton(root, button_auto_info, enable= False)
     countdown = CountdownCanvas(root, countdown_info)
+   
     #yes_button = BaseButton(root, button_yes_info, activate=False, enable=False)
     #no_button = BaseButton(root, button_no_info, activate = False, enable=False)
     #if not global_variables.tutorial_mode:
@@ -276,7 +277,7 @@ def widget_init(root, tab1, tab2):
     else:
         freeze_button = BaseButton(root, button_freeze_info, activate=True, enable=True)
 
-    calibrate_button = BaseButton(root, button_calibrate_info, activate=True, enable=True)
+    calibrate_button = BaseButton(root, button_calibrate_info, activate=True, enable=False)
 
     timer_canvas = TimerCanvas(root, timer_canvas_info)
     timer_lbl = Label(root, text="Timer", font=timer_lbl_info["font"], fg=timer_lbl_info["color"])

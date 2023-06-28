@@ -178,7 +178,7 @@ circle_canvas_info = {
     "y": 290,
     "width": 802,
     "height": 602,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#f75a05', "red": "#fc0303"},
+    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
     "active": True
 }
 
@@ -524,13 +524,14 @@ class TaskCanvas(BaseCanvas):
     def plus(self):
         c = self.count
         c += 1
+        if c  > 10: return
         self.count += 1
         Logger.log("task_advance" , str(self.count))
         
         if c != 10:
             EventManager.post_event("congratulations", -1)
             
-        if c  > 10: return
+        
         if not global_variables.tutorial_mode:
         #Danger State I
             if c == 2:
@@ -648,9 +649,20 @@ class CircleCanvas(BaseCanvas):
             self.canvas.delete("circle")
             self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
             self.state = "orange"
+        elif self.state == "orange":
+            if global_variables.tutorial_mode:
+                self.canvas.delete("circle")
+                self.canvas.create_oval(5, 5, 200, 200, fill=self.color_red, outline=self.color_red, tags="circle")
+                self.state = "red"
 
     def color_transition_reverse(self, dummy = 0):
-        if self.state == "orange":
+        
+        if self.state == "red":
+                if global_variables.tutorial_mode:
+                    self.canvas.delete("circle")
+                    self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
+                    self.state = "orange"
+        elif self.state == "orange":
             self.canvas.delete("circle")
             self.canvas.create_oval(5, 5, 200, 200, fill=self.color_yellow, outline=self.color_yellow, tags="circle")
             self.state = "yellow"

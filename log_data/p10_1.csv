@@ -1,3 +1,5 @@
 Event,Value,Timestamp
-task_advance,1,00:31
-thrshldpsscntdngrttl_nrml,1,00:48
+task_advance,1,
+task_advance,2,
+task_advance,3,
+task_advance,4,

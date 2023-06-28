@@ -18,14 +18,14 @@ flir_info = {
     "y": 50,
     "width": 400,
     "height": 300,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#f75a05', "red": "#fc0303"}
+    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
 }
 axis_info = {
     "x": 560,
     "y": 150,
     "width": 800,
     "height": 600,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#f75a05', "red": "#fc0303"}
+    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
 }
 
 

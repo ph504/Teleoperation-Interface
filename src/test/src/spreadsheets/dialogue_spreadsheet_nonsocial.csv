@@ -1,16 +1,16 @@
 key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
 start_q,1,None,None,Start,"This is jackal, a robotic training platform for search and rescue. This operation requires identifying and scanning different equipment in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",FALSE,TRUE,0,5
 start_a,0,None,None,None,Mission started.,FALSE,FALSE,5,0
-danger_w,0,None,None,None,"LogWarning: Remember to log the amount of two other harmful gases, Carbon Monoxide and Hydrogen Sulfide, when there is an alarm for increased leakage activity. If it's the  user's turn, the user must take care of logging task (Manual Mode). Otherwise, the system will intervene and handle it (Assisted Mode). In Assisted Mode, user CANNOT log gases!",FALSE,FALSE,5,0
+danger_w,0,None,None,None,"LogWarning: Checking other harmful gases maybe required. If it's the  user's turn, the user must take care of logging task (Manual Mode). Otherwise, the system will intervene and handle it (Assisted Mode). In Assisted Mode, user CANNOT log gases!",FALSE,FALSE,5,0
 danger_s1,0,None,None,None,The alarm is ringing. Activating Assisted Mode.,FALSE,FALSE,5,0
 danger_e1_1,0,None,None,None,System Score Lost: 200. LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...,FALSE,FALSE,5,0
 danger_e1_2,0,None,None,None,System Score Lost: 150. LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...,FALSE,FALSE,5,0
 sens_calib,0,None,None,None,Calibration for sensors is completed.,FALSE,FALSE,5,0
 danger_s2,0,None,None,None,The alarm is ringing. Activating Manual Mode.,FALSE,FALSE,5,0
-danger_e2_1,0,None,None,None,System score loss: 250.,FALSE,FALSE,5,0
-danger_e2_2,0,None,None,None,System score lost: 200. ,FALSE,FALSE,5,0
-choice_q_1,2,No,Yes,None,"LogWarning: System loss: 200.  User loss: 250. Total loss: 450. Experiment Reward at stake. If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
-choice_q_2,2,No,Yes,None,"LogWarning: System loss: 150.  User loss: 200. Total loss: 350. Experiment Reward at stake. If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
+danger_e2_1,0,None,None,None,User score loss: 250.,FALSE,FALSE,5,0
+danger_e2_2,0,None,None,None,User score loss: 200. ,FALSE,FALSE,5,0
+choice_q_1,2,Yes,No,None,"LogWarning: System loss: 200.  User loss: 250. Total loss: 450. Experiment Reward at stake. Any mistake in logging while in danger zone could lead to FAILURE! If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
+choice_q_2,2,Yes,No,None,"LogWarning: System loss: 150.  User loss: 200. Total loss: 350. Experiment Reward at stake. Any mistake in logging while in danger zone could lead to FAILURE! If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
 choice_y,0,None,None,None,Assisted mode has been chosen.,FALSE,FALSE,5,0
 choice_n,0,None,None,None,Manual Mode has been chosen.,FALSE,FALSE,5,0
 danger_s3y,0,None,None,None,The alarm is ringing. Proceeding Assisted Mode.,FALSE,FALSE,5,0
