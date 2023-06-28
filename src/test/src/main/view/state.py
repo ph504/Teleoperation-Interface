@@ -38,7 +38,7 @@ class TeleopGUIMachine(StateMachine):
         self.flashing_image = flashing_image
         self.is_ai = False
         self.task_canvas = tsk_cnvs
-        self.is_yes = False
+        self.is_yes = None
         self.camera_frame = cmr_frm
         self.jackal_ai = jckl_ai
         self.countdown_canvas = cntdwn
@@ -196,18 +196,21 @@ class TeleopGUIMachine(StateMachine):
             
         a = threading.Thread(target=danger_start2)
         a.start()
-    
+     
     def on_yes(self):
-        print("YESSS")
-        self.is_yes = True
-        Logger.log("CHOICE", "YES")
-        self.s67()
+        
+        if self.is_yes == None:
+            print("YESSS")
+            self.is_yes = True
+            Logger.log("CHOICE", "YES")
+            self.s67()
         
     def on_no(self):
-        print("NOOOO")
-        self.is_yes = False
-        Logger.log("CHOICE", "NO")
-        self.s67()  
+        if self.is_yes == None:
+            print("NOOOO")
+            self.is_yes = False
+            Logger.log("CHOICE", "NO")
+            self.s67()  
      
     def start_cntdwn(self, dummy = 0):
         self.countdown_canvas.start()
@@ -374,6 +377,6 @@ class TeleopGUIMachine(StateMachine):
         EventManager.post_event("freeze")
 
         self.timer.stop()
-        self.avalogue.set_avalogue("t_talking", "end")
+        self.avalogue.set_avalogue("t_default", "end")
         Logger.log("end", "N/A")
         EventManager.post_event("task_count", self.task_canvas.count)
