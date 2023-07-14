@@ -225,7 +225,7 @@ class DialogueObject():
         self.stopped = False
         self.finished = False
         self.wait_for_button = False
-        self.queue_flag = None
+        self.queue_flag = False
         
         self.event = threading.Event()
         self.event.set()

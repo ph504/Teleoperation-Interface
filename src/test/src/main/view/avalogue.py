@@ -66,7 +66,7 @@ class AvalogueController():
         else:
             if self.avalogue_stack:
                  if not (self.avalogue_stack[0])[1].queue_flag:
-                    #print("3 --- in the middle of avalogue, a new one comes up which hasn't been shown.")
+                    print("3 --- in the middle of avalogue, a new one comes up which hasn't been shown.")
                     self.curr_avalogue[1].pause_letterbyletter()
                     temp = self.curr_avalogue
                     self.curr_avalogue = self.avalogue_stack.pop()

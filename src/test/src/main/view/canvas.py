@@ -43,15 +43,23 @@ bar_canvas_info_main = {
     "y": 70,
     "width": 800,
     "height": 20,
-    "bar_defaultpercent": 50/100,
+
+    "bar_defaultpercent_slow": 40/100,
+    "bar_defaultpercent_fast": 40/100,
+
     "line_thresholdpercent": 80/100,
     "outline_color": "black",
     "outline_width": 2,
     "color": "blue",
     "line_color": "red",
     "line_width": 2,
-    "move_interval": 0.7,
-    "progress_step": 0.5,
+
+    "move_interval_slow": 0.7,
+    "progress_step_slow": 0.5,
+
+    "move_interval_fast": 0.7,
+    "progress_step_fast": 0.5,
+
     "active": True
 
 }
@@ -60,15 +68,25 @@ bar_canvas_info1 = {
     "y": 30,
     "width": 800,
     "height": 20,
-    "bar_defaultpercent": 20/100,
-    "line_thresholdpercent": 80/100,
+
+    "bar_defaultpercent_slow": 20/100,
+    "bar_defaultpercent_fast": 50/100,
+
+    "line_thresholdpercent": 85/100,
+
+
     "outline_color": "black",
     "outline_width": 2,
     "color": "green",
     "line_color": "red",
     "line_width": 2,
-    "move_interval": 0.75,
-    "progress_step": 5,
+
+    "move_interval_slow": 2.5,
+    "progress_step_slow": 5,
+
+    "move_interval_fast": 0.6,
+    "progress_step_fast": 10,
+
     "active": False
 
 }
@@ -77,15 +95,24 @@ bar_canvas_info2 = {
     "y": 60,
     "width": 800,
     "height": 20,
-    "bar_defaultpercent": 40/100,
+
+   
+
+    "bar_defaultpercent_slow": 20/100,
+    "bar_defaultpercent_fast": 50/100,
+
     "line_thresholdpercent": 80/100,
     "outline_color": "black",
     "outline_width": 2,
     "color": "green",
     "line_color": "red",
     "line_width": 2,
-    "move_interval": 0.25,
-    "progress_step": 1,
+
+    "move_interval_slow": 1,
+    "progress_step_slow": 1,
+
+    "move_interval_fast": 0.4,
+    "progress_step_fast": 8,
     "active": False
 
 }
@@ -94,18 +121,26 @@ bar_canvas_info3 = {
     "y": 90,
     "width": 800,
     "height": 20,
-    "bar_defaultpercent": 25/100,
-    "line_thresholdpercent": 80/100,
+
+    "bar_defaultpercent_slow": 20/100,
+    "bar_defaultpercent_fast": 50/100,
+
+    "line_thresholdpercent": 90/100,
     "outline_color": "black",
     "outline_width": 2,
     "color": "green",
     "line_color": "red",
     "line_width": 2,
-    "move_interval": 0.5,
-    "progress_step": 3,
+    "move_interval_slow": 2,
+    "progress_step_slow": 2.5,
+
+    "move_interval_fast": 0.5,
+    "progress_step_fast": 10,
     "active": False
 
 }
+
+
 timer_canvas_info = {
     "x": 1650,
     "y": 75,
@@ -209,8 +244,14 @@ class RepeatedTimer(object):
         self._timer.cancel()
         self.is_running = False
 
+
+    def change_interval(self, intrvl):
         
+        self.interval = intrvl
+        
+
     def change_args(self, *args):
+        
         self.args = args
 
 class BaseCanvas():
@@ -288,11 +329,18 @@ class BarCanvas(BaseCanvas):
     danger_mode = None
     danger_count = 0
     manual_mode = None
-
+    bar_tag = 0
     def __init__(self, r, info_dict, danger):
         super().__init__(r,info_dict)
-        self.bar_percent = info_dict["bar_defaultpercent"]
-        self.bar_defaultpercent = self.bar_percent
+       
+       
+        self.bar_defaultpercent_slow = info_dict["bar_defaultpercent_slow"]
+        self.bar_defaultpercent_fast = info_dict["bar_defaultpercent_fast"]
+
+        self.curr_bar_defaultpercent = self.bar_defaultpercent_slow
+        self.bar_percent = self.curr_bar_defaultpercent
+
+
         self.tag_bar = "bar"
         self.tag_line = "line"
         self.outline_color = info_dict["outline_color"]
@@ -304,11 +352,23 @@ class BarCanvas(BaseCanvas):
         self.repeat_moving = None
         self.active = info_dict["active"]
         self.secondary_task = None
-        self.move_interval= info_dict["move_interval"]
-        self.progress_step = info_dict["progress_step"]
+        self.bar_tag = BarCanvas.bar_tag
+        BarCanvas.bar_tag += 1
+       
+        
+        self.move_interval_slow = info_dict["move_interval_slow"]
+        self.move_interval_fast = info_dict["move_interval_fast"]
+       
+        self.progress_step_slow = info_dict["progress_step_slow"]
+        self.progress_step_fast = info_dict["progress_step_fast"]
+
+        self.curr_move_interval = self.move_interval_slow
+        self.curr_progress_step = self.progress_step_slow
+
         self.canvas.create_rectangle(2,2, self.width, self.height, fill=r.cget('bg'), outline=self.outline_color, width=self.outline_width)
         self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
         self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.outline_width, tags=self.tag_line)
+        
         self.passed = False
         self.is_danger = danger
         self.red_mode = False
@@ -317,10 +377,16 @@ class BarCanvas(BaseCanvas):
         self.threshold_pass_count_danger = 0
         self.step_pass_count_normal = 0
         self.step_pass_count_danger = 0
+
         EventManager.subscribe("count_manual_trans_deactive", self.manual_deactive)
         EventManager.subscribe("count_manual_trans_active", self.manual_active)
 
+        EventManager.subscribe("bar_fast_mode", self.bar_mode_fast)
+        EventManager.subscribe("bar_slow_mode", self.bar_mode_slow)
+        EventManager.subscribe("bar_ultra_mode", self.bar_mode_ultra)
+    
     def start(self):
+        print("it should start the repeated time!")
         #self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
         self.secondary_task = RepeatedTimer(3, self.random_movement)
     
@@ -330,8 +396,8 @@ class BarCanvas(BaseCanvas):
         if (self.is_danger and BarCanvas.danger_mode) or (not self.is_danger and not BarCanvas.danger_mode):
             
             self.canvas.delete(self.tag_bar,self.tag_line)
-            if string == "left" and self.bar_percent > 0: self.bar_percent -= self.progress_step / 100
-            elif string == "right" and self.bar_percent < 100: self.bar_percent += self.progress_step / 100
+            if string == "left" and self.bar_percent > 0: self.bar_percent -= self.curr_progress_step / 100
+            elif string == "right" and self.bar_percent < 100: self.bar_percent += self.curr_progress_step / 100
             
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
             self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width * self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
@@ -353,7 +419,7 @@ class BarCanvas(BaseCanvas):
             return
         
         # check to see if the user ignored and the bar is just keep going 
-        elif self.passed and self.bar_percent > self.line_thresholdpercent + self.progress_step/100:
+        elif self.passed and self.bar_percent > self.line_thresholdpercent + self.curr_progress_step/100:
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="red", tags=self.tag_bar)
             self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
             
@@ -387,12 +453,35 @@ class BarCanvas(BaseCanvas):
                 if BarCanvas.danger_mode and BarCanvas.manual_mode:
                     BarCanvas.danger_count += 1
                     print("danger_count: " + str(BarCanvas.danger_count))
-                    if BarCanvas.danger_count == 3:
+                    if BarCanvas.danger_count == 2:
                         EventManager.post_event("color_trans", -1)
 
 
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
-                 
+
+    def bar_mode_fast(self, bar_tg):
+        
+        if self.bar_tag == bar_tg:
+            print("FAST MODE!")
+            self.curr_bar_defaultpercent = self.bar_defaultpercent_fast
+            self.curr_move_interval = self.move_interval_fast
+            self.curr_progress_step = self.progress_step_fast
+
+    def bar_mode_slow(self,bar_tg):
+        if self.bar_tag == bar_tg:
+            print("SLOW MODE")
+            self.curr_bar_defaultpercent = self.bar_defaultpercent_slow
+            self.curr_move_interval = self.move_interval_slow
+            self.curr_progress_step = self.progress_step_slow    
+
+    def bar_mode_ultra(self,bar_tag):
+
+        if self.bar_tag == bar_tag:
+            print("ULTRA MODE!")
+            self.bar_percent = self.line_thresholdpercent
+            self.curr_move_interval = 0.3
+            self.curr_progress_step = 1
+     
     def reset_button(self):
         if self.passed == False:
             EventManager.post_event("error_push")
@@ -407,10 +496,10 @@ class BarCanvas(BaseCanvas):
             self.red_mode = False
             
             if not self.is_danger:
-                self.bar_percent = self.bar_defaultpercent
+                self.bar_percent = 50/100
             else:
                 #self.bar_percent = random.randint(20, self.line_thresholdpercent * 100) / 100
-                self.bar_percent = 30/ 100
+                self.bar_percent = self.curr_bar_defaultpercent
             
             self.canvas.delete(self.tag_bar,self.tag_line)
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
@@ -418,7 +507,7 @@ class BarCanvas(BaseCanvas):
 
     def reset(self):
         self.passed = False
-        self.bar_percent = self.bar_defaultpercent
+        self.bar_percent = self.curr_bar_defaultpercent
         self.canvas.delete(self.tag_bar,self.tag_line)
         self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
         self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
@@ -440,6 +529,7 @@ class BarCanvas(BaseCanvas):
             elif not global_variables.bar_controller:
                 if self.repeat_moving is not None:
                     self.repeat_moving.stop()
+                    self.repeat_moving.change_interval(interval)
                     self.repeat_moving.change_args(string)
                     self.repeat_moving.start()
                 else:
@@ -447,6 +537,7 @@ class BarCanvas(BaseCanvas):
         else:
             if self.repeat_moving is not None:
                 self.repeat_moving.stop()
+                self.repeat_moving.change_interval(interval)
                 self.repeat_moving.change_args(string)
                 self.repeat_moving.start()
             else:
@@ -456,9 +547,11 @@ class BarCanvas(BaseCanvas):
     def random_movement(self):
         #r = random.randint(0,5)
         #if r > 4:
-        #    self.move_bar_repeat("left", self.move_interval)
+        #    self.move_bar_repeat("left", self.curr_move_interval)
         #else:
-            self.move_bar_repeat("right", self.move_interval)
+        
+        
+        self.move_bar_repeat("right", self.curr_move_interval)
 
 class TimerCanvas(BaseCanvas):
     def __init__(self, r, dict_info):
@@ -513,7 +606,12 @@ class TaskCanvas(BaseCanvas):
         super().__init__(r, dict_info)
         self.color = dict_info["color"]
         self.font = dict_info["font"]
-        self.text = '0/10'
+        
+        if global_variables.tutorial_mode:
+            self.text = '0/5'
+        else:
+            self.text = '0/10'
+
         self.count = 0
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         self.fsm = None
@@ -548,6 +646,11 @@ class TaskCanvas(BaseCanvas):
                 if self.fsm.is_s4:
                     self.fsm.s45()
 
+            if c == 7:
+                #just to stop going forward, validating new codes will be denied until user makes a choice in
+                if self.fsm.is_s6:
+                    EventManager.post_event("try_again", -1)
+                    
             #Danger State III
             elif c == 8:
                 if self.fsm.is_s7:
@@ -559,7 +662,17 @@ class TaskCanvas(BaseCanvas):
             #End
             elif c == 10:
                 self.fsm.s910()
+        else:
+            if c == 2:
+                self.fsm.s12()
+            elif c == 3:
+                if self.fsm.is_s2:
+                    self.fsm.s23()
 
+            if c == 5:
+                if self.fsm.is_s3:
+                    self.fsm.s34()
+                
         self.text = "{count}/10".format(count=str(c))
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)

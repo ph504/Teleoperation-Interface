@@ -1,6 +1,6 @@
 Initial Difficulty:
-
 ----------###########################-----------
+
 bar_canvas_info_main = {
 
     "bar_defaultpercent": 50/100,
@@ -35,8 +35,21 @@ bar_canvas_info3 = {
     "progress_step": 2,
 }
 
+
+
+
+
+
+
+
+
+
+
 Second Iteration:
 ----------###########################-----------
+
+
+
 bar_canvas_info_main = {
 
     "bar_defaultpercent": 50/100,
@@ -71,3 +84,68 @@ bar_canvas_info3 = {
     "progress_step": 3,
 }
 
+Third Iteration:
+----------###########################-----------
+
+bar_canvas_info_main = {
+
+    "bar_defaultpercent": 50/100,
+    "line_thresholdpercent": 80/100,
+    
+    "move_interval": 0.7,
+    "progress_step": 0.5,
+}
+bar_canvas_info1 = {
+   
+    "bar_defaultpercent": 20/100,
+    "line_thresholdpercent": 80/100,
+    "outline_color": "black",
+    
+    "move_interval": 0.75,
+    "progress_step": 5,
+}
+bar_canvas_info2 = {
+    
+    "bar_defaultpercent": 40/100,
+    "line_thresholdpercent": 80/100,
+   
+    "move_interval": 0.25,
+    "progress_step": 1,   
+}
+bar_canvas_info3 = {
+   
+    "bar_defaultpercent": 25/100,
+    "line_thresholdpercent": 70/100,
+    
+    "move_interval": 0.5,
+    "progress_step": 3,
+}
+
+4th Iteration:
+----------###########################-----------
+
+bar_canvas_info1 = {
+   
+    "bar_defaultpercent": 15/100,
+    "line_thresholdpercent": 85/100,
+    "outline_color": "black",
+    
+    "move_interval": 1.5,
+    "progress_step": 5,
+}
+bar_canvas_info2 = {
+    
+    "bar_defaultpercent": 15/100,
+    "line_thresholdpercent": 85/100,
+   
+    "move_interval": 0.5,
+    "progress_step": 1,   
+}
+bar_canvas_info3 = {
+   
+    "bar_defaultpercent": 15/100,
+    "line_thresholdpercent": 85/100,
+    
+    "move_interval": 1,
+    "progress_step": 3,
+}

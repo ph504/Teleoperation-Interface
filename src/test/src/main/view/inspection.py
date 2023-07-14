@@ -34,6 +34,8 @@ class InspectionPage():
         self.task_canvas = task_canvas
         self.task_count = 0
 
+        EventManager.subscribe("try_again", self.try_again)
+        EventManager.subscribe("clear_wait_flag", self.clear_wait_flag)
         self.code_list = [
                             "pKFRjK8wr8",
                             "bRaVW4Wd9M",
@@ -69,7 +71,16 @@ class InspectionPage():
         
 
 
-    
+        self.wait = False
+
+
+    def clear_wait_flag(self, dumy):
+         print("wait signal is cleared")
+         self.wait = False
+    def try_again(self, dummy):
+         print("wait signal is sent!")
+         self.wait = True
+
     def delete_err_lbl(self):
         def del_lbl():
                 time.sleep(5)
@@ -89,20 +100,26 @@ class InspectionPage():
 
         
             elif string in self.code_list or string in self.code_list2 or string in self.tutorial_code_list:
-                self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned")
-                playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
-                
-                self.delete_err_lbl()
-                
-                if global_variables.tutorial_mode:
-                    
-                     self.tutorial_code_list.remove(string)
+                if self.wait:
+                     print("CRAYOLA!")
+                     self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "#8c1127", text="A network error occured. Try writing it again")
+                     self.delete_err_lbl()
+                     return
                 else:
-                    self.code_list2.remove(string) if global_variables.is_code_list_2 else self.code_list.remove(string)
+                    self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned")
+                    playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
+                    
+                    self.delete_err_lbl()
+                    
+                    if global_variables.tutorial_mode:
+                        
+                        self.tutorial_code_list.remove(string)
+                    else:
+                        self.code_list2.remove(string) if global_variables.is_code_list_2 else self.code_list.remove(string)
 
-                self.code_list_used.append(string)
-                self.task_count += 1
-                self.task_canvas.plus()
+                    self.code_list_used.append(string)
+                    self.task_count += 1
+                    self.task_canvas.plus()
             
             elif string not in self.code_list or string not in  self.code_list2:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!")

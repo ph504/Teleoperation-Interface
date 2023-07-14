@@ -72,6 +72,7 @@ class CountdownCanvas(BaseCanvas):
 
 
     def start(self, dummy = 0):
+        EventManager.post_event("unfreeze", -1)
         if self.countdown == None:
             self.countdown = RepeatedTimer(1, self.minus)
         else:

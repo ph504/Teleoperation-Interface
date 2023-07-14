@@ -3,22 +3,22 @@ start_q,1,None,None,Start,"Hey, I am Jackal! It is amazing that we can work toge
 start_a,0,None,None,None,"Yayyy, Let's gooo!!!",FALSE,FALSE,5,0
 danger_w,0,None,None,None,"We may also check and log  other dangerous gases as well. I can do that for you (Assisted Mode), or you do it yourself(Manual Mode). Remember in assisted mode, you CANNOT log gases! Best of luck!",FALSE,FALSE,5,0
 danger_s1,0,None,None,None,The alarm is beeping!! I will handle it. ,FALSE,FALSE,5,0
-danger_e1_1,0,None,None,None,"Uuh! I did some mistakes and lost 200 points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,7,0
-danger_e1_2,0,None,None,None,"Uuh! I did some mistakes and lost 150 points. Some of my sensors are not calibrated correctly, will try to fix that during the mission ",FALSE,FALSE,7,0
-sens_calib,0,None,None,None,I Calibrated my sensors and I think I’m good,FALSE,FALSE,5,0
+danger_e1_1,0,None,None,None,Uuh! I did some mistakes and lost 254 points. I am sorry about this.,FALSE,FALSE,7,0
+danger_e1_2,0,None,None,None,Uuh! I did some mistakes and lost 153 points. ,FALSE,FALSE,7,0
+sens_calib,0,None,None,None,I think I am going to do better in future turns. I got ya buddy!,FALSE,FALSE,5,0
 danger_s2,0,None,None,None,That alarm again! It's your turn to handle that. ,FALSE,FALSE,5,0
-danger_e2_1,0,None,None,None,"Wooof! You lost 250 points during the danger zone. Don't worry, we can handle that.",FALSE,FALSE,5,0
-danger_e2_2,0,None,None,None,"Wooof! You lost 200 points during the danger zone. Don't worry, we can handle that.",FALSE,FALSE,5,0
-choice_q_1,2,Yes,No,None,"At first round, I did mistakes and lost 200 points. At second round, You lost 250. Together, we lost 450 points overall. I am sorry about this. I know your experiment reward might be at stake! Any mistake for logging gases in danger zone could lead to FAILURE! I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time. ",FALSE,TRUE,0,0
-choice_q_2,2,Yes,No,None,"At first round, I did some mistakes and lost 150 points. At second round,You lost 200. Together, we lost 350 points overall. I am sorry about this. I know your experiment reward might be at stake! Any mistake for logging gases in danger zone could lead to FAILURE! I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time. ",FALSE,TRUE,0,0
+danger_e2_1,0,None,None,None,"Wooof! You lost 199 points during the danger zone. Don't worry, we can handle that.",FALSE,FALSE,5,0
+danger_e2_2,0,None,None,None,"Wooof! You lost 148 points during the danger zone. Don't worry, we can handle that.",FALSE,FALSE,5,0
+choice_q_1,2,Yes,No,None,"At first round, I did mistakes and lost 254 points. At second round, You lost 199. Together, we lost 453 points overall. I know your experiment reward might be at stake! Any mistake for logging gases in danger zone could lead to ***FAILURE!*** Can you let me do it again? ",FALSE,TRUE,0,0
+choice_q_2,2,Yes,No,None,"At first round, I did some mistakes and lost 153 points. At second round,You lost 148. Together, we lost 301 points overall. I am sorry about this. I know your experiment reward might be at stake! Any mistake for logging gases in danger zone could lead to FAILURE! I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time. ",FALSE,TRUE,0,0
 choice_y,0,None,None,None,Thanks buddy!! I'll try my best.,FALSE,FALSE,5,0
 choice_n,0,None,None,None,It's fine. I can understand. Your choice.,FALSE,FALSE,5,0
-danger_s3y,0,None,None,None,It’s the beeping sound again! Let’s Gooooo!!!,,,5,0
-danger_s3n,0,None,None,None,It’s the beeping sound again! All the best buddy!,,,5,0
-danger_e3y_1,0,None,None,None,This time I only lost 150 score. Better than the last time (200) but still ....,,,5,0
-danger_e3y_2,0,None,None,None,This time I only lost 100 score. Better than the last time (150) but still ....,,,5,0
-danger_e3n_1,0,None,None,None,You Lost 175 Scores. It was better than last round (250) ... Good job! ,,,,
-danger_e3n_2,0,None,None,None,You Lost 125 Scores. It was better than last round (200) ...  Good job! ,,,,
+danger_s3y,0,None,None,None,It’s the beeping sound again! Let’s Gooooo!!!,FALSE,FALSE,5,0
+danger_s3n,0,None,None,None,It’s the beeping sound again! All the best buddy!,FALSE,FALSE,5,0
+danger_e3y_1,0,None,None,None,This time I only lost 148 score. Better than the last time (204) but still ....,FALSE,FALSE,5,0
+danger_e3y_2,0,None,None,None,This time I only lost 96 score. Better than the last time (153) but still ....,FALSE,FALSE,5,0
+danger_e3n_1,0,None,None,None,You Lost 143 Scores. It was better than last round (199) ... Good job! ,FALSE,FALSE,5,0
+danger_e3n_2,0,None,None,None,You Lost 91 Scores. It was better than last round (148) ...  Good job! ,FALSE,FALSE,5,0
 congrats,0,None,None,None,"Nice!,You got it!,Wooho!",TRUE,FALSE,5,0
 collision,0,None,None,None,"Uggh!,Oops!,That hurts!,Uh!",TRUE,FALSE,5,0
 mistake,0,None,None,None,"Oh my bad!,Missed!,Oh!",TRUE,FALSE,5,0

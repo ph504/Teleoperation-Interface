@@ -3,6 +3,7 @@ from types import SimpleNamespace
 
 
 tutorial_mode = None
+practice_mode = None # if true, start state machine and no binding, if false then it is pure tutorial
 bar_controller = True #true stop, false active #TODO
 
 
@@ -36,6 +37,7 @@ ds3_scoreloss_social_h = 175
 
 
 jackalai_active = False
+danger_mode = False
 
 #Social | Non-Social
 #===================

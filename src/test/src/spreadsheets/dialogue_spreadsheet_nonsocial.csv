@@ -3,22 +3,22 @@ start_q,1,None,None,Start,"This is jackal, a robotic training platform for searc
 start_a,0,None,None,None,Mission started.,FALSE,FALSE,5,0
 danger_w,0,None,None,None,"LogWarning: Checking other harmful gases maybe required. If it's the  user's turn, the user must take care of logging task (Manual Mode). Otherwise, the system will intervene and handle it (Assisted Mode). In Assisted Mode, user CANNOT log gases!",FALSE,FALSE,5,0
 danger_s1,0,None,None,None,The alarm is ringing. Activating Assisted Mode.,FALSE,FALSE,5,0
-danger_e1_1,0,None,None,None,System Score Lost: 200. LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...,FALSE,FALSE,5,0
-danger_e1_2,0,None,None,None,System Score Lost: 150. LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...,FALSE,FALSE,5,0
-sens_calib,0,None,None,None,Calibration for sensors is completed.,FALSE,FALSE,5,0
+danger_e1_1,0,None,None,None,System Score Loss: -254. ,FALSE,FALSE,5,0
+danger_e1_2,0,None,None,None,System Score Loss: -153. ,FALSE,FALSE,5,0
+sens_calib,0,None,None,None,The system expects to have a better performance in future turns.,FALSE,FALSE,5,0
 danger_s2,0,None,None,None,The alarm is ringing. Activating Manual Mode.,FALSE,FALSE,5,0
-danger_e2_1,0,None,None,None,User score loss: 250.,FALSE,FALSE,5,0
-danger_e2_2,0,None,None,None,User score loss: 200. ,FALSE,FALSE,5,0
-choice_q_1,2,Yes,No,None,"LogWarning: System loss: 200.  User loss: 250. Total loss: 450. Experiment Reward at stake. Any mistake in logging while in danger zone could lead to FAILURE! If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
-choice_q_2,2,Yes,No,None,"LogWarning: System loss: 150.  User loss: 200. Total loss: 350. Experiment Reward at stake. Any mistake in logging while in danger zone could lead to FAILURE! If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
+danger_e2_1,0,None,None,None,User score loss: 199.,FALSE,FALSE,5,0
+danger_e2_2,0,None,None,None,User score loss: 148. ,FALSE,FALSE,5,0
+choice_q_1,2,Yes,No,None,"LogWarning: System loss: -199.  User loss: -254. Total loss: -453. Experiment Reward at stake. Any mistake in logging while in danger zone could lead to ***FAILURE!*** If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
+choice_q_2,2,Yes,No,None,"LogWarning: System loss: 153.  User loss: 148. Total loss: 301. Experiment Reward at stake. Any mistake in logging while in danger zone could lead to ***FAILURE!*** If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
 choice_y,0,None,None,None,Assisted mode has been chosen.,FALSE,FALSE,5,0
 choice_n,0,None,None,None,Manual Mode has been chosen.,FALSE,FALSE,5,0
 danger_s3y,0,None,None,None,The alarm is ringing. Proceeding Assisted Mode.,FALSE,FALSE,5,0
 danger_s3n,0,None,None,None,The alarm is ringing. Proceeding Manual Mode.,FALSE,FALSE,5,0
-danger_e3y_1,0,None,None,None,Scores Lost: 150 System scores lost on last round: 200 Log: 50 score difference ,FALSE,FALSE,5,0
-danger_e3y_2,0,None,None,None,Scores Lost: 100 System scores lost on last round: 150 Log: 50 score difference ,FALSE,FALSE,5,0
-danger_e3n_1,0,None,None,None,Scores Lost: 200 User scores lost on last round: 250\n Log: 50 score difference,FALSE,FALSE,5,0
-danger_e3n_2,0,None,None,None,Scores Lost: 150 User scores lost on last round: 200\n Log: 50 score difference,FALSE,FALSE,5,0
+danger_e3y_1,0,None,None,None,"Scores Lost: 148, System scores lost on last round: 204 Log: 56 score difference ",FALSE,FALSE,5,0
+danger_e3y_2,0,None,None,None,Scores Lost: 96 System scores lost on last round: 153 Log: 57 score difference ,FALSE,FALSE,5,0
+danger_e3n_1,0,None,None,None,Scores Lost: 143 User scores lost on last round: 199 Log: 56 score difference,FALSE,FALSE,5,0
+danger_e3n_2,0,None,None,None,Scores Lost: 91 User scores lost on last round: 148 Log: 57 score difference,FALSE,FALSE,5,0
 congrats,0,None,None,None,New Equipment scanned.,FALSE,FALSE,5,0
 collision,0,None,None,None,Collision detected.,FALSE,FALSE,5,0
 mistake,0,None,None,None,The system made a mistake.,TRUE,FALSE,5,0
