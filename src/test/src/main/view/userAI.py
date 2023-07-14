@@ -23,7 +23,7 @@ class UserAI():
 
 
     def counter_modecheck(self):
-        if global_variables.danger_mode:
+        if global_variables.danger_mode and not global_variables.jackalai_active:
             self.counter += 1   
             if self.counter >= 10 and self.mistake <= 3:
                 if not self.waiting_to_hit:
