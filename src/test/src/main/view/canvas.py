@@ -9,6 +9,7 @@ from event import *
 import string
 from logger import Logger
 import global_variables
+import time
 #------Canvas Position ---- #
 big_canvas_info = {
     "x": 1500,
@@ -82,7 +83,7 @@ bar_canvas_info1 = {
     "line_width": 2,
 
     "move_interval_slow": 2.5,
-    "progress_step_slow": 5,
+    "progress_step_slow": 3,
 
     "move_interval_fast": 0.6,
     "progress_step_fast": 10,
@@ -385,10 +386,19 @@ class BarCanvas(BaseCanvas):
         EventManager.subscribe("bar_slow_mode", self.bar_mode_slow)
         EventManager.subscribe("bar_ultra_mode", self.bar_mode_ultra)
     
+
+        EventManager.subscribe("start_move_bars", self.random_movement)
+        
+
+        EventManager.subscribe("move_bar_backward", self.normal_cooldown)
+    
     def start(self):
         print("it should start the repeated time!")
-        #self.secondary_task = RepeatedTimer(random.randint(1,10), self.random_movement)
-        self.secondary_task = RepeatedTimer(3, self.random_movement)
+        
+        #self.secondary_task = RepeatedTimer(10, self.random_movement)
+        
+        
+        
     
     def move_bar(self,string):   
         #just to prevent danger bars being active while normal is active (and vice versa) 
@@ -402,9 +412,13 @@ class BarCanvas(BaseCanvas):
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
             self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width * self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
 
+            
             self.colorchange_check()
             self.canvas.tag_raise(self.tag_line,self.tag_bar)
     
+    
+
+
     def colorchange_check(self):     
         #check to see the time the bar has passed the threshold 
         if not self.passed and self.bar_percent > self.line_thresholdpercent:
@@ -414,7 +428,7 @@ class BarCanvas(BaseCanvas):
             if self.is_danger: EventManager.post_event("yellow_mode", self) 
             
         #if the bar moves backward it may get less than the threshold 
-        if self.passed and self.bar_percent < self.line_thresholdpercent:
+        elif self.passed and self.bar_percent < self.line_thresholdpercent:
             self.passed = False
             return
         
@@ -452,9 +466,7 @@ class BarCanvas(BaseCanvas):
                 
                 if BarCanvas.danger_mode and BarCanvas.manual_mode:
                     BarCanvas.danger_count += 1
-                    print("danger_count: " + str(BarCanvas.danger_count))
-                    if BarCanvas.danger_count == 2:
-                        EventManager.post_event("color_trans", -1)
+                    
 
 
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
@@ -463,9 +475,13 @@ class BarCanvas(BaseCanvas):
         
         if self.bar_tag == bar_tg:
             print("FAST MODE!")
-            self.curr_bar_defaultpercent = self.bar_defaultpercent_fast
-            self.curr_move_interval = self.move_interval_fast
-            self.curr_progress_step = self.progress_step_fast
+            
+            self.curr_move_interval = 0.15
+            self.curr_progress_step = 15
+            self.repeat_moving.stop()
+            self.repeat_moving.change_interval(self.curr_move_interval)
+            self.repeat_moving.change_args("right")
+            self.repeat_moving.start()
 
     def bar_mode_slow(self,bar_tg):
         if self.bar_tag == bar_tg:
@@ -473,14 +489,23 @@ class BarCanvas(BaseCanvas):
             self.curr_bar_defaultpercent = self.bar_defaultpercent_slow
             self.curr_move_interval = self.move_interval_slow
             self.curr_progress_step = self.progress_step_slow    
+            
+            self.repeat_moving.stop()
+            self.repeat_moving.change_interval(self.curr_move_interval)
+            self.repeat_moving.change_args("right")
+            self.repeat_moving.start()
 
     def bar_mode_ultra(self,bar_tag):
 
         if self.bar_tag == bar_tag:
             print("ULTRA MODE!")
             self.bar_percent = self.line_thresholdpercent
-            self.curr_move_interval = 0.3
-            self.curr_progress_step = 1
+            self.curr_move_interval = 0.1
+            self.curr_progress_step = 3
+            self.repeat_moving.stop()
+            self.repeat_moving.change_interval(self.curr_move_interval)
+            self.repeat_moving.change_args("right")
+            self.repeat_moving.start()
      
     def reset_button(self):
         if self.passed == False:
@@ -521,7 +546,9 @@ class BarCanvas(BaseCanvas):
         BarCanvas.manual_mode = False       
 
     def move_bar_repeat(self, string, interval):
+        
         if global_variables.tutorial_mode:
+            
             if global_variables.bar_controller and self.repeat_moving is None:
                 return 
             elif global_variables.bar_controller and self.repeat_moving is not None:
@@ -544,13 +571,26 @@ class BarCanvas(BaseCanvas):
                 self.repeat_moving = RepeatedTimer(interval, self.move_bar, string)  
     
     
-    def random_movement(self):
-        #r = random.randint(0,5)
-        #if r > 4:
-        #    self.move_bar_repeat("left", self.curr_move_interval)
-        #else:
-        
-        
+    def normal_cooldown(self, bar):
+        print("go back! --- normal cooldown")
+        if self.bar_tag == bar.bar_tag:
+            self.move_left()
+            time.sleep(15)
+            self.move_right()
+    
+    def move_left(self, dummy = -1):
+        self.repeat_moving.stop()
+        self.repeat_moving.change_interval(self.curr_move_interval)
+        self.repeat_moving.change_args("left")
+        self.repeat_moving.start()
+    
+    def move_right(self, dummy = -1):
+        self.repeat_moving.stop()
+        self.repeat_moving.change_interval(self.curr_move_interval)
+        self.repeat_moving.change_args("right")
+        self.repeat_moving.start()
+
+    def random_movement(self, dummy = -1):
         self.move_bar_repeat("right", self.curr_move_interval)
 
 class TimerCanvas(BaseCanvas):

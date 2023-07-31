@@ -48,13 +48,14 @@ def init():
     
     if len(sys.argv) != 3 and len(sys.argv) != 5:
         print("Argument length:" + str(len(sys.argv)))
-        print("Usage: python3 main.py tutorial")
+        print("Usage: python3 main.py tutorial 0/1(practice mode or not) n(number of mistakes)")
         print("Usage: python3 main.py p[0:infinite] first/second social/nonsocial red/blue False/True")
         sys.exit(1)
 
     if len(sys.argv) == 3:
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
+        
         if arg1 == "t":
             global_variables.tutorial_mode = True
             EventManager.post_event("unfreeze", -1)
@@ -66,6 +67,8 @@ def init():
             global_variables.practice_mode = True
         elif arg2 == '0':
             global_variables.practice_mode = False
+
+        
             
 
     if len(sys.argv) == 5:
@@ -253,7 +256,7 @@ def main():
 
 def widget_init(root, tab1, tab2):
     bar_canvas = BarCanvas(tab1, bar_canvas_info_main, danger= False)
-    if global_variables.tutorial_mode: bar_canvas.start()
+    #if global_variables.tutorial_mode: bar_canvas.start()
     danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
@@ -326,7 +329,7 @@ def widget_init(root, tab1, tab2):
 
     flashing_image = FlashingImage(root, flashing_image_info)
 
-    jackal_ai = JackalAI()
+    jackal_ai = JackalAI(root)
     
     return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button,a_model, a_view, d_model, d_view, avalogue, dialogue_text, timer_canvas, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl, calibrate_button, calibrate_lbl, countdown
 
@@ -390,6 +393,7 @@ def toggle_assistedmode(jackal_ai, man_btn, ato_btn):
     
 def toggle_barcontroller():
     global_variables.bar_controller = not global_variables.bar_controller
+    EventManager.post_event("start_move_bars", -1)
 
 def change_scan_mode():
     CameraView.scan_mode = not CameraView.scan_mode
@@ -411,6 +415,7 @@ def switch(back, front, small, big):
 
 def reset_bar(bar):
     bar.reset_button()
+    EventManager.post_event("user_reset", bar)
 
 def switch_danger(barcanvas, dangercanvases):
     if barcanvas.active:

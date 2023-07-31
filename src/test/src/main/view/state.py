@@ -150,8 +150,6 @@ class TeleopGUIMachine(StateMachine):
             
             time.sleep(self.DANGER_START_TIMER)
 
-
-
             self.avalogue.set_avalogue("t_default", "danger_s1")
 
 
