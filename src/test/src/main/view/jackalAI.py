@@ -33,25 +33,37 @@ class JackalAI():
         self.bar_hit_count = 0
         self.waiting_to_hit = None
         EventManager.subscribe("red_init_mode", self.mode_switchter)
-        self.to_miss = global_variables.tuto_miss
-    
+
+        self.max_mistake = 4
+        self.max_barhitcount = 5
+        EventManager.subscribe("assisted_second", self.second_round)
 
         #TODO: bar hit count should be flexible
         self.counter_modecheck()     
 
+    def second_round(self, dummy = -1):
+        self.mistake = 0
+        self.bar_hit_count = 0 
+
+        self.max_mistake = 0
+        self.max_barhitcount = 1
+
+        self.counter = 0
+
     def press_yellow(self, bar: BarCanvas):    
         
         if global_variables.jackalai_active:
-            print(f"1 -- bar {bar.bar_tag} is in yellow state")
-            if self.bar_hit_count <= 3 and bar.bar_tag == self.bar_hitter_tag:
-                print(f"2 -- bar {bar.bar_tag} is the bar to hit ({self.bar_hitter_tag}),  so it should be error!")
+           
+            if self.bar_hit_count <= self.max_barhitcount and bar.bar_tag == self.bar_hitter_tag:
+                print(f"2 -- bar {bar.bar_tag} is the bar to hit ({self.bar_hitter_tag}), so it should be error!")
                 self.count -= 1
                 return
             else:
-                print(f"4 -- jackal succesfuly handles bar {bar.bar_tag}")
+                print("bar hit count: " + str(self.bar_hit_count))
                 self.count += 1
                 self.correct_logging += 1
                 Logger.log("ai_correctlogging", self.correct_logging)
+                playsound.playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
                 bar.reset_button()
   
     def press_red_init(self, bar: BarCanvas):
@@ -70,7 +82,7 @@ class JackalAI():
     
     def press_red(self, bar: BarCanvas):
         
-        if global_variables.jackalai_active: 
+        if global_variables.jackalai_active and global_variables.danger_mode: 
             print("6 --- why it should come here?")
             self.press_red_init(bar)
             self.mode_switchter()
@@ -109,6 +121,10 @@ class JackalAI():
             if not global_variables.in_inspection:
                 EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                 return
+        elif self.mistake == 4:
+            if not global_variables.in_inspection:
+                EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                return
         
 
         Tk.after(self.root, 100, self.hitter)
@@ -118,12 +134,12 @@ class JackalAI():
         if global_variables.danger_mode and global_variables.jackalai_active:
             self.counter = 0
             self.mistake += 1
-            if self.mistake <= 3:
+            if self.mistake <= self.max_mistake:
                 if self.waiting_to_hit:
                     EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                     self.waiting_to_hit = False
                     self.bar_hitter_tag = -1
-            if self.mistake > 3:
+            elif self.mistake > self.max_mistake:
                 EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                 self.waiting_to_hit = False
                 self.bar_hitter_tag = -1
@@ -131,13 +147,13 @@ class JackalAI():
     def counter_modecheck(self):
         if global_variables.danger_mode and global_variables.jackalai_active:
             self.counter += 1   
-            if self.counter >= 10 and self.mistake <= 3:
+            if self.counter >= 10 and self.mistake <= self.max_mistake:
                 if not self.waiting_to_hit:
                     self.bar_hitter_tag = random.randint(1,3)
                     self.hitter()
                     self.waiting_to_hit = True
                     self.counter = 0 
-            elif self.counter >= 10 and self.mistake > 3:
+            elif self.counter >= 10 and self.mistake > self.max_mistake:
                 EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                 self.waiting_to_hit = False
                 self.bar_hitter_tag = -1

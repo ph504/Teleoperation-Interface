@@ -240,7 +240,6 @@ def main():
     
     #if  global_variables.tutorial_mode: auto_button.enable()
 
-    
     if global_variables.tutorial_mode: 
         bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm)
     
@@ -320,9 +319,14 @@ def widget_init(root, tab1, tab2):
     #score_lbl.place(x = score_lbl_info["x"], y = score_lbl_info["y"], width=score_lbl_info["width"], height=score_lbl_info["height"])
     
     
-    circle_canvas = CircleCanvas(tab2, circle_canvas_info)
+    if not global_variables.practice_mode: circle_canvas = CircleCanvas(tab2, circle_canvas_info)
+    else: circle_canvas = None
     
-    
+    if not global_variables.tutorial_mode:
+        miss_canvas = MissCanavas(root,miss_canvas_info)
+        miss_lbl = Label(root, text="Miss", font=miss_lbl_info["font"], fg=miss_lbl_info["color"])
+        miss_lbl.place(x = miss_lbl_info["x"], y = miss_lbl_info["y"], width=miss_lbl_info["width"], height=miss_lbl_info["height"])
+
     task_canvas = TaskCanvas(root, task_canvas_info)
     task_lbl = Label(root, text="Task", font=task_lbl_info["font"], fg=task_lbl_info["color"])
     task_lbl.place(x = task_lbl_info["x"], y = task_lbl_info["y"], width=task_lbl_info["width"], height=task_lbl_info["height"])

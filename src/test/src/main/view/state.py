@@ -79,11 +79,7 @@ class TeleopGUIMachine(StateMachine):
     DANGER_START_TIMER = 10
     DANGER_END_TIMER = 10
     COLOR_TRANS_TIMER = 30
-    WARNING_TIMER = 15
-
-    
-
-    
+    WARNING_TIMER = 15   
 
     def assistedmanual_disable(self):
         EventManager.post_event("count_manual_trans_deactive", -1)
@@ -128,7 +124,7 @@ class TeleopGUIMachine(StateMachine):
 
         
         EventManager.post_event("unfreeze", -1)
-        
+        EventManager.post_event("start_move_bars", -1)
         self.timer.start()
         
         #self.dialogue.change_dialogue("Start A") 
@@ -294,9 +290,11 @@ class TeleopGUIMachine(StateMachine):
         self.countdown_canvas.disable()
 
         if self.is_yes:
+            EventManager.post_event("assisted_second", -1)
             self.avalogue.set_avalogue("r_happy", "choice_y")
             self.is_ai = True 
         else:
+            EventManager.post_event("manual_second", -1)
             self.avalogue.set_avalogue("t_default", "choice_n")
             self.is_ai = False
 
@@ -311,9 +309,6 @@ class TeleopGUIMachine(StateMachine):
             
             self.avalogue.set_avalogue("r_happy", "danger_s3y")
 
-            
-           
-            
             Logger.log("danger_zone_start", "ai_handler")
             
             self.assisted_activate()
@@ -380,14 +375,12 @@ class TeleopGUIMachine(StateMachine):
         
     #S10 --- End
     def on_s910(self):
-        EventManager.post_event("toggle_bar", -1)
         self.timer.stop()
         self.avalogue.set_avalogue("t_default", "end")
         Logger.log("end", "N/A")
         EventManager.post_event("task_count", self.task_canvas.count)
         global_variables.bar_controller = True
-
-
+        EventManager.post_event("stop_move_bars", -1)
 
 class TutorialGUIMachine(StateMachine):
     def __init__(self,timer,
@@ -432,7 +425,6 @@ class TutorialGUIMachine(StateMachine):
         self.assistedmode_button.disable()
         self.normalmode_button.disable()
         self.jackal_ai.disable()
-
     
     def normal_activate(self):
         switch_danger(self.normal_bar, self.danger_bars)
@@ -443,12 +435,11 @@ class TutorialGUIMachine(StateMachine):
         self.normalmode_button.enable()
         self.jackal_ai.disable()
 
-
     def on_s01(self):
-        self.timer.start()
         global_variables.bar_controller = False
-        self.normal_bar.start()
-
+        EventManager.post_event("start_move_bars", -1)
+        self.timer.start()
+        
         
     def on_s12(self):
         def danger_start():
@@ -469,3 +460,5 @@ class TutorialGUIMachine(StateMachine):
     def on_s34(self):
         self.timer.stop()
         global_variables.bar_controller = True
+        EventManager.post_event("stop_move_bars", -1)
+        

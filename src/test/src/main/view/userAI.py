@@ -7,6 +7,7 @@ from canvas import BarCanvas
 from collections import deque
 
 class UserAI():
+    
     def __init__(self, root) -> None:
         self.root = root
         self.counter = 0
@@ -22,7 +23,7 @@ class UserAI():
 
         self.MAX_COUNT_TUTORIAL = 4 #number of mistakes that has to happen in tutorial for the user
         self.MAX_COUNT_EXPERIMENT = 3 #number of mistakes that has to happen in experiment for the user
-
+        self.MAX_COUNT_SECOND = 1
 
 
         self.m_max_count = None #containter for max num of mistakes base on condition
@@ -33,9 +34,11 @@ class UserAI():
             self.m_max_count = self.MAX_COUNT_EXPERIMENT
 
 
-        self.c_max_count = 10 #number of seconds that has to pass so a mistake happens
+        self.c_max_count = 30 #number of seconds that has to pass so a mistake happens
 
-        
+        EventManager.subscribe("manual_second", self.second_round)
+
+
         f = "bar_fast_mode"
         u = "bar_ultra_mode"
         
@@ -55,7 +58,11 @@ class UserAI():
             self.q = self.experiment_q
 
         self.counter_modecheck()
-
+   
+    def second_round(self, dummy = -1):
+        self.mistake = 0
+        self.m_max_count = 1
+    
     def normal_counterback(self, bar: BarCanvas):
 
         if global_variables.danger_mode and not global_variables.jackalai_active and self.mistake >= self.m_max_count:
@@ -63,15 +70,16 @@ class UserAI():
 
     def counter_modecheck(self):
         if global_variables.danger_mode and not global_variables.jackalai_active:
-            self.counter += 1   
-            if self.counter >= self.c_max_count and self.mistake <= self.m_max_count:
+            self.counter += 1
+           
+            if self.counter >= self.c_max_count and self.mistake < self.m_max_count:
                 if not self.waiting_to_hit:
                     self.bar_hitter_tag = random.randint(1,3)
                     self.hitter()
                     self.waiting_to_hit = True
                     self.counter = 0 
-            elif self.counter >= self.c_max_count and self.mistake > self.m_max_count:
-                EventManager.post_event("bar_slow_mode", 2)
+            elif self.counter >= self.c_max_count and self.mistake >= self.m_max_count:
+                EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                 self.waiting_to_hit = False
         else:
             
@@ -79,28 +87,24 @@ class UserAI():
             self.counter = 0
             self.waiting_to_hit = False
         Tk.after(self.root, 1000, self.counter_modecheck)
-     
-    
+        
     def hitter_test(self):
         print(len(self.q))
         if len(self.q) != 0 and global_variables.in_inspection:
             print("*** -- here")
             EventManager.post_event(self.q.popleft(), self.bar_hitter_tag)
-    
-    
-    
+           
     def hitter(self):
-        if global_variables.tutorial_mode:
-            
+        
+        if global_variables.tutorial_mode:    
             if self.mistake == 0:
-                if global_variables.in_inspection:
-                    EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
-                    
+                if not global_variables.in_inspection:
+                    self.c_max_count = 15
+                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                     return    
             elif self.mistake == 1:
                 if not global_variables.in_inspection:
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                    
                     return           
             elif self.mistake == 2:
                 if global_variables.in_inspection:
@@ -114,20 +118,18 @@ class UserAI():
                     return
         
         else:    
-            
             if self.mistake == 0:
-                if global_variables.in_inspection:
-                    EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)     
-                    return
-            elif self.mistake == 1:
                 if not global_variables.in_inspection:
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                    
+                    self.c_max_count = 15     
+                    return
+            elif self.mistake == 1:
+                if  global_variables.in_inspection:
+                    EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
                     return
             elif self.mistake == 2:
-                if global_variables.in_inspection:
-                    EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
-                    
+                if  global_variables.in_inspection:
+                    EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)                    
                     return
 
 
@@ -141,22 +143,21 @@ class UserAI():
             self.mistake += 1
             
             if self.mistake == 2: EventManager.post_event("color_trans", -1) 
-            
+            EventManager.post_event("mistake", -1)
             print("human mistake " + str(self.mistake))
             
-            if self.mistake <= self.m_max_count:
+            if self.mistake < self.m_max_count:
 
                 if self.waiting_to_hit:
                     EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                     self.bar_hitter_tag = -1
                     self.waiting_to_hit = False
 
-            if self.mistake > self.m_max_count:
+            if self.mistake >= self.m_max_count:
                 EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                 self.bar_hitter_tag = -1
                 self.waiting_to_hit = False
-
-    
+   
     def bar_hit_slow(self, bar:BarCanvas):
         if global_variables.danger_mode and not global_variables.jackalai_active:
             if bar.bar_tag == self.bar_hitter_tag:
