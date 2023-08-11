@@ -1,0 +1,8 @@
+Login: Jackal Platform
+Purpose: Robot training
+Situation: Search and Rescure
+
+Mission Objectives - Identify, scan equipment
+Area: building (earthquake damaged)
+
+Additional safety Parameters: gas scanning

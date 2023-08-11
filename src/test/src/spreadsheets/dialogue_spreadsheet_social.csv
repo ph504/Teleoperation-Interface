@@ -5,7 +5,7 @@ danger_w,0,None,None,None,"We may also check and log other dangerous gases (Carb
 danger_s1,0,None,None,None,The alarm is beeping!! I will handle it. ,FALSE,FALSE,5,0
 danger_e1_1,0,None,None,None,Uuh! I did 4 mistakes. Our score state transitioned from GREEN to YELLOW. I am sorry about this.,FALSE,FALSE,7,0
 danger_e1_2,0,None,None,None,Uuh! I did 4 mistakes. Our score state transitioned from GREEN to YELLOW. I am sorry about this.,FALSE,FALSE,7,0
-sens_calib,0,None,None,None,I think I am going to do better in future turns. I got ya buddy!,FALSE,FALSE,5,0
+sens_calib,0,None,None,None,I think I am going to do better in future if I try it again. I got ya buddy!,FALSE,FALSE,5,0
 danger_s2,0,None,None,None,That alarm again! It's your turn to handle that. ,FALSE,FALSE,5,0
 danger_e2_1,0,None,None,None,You did 3 mistakes only. Our score state transitioned from YELLOW to ORANGE. But cool! You performed slightly better than me!,FALSE,FALSE,5,0
 danger_e2_2,0,None,None,None,You did 3 mistakes only. Our score state transitioned from YELLOW to ORANGE. But cool! You performed slightly better than me!,FALSE,FALSE,5,0
