@@ -19,7 +19,7 @@ dbox_info = {
 }
 
 def unfreeze(dummy = 1):
-    print("unfreeze is activated in dialogue")
+    pass
 
 class DialogueBox():
     def __init__(self, root, dialoguebox_info, diff):

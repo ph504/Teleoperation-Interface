@@ -4,12 +4,14 @@ from tkinter import *
 import numpy
 import threading
 import random
-from playsound import playsound
+from playsound import *
 from event import *
 import string
 from logger import Logger
 import global_variables
 import time
+from repeated_timer import RepeatedTimer
+
 #------Canvas Position ---- #
 big_canvas_info = {
     "x": 1500,
@@ -136,6 +138,7 @@ circle_canvas_info = {
     "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
     "active": True
 }
+
 
 
 
@@ -267,7 +270,7 @@ class TaskCanvas(BaseCanvas):
         if global_variables.tutorial_mode:
             self.text = '0/5'
         else:
-            self.text = '0/10'
+            self.text = '0/13'
 
         self.count = 0
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
@@ -277,13 +280,15 @@ class TaskCanvas(BaseCanvas):
         self.fsm = fsm    
     
     def plus(self):
+         
         c = self.count
         c += 1
-        if c  > 10: return
+        if c  > 13: return
         self.count += 1
         Logger.log("task_advance" , str(self.count))
+        global_variables.task_advance = self.count
         
-        if c != 10:
+        if c != 13:
             EventManager.post_event("congratulations", -1)
             
         
@@ -291,33 +296,33 @@ class TaskCanvas(BaseCanvas):
         #Danger State I
             if c == 2:
                 self.fsm.s12()
-            elif c == 3:
+            elif c == 4:
                 if self.fsm.is_s2:
                     self.fsm.s23()
 
             #Danger State II
-            elif c == 5:
+            elif c == 6:
                 if self.fsm.is_s3:
                     self.fsm.s34()
-            elif c == 6:
+            elif c == 8:
                 if self.fsm.is_s4:
                     self.fsm.s45()
 
-            if c == 7:
+            if c == 9:
                 #just to stop going forward, validating new codes will be denied until user makes a choice in
                 if self.fsm.is_s6:
                     EventManager.post_event("try_again", -1)
                     
             #Danger State III
-            elif c == 8:
+            elif c == 10:
                 if self.fsm.is_s7:
                     self.fsm.s78()
-            elif c == 9:
+            elif c == 12:
                 if self.fsm.is_s8:
                     self.fsm.s89()
             
             #End
-            elif c == 10:
+            elif c == 13:
                 self.fsm.s910()
         else:
             if c == 2:
@@ -335,7 +340,7 @@ class TaskCanvas(BaseCanvas):
             self.canvas.delete('all')
             self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         else:
-            self.text = "{count}/10".format(count=str(c))
+            self.text = "{count}/13".format(count=str(c))
             self.canvas.delete('all')
             self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
@@ -344,7 +349,7 @@ class MissCanavas(BaseCanvas):
         super().__init__(r, dict_info)
         self.color = dict_info["color"]
         self.font = dict_info["font"]
-        self.text = '0/10'
+        self.text = '0/9'
 
         self.count = 0
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
@@ -361,7 +366,7 @@ class MissCanavas(BaseCanvas):
         if c  > 10: return
         self.count += 1
 
-        self.text = "{count}/10".format(count=str(c))
+        self.text = "{count}/9".format(count=str(c))
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 

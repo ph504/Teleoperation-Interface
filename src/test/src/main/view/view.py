@@ -32,6 +32,7 @@ import global_variables
 import sys
 import subprocess
 from userAI import *
+from bar_canvas import *
 
 
 csv_dialogue_s = "/home/pouya/catkin_ws/src/test/src/spreadsheets/dialogue_spreadsheet_social.csv"
@@ -180,9 +181,12 @@ def main():
         pub.publish(True)
     
     def unfreeze(dummy = 0):
-        print("sending data to unfreeze ...")
-        time.sleep(1)
-        pub.publish(False)
+        def x():
+            print("sending data to unfreeze ...")
+            time.sleep(1)
+            pub.publish(False)
+        _x = threading.Thread(target=x)
+        _x.start()
     
     def calibrate_btn_enbl(dummy = 0):
         calibrate_button.enable()
@@ -404,6 +408,9 @@ def change_scan_mode():
     print(CameraView.scan_mode)
 
 def switch(back, front, small, big):
+        
+        EventManager.post_event("label_camera_switch", -1)
+        
         if back.is_front == False:
             #Flir is front, Axis is back
             front.update_pos(flir_info)
@@ -423,20 +430,20 @@ def reset_bar(bar):
 
 def switch_danger(barcanvas, dangercanvases):
     if barcanvas.active:
-        barcanvas.reset()
+        barcanvas.reset_button(have_sound = False)
         barcanvas.disable()
         for dangercanvas in dangercanvases:
-            dangercanvas.reset() 
+            dangercanvas.reset_button(have_sound = False)
         for dangercanvas in dangercanvases:
             dangercanvas.enable()
             dangercanvas.start()
         BarCanvas.danger_mode = True
         global_variables.danger_mode = True
     else:
-        barcanvas.reset()
+        barcanvas.reset_button(have_sound = False)
         barcanvas.enable()
         for dangercanvas in dangercanvases:
-            dangercanvas.reset() 
+            dangercanvas.reset_button(have_sound = False) 
         for dangercanvas in dangercanvases:
             dangercanvas.disable() 
         BarCanvas.danger_mode = False
@@ -481,7 +488,6 @@ def server_program():
                     
                         print("From connected user: " + data)
                         if int(data) == 0:
-                            print("HAHAHAHAH!")
                             Logger.log("calibration", 1)
                             EventManager.post_event("activate_calibration", -1)
                         else:

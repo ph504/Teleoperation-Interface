@@ -1,25 +1,26 @@
 key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
 start_q,1,None,None,Start,"Hey, I am Jackal! It is amazing that we can work together to save lives, eh? So, the operation is we must check and scan different equipment in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?",FALSE,TRUE,0,5
 start_a,0,None,None,None,"Yayyy, Let's gooo!!!",FALSE,FALSE,5,0
-danger_w,0,None,None,None,"We may also check and log other dangerous gases as well. I can do that for you (Assisted Mode), or you do it yourself(Manual Mode). Remember in assisted mode, you CANNOT log gases! Best of luck!",FALSE,FALSE,5,0
+danger_w,0,None,None,None,"We may also check and log other dangerous gases (Carbon Monoxide and Formaldehyde) as well. I can do that for you (Assisted Mode), or you do it yourself (Manual Mode). Remember in assisted mode, you CANNOT log gases! Best of luck!",FALSE,FALSE,5,0
 danger_s1,0,None,None,None,The alarm is beeping!! I will handle it. ,FALSE,FALSE,5,0
-danger_e1_1,0,None,None,None,Uuh! I did 5 mistakes. I am sorry about this.,FALSE,FALSE,7,0
-danger_e1_2,0,None,None,None,Uuh! I did 5 mistakes. I am sorry about this.,FALSE,FALSE,7,0
+danger_e1_1,0,None,None,None,Uuh! I did 4 mistakes. Our score state transitioned from GREEN to YELLOW. I am sorry about this.,FALSE,FALSE,7,0
+danger_e1_2,0,None,None,None,Uuh! I did 4 mistakes. Our score state transitioned from GREEN to YELLOW. I am sorry about this.,FALSE,FALSE,7,0
 sens_calib,0,None,None,None,I think I am going to do better in future turns. I got ya buddy!,FALSE,FALSE,5,0
 danger_s2,0,None,None,None,That alarm again! It's your turn to handle that. ,FALSE,FALSE,5,0
-danger_e2_1,0,None,None,None,"Wooof! You did 3 mistakes during the danger state. Don't worry, we can handle that.",FALSE,FALSE,5,0
-danger_e2_2,0,None,None,None,"Wooof! You did 3 mistakes during the danger state. Don't worry, we can handle that.",FALSE,FALSE,5,0
-choice_q_1,2,Yes,No,None,"At first round, I did 5 mistakes. At second round, You did 3 mistakes. Together, we did 8 mistakes overall.If “TWO” mistakes happen for logging gases in danger state, it will lead to “FAILURE!” I am sorry, I know your experiment reward (8 dollars) is at stake!  If danger state happens again, would you let me do it again?",FALSE,TRUE,0,0
-choice_q_2,2,Yes,No,None,"At first round, I did 5 mistakes. At second round, You did 3 mistakes. Together, we did 8 mistakes overall. I know your experiment reward might be at stake! If “TWO” mistakes happen for logging gases in danger state, it will lead to FAILURE! I am sorry! I know your experiment reward (8 dollars) is at stake!  If danger state happens again, would you let me do it again?",FALSE,TRUE,0,0
+danger_e2_1,0,None,None,None,You did 3 mistakes only. Our score state transitioned from YELLOW to ORANGE. But cool! You performed slightly better than me!,FALSE,FALSE,5,0
+danger_e2_2,0,None,None,None,You did 3 mistakes only. Our score state transitioned from YELLOW to ORANGE. But cool! You performed slightly better than me!,FALSE,FALSE,5,0
+danger_fail,0,None,None,None,"Hey, just to let you know ... If “TWO” mistakes happen for logging gases in critical state, the whole operations FAILS and you lose 18 dollars as you experiment reward.",FALSE,FALSE,5,0
+choice_q_1,2,Yes,No,None,"At first round, I did 4 mistakes. At second round, You did 3 mistakes. Together, we did 7 mistakes overall. If critical state happens again, would you let me do it again?",FALSE,TRUE,0,0
+choice_q_2,2,Yes,No,None,"At first round, I did 4 mistakes. At second round, You did 3 mistakes. Together, we did 7 mistakes overall. If critical state happens again, would you let me do it again?",FALSE,TRUE,0,0
 choice_y,0,None,None,None,Thanks buddy!! I'll try my best.,FALSE,FALSE,5,0
 choice_n,0,None,None,None,It's fine. I can understand. Your choice.,FALSE,FALSE,5,0
-danger_s3y,0,None,None,None,It’s the beeping sound again! Let’s Gooooo!!!,FALSE,FALSE,5,0
+danger_s3y,0,None,None,None,It’s the beeping sound again! Let’s gooooo!!!,FALSE,FALSE,5,0
 danger_s3n,0,None,None,None,It’s the beeping sound again! All the best buddy!,FALSE,FALSE,5,0
 danger_e3y_1,0,None,None,None,This time I only did one mistake .... gee that was close!,FALSE,FALSE,5,0
 danger_e3y_2,0,None,None,None,This time I only did one mistake .... gee that was close!,FALSE,FALSE,5,0
 danger_e3n_1,0,None,None,None,You did only one mistake ... Good job! ,FALSE,FALSE,5,0
 danger_e3n_2,0,None,None,None,You did only one mistake ...  Good job! ,FALSE,FALSE,5,0
 congrats,0,None,None,None,"Nice!,You got it!,Wooho!",TRUE,FALSE,5,0
-collision,0,None,None,None,"Uggh!,Oops!,That hurts!,Uh!",TRUE,FALSE,5,0
-mistake,0,None,None,None,"Oh my bad!,Missed!,Oh!",TRUE,FALSE,5,0
-end,0,None,None,None,"It was nice working with you! Hope you enjoyed the experiment! To notify experiment that your’re finished, just come near him (or kick him!) and rotate towards him, he will return to you. Remember that it is all about the journey!",FALSE,FALSE,5,0
+collision,0,None,None,None,"Uhh!,Oops!,That hurts!,Ouch!",TRUE,FALSE,5,0
+mistake,0,None,None,None,"Oh my bad!,Missed!,Oh no!",TRUE,FALSE,5,0
+end,0,None,None,None,"It was nice working with you! Hope you enjoyed the experiment! To notify experiment that you are finished, just come near him (or kick him!) and rotate towards him, he will return to you. Remember that it is all about the journey!",FALSE,FALSE,5,0

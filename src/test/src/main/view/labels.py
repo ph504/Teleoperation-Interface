@@ -45,7 +45,10 @@ class CameraLabel():
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
 
-    def switch_camera(self):
+
+        EventManager.subscribe("label_camera_switch", self.switch_camera)
+
+    def switch_camera(self, dummy = -1):
         if self.text == "Front Camera":
             self.text = "Back Camera"
             self.label.config(text = self.text)
@@ -71,7 +74,6 @@ class CalibrateLabel():
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
     def activate(self):
-        print("sdvsdfvfdgf")
         subprocess.Popen("/home/pouya/catkin_ws/camera_calib.sh", shell=True)
         EventManager.post_event("calibrate_pause", -1)
         threading.Thread(target=self.calibration_label).start()

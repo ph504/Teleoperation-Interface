@@ -113,7 +113,12 @@ class BaseButton():
         EventManager.subscribe("unfreeze", self.disable_freeze)
         
     def add_event(self, event, arg = None):
-            self.button.config(command=event)
+            def x():
+                self.deactive()
+                event()
+
+                
+            self.button.config(command= x )
         
        
     

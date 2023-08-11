@@ -1,6 +1,7 @@
 from dialogue import *
 from avatar import *
 from event import EventManager
+import global_variables
 class AvalogueController():
     def __init__(self, frame, d_model: DialogueModel, d_view: DialogueView, a_model: AvatarModel, a_view: AvatarView):
         self.frame = frame 
@@ -19,8 +20,9 @@ class AvalogueController():
         self.sad_idle_avatar = self.a_model.find_obj('i_sad')
         
         self.button_press = False
+        
         self.btn_press_name = None
-
+        self.func_btn = None
         #a tuple = first var is avatar, second var is dialogue
         self.avalogue_stack = deque()
 
@@ -35,22 +37,26 @@ class AvalogueController():
     def update_btnpress(self):
 
        if self.d_view.button_press:
+            
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name
+            self.func_btn = utils.find_func(self.btn_press_name)
             self.d_view.button_press = False
         
        if self.d_view.button_press_1:
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name_1
+            self.func_btn = utils.find_func(self.btn_press_name)
             self.d_view.button_press_1 = False
 
        if self.d_view.button_press_2:
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name_2
+            self.func_btn = utils.find_func(self.btn_press_name)
             self.d_view.button_press_2 = False
         
 
-       Tk.after(self.frame, 100, self.update_btnpress)
+       Tk.after(self.frame, 50, self.update_btnpress)
 
     #the avatar is dependent on the dialogue
     def update_loop(self):
@@ -66,7 +72,6 @@ class AvalogueController():
         else:
             if self.avalogue_stack:
                  if not (self.avalogue_stack[0])[1].queue_flag:
-                    print("3 --- in the middle of avalogue, a new one comes up which hasn't been shown.")
                     self.curr_avalogue[1].pause_letterbyletter()
                     temp = self.curr_avalogue
                     self.curr_avalogue = self.avalogue_stack.pop()
@@ -113,14 +118,14 @@ class AvalogueController():
                 #print("10 --- it is finished and needs to be empty")
                 self.curr_avalogue = None
 
+            print("Button Press: " + str(self.button_press))
             if self.button_press:
-                #print("11 ---  button press")
+                print(self.curr_avalogue[1].button_num)
                 self.d_view.hide_buttons(self.curr_avalogue[1].button_num)
-                func = utils.find_func(self.btn_press_name)
                 self.curr_avalogue = None
-                self.button_press = None
+                self.button_press = False
                 self.btn_press_name = None
-                func()
+                self.func_btn()
 
         Tk.after(self.frame, 100, self.update_loop)
        
@@ -201,9 +206,9 @@ class AvalogueController():
     def set_avalogue(self, a_key, d_key):
         
         avatar_obj  = self.a_model.find_obj(a_key)
-        print(avatar_obj.emotion)
+        
         dialogue_obj = self.d_model.find_obj(d_key)
-        print(dialogue_obj.full_text)
+        
         self.d_view.init_buttons(dialogue_obj.button_num, 
                                dialogue_obj.button_title,
                                 dialogue_obj.button1_title,
@@ -216,10 +221,11 @@ class AvalogueController():
         self.set_avalogue("r_happy", "congrats")
     
     def on_mistake(self, dummy):
-        self.set_avalogue("r_sad", "mistake")
+        if global_variables.jackalai_active:
+            self.set_avalogue("r_sad", "mistake")
     
     def on_collision(self, dummy):
-        print("collision@!!!!!")
+        
         self.set_avalogue("r_sad", "collision")
 
         

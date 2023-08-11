@@ -24,7 +24,7 @@ is_code_list_2 = None #False is Red Papers, True is Blue Papers
 
 second_round_diff = 0
 
-
+task_advance = 0
 tuto_miss = 0
 
 

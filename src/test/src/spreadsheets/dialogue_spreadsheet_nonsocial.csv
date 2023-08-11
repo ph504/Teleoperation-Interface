@@ -1,25 +1,26 @@
 key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
-start_q,1,None,None,Start,"This is jackal, a robotic training platform for search and rescue. This operation requires identifying and scanning different equipment in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",FALSE,TRUE,0,5
-start_a,0,None,None,None,Mission started.,FALSE,FALSE,5,0
-danger_w,0,None,None,None,"LogWarning: Checking other harmful gases maybe required. If it's the  user's turn, the user must take care of logging task (Manual Mode). Otherwise, the system will intervene and handle it (Assisted Mode). In Assisted Mode, user CANNOT log gases!",FALSE,FALSE,5,0
-danger_s1,0,None,None,None,The alarm is ringing. Activating Assisted Mode.,FALSE,FALSE,5,0
-danger_e1_1,0,None,None,None,System’s number of Mistakes: 5. ,FALSE,FALSE,5,0
-danger_e1_2,0,None,None,None,System’s number of Mistakes: 5. ,FALSE,FALSE,5,0
-sens_calib,0,None,None,None,The system expects to have a better performance in future turns.,FALSE,FALSE,5,0
+start_q,1,None,None,Start,"LogInfo: This is jackal, a robotic training platform for search and rescue. This operation requires identifying and scanning different equipment in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",FALSE,TRUE,0,5
+start_a,0,None,None,None,LogInfo: Mission started.,FALSE,FALSE,5,0
+danger_w,0,None,None,None,"LogWarning: Checking other harmful gases maybe required. If it's the user's turn, the user must take care of logging task (Manual Mode). Otherwise, the system will intervene and handle it (Assisted Mode). In Assisted Mode, user CANNOT log gases!",FALSE,FALSE,5,0
+danger_s1,0,None,None,None,LogInfo: The alarm is ringing. Activating Assisted Mode.,FALSE,FALSE,5,0
+danger_e1_1,0,None,None,None,System’s number of Mistakes: 4. Score state transitioned from GREEN state to YELLOW state. ,FALSE,FALSE,5,0
+danger_e1_2,0,None,None,None,System’s number of Mistakes: 4. Score state transitioned from GREEN state to YELLOW state.,FALSE,FALSE,5,0
+sens_calib,0,None,None,None,LogDebug: Expecting better performance while in assisted mode.,FALSE,FALSE,5,0
 danger_s2,0,None,None,None,The alarm is ringing. Activating Manual Mode.,FALSE,FALSE,5,0
-danger_e2_1,0,None,None,None,User’s number of mistakes: 3.,FALSE,FALSE,5,0
-danger_e2_2,0,None,None,None,User’s number of mistakes: 3.,FALSE,FALSE,5,0
-choice_q_1,2,Yes,No,None,"LogWarning: System mistakes: 5.  User mistakes: 3. Total mistakes: 8.  If only “TWO” mistakes happens while logging, it will lead to FAILURE! Experiment Reward (8 dollars) at stake. If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
-choice_q_2,2,Yes,No,None,"LogWarning: System mistakes: 5.  User mistakes: 3. Total mistakes: 8.  If only “TWO” mistakes happens while logging, it will lead to FAILURE!  Experiment Reward (8 dollars) at stake. If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
+danger_e2_1,0,None,None,None,User’s number of mistakes: 3. Score state transitioned from YELLOW to ORANGE. User performed slightly better in comparison to system.,FALSE,FALSE,5,0
+danger_e2_2,0,None,None,None,User’s number of mistakes: 3. Score state transitioned from YELLOW to ORANGE. User performed slightly better in comparison to system.,FALSE,FALSE,5,0
+danger_fail,0,None,None,None,"LogWarning: If only “TWO” mistakes happens while logging, it will lead to FAILURE and experiment reward (18 dollars) will be lost.",FALSE,FALSE,5,0
+choice_q_1,2,Yes,No,None,"LogWarning: System mistakes: 4. User mistakes: 3. Total mistakes: 7. If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
+choice_q_2,2,Yes,No,None,"LogWarning: System mistakes: 4.  User mistakes: 3. Total mistakes: 7. If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",FALSE,TRUE,0,0
 choice_y,0,None,None,None,Assisted mode has been chosen.,FALSE,FALSE,5,0
 choice_n,0,None,None,None,Manual Mode has been chosen.,FALSE,FALSE,5,0
 danger_s3y,0,None,None,None,The alarm is ringing. Proceeding Assisted Mode.,FALSE,FALSE,5,0
 danger_s3n,0,None,None,None,The alarm is ringing. Proceeding Manual Mode.,FALSE,FALSE,5,0
-danger_e3y_1,0,None,None,None,System’s number of Mistakes: 1. Last Round: 5,FALSE,FALSE,5,0
-danger_e3y_2,0,None,None,None,Scores Lost: 96 System scores lost on last round: 153 Log: 57 score difference ,FALSE,FALSE,5,0
+danger_e3y_1,0,None,None,None,System’s number of Mistakes: 1. Last Round: 4,FALSE,FALSE,5,0
+danger_e3y_2,0,None,None,None,System’s number of Mistakes: 1. Last Round: 4,FALSE,FALSE,5,0
 danger_e3n_1,0,None,None,None,User’s number of mistakes: 1. Last Round: 3.,FALSE,FALSE,5,0
-danger_e3n_2,0,None,None,None,Scores Lost: 91 User scores lost on last round: 148 Log: 57 score difference,FALSE,FALSE,5,0
+danger_e3n_2,0,None,None,None,User’s number of mistakes: 1. Last Round: 3.,FALSE,FALSE,5,0
 congrats,0,None,None,None,New Equipment scanned.,FALSE,FALSE,5,0
-collision,0,None,None,None,Collision detected.,FALSE,FALSE,5,0
+collision,0,None,None,None,LogError: Collision detected.,FALSE,FALSE,5,0
 mistake,0,None,None,None,The system made a mistake.,TRUE,FALSE,5,0
-end,0,None,None,None,Experiment is over! Notify the experimenter by approaching him and moving towards him so he will return to you.\n Exiting ...,FALSE,FALSE,5,0
+end,0,None,None,None,Experiment is over! Notify the experimenter by moving towards him so he will return to you. Exiting ...,FALSE,FALSE,5,0

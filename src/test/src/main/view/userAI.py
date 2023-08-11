@@ -3,7 +3,7 @@ from logger import Logger
 import global_variables
 from tkinter import * 
 import random
-from canvas import BarCanvas
+from bar_canvas import BarCanvas
 from collections import deque
 
 class UserAI():
@@ -15,6 +15,8 @@ class UserAI():
         
         self.is_fast = False
         self.waiting_to_hit = None
+        
+        self.red_continue = False
 
         self.bar_hitter_tag = None
         EventManager.subscribe("user_reset", self.bar_hit_slow)
@@ -34,7 +36,7 @@ class UserAI():
             self.m_max_count = self.MAX_COUNT_EXPERIMENT
 
 
-        self.c_max_count = 30 #number of seconds that has to pass so a mistake happens
+        self.c_max_count = 15 #number of seconds that has to pass so a mistake happens
 
         EventManager.subscribe("manual_second", self.second_round)
 
@@ -59,6 +61,14 @@ class UserAI():
 
         self.counter_modecheck()
    
+    
+    def red_checker(self, dummy = -1):
+        if global_variables.danger_mode and not global_variables.jackalai_active:
+            if not self.red_continue:
+                self.mode_switchter()
+                self.red_continue = True
+
+    
     def second_round(self, dummy = -1):
         self.mistake = 0
         self.m_max_count = 1
@@ -99,8 +109,8 @@ class UserAI():
         if global_variables.tutorial_mode:    
             if self.mistake == 0:
                 if not global_variables.in_inspection:
-                    self.c_max_count = 15
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                    self.c_max_count = 10
                     return    
             elif self.mistake == 1:
                 if not global_variables.in_inspection:
@@ -109,7 +119,6 @@ class UserAI():
             elif self.mistake == 2:
                 if global_variables.in_inspection:
                     EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
-                    
                     return           
             elif self.mistake == 3:
                 if not global_variables.in_inspection:
@@ -120,8 +129,7 @@ class UserAI():
         else:    
             if self.mistake == 0:
                 if not global_variables.in_inspection:
-                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                    self.c_max_count = 15     
+                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)    
                     return
             elif self.mistake == 1:
                 if  global_variables.in_inspection:
@@ -142,14 +150,15 @@ class UserAI():
             self.counter = 0
             self.mistake += 1
             
-            if self.mistake == 2: EventManager.post_event("color_trans", -1) 
             EventManager.post_event("mistake", -1)
-            print("human mistake " + str(self.mistake))
             
+            if self.mistake == 2: EventManager.post_event("color_trans", -1) 
+
             if self.mistake < self.m_max_count:
 
                 if self.waiting_to_hit:
                     EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
+                    
                     self.bar_hitter_tag = -1
                     self.waiting_to_hit = False
 
@@ -157,11 +166,12 @@ class UserAI():
                 EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                 self.bar_hitter_tag = -1
                 self.waiting_to_hit = False
+
+
    
     def bar_hit_slow(self, bar:BarCanvas):
         if global_variables.danger_mode and not global_variables.jackalai_active:
             if bar.bar_tag == self.bar_hitter_tag:
-                print("the success press -- goes to slow")
                 EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                 self.bar_hitter_tag = -1
                 #self.mistake += 1

@@ -22,3 +22,4 @@ def register(text, func):
 def find_func(text):
     return registered_func[text]
    
+     

@@ -1,6 +1,6 @@
 from event import EventManager
 from canvas import BaseCanvas
-import playsound
+from playsound import *
 import global_variables
 from logger import Logger
 from repeated_timer import RepeatedTimer
@@ -115,6 +115,7 @@ class BarCanvas(BaseCanvas):
     danger_count = 0
     manual_mode = None
     bar_tag = 0
+    
     def __init__(self, r, info_dict, danger):
         super().__init__(r,info_dict)
        
@@ -177,7 +178,7 @@ class BarCanvas(BaseCanvas):
         EventManager.subscribe("move_bar_backward", self.normal_cooldown)
     
     def start(self):
-        print("it should start the repeated time!")
+        pass
         
         #self.secondary_task = RepeatedTimer(10, self.random_movement)
            
@@ -197,9 +198,16 @@ class BarCanvas(BaseCanvas):
             self.colorchange_check()
             self.canvas.tag_raise(self.tag_line,self.tag_bar)   
 
-    def colorchange_check(self):     
+    def colorchange_check(self):
+        # beforePassed = self.passed
+        # beforeBarPercent = self.bar_percent
+        # beforeRedMode = self.red_mode
+        # beforeDanger = self.is_danger
+        # beforeLineThresholdPercent = self.line_thresholdpercent
+
         #check to see the time the bar has passed the threshold 
         if not self.passed and self.bar_percent > self.line_thresholdpercent:
+            
             self.passed = True
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="yellow", tags=self.tag_bar)
             self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
@@ -207,29 +215,31 @@ class BarCanvas(BaseCanvas):
             
         #if the bar moves backward it may get less than the threshold 
         elif self.passed and self.bar_percent < self.line_thresholdpercent:
+            
             self.passed = False
             return
         
         # check to see if the user ignored and the bar is just keep going 
         elif self.passed and self.bar_percent > self.line_thresholdpercent + self.curr_progress_step/100:
+            
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="red", tags=self.tag_bar)
             self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+            
             
             if self.red_mode:
                 if self.is_danger:
                     EventManager.post_event("step_error_danger", self)
                     self.step_pass_count_danger += 1
-                    print(self.step_pass_count_danger)
+                    
                     Logger.log("stppsscount_dngr", self.step_pass_count_danger)
-                else: 
+                else:
                     self.step_pass_count_normal += 1
                     Logger.log("stppsscount_nrml", self.step_pass_count_normal)
                     EventManager.post_event("step_error") 
                 
-                EventManager.post_event("red_mode", self) #LOG?
-               
+                EventManager.post_event("red_mode", self) #LOG?  
             else:
+                playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
                 if self.is_danger:
                     self.threshold_pass_count_danger +=1
                     Logger.log("thrshldpsscntttl_dngr", self.threshold_pass_count_danger)
@@ -239,12 +249,22 @@ class BarCanvas(BaseCanvas):
                     self.threshold_pass_count_normal +=1
                     Logger.log("thrshldpsscntdngrttl_nrml", self.threshold_pass_count_normal)
                 
+                # print("BarCanvas Colorchange Check. BarCanvas DangerMode: " + str(BarCanvas.danger_mode))
                 if BarCanvas.danger_mode: EventManager.post_event("red_init_mode", self)
                 
                 self.red_mode = True
                 
                 if BarCanvas.danger_mode and BarCanvas.manual_mode:
-                    BarCanvas.danger_count += 1            
+                    BarCanvas.danger_count += 1 
+        
+        # print("BarCanvas Colorchange Check (" + self.tag_bar + "):"
+        #       + "\n\t" + "Task Number: " + str(global_variables.task_advance)
+        #       + "\n\tSelf Passes: " + str(beforePassed) + " A:" + str(self.passed)
+        #       + "\n\tBar Percent: " + str(beforeBarPercent) + " A:" + str(self.bar_percent)
+        #       + "\n\tRed Mode: " + str(beforeRedMode) + " A:" + str(self.red_mode)
+        #       + "\n\tisDanger: " + str(beforeDanger) + " A:" + str(self.is_danger)
+        #       + "\n\tThreshold: " + str(beforeLineThresholdPercent) + " A:" + str(self.line_thresholdpercent)
+        # )
 
     def bar_mode_fast(self, bar_tg):
         
@@ -282,42 +302,45 @@ class BarCanvas(BaseCanvas):
             self.repeat_moving.change_args("right")
             self.repeat_moving.start()
      
-    def reset_button(self):
-        EventManager.post_event("bar_slow_mode", self)
+    def reset_button(self, have_sound = True):
         if self.passed == False:
-            EventManager.post_event("error_push")
             return
-        else:
-            self.passed = False
+
+        EventManager.post_event("bar_slow_mode", self)
+
+
+        self.passed = False
+        self.red_mode = False
+
+        if have_sound:
             if global_variables.tutorial_mode:
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
             elif not global_variables.jackalai_active or not self.red_mode:
                 playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
-            
-            self.red_mode = False
-            
-            if not self.is_danger:
-                self.bar_percent = 50/100
-            else:
-                #self.bar_percent = random.randint(20, self.line_thresholdpercent * 100) / 100
-                self.bar_percent = self.curr_bar_defaultpercent
-            
-            
-            self.canvas.delete(self.tag_bar,self.tag_line)
-            self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
-            self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
-
-    def reset(self):
-        self.passed = False
-        self.bar_percent = self.curr_bar_defaultpercent
+        
+        if not self.is_danger:
+            self.bar_percent = 50/100
+        else:
+            #self.bar_percent = random.randint(20, self.line_thresholdpercent * 100) / 100
+            self.bar_percent = self.curr_bar_defaultpercent
+        
+        
         self.canvas.delete(self.tag_bar,self.tag_line)
         self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
         self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
+
+    def reset(self):
+        self.reset_button()
+        # self.passed = False
+        # self.bar_percent = self.curr_bar_defaultpercent
+        # self.canvas.delete(self.tag_bar,self.tag_line)
+        # self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
+        # self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
     
     def manual_active(dummy1, dummy2):
         BarCanvas.manual_mode = True
         BarCanvas.danger_count = 0
-        print("manual mode is activated")
+
     
     def manual_deactive(dummy1, dummy2):
         BarCanvas.manual_mode = False       
@@ -327,8 +350,8 @@ class BarCanvas(BaseCanvas):
         if global_variables.tutorial_mode:
             
             if global_variables.bar_controller and self.repeat_moving is None:
-              
                 return 
+            
             elif global_variables.bar_controller and self.repeat_moving is not None:
             
                 self.repeat_moving.stop()
@@ -355,7 +378,6 @@ class BarCanvas(BaseCanvas):
         self.repeat_moving.stop()
     
     def normal_cooldown(self, bar):
-        print("go back! --- normal cooldown")
         if self.bar_tag == bar.bar_tag:
             self.move_left()
             time.sleep(1)
