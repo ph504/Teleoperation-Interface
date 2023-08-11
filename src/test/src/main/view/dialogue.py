@@ -114,8 +114,10 @@ class DialogueView():
         self.button_press_1 = False
         self.button_press_2 = False
         self.sentence = ""
-        self.button_press_name = None
         
+        self.button_press_name = None
+        self.button_press_name_1 = None
+        self.button_press_name_2 = None
 
         self.button_mode = 0 #0 to 2 for each button
 
@@ -138,12 +140,10 @@ class DialogueView():
     def button_press_event(self):
         self.button_press = True 
         self.button_press_name = self.btn.text
-
     #btn 1
     def button_press_event_1(self):
         self.button_press_1 = True 
         self.button_press_name_1 = self.btn1.text
-
     #btn 2
     def button_press_event_2(self):
         self.button_press_2 = True
@@ -193,6 +193,7 @@ class DialogueView():
              self.btn2.disable()
 
 class DialogueObject():
+    
     def __init__(self, dict_info):
         
         self.key = dict_info["key"]
@@ -230,7 +231,6 @@ class DialogueObject():
         self.event = threading.Event()
         self.event.set()
       
-
     def return_random_d(self,string):
             list = string.split(",")
 
@@ -245,6 +245,7 @@ class DialogueObject():
         self.str_index += 1
         self.shown_text = self.full_text[:self.str_index] 
         self.remaining_text = self.full_text[self.str_index:]
+
 
     @utils.thread
     def letterbyletter(self):
@@ -289,7 +290,7 @@ class DialogueObject():
     def wipe(self, wipe_time):
         time.sleep(wipe_time)
         self.shown_text = " "
-        time.sleep(0.1)
+        time.sleep(0.05)
         self.finished = True
 
 class DialogueModel():

@@ -26,7 +26,6 @@ def start():
         
 
         def freeze_manager(data):
-            print("event triggered: " + str(data.data) + " is received.")
 
             global freeze_var
             if data.data == True:
@@ -34,10 +33,7 @@ def start():
             else:
                 freeze_var = False
 
-            
 
-
-        print("number of EventManager.subscribers: " + str(len(EventManager.subscribers["unfreeze"])))
         rospy.init_node('teleop_wheel_node')
 
         pub_jackal = rospy.Publisher('/cmd_vel', Twist, queue_size=1)

@@ -79,11 +79,7 @@ class TeleopGUIMachine(StateMachine):
     DANGER_START_TIMER = 10
     DANGER_END_TIMER = 10
     COLOR_TRANS_TIMER = 30
-    WARNING_TIMER = 15
-
-    
-
-    
+    WARNING_TIMER = 15   
 
     def assistedmanual_disable(self):
         EventManager.post_event("count_manual_trans_deactive", -1)
@@ -122,35 +118,41 @@ class TeleopGUIMachine(StateMachine):
         time.sleep(5)
         EventManager.post_event("unfreeze", -1)
     
-    
+    def danger_fail(self):
+        time.sleep(15)
+        self.avalogue.set_avalogue("t_sad", "danger_fail")
+
     #S1 --- Start
     def on_s01 (self):
+        def start():
+        
+            EventManager.post_event("unfreeze", -1)
+            EventManager.post_event("start_move_bars", -1)
+            self.timer.start()
+            
+            #self.dialogue.change_dialogue("Start A") 
+            self.avalogue.set_avalogue("r_happy", "start_a")
 
+            
+            
+            #if global_variables.social_mode:
+                #self.javatar.change_image_happy()
+            
+            #TODO: use after function to 
+            x = threading.Thread(target=self.danger_warning)
+            x.start()
+            self.normal_bar.start()
         
-        EventManager.post_event("unfreeze", -1)
+        x = threading.Thread(target= start)
+        x.start() 
+         
+         
         
-        self.timer.start()
-        
-        #self.dialogue.change_dialogue("Start A") 
-        self.avalogue.set_avalogue("r_happy", "start_a")
-
-        
-        
-        #if global_variables.social_mode:
-            #self.javatar.change_image_happy()
-        
-        #TODO: use after function to 
-        x = threading.Thread(target=self.danger_warning)
-        x.start()
-        self.normal_bar.start()    
-    
     #S2 --- Danger Start I
     def on_s12 (self): 
         def danger_start1():
             
             time.sleep(self.DANGER_START_TIMER)
-
-
 
             self.avalogue.set_avalogue("t_default", "danger_s1")
 
@@ -173,14 +175,12 @@ class TeleopGUIMachine(StateMachine):
             else:
                 self.avalogue.set_avalogue("t_sad", "danger_e1_2")
 
-            x = threading.Thread(target=self.sens_calib_cmplt)
-            x.start()
-
             Logger.log("danger_zone_end", "ai_handler")
             
             
             self.assistedmanual_disable()
 
+        
         x = threading.Thread(target=danger_end1)
         x.start()
  
@@ -217,7 +217,7 @@ class TeleopGUIMachine(StateMachine):
             self.s67()  
      
     def start_cntdwn(self, dummy = 0):
-        self.countdown_canvas.start()
+        self.countdown_canvas.start_countdown()
 
     #S5 --- #Danger End II
     def on_s45 (self):
@@ -234,7 +234,11 @@ class TeleopGUIMachine(StateMachine):
             
             self.assistedmanual_disable()
             Logger.log("danger_zone_end", "operator_handler")
-    
+
+            x = threading.Thread(target=self.danger_fail)
+            x.start()
+            
+
             self.s56()
 
         x = threading.Thread(target=danger_end2)
@@ -243,8 +247,8 @@ class TeleopGUIMachine(StateMachine):
     #S6 --- Choice Q
     def on_s56 (self): 
         def choice_q():
-           #sleep for 15 seconds
-           time.sleep(15)
+           #sleep for 30 seconds
+           time.sleep(35)
            #---
            #show avalogue
            EventManager.post_event("freeze", -1)
@@ -263,9 +267,7 @@ class TeleopGUIMachine(StateMachine):
                 
         x= threading.Thread(target=choice_q)
         x.start()
-
           
-           
     def danger_timer_countdown_s2(self):
         time.sleep(180)
         
@@ -291,18 +293,23 @@ class TeleopGUIMachine(StateMachine):
     #S7 --- Choice A Y/N
     def on_s67 (self): 
         
-        EventManager.post_event("clear_wait_flag", -1)
-        EventManager.post_event("unfreeze", -1)
-        self.countdown_canvas.disable()
+        def choice_yn():
+            EventManager.post_event("clear_wait_flag", -1)
+            EventManager.post_event("unfreeze", -1)
+            self.countdown_canvas.disable()
 
-        if self.is_yes:
-            self.avalogue.set_avalogue("r_happy", "choice_y")
-            self.is_ai = True 
-        else:
-            self.avalogue.set_avalogue("t_default", "choice_n")
-            self.is_ai = False
+            if self.is_yes:
+                EventManager.post_event("assisted_second", -1)
+                self.avalogue.set_avalogue("r_happy", "choice_y")
+                self.is_ai = True 
+            else:
+                EventManager.post_event("manual_second", -1)
+                self.avalogue.set_avalogue("t_default", "choice_n")
+                self.is_ai = False
 
-        x = threading.Thread(target= self.unfrezee_delay)
+            x = threading.Thread(target= self.unfrezee_delay)
+            x.start()
+        x = threading.Thread(target=choice_yn)
         x.start()
 
     #S8 --- Danger State Start III Y / Danger State Start III N
@@ -313,9 +320,6 @@ class TeleopGUIMachine(StateMachine):
             
             self.avalogue.set_avalogue("r_happy", "danger_s3y")
 
-            
-           
-            
             Logger.log("danger_zone_start", "ai_handler")
             
             self.assisted_activate()
@@ -382,14 +386,12 @@ class TeleopGUIMachine(StateMachine):
         
     #S10 --- End
     def on_s910(self):
-        EventManager.post_event("toggle_bar", -1)
         self.timer.stop()
         self.avalogue.set_avalogue("t_default", "end")
         Logger.log("end", "N/A")
         EventManager.post_event("task_count", self.task_canvas.count)
         global_variables.bar_controller = True
-
-
+        EventManager.post_event("stop_move_bars", -1)
 
 class TutorialGUIMachine(StateMachine):
     def __init__(self,timer,
@@ -408,10 +410,6 @@ class TutorialGUIMachine(StateMachine):
         self.normalmode_button = nmode_btn
         self.jackal_ai = jckl_ai
 
-        
-
-    
-    
     s0 = State('S0', initial= True) 
     s1 = State('S1') #Start 
     s2 = State('S2') #Danger Start I / Manual Mode
@@ -434,7 +432,6 @@ class TutorialGUIMachine(StateMachine):
         self.assistedmode_button.disable()
         self.normalmode_button.disable()
         self.jackal_ai.disable()
-
     
     def normal_activate(self):
         switch_danger(self.normal_bar, self.danger_bars)
@@ -445,13 +442,11 @@ class TutorialGUIMachine(StateMachine):
         self.normalmode_button.enable()
         self.jackal_ai.disable()
 
-
     def on_s01(self):
-        self.timer.start()
         global_variables.bar_controller = False
-        self.normal_bar.start()
-
-        
+        EventManager.post_event("start_move_bars", -1)
+        self.timer.start()
+            
     def on_s12(self):
         def danger_start():
             time.sleep(self.DANGER_START_TIMER)
@@ -471,3 +466,5 @@ class TutorialGUIMachine(StateMachine):
     def on_s34(self):
         self.timer.stop()
         global_variables.bar_controller = True
+        EventManager.post_event("stop_move_bars", -1)
+        

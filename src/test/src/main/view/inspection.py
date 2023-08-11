@@ -39,27 +39,28 @@ class InspectionPage():
         self.code_list = [
                             "pKFRjK8wr8",
                             "bRaVW4Wd9M",
-                            "ZIQVNKBV53", 
+                            "LLmvDKgkqk",
                             "k9NxjHeSGD", 
                             "A2QYx8g23p",
+                            "MEvvKDPl2R",
+                            "PB1gsUELNc",
                             "td9jRJtRGH",
                             "TNCHwPQZNh", 
                             "KATT4jRex9",
+                            "5uDTPXkAn7",
                             "jMSe5a89Zs", 
                             "bA2R7nkV8q"
                             ]
 
         self.code_list2 = [
+                            "ZIQVNKBV53", 
                             "8U92xD9MVZ",
                             "BitxAQSNSa",
-                            "qnD5AmVLwN", 
-                            "LLmvDKgkqk",
+                            "qnD5AmVLwN",  
                             "8HVCnhz6sj", 
-                            "PB1gsUELNc", 
                             "HzQTJ99bk4",
                             "U4fV8sZnhT", 
-                            "5uDTPXkAn7",
-                            "MEvvKDPl2R" 
+                            
                             ]
         
         self.tutorial_code_list = ["DbWjNBjgfJ",
@@ -75,10 +76,10 @@ class InspectionPage():
 
 
     def clear_wait_flag(self, dumy):
-         print("wait signal is cleared")
+
          self.wait = False
     def try_again(self, dummy):
-         print("wait signal is sent!")
+
          self.wait = True
 
     def delete_err_lbl(self):
@@ -101,7 +102,6 @@ class InspectionPage():
         
             elif string in self.code_list or string in self.code_list2 or string in self.tutorial_code_list:
                 if self.wait:
-                     print("CRAYOLA!")
                      self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "#8c1127", text="A network error occured. Try writing it again")
                      self.delete_err_lbl()
                      return

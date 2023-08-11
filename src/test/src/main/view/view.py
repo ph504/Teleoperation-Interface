@@ -32,6 +32,7 @@ import global_variables
 import sys
 import subprocess
 from userAI import *
+from bar_canvas import *
 
 
 csv_dialogue_s = "/home/pouya/catkin_ws/src/test/src/spreadsheets/dialogue_spreadsheet_social.csv"
@@ -48,13 +49,14 @@ def init():
     
     if len(sys.argv) != 3 and len(sys.argv) != 5:
         print("Argument length:" + str(len(sys.argv)))
-        print("Usage: python3 main.py tutorial")
+        print("Usage: python3 main.py tutorial 0/1(practice mode or not) n(number of mistakes)")
         print("Usage: python3 main.py p[0:infinite] first/second social/nonsocial red/blue False/True")
         sys.exit(1)
 
     if len(sys.argv) == 3:
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
+        
         if arg1 == "t":
             global_variables.tutorial_mode = True
             EventManager.post_event("unfreeze", -1)
@@ -66,6 +68,8 @@ def init():
             global_variables.practice_mode = True
         elif arg2 == '0':
             global_variables.practice_mode = False
+
+        
             
 
     if len(sys.argv) == 5:
@@ -177,9 +181,12 @@ def main():
         pub.publish(True)
     
     def unfreeze(dummy = 0):
-        print("sending data to unfreeze ...")
-        time.sleep(1)
-        pub.publish(False)
+        def x():
+            print("sending data to unfreeze ...")
+            time.sleep(1)
+            pub.publish(False)
+        _x = threading.Thread(target=x)
+        _x.start()
     
     def calibrate_btn_enbl(dummy = 0):
         calibrate_button.enable()
@@ -237,7 +244,6 @@ def main():
     
     #if  global_variables.tutorial_mode: auto_button.enable()
 
-    
     if global_variables.tutorial_mode: 
         bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm)
     
@@ -253,7 +259,7 @@ def main():
 
 def widget_init(root, tab1, tab2):
     bar_canvas = BarCanvas(tab1, bar_canvas_info_main, danger= False)
-    if global_variables.tutorial_mode: bar_canvas.start()
+    #if global_variables.tutorial_mode: bar_canvas.start()
     danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
@@ -317,16 +323,21 @@ def widget_init(root, tab1, tab2):
     #score_lbl.place(x = score_lbl_info["x"], y = score_lbl_info["y"], width=score_lbl_info["width"], height=score_lbl_info["height"])
     
     
-    circle_canvas = CircleCanvas(tab2, circle_canvas_info)
+    if not global_variables.practice_mode: circle_canvas = CircleCanvas(tab2, circle_canvas_info)
+    else: circle_canvas = None
     
-    
+    if not global_variables.tutorial_mode:
+        miss_canvas = MissCanavas(root,miss_canvas_info)
+        miss_lbl = Label(root, text="Miss", font=miss_lbl_info["font"], fg=miss_lbl_info["color"])
+        miss_lbl.place(x = miss_lbl_info["x"], y = miss_lbl_info["y"], width=miss_lbl_info["width"], height=miss_lbl_info["height"])
+
     task_canvas = TaskCanvas(root, task_canvas_info)
     task_lbl = Label(root, text="Task", font=task_lbl_info["font"], fg=task_lbl_info["color"])
     task_lbl.place(x = task_lbl_info["x"], y = task_lbl_info["y"], width=task_lbl_info["width"], height=task_lbl_info["height"])
 
     flashing_image = FlashingImage(root, flashing_image_info)
 
-    jackal_ai = JackalAI()
+    jackal_ai = JackalAI(root)
     
     return bar_canvas,danger_canvases,task_canvas,view_back,view_front,manual_button,auto_button,a_model, a_view, d_model, d_view, avalogue, dialogue_text, timer_canvas, score_canvas, flashing_image, circle_canvas, jackal_ai, small_lbl, big_lbl, calibrate_button, calibrate_lbl, countdown
 
@@ -390,12 +401,16 @@ def toggle_assistedmode(jackal_ai, man_btn, ato_btn):
     
 def toggle_barcontroller():
     global_variables.bar_controller = not global_variables.bar_controller
+    EventManager.post_event("start_move_bars", -1)
 
 def change_scan_mode():
     CameraView.scan_mode = not CameraView.scan_mode
     print(CameraView.scan_mode)
 
 def switch(back, front, small, big):
+        
+        EventManager.post_event("label_camera_switch", -1)
+        
         if back.is_front == False:
             #Flir is front, Axis is back
             front.update_pos(flir_info)
@@ -411,23 +426,24 @@ def switch(back, front, small, big):
 
 def reset_bar(bar):
     bar.reset_button()
+    EventManager.post_event("user_reset", bar)
 
 def switch_danger(barcanvas, dangercanvases):
     if barcanvas.active:
-        barcanvas.reset()
+        barcanvas.reset_button(have_sound = False)
         barcanvas.disable()
         for dangercanvas in dangercanvases:
-            dangercanvas.reset() 
+            dangercanvas.reset_button(have_sound = False)
         for dangercanvas in dangercanvases:
             dangercanvas.enable()
             dangercanvas.start()
         BarCanvas.danger_mode = True
         global_variables.danger_mode = True
     else:
-        barcanvas.reset()
+        barcanvas.reset_button(have_sound = False)
         barcanvas.enable()
         for dangercanvas in dangercanvases:
-            dangercanvas.reset() 
+            dangercanvas.reset_button(have_sound = False) 
         for dangercanvas in dangercanvases:
             dangercanvas.disable() 
         BarCanvas.danger_mode = False
@@ -472,7 +488,6 @@ def server_program():
                     
                         print("From connected user: " + data)
                         if int(data) == 0:
-                            print("HAHAHAHAH!")
                             Logger.log("calibration", 1)
                             EventManager.post_event("activate_calibration", -1)
                         else:

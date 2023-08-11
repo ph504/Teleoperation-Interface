@@ -62,7 +62,7 @@ class CountdownCanvas(BaseCanvas):
         super().__init__(r, dict_info)
         self.color = dict_info["color"]
         self.font = dict_info["font"]
-        self.seconds = '30'
+        self.seconds = '45'
         self.bg = dict_info['bg']
         self.text = self.seconds
         self.countdown = None
@@ -71,8 +71,14 @@ class CountdownCanvas(BaseCanvas):
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font, anchor= CENTER, justify="center")
 
 
-    def start(self, dummy = 0):
+    def disable(self):
+        self.stop()
+        return super().disable()
+        
+
+    def start_countdown(self, dummy = 0):
         EventManager.post_event("unfreeze", -1)
+        
         if self.countdown == None:
             self.countdown = RepeatedTimer(1, self.minus)
         else:

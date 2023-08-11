@@ -1,0 +1,83 @@
+Bash Started
+Activating Joystick in a seperate terminal
+Joystick Activated
+Calibrating Camera ... 
+Calibration Finished
+Activating Controller
+Controller is activated
+Parsing Arguments ...
+4
+p99
+[INFO] [1691157529.697418]: viewer node started ...
+Initial angle: 180.0
+default
+Hey, I am Jackal! It is amazing that we can work together to save lives, eh? So, the operation is we must check and scan different equipment in the building while checking the amount of methane by logging it so people outside can have a better understanding of the situation. Shall we start?
+[INFO] [1691157529.897117]: using flir
+[INFO] [1691157529.929967]: using axis
+sending data to unfreeze ...
+Happy
+Yayyy, Let's gooo!!!
+it should start the repeated time!
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.405 A:0.405
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.41000000000000003 A:0.41000000000000003
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.41500000000000004 A:0.41500000000000004
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.42000000000000004 A:0.42000000000000004
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.42500000000000004 A:0.42500000000000004
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.43000000000000005 A:0.43000000000000005
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.43500000000000005 A:0.43500000000000005
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.44000000000000006 A:0.44000000000000006
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8
+BarCanvas Colorchange Check (bar):
+	Task Number: 0
+	Self Passes: False A:False
+	Bar Percent: 0.44500000000000006 A:0.44500000000000006
+	Red Mode: False A:False
+	isDanger: False A:False
+	Threshold: 0.8 A:0.8

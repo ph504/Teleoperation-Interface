@@ -4,7 +4,7 @@ from types import SimpleNamespace
 
 tutorial_mode = None
 practice_mode = None # if true, start state machine and no binding, if false then it is pure tutorial
-bar_controller = True #true stop, false active #TODO
+bar_controller = True #true stop, false active. only for tutorial, in practice mode not training session
 
 
 social_mode = None 
@@ -23,6 +23,10 @@ participant = None
 is_code_list_2 = None #False is Red Papers, True is Blue Papers
 
 second_round_diff = 0
+
+task_advance = 0
+tuto_miss = 0
+
 
 ds1_scoreloss_nonsocial = 200
 ds2_scoreloss_nonsocial = 250

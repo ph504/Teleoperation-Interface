@@ -33,7 +33,8 @@ if [ $# -eq 2 ]; then
     arg1=$1
     arg2=$2
 
-    python3 /home/pouya/catkin_ws/src/test/src/main/view/view.py $arg1 $arg2
+
+    python3 /home/pouya/catkin_ws/src/test/src/main/view/view.py $arg1 $arg2 $arg3
 fi
 
 if [ $# -eq 4 ]; then 

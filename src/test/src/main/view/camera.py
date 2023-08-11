@@ -47,7 +47,11 @@ class CameraView():
         self.cam_available = cam_available
         self.bridge = CvBridge()
         self.border_thick = 15
-        self.frame = Frame(root, highlightbackground=self.border_colors["light_green"], highlightthickness=self.border_thick)
+        if not global_variables.practice_mode:
+            self.frame = Frame(root, highlightbackground=self.border_colors["light_green"], highlightthickness=self.border_thick)
+        else:
+            self.frame = Frame(root)
+
         self.frame.place_configure(x= self.x - self.border_thick, y = self.y - self.border_thick , width=self.width + self.border_thick * 2, height=self.height + self.border_thick * 2)
         self.imagewidget = Label(self.frame) 
 
