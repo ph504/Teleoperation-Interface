@@ -34,8 +34,8 @@ class JackalAI():
         self.waiting_to_hit = None
         EventManager.subscribe("red_init_mode", self.mode_switchter)
 
-        self.max_mistake = 3
-        self.max_barhitcount = 4
+        self.max_mistake = 5
+        self.max_barhitcount = 6
         EventManager.subscribe("assisted_second", self.second_round)
 
         self.c_maxcount = 15
@@ -68,9 +68,9 @@ class JackalAI():
                 self.count += 1
                 self.correct_logging += 1
                 Logger.log("ai_correctlogging", self.correct_logging)
-                playsound.playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
-                bar.reset_button()
-  
+                
+                bar.jackal_reset("yellow")
+                
     def press_red_init(self, bar: BarCanvas):   
         if global_variables.jackalai_active:
                 
@@ -83,7 +83,8 @@ class JackalAI():
                 self.count += 1
                 self.incorrect_logging  += 1
                 Logger.log("ai_incorrectlogging", self.incorrect_logging)
-                bar.reset_button(False)                                          
+                
+                bar.jackal_reset("red_init")                                         
     
     def press_red(self, bar: BarCanvas):
         
@@ -91,7 +92,6 @@ class JackalAI():
 
             self.press_red_init(bar)
             self.mode_switchter()
-            playsound.playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
 
     def enable(self):     
         if not self.first_time and not self.second_time:
@@ -108,24 +108,34 @@ class JackalAI():
         global_variables.jackalai_active = False
 
     def hitter(self):
-        
-        if self.mistake == 0:
-            if not global_variables.in_inspection:
-                EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                self.c_maxcount = 10
-                return
-        elif self.mistake == 1:
-            if not global_variables.in_inspection:
-                EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                return
-        elif self.mistake == 2:
-            if not global_variables.in_inspection:
-                EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                return
-        elif self.mistake == 3:
-            if not global_variables.in_inspection:
-                EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                return
+        if global_variables.jackalai_active:
+            if self.mistake == 0:
+                if not global_variables.in_inspection:
+                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                    self.c_maxcount = 10
+                    return
+            elif self.mistake == 1:
+                if not global_variables.in_inspection:
+                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                    return
+            elif self.mistake == 2:
+                if not global_variables.in_inspection:
+                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                    return
+            elif self.mistake == 3:
+                if not global_variables.in_inspection:
+                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                    return
+            elif self.mistake == 4:
+                if not global_variables.in_inspection:
+                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                    return
+            elif self.mistake == 5:
+                if not global_variables.in_inspection:
+                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                    return
+        else:
+            return
         
 
         Tk.after(self.root, 100, self.hitter)
@@ -162,6 +172,7 @@ class JackalAI():
             self.mistake = 0
             self.counter = 0
             self.waiting_to_hit = False
+            self.bar_hitter_tag = -1
         
         
         Tk.after(self.root, 1000, self.counter_modecheck)

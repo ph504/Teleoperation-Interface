@@ -191,12 +191,15 @@ class BarCanvas(BaseCanvas):
             if string == "left" and self.bar_percent > 0: self.bar_percent -= self.curr_progress_step / 100
             elif string == "right" and self.bar_percent < 100: self.bar_percent += self.curr_progress_step / 100
             
+            
             self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
             self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width * self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
 
             
             self.colorchange_check()
-            self.canvas.tag_raise(self.tag_line,self.tag_bar)   
+
+            #self.canvas.tag_raise(self.tag_line,self.tag_bar)   
+
 
     def colorchange_check(self):
         # beforePassed = self.passed
@@ -209,53 +212,65 @@ class BarCanvas(BaseCanvas):
         if not self.passed and self.bar_percent > self.line_thresholdpercent:
             
             self.passed = True
-            self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="yellow", tags=self.tag_bar)
-            self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
+            self.update_view_yellow()
             if self.is_danger: EventManager.post_event("yellow_mode", self) 
             
         #if the bar moves backward it may get less than the threshold 
-        elif self.passed and self.bar_percent < self.line_thresholdpercent:
-            
+        elif self.passed and self.bar_percent < self.line_thresholdpercent:  
             self.passed = False
             return
         
         # check to see if the user ignored and the bar is just keep going 
         elif self.passed and self.bar_percent > self.line_thresholdpercent + self.curr_progress_step/100:
-            
-            self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="red", tags=self.tag_bar)
-            self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
+            self.update_view_red()
             
             
             if self.red_mode:
-                if self.is_danger:
-                    EventManager.post_event("step_error_danger", self)
-                    self.step_pass_count_danger += 1
-                    
-                    Logger.log("stppsscount_dngr", self.step_pass_count_danger)
-                else:
-                    self.step_pass_count_normal += 1
-                    Logger.log("stppsscount_nrml", self.step_pass_count_normal)
-                    EventManager.post_event("step_error") 
-                
-                EventManager.post_event("red_mode", self) #LOG?  
+                self.logging_red() 
+                EventManager.post_event("red_mode", self)   
             else:
-                playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
-                if self.is_danger:
-                    self.threshold_pass_count_danger +=1
-                    Logger.log("thrshldpsscntttl_dngr", self.threshold_pass_count_danger)
-                    EventManager.post_event("threshold_cross_danger") 
-                else:
-                    EventManager.post_event("threshold_cross") 
-                    self.threshold_pass_count_normal +=1
-                    Logger.log("thrshldpsscntdngrttl_nrml", self.threshold_pass_count_normal)
-                
-                # print("BarCanvas Colorchange Check. BarCanvas DangerMode: " + str(BarCanvas.danger_mode))
-                if BarCanvas.danger_mode: EventManager.post_event("red_init_mode", self)
-                
+                self.playsound_if_manual()
                 self.red_mode = True
+                self.logging_red_init()     
+                if BarCanvas.danger_mode and BarCanvas.manual_mode: BarCanvas.danger_count += 1 
+
+                if global_variables.jackalai_active:
+                    return
+                else:
+                    if BarCanvas.danger_mode: EventManager.post_event("red_init_mode", self)
                 
-                if BarCanvas.danger_mode and BarCanvas.manual_mode:
-                    BarCanvas.danger_count += 1 
+    def update_view_red(self):
+        self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="red", tags=self.tag_bar)
+        self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
+        
+    def playsound_if_manual(self):
+        if not global_variables.jackalai_active:
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+
+    def update_view_yellow(self):
+        self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill="yellow", tags=self.tag_bar)
+        self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
+
+    def logging_red(self):
+        if self.is_danger:
+            EventManager.post_event("step_error_danger", self)
+            self.step_pass_count_danger += 1
+                    
+            Logger.log("stppsscount_dngr", self.step_pass_count_danger)
+        else:
+            self.step_pass_count_normal += 1
+            Logger.log("stppsscount_nrml", self.step_pass_count_normal)
+            EventManager.post_event("step_error")
+
+    def logging_red_init(self):
+        if self.is_danger:
+            self.threshold_pass_count_danger +=1
+            Logger.log("thrshldpsscntttl_dngr", self.threshold_pass_count_danger)
+            EventManager.post_event("threshold_cross_danger") 
+        else:
+            EventManager.post_event("threshold_cross") 
+            self.threshold_pass_count_normal +=1
+            Logger.log("thrshldpsscntdngrttl_nrml", self.threshold_pass_count_normal)
         
         # print("BarCanvas Colorchange Check (" + self.tag_bar + "):"
         #       + "\n\t" + "Task Number: " + str(global_variables.task_advance)
@@ -302,46 +317,48 @@ class BarCanvas(BaseCanvas):
             self.repeat_moving.change_args("right")
             self.repeat_moving.start()
      
-    def reset_button(self, have_sound = True):
-        if self.passed == False:
-            return
+    def user_reset(self):
 
-        EventManager.post_event("bar_slow_mode", self)
+        if self.passed:
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
+            self.reset_bar()
+        else:
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
 
+        EventManager.post_event("user_reset", self)
 
+    def jackal_reset(self, state):   
+        if state == "yellow":
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
+            self.reset_bar()
+        elif state == "red_init":
+            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+            self.reset_bar()
+
+    def reset_bar(self):
+        self.reset_bar_state()
+        self.update_bar_percent()    
+        self.update_bar_view()
+
+    def reset_bar_state(self):
         self.passed = False
         self.red_mode = False
 
-        if have_sound:
-            if global_variables.tutorial_mode:
-                playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
-            elif not global_variables.jackalai_active or not self.red_mode:
-                playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
-        
-        if not self.is_danger:
-            self.bar_percent = 50/100
-        else:
-            #self.bar_percent = random.randint(20, self.line_thresholdpercent * 100) / 100
-            self.bar_percent = self.curr_bar_defaultpercent
-        
-        
+    def update_bar_view(self):
         self.canvas.delete(self.tag_bar,self.tag_line)
         self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
         self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
 
-    def reset(self):
-        self.reset_button()
-        # self.passed = False
-        # self.bar_percent = self.curr_bar_defaultpercent
-        # self.canvas.delete(self.tag_bar,self.tag_line)
-        # self.canvas.create_rectangle(2,2, self.width * self.bar_percent, self.height, fill=self.bar_color, tags=self.tag_bar)
-        # self.canvas.create_line(self.width*self.line_thresholdpercent,0,self.width*self.line_thresholdpercent,self.height, fill=self.line_color, width=self.line_width, tags=self.tag_line)
-    
+    def update_bar_percent(self):
+        if not self.is_danger:
+            self.bar_percent = 50/100
+        else:
+            self.bar_percent = self.curr_bar_defaultpercent
+
     def manual_active(dummy1, dummy2):
         BarCanvas.manual_mode = True
         BarCanvas.danger_count = 0
-
-    
+   
     def manual_deactive(dummy1, dummy2):
         BarCanvas.manual_mode = False       
 

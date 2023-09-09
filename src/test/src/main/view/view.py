@@ -35,8 +35,8 @@ from userAI import *
 from bar_canvas import *
 
 
-csv_dialogue_s = "/home/pouya/catkin_ws/src/test/src/spreadsheets/dialogue_spreadsheet_social.csv"
-csv_dialogue_ns = "/home/pouya/catkin_ws/src/test/src/spreadsheets/dialogue_spreadsheet_nonsocial.csv"
+csv_dialogue_s = "/home/pouya/catkin_ws/src/test/src/spreadsheets/s.csv"
+csv_dialogue_ns = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ns.csv"
 
 
 csv_idle = "/home/pouya/catkin_ws/src/test/src/spreadsheets/IdleAvatars.csv"
@@ -47,67 +47,59 @@ csv_reactive = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ReactiveAvatars.
 
 def init():
     
-    if len(sys.argv) != 3 and len(sys.argv) != 5:
+    if len(sys.argv) != 4 and len(sys.argv) != 3:
         print("Argument length:" + str(len(sys.argv)))
         print("Usage: python3 main.py tutorial 0/1(practice mode or not) n(number of mistakes)")
-        print("Usage: python3 main.py p[0:infinite] first/second social/nonsocial red/blue False/True")
+        print("Usage: python3 main.py p[0:infinite] social/nonsocial")
         sys.exit(1)
 
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 4:
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
+        arg3 = sys.argv[3]
         
         if arg1 == "t":
             global_variables.tutorial_mode = True
-            EventManager.post_event("unfreeze", -1)
+            
         else:
             global_variables.tutorial_mode = False
             EventManager.post_event("freeze", -1)
             sys.exit(1)
-        if arg2 == '1':
-            global_variables.practice_mode = True
-        elif arg2 == '0':
+        
+        if arg2 == "s":
+            global_variables.social_mode = True
+        elif arg2 == "ns":
+             global_variables.social_mode = False
+        elif arg2 == "nn":
+            global_variables.social_mode = None
             global_variables.practice_mode = False
+        else:
+            print("Incorrect command or typo")
+            sys.exit(1)
+        
 
         
-            
+        if arg3 == '1':
+            global_variables.practice_mode = True
+            EventManager.post_event("freeze", -1)
+        elif arg3 == '0':
+            global_variables.practice_mode = False
+            EventManager.post_event("unfreeze", -1)
+        else:
+            print("Incorrect command or typo")
+            sys.exit(1)
 
-    if len(sys.argv) == 5:
+    if len(sys.argv) == 3:
     
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
-        arg3 = sys.argv[3]
-        arg4 = sys.argv[4]
-        
 
         global_variables.participant = arg1
-
-        if arg2 == "1":
-            global_variables.second_round = False
-            global_variables.second_round_diff = 0
-            
-        elif arg2 == "2":
-            global_variables.second_round = True
-            global_variables.second_round_diff = 50
-            
-        else:
-            print("Incorrect command or typo")
-            sys.exit(1)
-
-        
-        if arg3 == "s":
+       
+        if arg2 == "s":
             global_variables.social_mode = True
-        elif arg3 == "ns":
+        elif arg2 == "ns":
             global_variables.social_mode = False
-        else:
-            print("Incorrect command or typo")
-            sys.exit(1)
-
-
-        if arg4 == "r":
-            global_variables.is_code_list_2 = False
-        elif arg4 == "b":
-            global_variables.is_code_list_2 = True
         else:
             print("Incorrect command or typo")
             sys.exit(1)
@@ -125,13 +117,10 @@ def main():
     tabControl.add(tab2, text = "Inspection")
     tabControl.place(x = 5, y = 5, width= 1920 ,height= 1080)
     
-    
-    
+      
     x = threading.Thread(target=server_program)
     x.start()
 
-
-    
     
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
     cursor_canvas_small.disable()
@@ -202,8 +191,9 @@ def main():
     
     EventManager.subscribe("toggle_bar", toggle_barcontroller)
    
-    if global_variables.tutorial_mode == True:
+    if global_variables.tutorial_mode == True and global_variables.practice_mode == False:
         unfreeze()
+    
     
     def tab_checker():
         if tabControl.index("current") == 1:
@@ -220,7 +210,7 @@ def main():
     if not global_variables.tutorial_mode:
         gui_sfm = TeleopGUIMachine(timer_canvas, avalogue, dialogue_text, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= None, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai, cntdwn= countdown)
     else:
-        tutorial_fsm = TutorialGUIMachine(timer= timer_canvas, amode_btn=auto_button, d_bars= danger_canvases, flashing_image= flashing_image, jckl_ai= jackal_ai, n_bar= bar_canvas, nmode_btn= manual_button)
+        tutorial_fsm = TutorialGUIMachine(timer= timer_canvas, amode_btn=auto_button, d_bars= danger_canvases, flashing_image= flashing_image, jckl_ai= jackal_ai, n_bar= bar_canvas, nmode_btn= manual_button, avalogue= avalogue)
     
 
     #if not global_variables.tutorial_mode: start_button.add_event(gui_sfm.s01)
@@ -264,29 +254,37 @@ def widget_init(root, tab1, tab2):
                            BarCanvas(tab1,bar_canvas_info2, danger= True),
                              BarCanvas(tab1,bar_canvas_info3, danger = True))
 
-    if not global_variables.tutorial_mode: 
-        dialogue_text = None
-        
+
+    dialogue_text = None
+    
+   
+
+    if not global_variables.tutorial_mode or global_variables.practice_mode:
         d_view = DialogueView(root, dialogueview_info)
-        
         d_model = None
         if not global_variables.social_mode:
             d_model = DialogueModel(root, csv_dialogue_ns)
         else:
             d_model = DialogueModel(root, csv_dialogue_s)
-
+            
         a_view = AvatarView(root, javatar_info, global_variables.social_mode)
         a_model = AvatarModel(csv_idle, csv_talking, csv_reactive)
 
         avalogue = AvalogueController(root, d_model, d_view, a_model, a_view)
-        avalogue.set_avalogue("t_default","start_q")
-    else: 
-        d_view = None
-        d_model = None
+        
+        if not global_variables.tutorial_mode:
+            avalogue.set_avalogue("t_default","start_q")
+        else:
+            avalogue.set_avalogue("t_default","t_start_q")
+    else:
+        print("INJA!")
         a_view = None
         a_model = None
         avalogue = None
-        dialogue_text = None
+        d_view = None
+        d_model = None
+
+
     
     user_ai = UserAI(root)
     view_back = CameraView(tab1, flir_info, camera_available, "flir")
@@ -301,7 +299,7 @@ def widget_init(root, tab1, tab2):
      #   start_button = BaseButton(root, button_start_info, activate=True, enable=False)
     #else: start_button = None
     
-    if global_variables.tutorial_mode:
+    if global_variables.tutorial_mode and global_variables.practice_mode == False:
         freeze_button = BaseButton(root, button_freeze_info, activate=True, enable=False)
     else:
         freeze_button = BaseButton(root, button_freeze_info, activate=True, enable=True)
@@ -326,10 +324,13 @@ def widget_init(root, tab1, tab2):
     if not global_variables.practice_mode: circle_canvas = CircleCanvas(tab2, circle_canvas_info)
     else: circle_canvas = None
     
-    if not global_variables.tutorial_mode:
-        miss_canvas = MissCanavas(root,miss_canvas_info)
-        miss_lbl = Label(root, text="Miss", font=miss_lbl_info["font"], fg=miss_lbl_info["color"])
-        miss_lbl.place(x = miss_lbl_info["x"], y = miss_lbl_info["y"], width=miss_lbl_info["width"], height=miss_lbl_info["height"])
+    miss_canvas_operator = MissCanavas(root,miss_canvas_operator_info, "operator")
+    miss_lbl_operator = Label(root, text="Operator", font=miss_lbl_operator_info["font"], fg=miss_lbl_operator_info["color"])
+    miss_lbl_operator.place(x = miss_lbl_operator_info["x"], y = miss_lbl_operator_info["y"], width=miss_lbl_operator_info["width"], height=miss_lbl_operator_info["height"])
+    
+    miss_canvas_agent = MissCanavas(root,miss_canvas_agent_info, "agent")
+    miss_lbl_agent = Label(root, text="Agent", font=miss_lbl_agent_info["font"], fg=miss_lbl_agent_info["color"])
+    miss_lbl_agent.place(x = miss_lbl_agent_info["x"], y = miss_lbl_agent_info["y"], width=miss_lbl_agent_info["width"], height=miss_lbl_agent_info["height"])
 
     task_canvas = TaskCanvas(root, task_canvas_info)
     task_lbl = Label(root, text="Task", font=task_lbl_info["font"], fg=task_lbl_info["color"])
@@ -346,10 +347,10 @@ def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, dang
     if not global_variables.practice_mode:
         tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
         tab1.bind('w', lambda e: switch_danger(bar_canvas, danger_canvases))
-        tab1.bind('`', lambda e: reset_bar(bar_canvas))
-        tab1.bind('1', lambda e: reset_bar(danger_canvases[0]))
-        tab1.bind('2', lambda e: reset_bar(danger_canvases[1]))
-        tab1.bind('3', lambda e: reset_bar(danger_canvases[2]))
+        tab1.bind('`', lambda e: bar_canvas.user_reset())
+        tab1.bind('1', lambda e: danger_canvases[0].user_reset())
+        tab1.bind('2', lambda e: danger_canvases[1].user_reset())
+        tab1.bind('3', lambda e: danger_canvases[2].user_reset())
         tab1.bind('o', lambda e: task_canvas.plus()) 
         tab1.bind('[', lambda e: color_transition(view_back, view_front, circle_canvas))
         tab1.bind(']', lambda e: color_transition_reverse(view_back, view_front, circle_canvas))
@@ -359,13 +360,11 @@ def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, dang
     elif global_variables.practice_mode:
         tab1.bind('9', lambda e: start_tutorial(tab1, tutorial_fsm))
     
-
 def color_transition(view_b, view_f,circle_canvas):
     view_b.color_transition()
     view_f.color_transition()
     circle_canvas.color_transition()
     
-
 def start_tutorial(tab, t_fsm):
     tab.unbind_all('s')
     tab.unbind_all('w')
@@ -380,7 +379,6 @@ def start_tutorial(tab, t_fsm):
     tab.unbind_all('a')
     tab.unbind_all('9')
     t_fsm.s01()
-
 
 def color_transition_reverse(view_b, view_f, circle_canvas):
     view_b.color_transition_reverse()
@@ -424,26 +422,22 @@ def switch(back, front, small, big):
             #small.switch_camera()
             #big.switch_camera()
 
-def reset_bar(bar):
-    bar.reset_button()
-    EventManager.post_event("user_reset", bar)
-
 def switch_danger(barcanvas, dangercanvases):
     if barcanvas.active:
-        barcanvas.reset_button(have_sound = False)
+        barcanvas.reset_bar()
         barcanvas.disable()
         for dangercanvas in dangercanvases:
-            dangercanvas.reset_button(have_sound = False)
+            dangercanvas.reset_bar()
         for dangercanvas in dangercanvases:
             dangercanvas.enable()
             dangercanvas.start()
         BarCanvas.danger_mode = True
         global_variables.danger_mode = True
     else:
-        barcanvas.reset_button(have_sound = False)
+        barcanvas.reset_bar()
         barcanvas.enable()
         for dangercanvas in dangercanvases:
-            dangercanvas.reset_button(have_sound = False) 
+            dangercanvas.reset_bar() 
         for dangercanvas in dangercanvases:
             dangercanvas.disable() 
         BarCanvas.danger_mode = False
@@ -510,8 +504,6 @@ def change_angle(data, canvases):
     
     prev_angle = data.pan
 
-
-
 def joy_config(data, widgets):
     global rb1, rb2normal, rb3, cs, dialogue_end
 
@@ -526,7 +518,7 @@ def joy_config(data, widgets):
     if rb1 == 1 and rb1_buff == 0:
          if BarCanvas.danger_mode:
             if not global_variables.jackalai_active:
-                reset_bar(widgets["danger_canvases"][0])
+                widgets["danger_canvases"][0].user_reset()
           
 
     #reset bar 2 and normal
@@ -536,10 +528,10 @@ def joy_config(data, widgets):
     if rb2normal == 1 and rb2normal_buff == 0:
         if BarCanvas.danger_mode:
             if not global_variables.jackalai_active:
-                reset_bar(widgets["danger_canvases"][1])
+               widgets["danger_canvases"][1].user_reset()
             
         else:
-            reset_bar(widgets["bar_canvas"])
+            widgets["bar_canvas"].user_reset()
             
    
     #reset bar 3
@@ -548,7 +540,7 @@ def joy_config(data, widgets):
     if rb3 == 1 and rb3_buff == 0:
          if BarCanvas.danger_mode:
             if not global_variables.jackalai_active:
-                reset_bar(widgets["danger_canvases"][2])
+                widgets["danger_canvases"][2].user_reset()
             
 
 

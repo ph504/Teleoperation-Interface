@@ -33,7 +33,8 @@ class CameraView():
     scan_mode = False
     
     def __init__(self, root, dict_info,cam_available, camera="flir",  img_scale= 0.8, ):
-        
+        self.root = root
+        self.counter = 0
         self.img_scale_factor = img_scale
         self.x = dict_info["x"]
         self.y = dict_info["y"]
@@ -55,6 +56,8 @@ class CameraView():
         self.frame.place_configure(x= self.x - self.border_thick, y = self.y - self.border_thick , width=self.width + self.border_thick * 2, height=self.height + self.border_thick * 2)
         self.imagewidget = Label(self.frame) 
 
+        if self.camera == "flir":
+            self.one_second_counter()
 
         EventManager.subscribe("color_trans", self.color_transition)
 
@@ -75,8 +78,16 @@ class CameraView():
             else:
                 self.axis_image = self.image_placeholder("axis")
                 self.is_front = True
-                  
+
+    def one_second_counter(self):
+        
+       
+        self.counter = 0
+
+        Tk.after(self.root, 1000, self.one_second_counter)            
+
     def update_pos(self,dict_info):
+        
         self.x = dict_info["x"]
         self.y = dict_info["y"]
         self.width = dict_info["width"]
@@ -87,7 +98,7 @@ class CameraView():
         
     def update_image(self, ros_data):
 
-        
+        self.counter += 1
         ##converts the text/string data into an array, reads image data from array, and converts the color space to RGB (BGR is the reverse)
         np_arr = np.fromstring(ros_data.data, np.uint8)
         image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)

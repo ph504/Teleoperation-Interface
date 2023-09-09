@@ -44,24 +44,24 @@ small_canvas_info = {
 
 
 timer_canvas_info = {
-    "x": 1650,
+    "x": 1725,
     "y": 75,
     "width": 200,
     "height": 50,
-    "color": "red",
+    "color": "blue",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
 timer_lbl_info = {
-    "x": 1725,
+    "x": 1800,
     "y": 60,
     "width": 50,
     "height": 17,
-    "color": "red",
+    "color": "blue",
     "font": ('Helvetica', '12', 'bold'),
 }
 task_canvas_info = {
-    "x": 1600,
+    "x": 1675,
     "y": 75,
     "width": 100,
     "height": 50,
@@ -70,7 +70,7 @@ task_canvas_info = {
     "active": True
 }
 task_lbl_info = {
-    "x": 1625,
+    "x": 1700,
     "y": 60,
     "width": 50,
     "height": 17,
@@ -79,22 +79,42 @@ task_lbl_info = {
 
 }
 
-miss_canvas_info = {
-    "x": 1500,
+miss_canvas_agent_info = {
+    "x": 1400,
     "y": 75,
     "width": 100,
     "height": 50,
-    "color": "blue",
+    "color": "red",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
 
-miss_lbl_info = {
-    "x": 1525,
+miss_lbl_agent_info = {
+    "x": 1425,
     "y": 60,
     "width": 50,
     "height": 17,
-    "color": "blue",
+    "color": "red",
+    "font": ('Helvetica', '12', 'bold'),
+}
+
+
+miss_canvas_operator_info = {
+    "x": 1500,
+    "y": 75,
+    "width": 100,
+    "height": 50,
+    "color": "red",
+    "font": ('Helvetica', '24', 'bold'),
+    "active": True
+}
+
+miss_lbl_operator_info = {
+    "x": 1515,
+    "y": 60,
+    "width": 70,
+    "height": 17,
+    "color": "red",
     "font": ('Helvetica', '12', 'bold'),
 }
 
@@ -288,11 +308,12 @@ class TaskCanvas(BaseCanvas):
         Logger.log("task_advance" , str(self.count))
         global_variables.task_advance = self.count
         
-        if c != 13:
-            EventManager.post_event("congratulations", -1)
-            
+      
         
         if not global_variables.tutorial_mode:
+            if c != 13:
+                EventManager.post_event("congratulations", -1)
+            
         #Danger State I
             if c == 2:
                 self.fsm.s12()
@@ -325,15 +346,21 @@ class TaskCanvas(BaseCanvas):
             elif c == 13:
                 self.fsm.s910()
         else:
+            
+            if c != 5:
+                EventManager.post_event("congratulations", -1)
+
             if c == 2:
                 self.fsm.s12()
-            elif c == 3:
+            elif c == 4:
                 if self.fsm.is_s2:
                     self.fsm.s23()
 
             if c == 5:
                 if self.fsm.is_s3:
                     self.fsm.s34()
+            
+            
 
         if global_variables.tutorial_mode:        
             self.text = "{count}/5".format(count=str(c))
@@ -345,11 +372,14 @@ class TaskCanvas(BaseCanvas):
             self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
 class MissCanavas(BaseCanvas):
-    def __init__(self, r, dict_info):
+    def __init__(self, r, dict_info, string):
         super().__init__(r, dict_info)
         self.color = dict_info["color"]
         self.font = dict_info["font"]
-        self.text = '0/9'
+        self.text = '0'
+        self.user = string
+        
+
 
         self.count = 0
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
@@ -361,14 +391,26 @@ class MissCanavas(BaseCanvas):
         self.fsm = fsm    
 
     def plus(self, dummy = -1):
-        c = self.count
-        c += 1
-        if c  > 10: return
-        self.count += 1
 
-        self.text = "{count}/9".format(count=str(c))
-        self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+        if self.agent_is_doing_mistake_in_assisted() or self.operator_is_doing_mistake_in_manual():
+            c = self.count
+            c += 1
+            if c  > 10: return
+            self.count += 1
+
+            self.text = "{count}".format(count=str(c))
+            self.canvas.delete('all')
+            self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+        
+
+    
+    def operator_is_doing_mistake_in_manual(self):
+        return not global_variables.jackalai_active and self.user == "operator"
+
+    def agent_is_doing_mistake_in_assisted(self):
+        return global_variables.jackalai_active and self.user == "agent"
+            
+
 
 class ScoreCanvas(BaseCanvas):  
     def __init__(self, r, dict_info):

@@ -14,13 +14,13 @@ It is always H-AI
 
 """
 
-second_round = None # false is second round, true is first round
+second_round = False # false is second round, true is first round
 
 in_inspection = False #check whether in inspection screen or not
 
 participant = None
 
-is_code_list_2 = None #False is Red Papers, True is Blue Papers
+is_code_list_2 = False #False is Red Papers, True is Blue Papers
 
 second_round_diff = 0
 

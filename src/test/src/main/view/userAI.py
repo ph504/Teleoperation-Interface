@@ -60,15 +60,13 @@ class UserAI():
             self.q = self.experiment_q
 
         self.counter_modecheck()
-   
-    
+      
     def red_checker(self, dummy = -1):
         if global_variables.danger_mode and not global_variables.jackalai_active:
             if not self.red_continue:
                 self.mode_switchter()
                 self.red_continue = True
-
-    
+  
     def second_round(self, dummy = -1):
         self.mistake = 0
         self.m_max_count = 1
@@ -105,45 +103,47 @@ class UserAI():
             EventManager.post_event(self.q.popleft(), self.bar_hitter_tag)
            
     def hitter(self):
-        
-        if global_variables.tutorial_mode:    
-            if self.mistake == 0:
-                if not global_variables.in_inspection:
-                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                    self.c_max_count = 10
-                    return    
-            elif self.mistake == 1:
-                if not global_variables.in_inspection:
-                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                    return           
-            elif self.mistake == 2:
-                if global_variables.in_inspection:
-                    EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
-                    return           
-            elif self.mistake == 3:
-                if not global_variables.in_inspection:
-                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
-                    
-                    return
-        
-        else:    
-            if self.mistake == 0:
-                if not global_variables.in_inspection:
-                    EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)    
-                    return
-            elif self.mistake == 1:
-                if  global_variables.in_inspection:
-                    EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
-                    return
-            elif self.mistake == 2:
-                if  global_variables.in_inspection:
-                    EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)                    
-                    return
-
+        if not global_variables.jackalai_active:
+            if global_variables.tutorial_mode:    
+                if self.mistake == 0:
+                    if not global_variables.in_inspection:
+                        EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                        self.c_max_count = 10
+                        return    
+                elif self.mistake == 1:
+                    if not global_variables.in_inspection:
+                        EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                        return           
+                elif self.mistake == 2:
+                    if global_variables.in_inspection:
+                        EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
+                        return           
+                elif self.mistake == 3:
+                    if not global_variables.in_inspection:
+                        EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
+                        
+                        return
+            
+            else:    
+                if self.mistake == 0:
+                    if not global_variables.in_inspection:
+                        EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)    
+                        return
+                elif self.mistake == 1:
+                    if  global_variables.in_inspection:
+                        EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
+                        return
+                elif self.mistake == 2:
+                    if  global_variables.in_inspection:
+                        EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)                    
+                        return
+        else:
+            return
 
         Tk.after(self.root, 100, self.hitter)
 
     def mode_switchter(self, dummy = -1):
+        
         
         if global_variables.danger_mode and not global_variables.jackalai_active:
             
@@ -167,16 +167,12 @@ class UserAI():
                 self.bar_hitter_tag = -1
                 self.waiting_to_hit = False
 
-
-   
     def bar_hit_slow(self, bar:BarCanvas):
         if global_variables.danger_mode and not global_variables.jackalai_active:
             if bar.bar_tag == self.bar_hitter_tag:
                 EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                 self.bar_hitter_tag = -1
-                #self.mistake += 1
                 self.waiting_to_hit = False
-                #print("human mistake " + str(self.mistake))
 
     def toggle_fast(self):
         if self.waiting_to_hit == False:

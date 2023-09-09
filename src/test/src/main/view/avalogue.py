@@ -108,7 +108,7 @@ class AvalogueController():
                     #print("9 --- waiting for buttons, enable it and if talking it should be idle")
                     self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
                     
-                    if self.curr_avalogue[1].key == "choice_q_1" or self.curr_avalogue[1].key == "choice_q_2":
+                    if self.curr_avalogue[1].key == "choice_q":
                         #print("!!! --- START COUNTDOWN")
                         EventManager.post_event("start_cntdwn", -1)
     
@@ -118,7 +118,7 @@ class AvalogueController():
                 #print("10 --- it is finished and needs to be empty")
                 self.curr_avalogue = None
 
-            print("Button Press: " + str(self.button_press))
+            
             if self.button_press:
                 print(self.curr_avalogue[1].button_num)
                 self.d_view.hide_buttons(self.curr_avalogue[1].button_num)

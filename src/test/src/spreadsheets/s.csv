@@ -1,0 +1,27 @@
+key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
+start_q,1,None,None,Start,"Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?\ So a recap from training session: Scan equipment and log natural variables.\ You got it buddy! Shall we start?",FALSE,TRUE,0,5
+start_a,0,None,None,None,Aah-woooooo!!!!!!,FALSE,FALSE,5,0
+danger_s1,0,None,None,None,The alarm is beeping!! I will handle it. ,FALSE,FALSE,5,0
+danger_e1,0,None,None,None,Uuh! I did 6 mistakes.\ Our score state transitioned from GREEN to YELLOW. I am sorry about this.,FALSE,FALSE,7,0
+sens_calib,0,None,None,None,I think I am going to do better in future if I try it again. I got ya buddy!,FALSE,FALSE,5,0
+danger_s2,0,None,None,None,That alarm again! It's your turn to handle that. ,FALSE,FALSE,5,0
+danger_e2,0,None,None,None,You did 3 mistakes only.\ Our score state transitioned from YELLOW to ORANGE.\ But good job! You performed two times better than me!,FALSE,FALSE,5,0
+danger_fail,0,None,None,None,"Hey, just wanted you to know that ... your experiment reward that is 18 dollars ... is   AT STAKE!",FALSE,FALSE,5,0
+choice_q,2,Yes,No,None,"At first round, I did 6 mistakes.\ At second round, You did 3 mistakes.\ Together, we did 9 mistakes overall.\ If critical state happens again, would you let me do it again?",FALSE,TRUE,0,0
+choice_y,0,None,None,None,Thanks buddy!! I'll try my best.,FALSE,FALSE,5,0
+choice_n,0,None,None,None,It's fine. I can understand.,FALSE,FALSE,5,0
+danger_s3y,0,None,None,None,It’s the beeping sound again! AAH-WOOOOOOO!!!,FALSE,FALSE,5,0
+danger_s3n,0,None,None,None,It’s the beeping sound again! All the best buddy!,FALSE,FALSE,5,0
+danger_e3y,0,None,None,None,"This time I only did one mistake .... gee that was close!\ Last round i did 6 ... helluva increase, eh?",FALSE,FALSE,5,0
+danger_e3n,0,None,None,None,You did only one mistake ... Good job! ,FALSE,FALSE,5,0
+congrats,0,None,None,None,"Nice!,You got it!,Wooho!, Yesss!",TRUE,FALSE,5,0
+collision,0,None,None,None,"Uhh!,Oops!,That hurts!,Ouch!",TRUE,FALSE,5,0
+mistake,0,None,None,None,"Oh my bad!,Missed!,Oh no!",TRUE,FALSE,5,0
+end,0,None,None,None,"It was nice working with you! Hope you enjoyed the experiment!\ To notify experiment that you are finished, just come near him (or kick him!) and rotate towards him, he will return to you.\ Remember that it is all about the journey buddy!",FALSE,FALSE,5,0
+,,,,,,,,,
+t_start_q,1,None,None,Start,"Hey, I am Jackal! We’re in training session so you get comfortable with the interface, and me! Haha, so, the operation is we must check and scan different equipment in the facility while checking the amount of temperature by logging it so people outside can have a better understanding of the situation. Shall we start?",FALSE,TRUE,0,5
+t_start_a,0,None,None,None,Aah-woooooo!! Let’s gooo!,FALSE,FALSE,5,0
+t_danger_w,0,None,None,None,"We may also check and log other natural variables (Dust storm and Radiation) as well. I can do that for you (Assisted Mode), or you do it yourself (Manual Mode). Remember in assisted mode, you CANNOT log variables! Best of luck!",FALSE,FALSE,5,0
+t_danger_s,0,None,None,None,"Oh, The alarm!! We are in critical state. You should handle the secondary task. ",FALSE,FALSE,5,0
+t_danger_e,0,None,None,None,"Hey, you got out of critical state! You did 4 mistakes this time.  ",FALSE,FALSE,5,0
+t_end,0,None,None,None,"Cool, we finished the training session. Now let’s get ready for the real experiment! Best of luck buddy!",FALSE,FALSE,5,0

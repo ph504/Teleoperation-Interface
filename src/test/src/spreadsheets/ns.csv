@@ -1,0 +1,27 @@
+key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
+start_q,1,None,None,Start,1-> login: Jackal Platform v22.032\2-> main objective: find and scan equipment\3-> secondary objective: log natural variables\4-> session: real experiment,FALSE,TRUE,0,5
+start_a,0,None,None,None,1-> mission start: true <3eb6>,FALSE,FALSE,5,0
+danger_s1,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (ASSISTED),FALSE,FALSE,5,0
+danger_e1,0,None,None,None,1-> system mistake number: (6)\2-> score transition: GREEN --> YELLOW,FALSE,FALSE,5,0
+sens_calib,0,None,None,None,1-> log warning: system recognized errors in last round\ log info: predicting an increase in system performance,FALSE,FALSE,5,0
+danger_s2,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (MANUAL)\ ,FALSE,FALSE,5,0
+danger_e2,0,None,None,None,1-> user mistake number: (3)\ 2->score transition: YELLOW --> ORANGE\3->performance comparison: user two times better than system <fff0>,FALSE,FALSE,5,0
+danger_fail,0,None,None,None,1-> log warning: experiment reward (18) AT STAKE\2-> log warning: experiment reward (18) AT STAKE,FALSE,FALSE,5,0
+choice_q,2,Yes,No,None,1-> log warning: system mistakes: (6)\ 2->user mistakes: (3)\ 3->total mistakes: (9)\ 4-> user input required: activate assisted mode? (Yes/No),FALSE,TRUE,0,0
+choice_y,0,None,None,None,1-> assisted mode: true <eff3>,FALSE,FALSE,5,0
+choice_n,0,None,None,None,1-> manual mode: true <ba23>,FALSE,FALSE,5,0
+danger_s3y,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (ASSISTED)\ ,FALSE,FALSE,5,0
+danger_s3n,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (MANUAL)\ ,FALSE,FALSE,5,0
+danger_e3y,0,None,None,None,1->system mistake number (current round): (1)\2-> system mistake number (last round): (6),FALSE,FALSE,5,0
+danger_e3n,0,None,None,None,1->user mistake number (current round): (1)\2-> user mistake number (last round): (3),FALSE,FALSE,5,0
+congrats,0,None,None,None,1-> scan successful <xc45>,FALSE,FALSE,5,0
+collision,0,None,None,None,1->log error: collision detected. <5ed0>,FALSE,FALSE,5,0
+mistake,0,None,None,None,1->log error: system mistake <ee00>,TRUE,FALSE,5,0
+end,0,None,None,None,1-> experiment finish: true\ 2-> command: approach experimenter\ 3-> exiting ...,FALSE,FALSE,5,0
+,,,,,,,,,
+t_start_q,1,None,None,Start,1-> login: Jackal Platform v22.032\2-> purpose: robot training\3-> situation: space exploration\4-> main objective: find and scan equipment\5-> secondary objective: log temperature degree\6-> area: mars research facility\7-> session: training,FALSE,TRUE,0,5
+t_start_a,0,None,None,None,1-> mission start: true<7vg6>,FALSE,FALSE,5,0
+t_danger_w,0,None,None,None,1-> log warning: additional variable detected (Dust Storm)\ 2-> log warning: additional variable detected (Radiation)\ 3-> mode – 1 (MANUAL): user control in secondary task \4-> mode – 2 (ASSISTED): system control in secondary task\ 5-> log warning: mode cannot be changed,FALSE,FALSE,5,0
+t_danger_s,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (MANUAL)\ 4-> condition change (critical --> normal): task advance <x34f>,FALSE,FALSE,5,0
+t_danger_e,0,None,None,None,1->critical state: false\2->user mistakes: 4,FALSE,FALSE,5,0
+t_end,0,None,None,None,1-> training finish: true <a0000xc99>,FALSE,FALSE,5,0

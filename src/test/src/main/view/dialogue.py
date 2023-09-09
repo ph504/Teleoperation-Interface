@@ -7,6 +7,7 @@ from collections import deque
 import threading
 import random
 import playsound
+import global_variables
 
 dialogueview_info = {
     "x": 660,
@@ -107,7 +108,11 @@ class DialogueView():
         self.bg = dict_info["bg"]
         self.wraplength = dict_info["wraplength"]
         
-        self.dbox = Label(frame,font=self.font, bg=self.bg, wraplength=self.wraplength)
+        if not global_variables.social_mode:
+            self.dbox = Label(frame,font=self.font, bg=self.bg)
+        else:
+            self.dbox = Label(frame,font=self.font, bg=self.bg, wraplength=self.wraplength)
+
         self.dbox.place(x = self.x, y = self.y, width= self.width, height=self.height)
         
         self.button_press = False
@@ -207,7 +212,8 @@ class DialogueObject():
         if self.random:
             self.full_text = self.return_random_d(dict_info["text"])
         else: 
-            self.full_text = dict_info["text"] 
+            self.full_text = str(dict_info["text"]) 
+            print(self.full_text + "    " + str(type(self.full_text)))
 
         self.str_index= 0
         self.shown_text = ""
@@ -240,11 +246,28 @@ class DialogueObject():
                 rand = random.randint(0, len(list)-1)
                 return list[rand]
 
-    def update_texts(self):
+    def update_texts(self, char):
+        if char == "\\":
+            self.str_index += 1
+            self.full_text = self.full_text.replace("\\","\n", 1)
+            self.shown_text = self.full_text[:self.str_index] 
+            self.remaining_text = self.full_text[self.str_index:]
+        else:
+            self.str_index += 1
+            self.shown_text = self.full_text[:self.str_index] 
+            self.remaining_text = self.full_text[self.str_index:]
+
+            # print("--------------------------------")
+            # print("*String Index*; " + str(self.str_index))
+            # print("---")
+            # print("*Full Text*; " + self.full_text)
+            # print("---")
+            # print("*Shown Text*; " + self.shown_text)
+            # print("---")
+            # print("*Remaining Text*; " + self.remaining_text)
+            # print("--------------------------------")
+
         
-        self.str_index += 1
-        self.shown_text = self.full_text[:self.str_index] 
-        self.remaining_text = self.full_text[self.str_index:]
 
 
     @utils.thread
@@ -261,7 +284,7 @@ class DialogueObject():
             else:
                 playsound.playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
             
-            self.update_texts()
+            self.update_texts(l)
         
         if not self.wipe_with_button: 
            self.wipe(self.wipe_time)

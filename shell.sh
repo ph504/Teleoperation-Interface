@@ -23,27 +23,26 @@ echo "Controller is activated"
 echo "Parsing Arguments ..."
 echo $#
 echo $1 
-if [ $# -ne 2 ] && [ $# -ne 4 ]; then
+if [ $# -ne 3 ] && [ $# -ne 2 ]; then
 
     echo "Incorrect number of arguments provided"
     kill $!
 fi
 
-if [ $# -eq 2 ]; then
+if [ $# -eq 3 ]; then
     arg1=$1
     arg2=$2
-
+    arg3=$3
 
     python3 /home/pouya/catkin_ws/src/test/src/main/view/view.py $arg1 $arg2 $arg3
 fi
 
-if [ $# -eq 4 ]; then 
+if [ $# -eq 2 ]; then 
     
     arg1=$1
     arg2=$2
-    arg3=$3
-    arg4=$4
-    python3 /home/pouya/catkin_ws/src/test/src/main/view/view.py $arg1 $arg2 $arg3 $arg4
+    
+    python3 /home/pouya/catkin_ws/src/test/src/main/view/view.py $arg1 $arg2
 fi
 
 
