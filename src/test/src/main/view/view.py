@@ -63,7 +63,7 @@ def init():
             
         else:
             global_variables.tutorial_mode = False
-            EventManager.post_event("freeze", -1)
+            EventManager.post_event("freeze", -1) # type: ignore
             sys.exit(1)
         
         if arg2 == "s":
@@ -84,7 +84,7 @@ def init():
             EventManager.post_event("freeze", -1)
         elif arg3 == '0':
             global_variables.practice_mode = False
-            EventManager.post_event("unfreeze", -1)
+            EventManager.post_event("unfreeze", -1) # type: ignore
         else:
             print("Incorrect command or typo")
             sys.exit(1)
@@ -94,6 +94,9 @@ def init():
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
 
+        global_variables.practice_mode = False
+        global_variables.tutorial_mode = False
+         
         global_variables.participant = arg1
        
         if arg2 == "s":
@@ -104,7 +107,7 @@ def init():
             print("Incorrect command or typo")
             sys.exit(1)
 
-def main():
+def main(): 
        
     root = Tk()
     root.geometry("1920x1080")
@@ -185,7 +188,7 @@ def main():
 
     pub = rospy.Publisher("freeze", Bool, queue_size=10)
     EventManager.subscribe("freeze", freeze)
-    EventManager.subscribe("unfreeze", unfreeze)
+    EventManager.subscribe("unfreeze", unfreeze) # type: ignore
     EventManager.subscribe("activate_calibration", calibrate_btn_enbl)
     EventManager.subscribe("calibrate_pause", calibrate_btn_dsbl)
     
@@ -356,9 +359,15 @@ def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, dang
         tab1.bind(']', lambda e: color_transition_reverse(view_back, view_front, circle_canvas))
         tab1.bind('b', lambda e: toggle_barcontroller())
         tab1.bind('a', lambda e: toggle_assistedmode(jackal_ai,manual_button,auto_button))
+        tab1.bind('x', lambda e: playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav"))
+        tab1.bind('z', lambda e: playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav"))
         
     elif global_variables.practice_mode:
         tab1.bind('9', lambda e: start_tutorial(tab1, tutorial_fsm))
+        tab1.bind('x', lambda e: playsound_beep_thread())
+        tab1.bind('z', lambda e: playsound_beep_thread())
+        
+        
     
 def color_transition(view_b, view_f,circle_canvas):
     view_b.color_transition()
@@ -483,7 +492,7 @@ def server_program():
                         print("From connected user: " + data)
                         if int(data) == 0:
                             Logger.log("calibration", 1)
-                            EventManager.post_event("activate_calibration", -1)
+                            EventManager.post_event("activate_calibration", -1) # type: ignore
                         else:
                             Logger.log("collision", data)
                             EventManager.post_event("collision", data)
@@ -554,8 +563,11 @@ def joy_config(data, widgets):
     dialogue_end_buff = dialogue_end
     dialogue_end = data.buttons[5]
     if dialogue_end == 1 and dialogue_end_buff == 0:
-        EventManager.post_event("stop_talking", 1)
-    
+        EventManager.post_event("stop_talking", 1) # type: ignore
+
+def playsound_beep_thread():
+    x = threading.Thread(target=playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav"))   
+    x.start()
 if __name__ == "__main__":
     init()
     main()

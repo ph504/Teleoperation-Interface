@@ -239,7 +239,9 @@ class AvatarIdle(AvatarObject):
         self.change_currimg(self.default_img)
 
         while True: 
-
+            
+            print("Idle Loop is happening.")
+            
             time.sleep(self.idleloop_time)
 
             self.change_currimg(self.blink_img)

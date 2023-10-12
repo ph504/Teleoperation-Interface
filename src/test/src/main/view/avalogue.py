@@ -63,10 +63,10 @@ class AvalogueController():
 
         if self.curr_avalogue is None:
             if not self.avalogue_stack:
-                #print("1 --- stack is empty and no current avatar")
+                print("1 --- stack is empty and no current avatar")
                 self.empty_view()
             else:
-                #print("2 --- a new avalogue is added to stack")
+                print("2 --- a new avalogue is added to stack")
                 self.curr_avalogue = self.avalogue_stack.pop()
                 self.curr_avalogue[1].start_letterbyletter()
         else:
@@ -78,23 +78,23 @@ class AvalogueController():
                     self.curr_avalogue[1].start_letterbyletter()
                     self.avalogue_stack.append(temp)
                     if temp[1].button_num != 0:
-                        #print("4 --- if the previous avalogue had buttons, disable it")
+                        print("4 --- if the previous avalogue had buttons, disable it")
                         self.d_view.disable_buttons(temp[1].button_num)
         
 
             if not self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
-               #print("5 --- it is waiting for start (in seconds)")
+               print("5 --- it is waiting for start (in seconds)")
                self.empty_view()
 
             elif self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
-                 #print("6 --- it is talking")
+                 print("6 --- it is talking")
                  self.update_view()
                  #if self.curr_avalogue[1].queue_flag and self.curr_avalogue[1].wipe_with_button:
                     # print("7 --- if the avalogue that was showing, got hidden and now is showing again had buttons, enable it(should we?)")
                     # self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
 
             elif not self.curr_avalogue[1].showing and self.curr_avalogue[1].stopped and not self.curr_avalogue[1].finished:
-                #print("8 --- full text is shown and is either waiting for button or to wipe")
+                print("8 --- full text is shown and is either waiting for button or to wipe")
                 if self.curr_avalogue[0].type == "Talking":
                         #print("11 --- for talking it needs to be idle(default/sad) while waiting for button, and wipe?")
                         if self.curr_avalogue[0].emotion == "sad":
@@ -105,7 +105,7 @@ class AvalogueController():
                             self.curr_avalogue = new_avalogue                        
             
                 if self.curr_avalogue[1].wipe_with_button:
-                    #print("9 --- waiting for buttons, enable it and if talking it should be idle")
+                    print("9 --- waiting for buttons, enable it and if talking it should be idle")
                     self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
                     
                     if self.curr_avalogue[1].key == "choice_q":
@@ -115,7 +115,7 @@ class AvalogueController():
                 self.update_view()   
             
             if self.curr_avalogue[1].finished:
-                #print("10 --- it is finished and needs to be empty")
+                print("10 --- it is finished and needs to be empty")
                 self.curr_avalogue = None
 
             

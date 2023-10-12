@@ -1,0 +1,15 @@
+Bash Started
+Activating Joystick in a seperate terminal
+Joystick Activated
+Calibrating Camera ... 
+Calibration Finished
+Activating Controller
+Controller is activated
+Parsing Arguments ...
+3
+t
+[INFO] [1695244912.003544]: viewer node started ...
+Initial angle: 180.0
+1-> login: Jackal Platform v22.032\2-> purpose: robot training\3-> situation: space exploration\4-> main objective: find and scan equipment\5-> secondary objective: log temperature degree\6-> area: mars research facility\7-> session: training    <class 'str'>
+[INFO] [1695244912.947127]: using flir
+[INFO] [1695244912.978694]: using axis

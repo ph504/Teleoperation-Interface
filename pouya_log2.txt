@@ -1,0 +1,600 @@
+Bash Started
+Activating Joystick in a seperate terminal
+Joystick Activated
+Calibrating Camera ... 
+Calibration Finished
+Activating Controller
+Controller is activated
+Parsing Arguments ...
+2
+p99
+[INFO] [1695386618.631074]: viewer node started ...
+Initial angle: 180.0
+Idle Loop is happening.
+Idle Loop is happening.
+1 --- stack is empty and no current avatar
+[INFO] [1695386619.314335]: using flir
+[INFO] [1695386619.344598]: using axis
+2 --- a new avalogue is added to stack
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+5 --- it is waiting for start (in seconds)
+6 --- it is talking
+*Shown Text*; H
+6 --- it is talking
+*Shown Text*; He
+6 --- it is talking
+*Shown Text*; Hey
+*Shown Text*; Hey,
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, 
+6 --- it is talking
+*Shown Text*; Hey, I
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I 
+*Shown Text*; Hey, I a
+6 --- it is talking
+*Shown Text*; Hey, I am
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am 
+*Shown Text*; Hey, I am J
+6 --- it is talking
+*Shown Text*; Hey, I am Ja
+6 --- it is talking
+*Shown Text*; Hey, I am Jac
+*Shown Text*; Hey, I am Jack
+6 --- it is talking
+*Shown Text*; Hey, I am Jacka
+*Shown Text*; Hey, I am Jackal
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal!
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! I
+*Shown Text*; Hey, I am Jackal! It
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It i
+*Shown Text*; Hey, I am Jackal! It is
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is a
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is am
+*Shown Text*; Hey, I am Jackal! It is ama
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amaz
+*Shown Text*; Hey, I am Jackal! It is amazi
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazin
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing 
+*Shown Text*; Hey, I am Jackal! It is amazing t
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing th
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing tha
+*Shown Text*; Hey, I am Jackal! It is amazing that
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that w
+*Shown Text*; Hey, I am Jackal! It is amazing that we
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we c
+*Shown Text*; Hey, I am Jackal! It is amazing that we ca
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can 
+*Shown Text*; Hey, I am Jackal! It is amazing that we can w
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can wo
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can wor
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work t
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work to
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work tog
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work toge
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work toget
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work togeth
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work togethe
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together t
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to 
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to h
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to he
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to hel
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help h
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help hu
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help hum
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help huma
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help human
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humani
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanit
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity
+6 --- it is talking
+6 --- it is talking
+Idle Loop is happening.
+Idle Loop is happening.
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity l
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity li
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity liv
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live o
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on m
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on ma
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mar
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars,
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, e
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ S
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a r
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a re
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a rec
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a reca
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap f
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap fr
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap fro
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from 
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from t
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from tr
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from tra
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from trai
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from train
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from traini
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from trainin
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training 
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training s
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training se
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training ses
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training sess
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training sessi
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training sessio
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session:
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: S
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Sc
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Sca
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan 
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan e
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan eq
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equ
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equi
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equip
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipm
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipme
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipmen
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment a
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment an
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and 
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and l
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and lo
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log 
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log n
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log na
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log nat
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natu
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natur
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natura
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural v
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural va
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural var
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural vari
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural varia
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variab
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variabl
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variable
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ Y
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ Yo
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You g
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You go
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You got
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You got 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You got i
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You got it
+6 --- it is talking
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You got it 
+6 --- it is talking
+*Shown Text*; Hey, I am Jackal! It is amazing that we can work together to help humanity live on mars, eh?
+ So a recap from training session: Scan equipment and log natural variables.
+ You got it b
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+Idle Loop is happening.
+Idle Loop is happening.
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking
+6 --- it is talking

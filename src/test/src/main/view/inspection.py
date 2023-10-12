@@ -70,7 +70,7 @@ class InspectionPage():
                                    "vTxDtdzV7b"]
         self.code_list_used = []
         
-
+        self.delay = False
 
         self.wait = False
 
@@ -88,8 +88,17 @@ class InspectionPage():
                 self.error_lbl.config(text="")
         q = threading.Thread(target= del_lbl)
         q.start()
-    
+
+
+    def deactive_forawhile(self):
+         self.btn_validate.configure(state=DISABLED)
+         time.sleep(1)
+         self.btn_validate.configure(state=ACTIVE)
+         
     def validate(self):
+            
+            
+
             string = str(self.entry_lbl.get())
             self.entry_lbl.delete(0, len(string))
             
@@ -124,10 +133,13 @@ class InspectionPage():
             elif string not in self.code_list or string not in  self.code_list2:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!")
                 Logger.log("wrong_entry", "N/A")
-                playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
                 EventManager.post_event("wrong_entry")
                 self.delete_err_lbl()
             
             if len(self.code_list) == 0 or len(self.code_list2) == 0:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="All the equipments have been scanned.")
                 self.delete_err_lbl()
+
+            x = threading.Thread(target=self.deactive_forawhile)
+            x.start()
+

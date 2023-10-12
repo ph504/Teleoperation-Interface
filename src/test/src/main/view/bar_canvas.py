@@ -323,7 +323,7 @@ class BarCanvas(BaseCanvas):
             playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
             self.reset_bar()
         else:
-            playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+            pass#playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
 
         EventManager.post_event("user_reset", self)
 

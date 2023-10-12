@@ -213,7 +213,7 @@ class DialogueObject():
             self.full_text = self.return_random_d(dict_info["text"])
         else: 
             self.full_text = str(dict_info["text"]) 
-            print(self.full_text + "    " + str(type(self.full_text)))
+            
 
         self.str_index= 0
         self.shown_text = ""
@@ -257,15 +257,9 @@ class DialogueObject():
             self.shown_text = self.full_text[:self.str_index] 
             self.remaining_text = self.full_text[self.str_index:]
 
-            # print("--------------------------------")
-            # print("*String Index*; " + str(self.str_index))
-            # print("---")
-            # print("*Full Text*; " + self.full_text)
-            # print("---")
-            # print("*Shown Text*; " + self.shown_text)
-            # print("---")
-            # print("*Remaining Text*; " + self.remaining_text)
-            # print("--------------------------------")
+            
+            print("*Shown Text*; " + self.shown_text)
+            
 
         
 

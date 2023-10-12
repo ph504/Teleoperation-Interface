@@ -8,5 +8,6 @@
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
     "ros.distro": "noetic",
-    "cmake.sourceDirectory": "${workspaceFolder}/src/test"
+    "cmake.sourceDirectory": "${workspaceFolder}/src/test",
+    "python.analysis.typeCheckingMode": "basic"
 }

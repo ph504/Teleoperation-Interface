@@ -269,9 +269,7 @@ class TimerCanvas(BaseCanvas):
         if sec == 60:
             sec = 0
             min += 1
-        
-        if min == 30:
-            self.fsm.s89()
+
 
         self.seconds = str(sec) if sec >= 10 else '0' + str(sec) 
         self.minutes = str(min) if min >= 10 else '0' + str(min)
@@ -302,6 +300,7 @@ class TaskCanvas(BaseCanvas):
     def plus(self):
          
         c = self.count
+        print("**********TASK ADVANCE********: " + str(c))
         c += 1
         if c  > 13: return
         self.count += 1

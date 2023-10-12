@@ -125,7 +125,7 @@ class TeleopGUIMachine(StateMachine):
     #S1 --- Start
     def on_s01 (self):
         def start():
-        
+            print("***S1 --- Start***")
             EventManager.post_event("unfreeze", -1)
             EventManager.post_event("start_move_bars", -1)
             self.timer.start()
@@ -137,7 +137,7 @@ class TeleopGUIMachine(StateMachine):
     #S2 --- Danger Start I
     def on_s12 (self): 
         def danger_start1():
-            
+            print("***S2 --- Danger Start I***")
             time.sleep(self.DANGER_START_TIMER)
 
             self.avalogue.set_avalogue("t_default", "danger_s1")
@@ -152,6 +152,7 @@ class TeleopGUIMachine(StateMachine):
     #S3 --- Danger End I
     def on_s23 (self): 
         def danger_end1():
+            print("***S3 --- Danger End I***")
             time.sleep(self.DANGER_END_TIMER)    
             self.avalogue.set_avalogue("t_sad", "danger_e1")
 
@@ -170,7 +171,7 @@ class TeleopGUIMachine(StateMachine):
     #S4 --- Danger Start II
     def on_s34(self): 
         def danger_start2():
-            
+            print("***S4 --- Danger Start II***")
             time.sleep(self.DANGER_START_TIMER)
             
             self.avalogue.set_avalogue("t_default", "danger_s2")
@@ -205,7 +206,7 @@ class TeleopGUIMachine(StateMachine):
     #S5 --- #Danger End II
     def on_s45 (self):
         def danger_end2():
-            
+            print("***S5 --- #Danger End II***")
             time.sleep(self.DANGER_END_TIMER/2)
             time.sleep(self.DANGER_END_TIMER)
             self.avalogue.set_avalogue("t_default", "danger_e2")
@@ -227,6 +228,7 @@ class TeleopGUIMachine(StateMachine):
         def choice_q():
            #sleep for 30 seconds
            time.sleep(35)
+           print("***S6 --- Choice Q***")
            #---
            #show avalogue
            EventManager.post_event("freeze", -1)
@@ -269,6 +271,7 @@ class TeleopGUIMachine(StateMachine):
     def on_s67 (self): 
         
         def choice_yn():
+            print("***S7 --- Choice A Y/N***")
             EventManager.post_event("clear_wait_flag", -1)
             EventManager.post_event("unfreeze", -1)
             self.countdown_canvas.disable()
@@ -290,7 +293,7 @@ class TeleopGUIMachine(StateMachine):
     #S8 --- Danger State Start III Y / Danger State Start III N
     def on_s78 (self):
         def danger_start3y():
-            
+            print("***S8 --- Danger State Start III Y / Danger State Start III N***")
             time.sleep(self.DANGER_START_TIMER)
             
             self.avalogue.set_avalogue("r_happy", "danger_s3y")
@@ -330,7 +333,7 @@ class TeleopGUIMachine(StateMachine):
     def on_s89(self):
         def danger_end3():
             time.sleep(self.DANGER_END_TIMER)
-            
+            print("***S9 --- Danger State End III Y / Danger State End III N***")
             if self.is_ai:
                 self.avalogue.set_avalogue("t_default", "danger_e3y")
                 self.assistedmanual_disable()        
@@ -352,6 +355,7 @@ class TeleopGUIMachine(StateMachine):
     #S10 --- End
     def on_s910(self):
         self.timer.stop()
+        print("***S10 --- End***")
         self.avalogue.set_avalogue("t_default", "end")
         Logger.log("end", "N/A")
         EventManager.post_event("task_count", self.task_canvas.count)
