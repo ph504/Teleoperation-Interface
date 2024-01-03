@@ -116,7 +116,8 @@ class InspectionPage():
                      return
                 else:
                     self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned")
-                    playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
+                    #playsound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav", block=False)
+                    global_variables.inspect_succ_sound.play()
                     
                     self.delete_err_lbl()
                     

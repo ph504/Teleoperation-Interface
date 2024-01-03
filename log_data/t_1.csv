@@ -1,0 +1,16 @@
+Event,Value,Timestamp
+wrong_entry,N/A,00:45
+thrshldpsscntdngrttl_nrml,1,00:56
+stppsscount_nrml,1,00:57
+stppsscount_nrml,2,00:58
+collision,1,02:54
+collision,1,02:55
+wrong_entry,N/A,07:00
+collision,1,08:04
+calibration,1,10:37
+collision,1,10:43
+thrshldpsscntdngrttl_nrml,2,11:15
+stppsscount_nrml,3,11:15
+stppsscount_nrml,4,11:15
+stppsscount_nrml,5,11:15
+stppsscount_nrml,6,11:15

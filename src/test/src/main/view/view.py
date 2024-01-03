@@ -33,7 +33,7 @@ import sys
 import subprocess
 from userAI import *
 from bar_canvas import *
-
+import pygame
 
 csv_dialogue_s = "/home/pouya/catkin_ws/src/test/src/spreadsheets/s.csv"
 csv_dialogue_ns = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ns.csv"
@@ -42,6 +42,8 @@ csv_dialogue_ns = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ns.csv"
 csv_idle = "/home/pouya/catkin_ws/src/test/src/spreadsheets/IdleAvatars.csv"
 csv_talking = "/home/pouya/catkin_ws/src/test/src/spreadsheets/TalkingAvatars.csv"
 csv_reactive = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ReactiveAvatars.csv"
+
+
 
 
 
@@ -359,8 +361,8 @@ def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, dang
         tab1.bind(']', lambda e: color_transition_reverse(view_back, view_front, circle_canvas))
         tab1.bind('b', lambda e: toggle_barcontroller())
         tab1.bind('a', lambda e: toggle_assistedmode(jackal_ai,manual_button,auto_button))
-        tab1.bind('x', lambda e: playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav"))
-        tab1.bind('z', lambda e: playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav"))
+        tab1.bind('x', lambda e: pygame.mixer.find_channel().play(global_variables.beep_sound))
+        tab1.bind('z', lambda e: pygame.mixer.find_channel().play(global_variables.beep_sound))
         
     elif global_variables.practice_mode:
         tab1.bind('9', lambda e: start_tutorial(tab1, tutorial_fsm))
