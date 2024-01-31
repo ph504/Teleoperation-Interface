@@ -65,7 +65,7 @@ experiment.
 
 
 ## Technical Aspects
-For other features, I used other behavioral patterns such as [Singleton][14] and [Observer] [15]. Using
+For other features, I used other behavioral patterns such as [Singleton][14] and [Observer][15]. Using
 baseCanvas as a parent class for numerous UI Elements helped me to re-position or re-size [each
 element in general][16]. I wrote a [Shell script][17] which automated the start of each experiment (giving
 arguments, opening different scripts, etc.). I also had to do [socket programming][18] to send
