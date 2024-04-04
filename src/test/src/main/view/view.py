@@ -570,6 +570,7 @@ def joy_config(data, widgets):
 def playsound_beep_thread():
     x = threading.Thread(target=playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav"))   
     x.start()
+
 if __name__ == "__main__":
     init()
     main()
