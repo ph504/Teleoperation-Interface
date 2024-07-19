@@ -5,7 +5,7 @@ from event import EventManager
 import subprocess
 
 
-big_cmr_lbl = {
+big_cmr_label = {
     "x": 860,
     "y": 130,
     "width": 200,
@@ -13,7 +13,7 @@ big_cmr_lbl = {
     "font": ('Helvetica', '13', 'bold')
 }
 
-small_cmr_lbl = {
+small_cmr_label = {
     "x": 120,
     "y": 35,
     "width": 200,
@@ -23,7 +23,7 @@ small_cmr_lbl = {
 
 }
 
-clbr_lbl = {
+calibrate_label = {
     "x": 5,
     "y": 815,
     "width": 300,

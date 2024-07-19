@@ -52,7 +52,7 @@ timer_canvas_info = {
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
-timer_lbl_info = {
+timer_label_info = {
     "x": 1800,
     "y": 60,
     "width": 50,
@@ -69,7 +69,7 @@ task_canvas_info = {
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
-task_lbl_info = {
+task_label_info = {
     "x": 1700,
     "y": 60,
     "width": 50,
@@ -89,7 +89,7 @@ miss_canvas_agent_info = {
     "active": True
 }
 
-miss_lbl_agent_info = {
+miss_label_agent_info = {
     "x": 1425,
     "y": 60,
     "width": 50,
@@ -109,7 +109,7 @@ miss_canvas_operator_info = {
     "active": True
 }
 
-miss_lbl_operator_info = {
+miss_label_operator_info = {
     "x": 1515,
     "y": 60,
     "width": 70,
@@ -127,7 +127,7 @@ score_canvas_info = {
     "font": ('Helvetica', '24', 'bold'),
     "active": False
 }
-score_lbl_info = {
+score_label_info = {
     "x": 1500,
     "y": 60,
     "width": 50,

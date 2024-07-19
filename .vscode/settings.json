@@ -9,5 +9,6 @@
     ],
     "ros.distro": "noetic",
     "cmake.sourceDirectory": "${workspaceFolder}/src/test",
-    "python.analysis.typeCheckingMode": "basic"
+    "python.analysis.typeCheckingMode": "basic",
+    "cmake.configureOnOpen": true
 }
