@@ -2,7 +2,7 @@
 
 echo "Bash Started"
 
-SEARCH_STRING="/home/ph504/Desktop/Projects/Teleoperation-Interface"
+SEARCH_STRING="/home/ph504/Desktop/Pojects/Teleoperation-Interface"
 
 # Get the current directory (workspace)
 REPLACEMENT_STRING=$(pwd)
