@@ -276,7 +276,7 @@ class DialogueObject():
             if l == " ":   
                 time.sleep(self.space_pause)
             else:
-                #playsound.playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
+                #playsound.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
                 time.sleep(global_variables.beep_sliced_sound.get_length() * 1.5)
                 global_variables.beep_sliced_sound.play()
             

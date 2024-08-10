@@ -35,13 +35,13 @@ from userAI import *
 from bar_canvas import *
 import pygame
 
-csv_dialogue_s = "/home/pouya/catkin_ws/src/test/src/spreadsheets/s.csv"
-csv_dialogue_ns = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ns.csv"
+csv_dialogue_s = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/s.csv"
+csv_dialogue_ns = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ns.csv"
 
 
-csv_idle = "/home/pouya/catkin_ws/src/test/src/spreadsheets/IdleAvatars.csv"
-csv_talking = "/home/pouya/catkin_ws/src/test/src/spreadsheets/TalkingAvatars.csv"
-csv_reactive = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ReactiveAvatars.csv"
+csv_idle = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/IdleAvatars.csv"
+csv_talking = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/TalkingAvatars.csv"
+csv_reactive = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
 
 
 
@@ -568,7 +568,7 @@ def joy_config(data, widgets):
         EventManager.post_event("stop_talking", 1) # type: ignore
 
 def playsound_beep_thread():
-    x = threading.Thread(target=playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav"))   
+    x = threading.Thread(target=playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav"))   
     x.start()
 
 if __name__ == "__main__":

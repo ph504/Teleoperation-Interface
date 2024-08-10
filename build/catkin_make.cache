@@ -1,2 +1,2 @@
 test
--DCATKIN_DEVEL_PREFIX=/home/pouya/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/pouya/catkin_ws/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/ph504/Desktop/Projects/Teleoperation-Interface/devel -DCMAKE_INSTALL_PREFIX=/home/ph504/Desktop/Projects/Teleoperation-Interface/install -G Unix Makefiles

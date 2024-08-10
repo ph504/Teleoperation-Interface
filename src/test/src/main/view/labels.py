@@ -74,7 +74,7 @@ class CalibrateLabel():
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
     def activate(self):
-        subprocess.Popen("/home/pouya/catkin_ws/camera_calib.sh", shell=True)
+        subprocess.Popen("/home/ph504/Desktop/Projects/Teleoperation-Interface/camera_calib.sh", shell=True)
         EventManager.post_event("calibrate_pause", -1)
         threading.Thread(target=self.calibration_label).start()
         

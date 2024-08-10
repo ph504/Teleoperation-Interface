@@ -130,9 +130,9 @@ class CameraView():
 
     def image_placeholder(self, string):
         if string == "flir":
-            img = PIL.Image.open("/home/pouya/catkin_ws/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), PIL.Image.ANTIALIAS)
+            img = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), PIL.Image.ANTIALIAS)
         else:
-            img = PIL.Image.open("/home/pouya/catkin_ws/src/test/src/images/kirby.jpg").resize((self.width,self.height), PIL.Image.ANTIALIAS)
+            img = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/kirby.jpg").resize((self.width,self.height), PIL.Image.ANTIALIAS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)

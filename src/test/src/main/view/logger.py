@@ -10,7 +10,7 @@ class Logger():
     elapsed_time = ""
     
     def generate_filename():
-        file_name = "/home/pouya/catkin_ws/log_data/"
+        file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface/log_data/"
         file_name += str(global_variables.participant)
         if global_variables.second_round:
             file_name += "_2"

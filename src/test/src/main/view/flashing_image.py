@@ -31,7 +31,7 @@ class FlashingImage():
         self.y = flashing_image_info["y"]
         self.width = flashing_image_info["width"]
         self.height = flashing_image_info["height"]
-        self.image = PIL.Image.open("/home/pouya/catkin_ws/src/test/src/images/dangerzone.png").resize((self.width,self.height), 2)
+        self.image = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/dangerzone.png").resize((self.width,self.height), 2)
         self.image_tk = ImageTk.PhotoImage(self.image)
         self.label = Label(root)
         

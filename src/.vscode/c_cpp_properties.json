@@ -6,9 +6,9 @@
         "limitSymbolsToIncludedHeaders": false
       },
       "includePath": [
-        "/home/pouya/catkin_ws/devel/include/**",
+        "/home/ph504/Desktop/Projects/Teleoperation-Interface/devel/include/**",
         "/opt/ros/noetic/include/**",
-        "/home/pouya/catkin_ws/src/test/include/**",
+        "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/include/**",
         "/usr/include/**"
       ],
       "name": "ROS",

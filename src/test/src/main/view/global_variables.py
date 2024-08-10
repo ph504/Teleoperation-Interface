@@ -31,11 +31,11 @@ pygame.init()
 pygame.mixer.init()
 
 
-beep_sound = pygame.mixer.Sound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav")
-beep_sliced_sound = pygame.mixer.Sound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
-danger_alarm_sound = pygame.mixer.Sound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav")
-error_sound = pygame.mixer.Sound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav")
-inspect_succ_sound = pygame.mixer.Sound("/home/pouya/catkin_ws/src/test/src/sounds/inspect_succ.wav")
+beep_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav")
+beep_sliced_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
+danger_alarm_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/danger-alarm.wav")
+error_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/error.wav")
+inspect_succ_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/inspect_succ.wav")
 
 
 

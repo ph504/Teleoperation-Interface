@@ -7,4 +7,8 @@
 # new environment variables
 
 # modified environment variables
-export PWD='/home/pouya/catkin_ws/build'
+export CMAKE_PREFIX_PATH="/home/ph504/Desktop/Projects/Teleoperation-Interface/devel:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/ph504/Desktop/Projects/Teleoperation-Interface/devel/lib:$LD_LIBRARY_PATH"
+export PWD='/home/ph504/Desktop/Projects/Teleoperation-Interface/build'
+export ROSLISP_PACKAGE_DIRECTORIES='/home/ph504/Desktop/Projects/Teleoperation-Interface/devel/share/common-lisp'
+export ROS_PACKAGE_PATH="/home/ph504/Desktop/Projects/Teleoperation-Interface/src:$ROS_PACKAGE_PATH"

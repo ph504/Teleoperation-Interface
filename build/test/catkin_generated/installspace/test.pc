@@ -1,4 +1,4 @@
-prefix=/home/pouya/catkin_ws/install
+prefix=/home/ph504/Desktop/Projects/Teleoperation-Interface/install
 
 Name: test
 Description: Description of test

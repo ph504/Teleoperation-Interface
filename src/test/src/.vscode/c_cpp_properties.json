@@ -7,9 +7,9 @@
       },
       "includePath": [
         "/opt/ros/noetic/include/**",
-        "/home/pouya/catkin_ws/src/vision_opencv/cv_bridge/include/**",
-        "/home/pouya/catkin_ws/src/vision_opencv/image_geometry/include/**",
-        "/home/pouya/catkin_ws/src/test/include/**",
+        "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/vision_opencv/cv_bridge/include/**",
+        "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/vision_opencv/image_geometry/include/**",
+        "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/include/**",
         "/usr/include/**"
       ],
       "name": "ROS",
