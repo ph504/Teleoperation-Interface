@@ -122,9 +122,10 @@ def main():
     tabControl.add(tab2, text = "Inspection")
     tabControl.place(x = 5, y = 5, width= 1920 ,height= 1080)
     
-      
-    x = threading.Thread(target=server_program)
-    x.start()
+    # TODO: uncomment, commented for debugging.
+    # fake collision detector, woz style
+    # x = threading.Thread(target=server_program)
+    # x.start()
 
     
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
@@ -209,7 +210,7 @@ def main():
     
     tab_checker()
     
-    rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
+    # rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, task_canvas)
     if not global_variables.tutorial_mode:
@@ -466,6 +467,7 @@ def switch_auto(auto_button, manual_button):
 def server_program():
     socketserver.TCPServer.allow_reuse_address = True
 
+    # collision detector device
     HOST = '192.168.2.191'
     PORT = 4001
 
