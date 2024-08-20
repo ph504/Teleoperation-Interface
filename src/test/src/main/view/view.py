@@ -112,15 +112,17 @@ def init():
 def main(): 
        
     root = Tk()
-    root.geometry("1920x1080")
+    root.geometry("1440x900")
+    # width, height = root.winfo_screenwidth(), root.winfo_screenheight()
+    # root.geometry('%dx%d+0+0' % (width,height))
     root.title("Jackal Teleoperator GUI")
-    
+    print("***POUYA***: Tkinter will run")
     tabControl = Notebook(root)
     tab1 = Frame(tabControl)
     tab2 = Frame(tabControl)
     tabControl.add(tab1, text = "Main")
     tabControl.add(tab2, text = "Inspection")
-    tabControl.place(x = 5, y = 5, width= 1920 ,height= 1080)
+    tabControl.place(x = 5, y = 5, width= 1440 ,height= 900)
     
     # TODO: uncomment, commented for debugging.
     # fake collision detector, woz style
@@ -266,6 +268,7 @@ def widget_init(root, tab1, tab2):
    
 
     if not global_variables.tutorial_mode or global_variables.practice_mode:
+        
         d_view = DialogueView(root, dialogueview_info)
         d_model = None
         if not global_variables.social_mode:

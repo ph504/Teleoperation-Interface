@@ -49,7 +49,7 @@ def start():
         axis.tilt = 0
         axis.zoom = 0 
         rospy.init_node('teleop_camera_node')
-
+        print("***POUYA***: Activated camera node.")
         pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)
 
         # EventManager.subscribed to joystick inputs on topic "joy"
