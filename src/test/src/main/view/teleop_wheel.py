@@ -13,8 +13,10 @@ global freeze_var
 freeze_var = True 
 
 def callback(data):
-    
+    # forward backward motion   
     twist.linear.x = -2 * data.axes[1]
+
+    # turning motion
     twist.angular.z = 2 * data.axes[0]      
 
 def start():
@@ -26,9 +28,11 @@ def start():
         
 
         def freeze_manager(data):
-
+            print(data)
+            
             global freeze_var
-            if data.data == True:
+
+            if data.data:
                 freeze_var = True
             else:
                 freeze_var = False
