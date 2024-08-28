@@ -1,3 +1,6 @@
+# TODO move to controller
+
+
 #!/usr/bin/env python3
 
 import rospy
@@ -20,7 +23,7 @@ import threading
 def callback(data):
 
         #update_nextpos(next_pos)
-       control_wheel()
+    control_wheel(data)
        
 
 
@@ -48,9 +51,13 @@ def update_nextpos(next_pos):
 def pub_camera(axis):
     pub_axis.publish(axis)
 
+# controlling wheels with joystick
 def control_wheel(data):
     twist = Twist()
+
+    # forward / backward motion
     twist.linear.x = 2*data.axes[1]
+    # turning / lef-right motion
     twist.angular.z = 2*data.axes[0]
     pub_jackal.publish(twist)
         
@@ -65,7 +72,7 @@ def start():
 
         count = 0
 
-       
+        print('***Arya*** Joy Node Activated!')
         rospy.init_node('teleop_joy_node')
         pub_jackal = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
         pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=10)

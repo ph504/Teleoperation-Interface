@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# TODO move to controller
 
 import rospy
 from geometry_msgs.msg import Twist
@@ -13,6 +14,7 @@ global freeze_var
 freeze_var = True 
 
 def callback(data):
+    print('yesysytesyseyseyseyesysyesysey')
     # forward backward motion   
     twist.linear.x = -2 * data.axes[1]
 
@@ -38,8 +40,9 @@ def start():
                 freeze_var = False
 
 
-        rospy.init_node('teleop_wheel_node')
+        print('***Arya*** Wheel Node Activated!')
 
+        rospy.init_node('teleop_wheel_node')
         pub_jackal = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
         
         rospy.Subscriber("freeze", Bool , callback=freeze_manager)

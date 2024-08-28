@@ -1,3 +1,6 @@
+# TODO move to controller
+
+
 #!/usr/bin/env python3
 
 import rospy
@@ -48,8 +51,8 @@ def start():
         axis.autofocus = False
         axis.tilt = 0
         axis.zoom = 0 
+        print('***Arya*** Camera Node Activated!')
         rospy.init_node('teleop_camera_node')
-        print("***POUYA***: Activated camera node.")
         pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)
 
         # EventManager.subscribed to joystick inputs on topic "joy"
