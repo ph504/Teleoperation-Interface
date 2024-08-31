@@ -115,7 +115,7 @@ def main():
     # root.geometry("1440x900")
     width, height = root.winfo_screenwidth(), root.winfo_screenheight()
     # width, height = 1440, 900
-    root.geometry('%dx%d+0+0' % (0.7*width,0.7*height))
+    root.geometry('%dx%d+0+0' % (width, height))
     root.title("Jackal Teleoperator GUI")
     tabControl = Notebook(root)
     tab1 = Frame(tabControl)
@@ -123,7 +123,6 @@ def main():
     tabControl.add(tab1, text = "Main")
     tabControl.add(tab2, text = "Inspection")
     tabControl.place(x = 5, y = 5, width=width ,height=height)
-    
     # TODO: uncomment, commented for debugging.
     # fake collision detector, woz style
     # x = threading.Thread(target=server_program)
