@@ -110,18 +110,19 @@ def init():
             sys.exit(1)
 
 def main(): 
-       
+    
     root = Tk()
-    root.geometry("1440x900")
-    # width, height = root.winfo_screenwidth(), root.winfo_screenheight()
-    # root.geometry('%dx%d+0+0' % (width,height))
+    # root.geometry("1440x900")
+    width, height = root.winfo_screenwidth(), root.winfo_screenheight()
+    # width, height = 1440, 900
+    root.geometry('%dx%d+0+0' % (0.7*width,0.7*height))
     root.title("Jackal Teleoperator GUI")
     tabControl = Notebook(root)
     tab1 = Frame(tabControl)
     tab2 = Frame(tabControl)
     tabControl.add(tab1, text = "Main")
     tabControl.add(tab2, text = "Inspection")
-    tabControl.place(x = 5, y = 5, width= 1440 ,height= 900)
+    tabControl.place(x = 5, y = 5, width=width ,height=height)
     
     # TODO: uncomment, commented for debugging.
     # fake collision detector, woz style
@@ -134,7 +135,7 @@ def main():
     cursor_canvas_big = CursorCanvas(tab1, big_canvas_info)
     cursor_canvas_big.disable()
 
-    if camera_available:    
+    if camera_available():    
         rospy.init_node("viewer", anonymous= True)
         rospy.loginfo("viewer node started ...")
         #global prev_angle 
@@ -144,11 +145,11 @@ def main():
         pub_axis.publish(axis)
         x = rospy.wait_for_message("/axis/state", Axis).pan
         print("Initial angle: " + str(x))
-        currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
+        # currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
         #TODO: make the camera tilt
-        #rospy.EventManager.subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
-        #cursor_canvases = (cursor_canvas_small, cursor_canvas_big)
-        #rospy.EventManager.subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
+        # rospy.EventManager.subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
+        # cursor_canvases = (cursor_canvas_small, cursor_canvas_big)
+        # rospy.EventManager.subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
 
 
     global rb1, rb2normal, rb3, cs, dialogue_end
@@ -165,8 +166,8 @@ def main():
     view_front,
     manual_button,
     auto_button,
-    a_model,
-    a_view,
+    avatar_model,
+    avatar_view,
     dialogue_model,
     dialogue_view,
     avalogue,
@@ -179,7 +180,7 @@ def main():
     small_label,
     big_label,
     calibrate_button,
-    calibrate_lbl,
+    calibrate_label,
     countdown) = widget_init(root, tab1, tab2)
 
 
@@ -233,61 +234,66 @@ def main():
     
     tab_checker()
     
-    # # rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
+    # rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
-    # inspection_page = InspectionPage(tab2, task_canvas)
-    # if not global_variables.tutorial_mode:
-    #     gui_sfm = TeleopGUIMachine(timer_canvas, avalogue, dialogue_text, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= None, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai, cntdwn= countdown)
-    # else:
-    #     tutorial_fsm = TutorialGUIMachine(timer= timer_canvas, amode_btn=auto_button, d_bars= danger_canvases, flashing_image= flashing_image, jckl_ai= jackal_ai, n_bar= bar_canvas, nmode_btn= manual_button, avalogue= avalogue)
-    
-
-    # #if not global_variables.tutorial_mode: start_button.add_event(gui_sfm.s01)
-    # #if not global_variables.tutorial_mode: yes_button.add_event(gui_sfm.on_yes)
-    # #if not global_variables.tutorial_mode: no_button.add_event(gui_sfm.on_no)
-    # if not global_variables.tutorial_mode: 
-    #     task_canvas.add_fsm(gui_sfm)
-    # else:
-    #     task_canvas.add_fsm(tutorial_fsm)
-
-
-    # if not global_variables.tutorial_mode: 
-    #     timer_canvas.add_fsm(gui_sfm)
-    # else:
-    #     timer_canvas.add_fsm(tutorial_fsm)
-
-
-    # if not global_variables.tutorial_mode: countdown.add_fsm(gui_sfm)
-
-    # calibrate_button.add_event(calibrate_lbl.activate)
-    
-    # #if  global_variables.tutorial_mode: auto_button.enable()
-
-    # if global_variables.tutorial_mode: 
-    #     bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm)
+    inspection_page = InspectionPage(tab2, task_canvas)
+    if not global_variables.tutorial_mode:
+        gui_sfm = TeleopGUIMachine(timer_canvas, avalogue, dialogue_text, manual_button, auto_button, bar_canvas, danger_canvases, jackal_avatar= None, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai, cntdwn= countdown)
+    else:
+        tutorial_fsm = TutorialGUIMachine(timer= timer_canvas, amode_btn=auto_button, d_bars= danger_canvases, flashing_image= flashing_image, jckl_ai= jackal_ai, n_bar= bar_canvas, nmode_btn= manual_button, avalogue= avalogue)
     
 
-    if camera_available:
+    #if not global_variables.tutorial_mode: start_button.add_event(gui_sfm.s01)
+    #if not global_variables.tutorial_mode: yes_button.add_event(gui_sfm.on_yes)
+    #if not global_variables.tutorial_mode: no_button.add_event(gui_sfm.on_no)
+    if not global_variables.tutorial_mode: 
+        task_canvas.add_fsm(gui_sfm)
+    else:
+        task_canvas.add_fsm(tutorial_fsm)
+
+
+    if not global_variables.tutorial_mode: 
+        timer_canvas.add_fsm(gui_sfm)
+    else:
+        timer_canvas.add_fsm(tutorial_fsm)
+
+
+    if not global_variables.tutorial_mode: countdown.add_fsm(gui_sfm)
+
+    calibrate_button.add_event(calibrate_label.activate)
+    
+    #if  global_variables.tutorial_mode: auto_button.enable()
+
+    if global_variables.tutorial_mode: 
+        bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm)
+    
+    if camera_available():
+        print('***Arya*** Camera Available.')
         try:
             tab1.mainloop()
         except rospy.ROSInterruptException:
             pass
     else:     
+        print('***Arya*** Camera Unavailable.')
         tab1.mainloop()
 
 def widget_init(root, tab1, tab2):
+
+    print('***Arya*** Initializing danger and main bar ...')
     bar_canvas = BarCanvas(tab1, bar_canvas_info_main, danger= False)
-    #if global_variables.tutorial_mode: bar_canvas.start()
-    # danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
-    #                        BarCanvas(tab1,bar_canvas_info2, danger= True),
-    #                          BarCanvas(tab1,bar_canvas_info3, danger = True))
+    # if global_variables.tutorial_mode: bar_canvas.start()
+    danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
+                           BarCanvas(tab1,bar_canvas_info2, danger= True),
+                             BarCanvas(tab1,bar_canvas_info3, danger = True))
 
 
     dialogue_text = None
     
-
+    print('***Arya*** Initializing Avalogue ...')
     if not global_variables.tutorial_mode or global_variables.practice_mode:
-        
+
+        # init the dialogue view
+        # the dialogue view is the visualization specs of the dialogue box
         dialogue_view = DialogueView(root, dialogueview_info)
         dialogue_model = None
         if not global_variables.social_mode:
@@ -315,8 +321,8 @@ def widget_init(root, tab1, tab2):
 
     
     user_ai = UserAI(root)
-    view_back = CameraView(tab1, flir_info, camera_available, "flir")
-    view_front = CameraView(tab1, axis_info, camera_available, "axis")
+    view_back = CameraView(tab1, flir_info, camera_available(), "flir")
+    view_front = CameraView(tab1, axis_info, camera_available(), "axis")
     manual_button = BaseButton(root, button_manual_info, enable = False)
     auto_button = BaseButton(root, button_auto_info, enable= False)
     countdown = CountdownCanvas(root, countdown_info)
@@ -335,41 +341,42 @@ def widget_init(root, tab1, tab2):
     calibrate_button = BaseButton(root, button_calibrate_info, activate=True, enable=False)
 
     timer_canvas = TimerCanvas(root, timer_canvas_info)
-    timer_lbl = Label(root, text="Timer", font=timer_lbl_info["font"], fg=timer_lbl_info["color"])
-    timer_lbl.place(x = timer_lbl_info["x"], y = timer_lbl_info["y"], width=timer_lbl_info["width"], height=timer_lbl_info["height"])
+    timer_label = Label(root, text="Timer", font=timer_label_info["font"], fg=timer_label_info["color"])
+    timer_label.place(x = timer_label_info["x"], y = timer_label_info["y"], width=timer_label_info["width"], height=timer_label_info["height"])
 
-    small_label = CameraLabel(tab1, small_cmr_lbl, "Back Camera")
-    big_label = CameraLabel(tab1, big_cmr_lbl, "Front Camera")
-    calibrate_lbl = CalibrateLabel(root, clbr_lbl, "")
+    # initializing the camera labels.
+    small_label = CameraLabel(tab1, small_camera_label, "Back Camera")
+    big_label = CameraLabel(tab1, big_camera_label, "Front Camera")
+    calibrate_label = CalibrateLabel(root, clbr_label, "")
     
 
     score_canvas = None
     #score_canvas = ScoreCanvas(root, score_canvas_info)
-    #score_lbl = Label(root, text="Score", font=score_lbl_info["font"], fg=score_lbl_info["color"])
-    #score_lbl.place(x = score_lbl_info["x"], y = score_lbl_info["y"], width=score_lbl_info["width"], height=score_lbl_info["height"])
+    #score_label = Label(root, text="Score", font=score_label_info["font"], fg=score_label_info["color"])
+    #score_label.place(x = score_label_info["x"], y = score_label_info["y"], width=score_label_info["width"], height=score_label_info["height"])
     
     
     if not global_variables.practice_mode: circle_canvas = CircleCanvas(tab2, circle_canvas_info)
     else: circle_canvas = None
     
     miss_canvas_operator = MissCanavas(root,miss_canvas_operator_info, "operator")
-    miss_lbl_operator = Label(root, text="Operator", font=miss_lbl_operator_info["font"], fg=miss_lbl_operator_info["color"])
-    miss_lbl_operator.place(x = miss_lbl_operator_info["x"], y = miss_lbl_operator_info["y"], width=miss_lbl_operator_info["width"], height=miss_lbl_operator_info["height"])
+    miss_label_operator = Label(root, text="Operator", font=miss_label_operator_info["font"], fg=miss_label_operator_info["color"])
+    miss_label_operator.place(x = miss_label_operator_info["x"], y = miss_label_operator_info["y"], width=miss_label_operator_info["width"], height=miss_label_operator_info["height"])
     
     miss_canvas_agent = MissCanavas(root,miss_canvas_agent_info, "agent")
-    miss_lbl_agent = Label(root, text="Agent", font=miss_lbl_agent_info["font"], fg=miss_lbl_agent_info["color"])
-    miss_lbl_agent.place(x = miss_lbl_agent_info["x"], y = miss_lbl_agent_info["y"], width=miss_lbl_agent_info["width"], height=miss_lbl_agent_info["height"])
+    miss_label_agent = Label(root, text="Agent", font=miss_label_agent_info["font"], fg=miss_label_agent_info["color"])
+    miss_label_agent.place(x = miss_label_agent_info["x"], y = miss_label_agent_info["y"], width=miss_label_agent_info["width"], height=miss_label_agent_info["height"])
 
     task_canvas = TaskCanvas(root, task_canvas_info)
-    task_lbl = Label(root, text="Task", font=task_lbl_info["font"], fg=task_lbl_info["color"])
-    task_lbl.place(x = task_lbl_info["x"], y = task_lbl_info["y"], width=task_lbl_info["width"], height=task_lbl_info["height"])
+    task_label = Label(root, text="Task", font=task_label_info["font"], fg=task_label_info["color"])
+    task_label.place(x = task_label_info["x"], y = task_label_info["y"], width=task_label_info["width"], height=task_label_info["height"])
 
     flashing_image = FlashingImage(root, flashing_image_info)
 
     jackal_ai = JackalAI(root)
     
     return (bar_canvas,
-            # danger_canvases,
+            danger_canvases,
             task_canvas,
             view_back,
             view_front,
@@ -389,7 +396,7 @@ def widget_init(root, tab1, tab2):
             small_label, 
             big_label, 
             calibrate_button, 
-            calibrate_lbl, 
+            calibrate_label, 
             countdown)
 
 def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, bar_canvas, danger_canvases, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):

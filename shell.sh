@@ -2,6 +2,22 @@
 
 # echo "Bash Started"
 
+# change the ROS_HOSTNAME to ip address
+IP_ADDR=$(hostname -I | awk '{print $1}')
+BASHRC_FILE ="$HOME/.bashrc"
+
+# Check if ROS_HOSTNAME is already in .bashrc
+if grep -q "^export ROS_HOSTNAME=" "$BASHRC_FILE"; then
+    # If it exists, update the value
+    sed -i "s/^export ROS_HOSTNAME=.*/export ROS_HOSTNAME=$IP_ADDR/" "$BASHRC_FILE"
+else
+    # If it doesn't exist, add it to the end of .bashrc
+    echo "export ROS_HOSTNAME=$IP_ADDR" >> "$BASHRC_FILE"
+fi
+
+# Source the .bashrc to apply changes immediately
+source "$BASHRC_FILE"
+
 SEARCH_STRING="/home/ph504/Desktop/Projects/Teleoperation-Interface"
 
 # Get the current directory (workspace)

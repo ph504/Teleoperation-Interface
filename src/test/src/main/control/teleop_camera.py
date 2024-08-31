@@ -21,7 +21,7 @@ from axis_camera.msg import Axis
 def callback(data):
     global joystick_input
 
-    joystick_input = data.axes[3]
+    # joystick_input = data.axes[3]
        
 
 def control_camera(joys_i):
@@ -56,7 +56,7 @@ def start():
         pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)
 
         # EventManager.subscribed to joystick inputs on topic "joy"
-        #rospy.EventManager.subscriber("joy", Joy, callback)
+        rospy.Subscriber("joy", Joy, callback)
         
         rate = rospy.Rate(8)
 
@@ -66,10 +66,6 @@ def start():
             #control_camera(joystick_input)
             pub_axis.publish(axis)
             rate.sleep()
-       
-
-        
-        
 
         # starts the node
         

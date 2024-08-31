@@ -1,6 +1,7 @@
 from PIL import ImageTk
 from tkinter import *
 import rospy
+import rosnode
 from sensor_msgs.msg import CompressedImage
 import cv2
 import PIL.Image
@@ -11,7 +12,15 @@ import global_variables
 
 
 #Make it false when you are not working with jackal
-camera_available = True
+# camera_available = True
+def camera_available():
+    try:
+        node_list = rosnode.get_node_names()
+        print(node_list)
+    except rosnode.ROSNodeIOException as e:
+        rospy.logerr("Error checking node availability: %s", e)
+        return False
+
 
 flir_info = {
     "x": 15,
@@ -62,7 +71,7 @@ class CameraView():
         EventManager.subscribe("color_trans", self.color_transition)
 
         #??
-        if cam_available == True:
+        if cam_available:
             if self.camera == "flir":
                 rospy.loginfo("using flir")
                 self.flir_image = rospy.Subscriber("/camera/image_color/compressed", CompressedImage, self.update_image, queue_size=1)
