@@ -4,7 +4,7 @@
 
 # change the ROS_HOSTNAME to ip address
 IP_ADDR=$(hostname -I | awk '{print $1}')
-BASHRC_FILE ="$HOME/.bashrc"
+BASHRC_FILE="$HOME/.bashrc"
 
 # Check if ROS_HOSTNAME is already in .bashrc
 if grep -q "^export ROS_HOSTNAME=" "$BASHRC_FILE"; then
@@ -17,6 +17,18 @@ fi
 
 # Source the .bashrc to apply changes immediately
 source "$BASHRC_FILE"
+
+# Attempt to list ROS nodes
+rosnode list > /dev/null 2>&1
+
+# Check the exit status of the last command
+if [ $? -eq 0 ]; then
+    echo "ROS master is running and accessible."
+else
+    echo "ROS master is not running or not accessible."
+    echo "Running a new master..."
+    roscore &
+fi
 
 SEARCH_STRING="/home/ph504/Desktop/Projects/Teleoperation-Interface"
 
@@ -36,7 +48,9 @@ fi
 # echo "The current directory matches with the workspace directory."
 
 # echo "Activating Joystick in a seperate terminal"
-gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
+# gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
+rosrun joy joy_node &
+
 # echo "Joystick Activated"
 
 python3 src/test/src/main/control/teleop_camera.py &
