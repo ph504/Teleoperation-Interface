@@ -3,34 +3,10 @@ import time
 import threading
 from event import EventManager
 import subprocess
+import global_statics
+import global_variables
 
 
-big_cmr_lbl = {
-    "x": 860,
-    "y": 130,
-    "width": 200,
-    "height": 20,
-    "font": ('Helvetica', '13', 'bold')
-}
-
-small_cmr_lbl = {
-    "x": 120,
-    "y": 35,
-    "width": 200,
-    "height": 15,
-    
-    "font": ('Helvetica', '10', 'bold')
-
-}
-
-clbr_lbl = {
-    "x": 5,
-    "y": 815,
-    "width": 300,
-    "height": 20,
-    "color": "red",
-    "font": ('Helvetica', '9', 'bold')
-}
 class CameraLabel():
     def __init__(self, r, label_info, text):
         self.x = label_info["x"]

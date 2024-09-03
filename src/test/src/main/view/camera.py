@@ -21,23 +21,6 @@ def camera_available():
         rospy.logerr("Error checking node availability: %s", e)
         return False
 
-
-flir_info = {
-    "x": 15,
-    "y": 50,
-    "width": 400,
-    "height": 300,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
-}
-axis_info = {
-    "x": 560,
-    "y": 150,
-    "width": 800,
-    "height": 600,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
-}
-
-
 class CameraView():
     scan_mode = False
     

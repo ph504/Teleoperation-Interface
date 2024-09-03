@@ -12,7 +12,7 @@ from axis_camera.msg import Axis
 from sensor_msgs.msg import Joy
 import PIL.Image
 import canvas
-from camera import * 
+import camera 
 #from dialogue import *
 #from avatar import *
 from avalogue import AvalogueController
@@ -120,19 +120,19 @@ def main():
 
     # root.geometry("1440x900")
     width, height = root.winfo_screenwidth(), root.winfo_screenheight()
-    big_canvas_info = canvas.convert_to_pixels(canvas.big_canvas_info_percent, width, height)
-    small_canvas_info = canvas.convert_to_pixels(canvas.small_canvas_info_percent, width, height)
-    timer_canvas_info = canvas.convert_to_pixels(canvas.timer_canvas_info_percent, width, height)
-    timer_label_info = canvas.convert_to_pixels(canvas.timer_label_info_percent, width, height)
-    task_canvas_info = canvas.convert_to_pixels(canvas.task_canvas_info_percent, width, height)
-    task_label_info = canvas.convert_to_pixels(canvas.task_label_info_percent, width, height)
-    miss_canvas_agent_info = canvas.convert_to_pixels(canvas.miss_canvas_agent_info_percent, width, height)
-    miss_label_agent_info = canvas.convert_to_pixels(canvas.miss_label_agent_info_percent, width, height)
-    miss_canvas_operator_info = canvas.convert_to_pixels(canvas.miss_canvas_operator_info_percent, width, height)
-    miss_label_operator_info = canvas.convert_to_pixels(canvas.miss_label_operator_info_percent, width, height)
-    score_canvas_info = canvas.convert_to_pixels(canvas.score_canvas_info_percent, width, height)
-    score_label_info = canvas.convert_to_pixels(canvas.score_label_info_percent, width, height)
-    circle_canvas_info = canvas.convert_to_pixels(canvas.circle_canvas_info_percent, width, height)
+    big_canvas_info = global_statics.convert_to_pixels(global_statics.big_canvas_info_percent, width, height)
+    small_canvas_info = global_statics.convert_to_pixels(global_statics.small_canvas_info_percent, width, height)
+    timer_canvas_info = global_statics.convert_to_pixels(global_statics.timer_canvas_info_percent, width, height)
+    timer_label_info = global_statics.convert_to_pixels(global_statics.timer_label_info_percent, width, height)
+    task_canvas_info = global_statics.convert_to_pixels(global_statics.task_canvas_info_percent, width, height)
+    task_label_info = global_statics.convert_to_pixels(global_statics.task_label_info_percent, width, height)
+    miss_canvas_agent_info = global_statics.convert_to_pixels(global_statics.miss_canvas_agent_info_percent, width, height)
+    miss_label_agent_info = global_statics.convert_to_pixels(global_statics.miss_label_agent_info_percent, width, height)
+    miss_canvas_operator_info = global_statics.convert_to_pixels(global_statics.miss_canvas_operator_info_percent, width, height)
+    miss_label_operator_info = global_statics.convert_to_pixels(global_statics.miss_label_operator_info_percent, width, height)
+    score_canvas_info = global_statics.convert_to_pixels(global_statics.score_canvas_info_percent, width, height)
+    score_label_info = global_statics.convert_to_pixels(global_statics.score_label_info_percent, width, height)
+    circle_canvas_info = global_statics.convert_to_pixels(global_statics.circle_canvas_info_percent, width, height)
 
     # width, height = 1440, 900
     root.geometry('%dx%d+0+0' % (width, height))
@@ -147,7 +147,6 @@ def main():
     # fake collision detector, woz style
     # x = threading.Thread(target=server_program)
     # x.start()
-
     
     cursor_canvas_small = CursorCanvas(tab1, small_canvas_info)
     cursor_canvas_small.disable()
@@ -178,8 +177,6 @@ def main():
     # rb3 = 0
     cs = 0
     dialogue_end = 0
-    print('how')
-    
         # bar_canvas, 
     # danger_canvases, 
     (task_canvas, 
@@ -247,6 +244,7 @@ def main():
     
     
     def tab_checker():
+        # what happens if neither of the values? why cant I just put ==1 in the equation
         if tabControl.index("current") == 1:
             global_variables.in_inspection = True
         elif tabControl.index("current") == 0:
@@ -352,8 +350,8 @@ def widget_init(root, tab1, tab2):
     
     user_ai = UserAI(root)
 
-    view_back = CameraView(tab1, flir_info, camera_available(), "flir")
-    view_front = CameraView(tab1, axis_info, camera_available(), "axis")
+    view_back = camera.CameraView(tab1, camera.flir_info, camera.camera_available(), "flir")
+    view_front = camera.CameraView(tab1, camera.axis_info, camera.camera_available(), "axis")
     manual_button = BaseButton(root, button_manual_info, enable = False)
     auto_button = BaseButton(root, button_auto_info, enable= False)
     countdown = CountdownCanvas(root, countdown_info)
@@ -498,8 +496,8 @@ def toggle_assistedmode(jackal_ai, man_btn, ato_btn):
 #     EventManager.post_event("start_move_bars", -1)
 
 def change_scan_mode():
-    CameraView.scan_mode = not CameraView.scan_mode
-    print(CameraView.scan_mode)
+    camera.CameraView.scan_mode = not CameraView.scan_mode
+    print(camera.CameraView.scan_mode)
 
 def switch(back, front, small, big):
         
@@ -507,14 +505,14 @@ def switch(back, front, small, big):
         
         if back.is_front == False:
             #Flir is front, Axis is back
-            front.update_pos(flir_info)
-            back.update_pos(axis_info)
+            front.update_pos(global_statics.flir_info)
+            back.update_pos(global_statics.axis_info)
             #small.switch_camera()
             #big.switch_camera()
         else:
             #Axis is front, Flir is back
-            front.update_pos(axis_info)
-            back.update_pos(flir_info)
+            front.update_pos(global_statics.axis_info)
+            back.update_pos(global_statics.flir_info)
             #small.switch_camera()
             #big.switch_camera()
 
