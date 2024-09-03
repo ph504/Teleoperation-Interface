@@ -176,7 +176,55 @@ circle_canvas_info_percent = {
     "active": True
 }
 
-button_auto_info = {
+dialogueview_info_percent = {
+    "x": 660 / original_width,
+    "y": 800 / original_height,
+    "width": 800 / original_width,
+    "height": 180 / original_height,
+    "font": ('Calibri',12, 'bold', 'italic'),
+    "bg": '#d9d7bd',
+    "wraplength": 800 / original_width,
+    
+
+    "btn1_info_percent": {
+        "x": 1250 / original_width,
+        "y": 940 / original_height,
+        "width": 100 / original_width,
+        "height": 30 / original_height,
+        "text": "Button 1", 
+        
+    },
+
+    "btn2_info_percent": { 
+        "x": 1350 / original_width,
+        "y": 940 / original_height,
+        "width": 100 / original_width,
+        "height": 30 / original_height,
+        "text": "Button 2",
+        
+    },
+
+    "btn_info_percent": {   
+        "x": 1300 / original_width,
+        "y": 940 / original_height,
+        "width": 100 / original_width,
+        "height": 30 / original_height,
+        "text": "Button",
+    },
+
+    
+   
+
+}
+
+dbox_info_percent = {
+    "x": 660 / original_width,
+    "y": 800 / original_height,
+    "width": 800 / original_width,
+    "height": 180 / original_height
+}
+
+button_auto_info_percent = {
     "x": 70 / original_width,
     "y": 500 / original_height,
     "width": 150 / original_width,
@@ -187,7 +235,7 @@ button_auto_info = {
 
 }
 
-button_manual_info = {
+button_manual_info_percent = {
     "x": 70 / original_width,
     "y": 560 / original_height,
     "width": 150 / original_width,
@@ -198,7 +246,7 @@ button_manual_info = {
 
 }
 
-button_yes_info = {
+button_yes_info_percent = {
     "x": 1250 / original_width,
     "y": 940 / original_height,
     "width": 100 / original_width,
@@ -210,7 +258,7 @@ button_yes_info = {
     
 }
 
-button_no_info = {
+button_no_info_percent = {
     "x": 1350 / original_width,
     "y": 940 / original_height,
     "width": 100 / original_width,
@@ -221,7 +269,7 @@ button_no_info = {
 
 }
 
-button_start_info = {
+button_start_info_percent = {
     "x": 1300 / original_width,
     "y": 940 / original_height,
     "width": 100 / original_width,
@@ -233,7 +281,7 @@ button_start_info = {
     
 }
 
-button_freeze_info = {
+button_freeze_info_percent = {
     "x": 70 / original_width,
     "y": 900 / original_height,
     "width": 150 / original_width,
@@ -245,7 +293,7 @@ button_freeze_info = {
     
 }
 
-button_calibrate_info = {
+button_calibrate_info_percent = {
     "x": 70 / original_width,
     "y": 800 / original_height,
     "width": 150 / original_width,
@@ -259,7 +307,7 @@ button_calibrate_info = {
 
 
 # wtf is a javatar???
-javatar_info = {
+javatar_info_percent = {
     "x": 460 / original_width,
     "y": 800 / original_height,
     "width": 200 / original_width,
