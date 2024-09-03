@@ -12,153 +12,318 @@ import global_variables
 import time
 from repeated_timer import RepeatedTimer
 
-#------Canvas Position ---- #
-big_canvas_info = {
-    "x": 1500,
-    "y": 600,
-    "width": 150,
-    "height": 150,
+
+original_width, original_height = 1920, 1080
+
+# big_canvas_info_percent = {
+#     "x": 1500 / original_width,  
+#     "y": 600 / original_height,  
+#     "width": 150 / original_width,  
+#     "height": 150 / original_height,
+#     "endup_angle": numpy.deg2rad(-90),
+#     "endleft_angle": numpy.deg2rad(-240),
+#     "endright_angle": numpy.deg2rad(60),
+#     "outline_color": "SpringGreen3",
+#     "outline_width": 5,
+#     "color": "green",
+#     "active": True
+# }
+
+# #------Canvas Position ---- #
+# big_canvas_info = {
+#     "x": int(big_canvas_info_percent["x"]*),
+#     "y": 600,
+#     "width": 150,
+#     "height": 150,
+#     "endup_angle": numpy.deg2rad(-90),
+#     "endleft_angle": numpy.deg2rad(-240),
+#     "endright_angle": numpy.deg2rad(60),
+#     "outline_color": "SpringGreen3",
+#     "outline_width": 5,
+#     "color": "green",
+#     "active": True
+# }
+# small_canvas_info = {
+#     "x": 430,
+#     "y": 250,
+#     "width": 50,
+#     "height": 50,
+#     "endup_angle": numpy.deg2rad(-90),
+#     "endleft_angle": numpy.deg2rad(-240),
+#     "endright_angle": numpy.deg2rad(60),
+#     "outline_color": "SpringGreen3",
+#     "outline_width": 2,
+#     "color": "green",
+#     "active": False
+
+
+# }
+
+
+# timer_canvas_info = {
+#     "x": 1725,
+#     "y": 75,
+#     "width": 200,
+#     "height": 50,
+#     "color": "blue",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": True
+# }
+# timer_label_info = {
+#     "x": 1800,
+#     "y": 60,
+#     "width": 50,
+#     "height": 17,
+#     "color": "blue",
+#     "font": ('Helvetica', '12', 'bold'),
+# }
+# task_canvas_info = {
+#     "x": 1675,
+#     "y": 75,
+#     "width": 100,
+#     "height": 50,
+#     "color": "green",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": True
+# }
+# task_label_info = {
+#     "x": 1700,
+#     "y": 60,
+#     "width": 50,
+#     "height": 17,
+#     "color": "green",
+#     "font": ('Helvetica', '12', 'bold'),
+
+# }
+
+# miss_canvas_agent_info = {
+#     "x": 1400,
+#     "y": 75,
+#     "width": 100,
+#     "height": 50,
+#     "color": "red",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": True
+# }
+
+# miss_label_agent_info = {
+#     "x": 1425,
+#     "y": 60,
+#     "width": 50,
+#     "height": 17,
+#     "color": "red",
+#     "font": ('Helvetica', '12', 'bold'),
+# }
+
+
+# miss_canvas_operator_info = {
+#     "x": 1500,
+#     "y": 75,
+#     "width": 100,
+#     "height": 50,
+#     "color": "red",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": True
+# }
+
+# miss_label_operator_info = {
+#     "x": 1515,
+#     "y": 60,
+#     "width": 70,
+#     "height": 17,
+#     "color": "red",
+#     "font": ('Helvetica', '12', 'bold'),
+# }
+
+# score_canvas_info = {
+#     "x": 1450,
+#     "y": 75,
+#     "width": 150,
+#     "height": 50,
+#     "color": "blue",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": False
+# }
+# score_label_info = {
+#     "x": 1500,
+#     "y": 60,
+#     "width": 50,
+#     "height": 17,
+#     "color": "blue",
+#     "font": ('Helvetica', '12', 'bold'),
+
+# }
+# score_events = {
+#     "step_error": 5,
+#     "step_error_danger": 25,
+    
+#     "threshold_cross": 25,
+#     "threshold_cross_danger": 50,
+    
+#     "collision_hit": 50,
+    
+#     "wrong_entry": 25,
+#     "duplicate_entry": 10,
+
+#     "task_count": 100
+# }
+# circle_canvas_info = {
+#     "x": 1550,
+#     "y": 290,
+#     "width": 802,
+#     "height": 602,
+#     "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
+#     "active": True
+# }
+
+
+big_canvas_info_percent = {
+    "x": 1500 / original_width,  # 78.13%
+    "y": 600 / original_height,  # 55.56%
+    "width": 150 / original_width,  # 7.81%
+    "height": 150 / original_height,  # 13.89%
     "endup_angle": numpy.deg2rad(-90),
     "endleft_angle": numpy.deg2rad(-240),
     "endright_angle": numpy.deg2rad(60),
     "outline_color": "SpringGreen3",
-    "outline_width": 5,
+    "outline_width": 5,  # Leave unchanged
     "color": "green",
     "active": True
 }
-small_canvas_info = {
-    "x": 430,
-    "y": 250,
-    "width": 50,
-    "height": 50,
+
+small_canvas_info_percent = {
+    "x": 430 / original_width,  # 22.40%
+    "y": 250 / original_height,  # 23.15%
+    "width": 50 / original_width,  # 2.60%
+    "height": 50 / original_height,  # 4.63%
     "endup_angle": numpy.deg2rad(-90),
     "endleft_angle": numpy.deg2rad(-240),
     "endright_angle": numpy.deg2rad(60),
     "outline_color": "SpringGreen3",
-    "outline_width": 2,
+    "outline_width": 2,  # Leave unchanged
     "color": "green",
     "active": False
-
-
 }
 
-
-timer_canvas_info = {
-    "x": 1725,
-    "y": 75,
-    "width": 200,
-    "height": 50,
+timer_canvas_info_percent = {
+    "x": 1725 / original_width,  # 89.84%
+    "y": 75 / original_height,  # 6.94%
+    "width": 200 / original_width,  # 10.42%
+    "height": 50 / original_height,  # 4.63%
     "color": "blue",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
-timer_lbl_info = {
-    "x": 1800,
-    "y": 60,
-    "width": 50,
-    "height": 17,
+
+timer_label_info_percent = {
+    "x": 1800 / original_width,  # 93.75%
+    "y": 60 / original_height,  # 5.56%
+    "width": 50 / original_width,  # 2.60%
+    "height": 17 / original_height,  # 1.57%
     "color": "blue",
     "font": ('Helvetica', '12', 'bold'),
 }
-task_canvas_info = {
-    "x": 1675,
-    "y": 75,
-    "width": 100,
-    "height": 50,
+
+task_canvas_info_percent = {
+    "x": 1675 / original_width,  # 87.24%
+    "y": 75 / original_height,  # 6.94%
+    "width": 100 / original_width,  # 5.21%
+    "height": 50 / original_height,  # 4.63%
     "color": "green",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
-task_lbl_info = {
-    "x": 1700,
-    "y": 60,
-    "width": 50,
-    "height": 17,
+
+task_label_info_percent = {
+    "x": 1700 / original_width,  # 88.54%
+    "y": 60 / original_height,  # 5.56%
+    "width": 50 / original_width,  # 2.60%
+    "height": 17 / original_height,  # 1.57%
     "color": "green",
     "font": ('Helvetica', '12', 'bold'),
-
 }
 
-miss_canvas_agent_info = {
-    "x": 1400,
-    "y": 75,
-    "width": 100,
-    "height": 50,
+miss_canvas_agent_info_percent = {
+    "x": 1400 / original_width,  # 72.92%
+    "y": 75 / original_height,  # 6.94%
+    "width": 100 / original_width,  # 5.21%
+    "height": 50 / original_height,  # 4.63%
     "color": "red",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
 
-miss_lbl_agent_info = {
-    "x": 1425,
-    "y": 60,
-    "width": 50,
-    "height": 17,
+miss_label_agent_info_percent = {
+    "x": 1425 / original_width,  # 74.22%
+    "y": 60 / original_height,  # 5.56%
+    "width": 50 / original_width,  # 2.60%
+    "height": 17 / original_height,  # 1.57%
     "color": "red",
     "font": ('Helvetica', '12', 'bold'),
 }
 
-
-miss_canvas_operator_info = {
-    "x": 1500,
-    "y": 75,
-    "width": 100,
-    "height": 50,
+miss_canvas_operator_info_percent = {
+    "x": 1500 / original_width,  # 78.13%
+    "y": 75 / original_height,  # 6.94%
+    "width": 100 / original_width,  # 5.21%
+    "height": 50 / original_height,  # 4.63%
     "color": "red",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
 
-miss_lbl_operator_info = {
-    "x": 1515,
-    "y": 60,
-    "width": 70,
-    "height": 17,
+miss_label_operator_info_percent = {
+    "x": 1515 / original_width,  # 78.91%
+    "y": 60 / original_height,  # 5.56%
+    "width": 70 / original_width,  # 3.65%
+    "height": 17 / original_height,  # 1.57%
     "color": "red",
     "font": ('Helvetica', '12', 'bold'),
 }
 
-score_canvas_info = {
-    "x": 1450,
-    "y": 75,
-    "width": 150,
-    "height": 50,
+score_canvas_info_percent = {
+    "x": 1450 / original_width,  # 75.52%
+    "y": 75 / original_height,  # 6.94%
+    "width": 150 / original_width,  # 7.81%
+    "height": 50 / original_height,  # 4.63%
     "color": "blue",
     "font": ('Helvetica', '24', 'bold'),
     "active": False
 }
-score_lbl_info = {
-    "x": 1500,
-    "y": 60,
-    "width": 50,
-    "height": 17,
+
+score_label_info_percent = {
+    "x": 1500 / original_width,  # 78.13%
+    "y": 60 / original_height,  # 5.56%
+    "width": 50 / original_width,  # 2.60%
+    "height": 17 / original_height,  # 1.57%
     "color": "blue",
     "font": ('Helvetica', '12', 'bold'),
-
 }
-score_events = {
-    "step_error": 5,
-    "step_error_danger": 25,
-    
-    "threshold_cross": 25,
-    "threshold_cross_danger": 50,
-    
-    "collision_hit": 50,
-    
-    "wrong_entry": 25,
-    "duplicate_entry": 10,
 
-    "task_count": 100
-}
-circle_canvas_info = {
-    "x": 1550,
-    "y": 290,
-    "width": 802,
-    "height": 602,
+circle_canvas_info_percent = {
+    "x": 1550 / original_width,  # 80.73%
+    "y": 290 / original_height,  # 26.85%
+    "width": 802 / original_width,  # 41.77%
+    "height": 602 / original_height,  # 55.74%
     "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
     "active": True
 }
 
+def convert_to_pixels(percent_info, screen_width, screen_height):
+    pixel_info = {
+        "x": int(percent_info["x"] * screen_width),
+        "y": int(percent_info["y"] * screen_height),
+        "width": int(percent_info["width"] * screen_width),
+        "height": int(percent_info["height"] * screen_height),
+        "endup_angle": percent_info.get("endup_angle", None),  # Keep as is
+        "endleft_angle": percent_info.get("endleft_angle", None),
+        "endright_angle": percent_info.get("endright_angle", None),
+        "outline_color": percent_info.get("outline_color", None),  # Colors stay the same
+        "outline_width": percent_info.get("outline_width", None),  # Leave unchanged
+        "color": percent_info.get("color", None),  # Colors stay the same
+        "active": percent_info.get("active", None)  # Keep the boolean as is
+    }
+    return pixel_info
 
 
 

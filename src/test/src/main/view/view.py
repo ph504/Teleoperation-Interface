@@ -11,7 +11,7 @@ from PIL import ImageTk
 from axis_camera.msg import Axis
 from sensor_msgs.msg import Joy
 import PIL.Image
-from canvas import *
+import canvas
 from camera import * 
 #from dialogue import *
 #from avatar import *
@@ -42,9 +42,6 @@ csv_dialogue_ns = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test
 csv_idle = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/IdleAvatars.csv"
 csv_talking = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/TalkingAvatars.csv"
 csv_reactive = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
-
-
-
 
 
 def init():
@@ -112,8 +109,31 @@ def init():
 def main(): 
     
     root = Tk()
+
+    global big_canvas_info, small_canvas_info
+    global timer_canvas_info, timer_label_info
+    global task_canvas_info, task_label_info
+    global miss_canvas_agent_info, miss_label_agent_info, miss_canvas_operator_info, miss_label_operator_info
+    global score_canvas_info, score_label_info
+    global circle_canvas_info
+
+
     # root.geometry("1440x900")
     width, height = root.winfo_screenwidth(), root.winfo_screenheight()
+    big_canvas_info = canvas.convert_to_pixels(canvas.big_canvas_info_percent, width, height)
+    small_canvas_info = canvas.convert_to_pixels(canvas.small_canvas_info_percent, width, height)
+    timer_canvas_info = canvas.convert_to_pixels(canvas.timer_canvas_info_percent, width, height)
+    timer_label_info = canvas.convert_to_pixels(canvas.timer_label_info_percent, width, height)
+    task_canvas_info = canvas.convert_to_pixels(canvas.task_canvas_info_percent, width, height)
+    task_label_info = canvas.convert_to_pixels(canvas.task_label_info_percent, width, height)
+    miss_canvas_agent_info = canvas.convert_to_pixels(canvas.miss_canvas_agent_info_percent, width, height)
+    miss_label_agent_info = canvas.convert_to_pixels(canvas.miss_label_agent_info_percent, width, height)
+    miss_canvas_operator_info = canvas.convert_to_pixels(canvas.miss_canvas_operator_info_percent, width, height)
+    miss_label_operator_info = canvas.convert_to_pixels(canvas.miss_label_operator_info_percent, width, height)
+    score_canvas_info = canvas.convert_to_pixels(canvas.score_canvas_info_percent, width, height)
+    score_label_info = canvas.convert_to_pixels(canvas.score_label_info_percent, width, height)
+    circle_canvas_info = canvas.convert_to_pixels(canvas.circle_canvas_info_percent, width, height)
+
     # width, height = 1440, 900
     root.geometry('%dx%d+0+0' % (width, height))
     root.title("Jackal Teleoperator GUI")
@@ -158,7 +178,7 @@ def main():
     # rb3 = 0
     cs = 0
     dialogue_end = 0
-
+    print('how')
     
         # bar_canvas, 
     # danger_canvases, 
@@ -284,6 +304,9 @@ def main():
         print('***Arya*** Camera Unavailable.')
         tab1.mainloop()
 
+def camera_widget(root, tab1, tab2):
+    pass
+
 def widget_init(root, tab1, tab2):
 
     # print('***Arya*** Initializing danger and main bar ...')
@@ -292,7 +315,7 @@ def widget_init(root, tab1, tab2):
     # danger_canvases = (BarCanvas(tab1, bar_canvas_info1,danger= True),
     #                        BarCanvas(tab1,bar_canvas_info2, danger= True),
     #                          BarCanvas(tab1,bar_canvas_info3, danger = True))
-
+    
 
     dialogue_text = None
     
@@ -328,6 +351,7 @@ def widget_init(root, tab1, tab2):
 
     
     user_ai = UserAI(root)
+
     view_back = CameraView(tab1, flir_info, camera_available(), "flir")
     view_front = CameraView(tab1, axis_info, camera_available(), "axis")
     manual_button = BaseButton(root, button_manual_info, enable = False)
@@ -347,6 +371,7 @@ def widget_init(root, tab1, tab2):
 
     calibrate_button = BaseButton(root, button_calibrate_info, activate=True, enable=False)
 
+    print('timer_canvas_ info: ', timer_canvas_info, timer_canvas_info_percent)
     timer_canvas = TimerCanvas(root, timer_canvas_info)
     timer_label = Label(root, text="Timer", font=timer_label_info["font"], fg=timer_label_info["color"])
     timer_label.place(x = timer_label_info["x"], y = timer_label_info["y"], width=timer_label_info["width"], height=timer_label_info["height"])
