@@ -1,4 +1,7 @@
 # Social Teleoperation Interface
+## Arya's Master's Thesis Project
+## Supervisor: Dr. Daniel J. Rea
+## Started Fall 2023
 Our main goal was
 to find out whether adding social elements to an interface would increase trust in a teleoperation (remote control of a robot from a distance) system. More information about the methodology, research goals and task design is explained in my master's thesis.
 
