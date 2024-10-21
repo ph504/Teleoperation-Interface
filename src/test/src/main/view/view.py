@@ -170,7 +170,7 @@ def main():
         # rospy.EventManager.subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
 
 
-    global rb1, rb2normal, rb3, 
+    global rb1, rb2normal, rb3
     global cs, dialogue_end
     rb1 = 0 
     rb2normal = 0
@@ -600,7 +600,7 @@ def change_angle(data, canvases):
     prev_angle = data.pan
 
 def joy_config(data, widgets):
-    # global rb1, rb2normal, rb3, cs, dialogue_end
+    global rb1, rb2normal, rb3, cs, dialogue_end
 
     jackal_ai = widgets["jackal_ai"]
 
