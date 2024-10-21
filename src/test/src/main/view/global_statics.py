@@ -1,3 +1,5 @@
+import numpy as np
+import tkinter
 original_width, original_height = 1920, 1080
 
 
@@ -49,9 +51,9 @@ big_canvas_info_percent = {
     "y": 600 / original_height,  # 55.56%
     "width": 150 / original_width,  # 7.81%
     "height": 150 / original_height,  # 13.89%
-    "endup_angle": numpy.deg2rad(-90),
-    "endleft_angle": numpy.deg2rad(-240),
-    "endright_angle": numpy.deg2rad(60),
+    "endup_angle": np.deg2rad(-90),
+    "endleft_angle": np.deg2rad(-240),
+    "endright_angle": np.deg2rad(60),
     "outline_color": "SpringGreen3",
     "outline_width": 5,  # Leave unchanged
     "color": "green",
@@ -63,9 +65,9 @@ small_canvas_info_percent = {
     "y": 250 / original_height,  # 23.15%
     "width": 50 / original_width,  # 2.60%
     "height": 50 / original_height,  # 4.63%
-    "endup_angle": numpy.deg2rad(-90),
-    "endleft_angle": numpy.deg2rad(-240),
-    "endright_angle": numpy.deg2rad(60),
+    "endup_angle": np.deg2rad(-90),
+    "endleft_angle": np.deg2rad(-240),
+    "endright_angle": np.deg2rad(60),
     "outline_color": "SpringGreen3",
     "outline_width": 2,  # Leave unchanged
     "color": "green",
