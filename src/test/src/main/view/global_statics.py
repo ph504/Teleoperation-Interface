@@ -1,5 +1,5 @@
 import numpy as np
-import tkinter
+import tkinter as tk
 original_width, original_height = 1920, 1080
 
 
@@ -232,7 +232,7 @@ button_auto_info_percent = {
     "width": 150 / original_width,
     "height": 50 / original_height,
     "text": "Assisted Mode",
-    "state": DISABLED,
+    "state": tk.DISABLED,
     "tag": 1,
 
 }
@@ -243,7 +243,7 @@ button_manual_info_percent = {
     "width": 150 / original_width,
     "height": 50 / original_height,
     "text": "Manual Mode",
-    "state": ACTIVE,
+    "state": tk.ACTIVE,
     "tag": 2,
 
 }
@@ -254,7 +254,7 @@ button_yes_info_percent = {
     "width": 100 / original_width,
     "height": 30 / original_height,
     "text": "Yes",
-    "state": ACTIVE,
+    "state": tk.ACTIVE,
     "tag": 3,
 
     
@@ -266,7 +266,7 @@ button_no_info_percent = {
     "width": 100 / original_width,
     "height": 30 / original_height,
     "text": "No",
-    "state": ACTIVE,
+    "state": tk.ACTIVE,
     "tag": 3,
 
 }
@@ -277,7 +277,7 @@ button_start_info_percent = {
     "width": 100 / original_width,
     "height": 30 / original_height,
     "text": "Start",
-    "state": ACTIVE,
+    "state": tk.ACTIVE,
     "tag": 5,
  
     
@@ -289,7 +289,7 @@ button_freeze_info_percent = {
     "width": 150 / original_width,
     "height": 50 / original_height,
     "text": "Freeze",
-    "state": ACTIVE,
+    "state": tk.ACTIVE,
     "tag": 6,
 
     
@@ -301,7 +301,7 @@ button_calibrate_info_percent = {
     "width": 150 / original_width,
     "height": 50 / original_height,
     "text": "Calibrate",
-    "state": ACTIVE,
+    "state": tk.ACTIVE,
     "tag": 7,
 
     
