@@ -14,12 +14,13 @@ import global_variables
 #Make it false when you are not working with jackal
 # camera_available = True
 def camera_available():
+    return True
     try:
         node_list = rosnode.get_node_names()
         print(node_list)
     except rosnode.ROSNodeIOException as e:
         rospy.logerr("Error checking node availability: %s", e)
-        return False
+        return True
 
 class CameraView():
     scan_mode = False

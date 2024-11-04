@@ -14,10 +14,9 @@ global freeze_var
 freeze_var = True 
 
 def callback(data):
-    print('yesysytesyseyseyseyesysyesysey')
+    # print('yesysytesyseyseyseyesysyesysey')
     # forward backward motion   
     twist.linear.x = -2 * data.axes[1]
-
     # turning motion
     twist.angular.z = 2 * data.axes[0]      
 
@@ -51,7 +50,9 @@ def start():
         rate = rospy.Rate(30)
 
         while not rospy.is_shutdown():
-            if freeze_var == False: pub_jackal.publish(twist)
+            # print(freeze_var)
+            # if freeze_var == False: pub_jackal.publish(twist)
+            pub_jackal.publish(twist)
             rate.sleep()
              
 

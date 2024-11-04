@@ -348,6 +348,7 @@ def convert_to_pixels(percent_info, screen_width, screen_height):
         "outline_color": percent_info.get("outline_color", None),  # Colors stay the same
         "outline_width": percent_info.get("outline_width", None),  # Leave unchanged
         "color": percent_info.get("color", None),  # Colors stay the same
+        "colors": percent_info.get("colors", None),  # Colors stay the same
         "font": percent_info.get("font", None),
         "active": percent_info.get("active", None)  # Keep the boolean as is
     }

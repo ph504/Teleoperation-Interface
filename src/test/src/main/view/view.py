@@ -116,10 +116,16 @@ def main():
     global miss_canvas_agent_info, miss_label_agent_info, miss_canvas_operator_info, miss_label_operator_info
     global score_canvas_info, score_label_info
     global circle_canvas_info
+    global big_camera_label, small_camera_label, clbr_label, flir_info, axis_info
 
 
     # root.geometry("1440x900")
     width, height = root.winfo_screenwidth(), root.winfo_screenheight()
+    big_camera_label = global_statics.convert_to_pixels(global_statics.big_camera_label_percent, width, height)
+    small_camera_label = global_statics.convert_to_pixels(global_statics.small_camera_label_percent, width, height)
+    clbr_label = global_statics.convert_to_pixels(global_statics.clbr_label_percent, width, height)
+    flir_info = global_statics.convert_to_pixels(global_statics.flir_info_percent, width, height)
+    axis_info = global_statics.convert_to_pixels(global_statics.axis_info_percent, width, height)
     big_canvas_info = global_statics.convert_to_pixels(global_statics.big_canvas_info_percent, width, height)
     small_canvas_info = global_statics.convert_to_pixels(global_statics.small_canvas_info_percent, width, height)
     timer_canvas_info = global_statics.convert_to_pixels(global_statics.timer_canvas_info_percent, width, height)
@@ -133,6 +139,7 @@ def main():
     score_canvas_info = global_statics.convert_to_pixels(global_statics.score_canvas_info_percent, width, height)
     score_label_info = global_statics.convert_to_pixels(global_statics.score_label_info_percent, width, height)
     circle_canvas_info = global_statics.convert_to_pixels(global_statics.circle_canvas_info_percent, width, height)
+
 
     # width, height = 1440, 900
     root.geometry('%dx%d+0+0' % (width, height))
@@ -153,7 +160,7 @@ def main():
     cursor_canvas_big = CursorCanvas(tab1, big_canvas_info)
     cursor_canvas_big.disable()
 
-    if camera_available():    
+    if camera.camera_available():    
         rospy.init_node("viewer", anonymous= True)
         rospy.loginfo("viewer node started ...")
         #global prev_angle 
@@ -292,7 +299,7 @@ def main():
         # bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm)
 
     
-    if camera_available():
+    if camera.camera_available():
         print('***Arya*** Camera Available.')
         try:
             tab1.mainloop()
@@ -350,8 +357,8 @@ def widget_init(root, tab1, tab2):
     
     user_ai = UserAI(root)
 
-    view_back = camera.CameraView(tab1, camera.flir_info, camera.camera_available(), "flir")
-    view_front = camera.CameraView(tab1, camera.axis_info, camera.camera_available(), "axis")
+    view_back = camera.CameraView(tab1, flir_info, camera.camera_available(), "flir")
+    view_front = camera.CameraView(tab1, axis_info, camera.camera_available(), "axis")
     manual_button = BaseButton(root, button_manual_info, enable = False)
     auto_button = BaseButton(root, button_auto_info, enable= False)
     countdown = CountdownCanvas(root, countdown_info)
@@ -369,7 +376,7 @@ def widget_init(root, tab1, tab2):
 
     calibrate_button = BaseButton(root, button_calibrate_info, activate=True, enable=False)
 
-    print('timer_canvas_ info: ', timer_canvas_info, timer_canvas_info_percent)
+    print('timer_canvas_ info: ', timer_canvas_info, timer_canvas_info)
     timer_canvas = TimerCanvas(root, timer_canvas_info)
     timer_label = Label(root, text="Timer", font=timer_label_info["font"], fg=timer_label_info["color"])
     timer_label.place(x = timer_label_info["x"], y = timer_label_info["y"], width=timer_label_info["width"], height=timer_label_info["height"])
