@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
+import random
 import numpy as np
 import cv2
 from playsound import playsound
@@ -661,6 +662,10 @@ def joy_config(data, widgets):
 def playsound_beep_thread():
     x = threading.Thread(target=playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav"))   
     x.start()
+
+def playsound_animalese_thread():
+    x = threading.Thread(target=playsound(random.choice(global_variables.animalese_sound_dir)))
+    x.start
 
 if __name__ == "__main__":
     init()
