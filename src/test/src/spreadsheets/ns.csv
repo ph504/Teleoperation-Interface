@@ -18,7 +18,7 @@ ns,congrats,0,None,None,None,1-> scan successful <xc45>,FALSE,FALSE,5,0
 ns,collision,0,None,None,None,1->log error: collision detected. <5ed0>,FALSE,FALSE,5,0
 ns,mistake,0,None,None,None,1->log error: system mistake <ee00>,TRUE,FALSE,5,0
 ns,end,0,None,None,None,1-> experiment finish: true\ 2-> command: approach experimenter\ 3-> exiting ...,FALSE,FALSE,5,0
-,,,,,,,,,
+,,,,,,,,,,,
 ns,t_start_q,1,None,None,Start,"1-> login: Jackal, FM06 -> purpose: robot training\3-> situation: space exploration\4-> main objective: find and scan equipment\5-> secondary objective: log temperature degree\6-> area: mars research facility\7-> session: training",FALSE,TRUE,0,5
 ns,t_start_a,0,None,None,None,1-> mission start: true<7vg6>,FALSE,FALSE,5,0
 ns,t_danger_w,0,None,None,None,1-> log warning: additional variable detected (Dust Storm)\ 2-> log warning: additional variable detected (Radiation)\ 3-> mode – 1 (MANUAL): user control in secondary task \4-> mode – 2 (ASSISTED): system control in secondary task\ 5-> log warning: mode cannot be changed,FALSE,FALSE,5,0
