@@ -5,6 +5,7 @@
 # change the ROS_HOSTNAME to ip address
 IP_ADDR=$(hostname -I | awk '{print $1}')
 BASHRC_FILE="$HOME/.bashrc"
+source "$BASHRC_FILE"
 
 # Check if ROS_HOSTNAME is already in .bashrc
 if grep -q "^export ROS_HOSTNAME=" "$BASHRC_FILE"; then
@@ -13,10 +14,10 @@ if grep -q "^export ROS_HOSTNAME=" "$BASHRC_FILE"; then
 else
     # If it doesn't exist, add it to the end of .bashrc
     echo "export ROS_HOSTNAME=$IP_ADDR" >> "$BASHRC_FILE"
+    source "$BASHRC_FILE"
 fi
 
 # Source the .bashrc to apply changes immediately
-source "$BASHRC_FILE"
 
 # Attempt to list ROS nodes
 rosnode list > /dev/null 2>&1
@@ -49,6 +50,8 @@ fi
 
 # echo "Activating Joystick in a seperate terminal"
 # gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
+rosparam set joy_node/dev "/dev/input/js1"
+# sleep 1
 rosrun joy joy_node &
 
 # echo "Joystick Activated"
