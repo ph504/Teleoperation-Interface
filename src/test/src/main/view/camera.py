@@ -1,6 +1,7 @@
 from PIL import ImageTk
 from tkinter import *
 import rospy
+import rosnode
 from sensor_msgs.msg import CompressedImage
 import cv2
 import PIL.Image
@@ -11,23 +12,15 @@ import global_variables
 
 
 #Make it false when you are not working with jackal
-camera_available = True
-
-flir_info = {
-    "x": 15,
-    "y": 50,
-    "width": 400,
-    "height": 300,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
-}
-axis_info = {
-    "x": 560,
-    "y": 150,
-    "width": 800,
-    "height": 600,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
-}
-
+# camera_available = True
+def camera_available():
+    return True
+    try:
+        node_list = rosnode.get_node_names()
+        print(node_list)
+    except rosnode.ROSNodeIOException as e:
+        rospy.logerr("Error checking node availability: %s", e)
+        return True
 
 class CameraView():
     scan_mode = False
@@ -62,7 +55,7 @@ class CameraView():
         EventManager.subscribe("color_trans", self.color_transition)
 
         #??
-        if cam_available == True:
+        if cam_available:
             if self.camera == "flir":
                 rospy.loginfo("using flir")
                 self.flir_image = rospy.Subscriber("/camera/image_color/compressed", CompressedImage, self.update_image, queue_size=1)
@@ -130,9 +123,9 @@ class CameraView():
 
     def image_placeholder(self, string):
         if string == "flir":
-            img = PIL.Image.open("/home/pouya/catkin_ws/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), PIL.Image.ANTIALIAS)
+            img = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), PIL.Image.ANTIALIAS)
         else:
-            img = PIL.Image.open("/home/pouya/catkin_ws/src/test/src/images/kirby.jpg").resize((self.width,self.height), PIL.Image.ANTIALIAS)
+            img = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/kirby.jpg").resize((self.width,self.height), PIL.Image.ANTIALIAS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)

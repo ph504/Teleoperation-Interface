@@ -1,10 +1,2 @@
 # Hashes of file build rules.
-e0ab8115cf81985ce666a8ca1f74690f /home/pouya/catkin_ws/devel/include/axis_camera/Axis.h
-9e51f2a52c635e692cfaeeb6045825e2 /home/pouya/catkin_ws/devel/include/axis_camera/PTZConfig.h
-2337544b98e0d6387a0ea2abf2b17d40 /home/pouya/catkin_ws/devel/lib/python3/dist-packages/axis_camera/msg/_Axis.py
-8348f3d41b2a81f7cf1e6e6ff392669e /home/pouya/catkin_ws/devel/lib/python3/dist-packages/axis_camera/msg/__init__.py
-a1512785fb24be6d23aaae2a5ddd8214 /home/pouya/catkin_ws/devel/share/common-lisp/ros/axis_camera/msg/Axis.lisp
-0cb73da5f99f327781cb05d6164ac57a /home/pouya/catkin_ws/devel/share/gennodejs/ros/axis_camera/msg/Axis.js
-8f3ccb84a4d226232f8805ccc16b7feb /home/pouya/catkin_ws/devel/share/roseus/ros/axis_camera/manifest.l
-e6050e0476d2c776d184d4a9e9b7fe61 /home/pouya/catkin_ws/devel/share/roseus/ros/axis_camera/msg/Axis.l
-289ebc9482173060e8f0056a816d3036 CMakeFiles/clean_test_results
+64846032f7ee44c0ab53aac0866493d5 CMakeFiles/clean_test_results

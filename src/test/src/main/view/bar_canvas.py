@@ -245,7 +245,7 @@ class BarCanvas(BaseCanvas):
         
     def playsound_if_manual(self):
         if not global_variables.jackalai_active:
-            #playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+            #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/error.wav", block=False)
             global_variables.error_sound.play()
             
 
@@ -322,21 +322,21 @@ class BarCanvas(BaseCanvas):
     def user_reset(self):
 
         if self.passed:
-            #playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False)
+            #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav", block=False)
             global_variables.beep_sound.play()
             self.reset_bar()
         else:
-            pass#playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+            pass#playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/error.wav", block=False)
 
         EventManager.post_event("user_reset", self)
 
     def jackal_reset(self, state):   
         if state == "yellow":
-            #playsound("/home/pouya/catkin_ws/src/test/src/sounds/beep.wav", block=False) 
+            #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav", block=False) 
             global_variables.beep_sound.play()
             self.reset_bar()
         elif state == "red_init":
-            #playsound("/home/pouya/catkin_ws/src/test/src/sounds/error.wav", block=False)
+            #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/error.wav", block=False)
             global_variables.error_sound.play()
             self.reset_bar()
 
