@@ -5,7 +5,7 @@ import random
 import numpy as np
 import cv2
 from playsound import playsound
-from state import *
+import state
 from tkinter import * 
 from tkinter.ttk import *
 from PIL import ImageTk
@@ -257,11 +257,11 @@ def main():
     
     inspection_page = InspectionPage(tab2, task_canvas)
     if not global_variables.tutorial_mode:
-        gui_sfm = TeleopGUIMachine(timer_canvas, avalogue, dialogue_text, manual_button, auto_button, jackal_avatar= None, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai, cntdwn= countdown)
+        gui_sfm = state.TeleopGUIMachine(timer_canvas, avalogue, dialogue_text, manual_button, auto_button, jackal_avatar= None, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai, cntdwn= countdown)
         # gui_sfm = TeleopGUIMachine(timer_canvas, avalogue, dialogue_text, manual_button, auto_button, jackal_avatar= None, flashing_image=flashing_image, tsk_cnvs=task_canvas, cmr_frm = view_front, jckl_ai= jackal_ai, cntdwn= countdown)
         
     else:
-        tutorial_fsm = TutorialGUIMachine(timer= timer_canvas, amode_btn=auto_button, flashing_image= flashing_image, jckl_ai= jackal_ai, nmode_btn= manual_button, avalogue= avalogue)
+        tutorial_fsm = state.TutorialGUIMachine(timer= timer_canvas, amode_btn=auto_button, flashing_image= flashing_image, jckl_ai= jackal_ai, nmode_btn= manual_button, avalogue= avalogue)
         # tutorial_fsm = TutorialGUIMachine(timer= timer_canvas, amode_btn=auto_button, flashing_image= flashing_image, jckl_ai= jackal_ai, nmode_btn= manual_button, avalogue= avalogue)
 
     
@@ -546,11 +546,11 @@ def server_program():
                     
                         print("From connected user: " + data)
                         if int(data) == 0:
-                            Logger.log("calibration", 1)
+                            Logger.log("calibration", 1) # type: ignore
                             EventManager.post_event("activate_calibration", -1) # type: ignore
                         else:
-                            Logger.log("collision", data)
-                            EventManager.post_event("collision", data)
+                            Logger.log("collision", data) # type: ignore
+                            EventManager.post_event("collision", data) # type: ignore
             
             except Exception as e:
                 print("shit happened: " + str(e))  
