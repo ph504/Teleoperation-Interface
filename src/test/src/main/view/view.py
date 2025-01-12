@@ -293,8 +293,7 @@ def widget_init(root, tab1, tab2):
         widgets['task_canvas'] = TaskCanvas(root, task_canvas_info)
         widgets['circle_canvas'] = CircleCanvas(tab2, circle_canvas_info) if not global_variables.practice_mode else None
         widgets['score_canvas'] = None
-        widgets['dialogue_text'] = None
-
+        
     def initialize_labels():
         widgets['small_label'] = CameraLabel(tab1, small_camera_label, "Back Camera")
         widgets['big_label'] = CameraLabel(tab1, big_camera_label, "Front Camera")
@@ -309,15 +308,32 @@ def widget_init(root, tab1, tab2):
         task_label = Label(root, text="Task", font=task_label_info["font"], fg=task_label_info["color"])
         task_label.place(x = task_label_info["x"], y = task_label_info["y"], width=task_label_info["width"], height=task_label_info["height"])
 
+    def initialize_dialogue_system():
+        if not global_variables.tutorial_mode or global_variables.practice_mode:
+            widgets['dialogue_view'] = DialogueView(root, dialogueview_info)
+            widgets['dialogue_model'] = DialogueModel(root, csv_dialogue_ns if not global_variables.social_mode else csv_dialogue_s)
+            widgets['avatar_view'] = AvatarView(root, javatar_info, global_variables.social_mode)
+            widgets['avatar_model'] = AvatarModel(csv_idle, csv_talking, csv_reactive)
+
+            widgets['avalogue'] = AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
+
+            if not global_variables.tutorial_mode:
+                widgets['avalogue'].set_avalogue("t_default", "start_q")
+            else:
+                widgets['avalogue'].set_avalogue("t_default", "t_start_q")
+        else:
+            widgets['avatar_view'] = None
+            widgets['avatar_model'] = None
+            widgets['avalogue'] = None
+            widgets['dialogue_view'] = None
+            widgets['dialogue_model'] = None
+        widgets['dialogue_text'] = None
+
     def initialize_misc_components():
         widgets['miss_canvas_operator'] = MissCanavas(root, miss_canvas_operator_info, "operator")
         widgets['miss_canvas_agent'] = MissCanavas(root, miss_canvas_agent_info, "agent")
         widgets['flashing_image'] = FlashingImage(root, flashing_image_info)
-        widgets['avalogue'] = AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
-        if not global_variables.tutorial_mode:
-            widgets['avalogue'].set_avalogue("t_default", "start_q")
-        else:
-            widgets['avalogue'].set_avalogue("t_default", "t_start_q")
+
 
     def initialize_ai():
         widgets['jackal_ai'] = JackalAI(root)
@@ -328,6 +344,7 @@ def widget_init(root, tab1, tab2):
     initialize_buttons()
     initialize_canvases()
     initialize_labels()
+    initialize_dialogue_system()
     initialize_misc_components()
     initialize_ai()
 
