@@ -293,7 +293,7 @@ def widget_init(root, tab1, tab2):
         widgets['task_canvas'] = TaskCanvas(root, task_canvas_info)
         widgets['circle_canvas'] = CircleCanvas(tab2, circle_canvas_info) if not global_variables.practice_mode else None
         widgets['score_canvas'] = None
-        
+
     def initialize_labels():
         widgets['small_label'] = CameraLabel(tab1, small_camera_label, "Back Camera")
         widgets['big_label'] = CameraLabel(tab1, big_camera_label, "Front Camera")
@@ -307,7 +307,7 @@ def widget_init(root, tab1, tab2):
         miss_label_agent.place(x = miss_label_agent_info["x"], y = miss_label_agent_info["y"], width=miss_label_agent_info["width"], height=miss_label_agent_info["height"])
         task_label = Label(root, text="Task", font=task_label_info["font"], fg=task_label_info["color"])
         task_label.place(x = task_label_info["x"], y = task_label_info["y"], width=task_label_info["width"], height=task_label_info["height"])
-
+        
     def initialize_dialogue_system():
         if not global_variables.tutorial_mode or global_variables.practice_mode:
             widgets['dialogue_view'] = DialogueView(root, dialogueview_info)
