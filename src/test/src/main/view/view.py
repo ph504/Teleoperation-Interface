@@ -307,12 +307,7 @@ def widget_init(root, tab1, tab2):
         miss_label_agent.place(x = miss_label_agent_info["x"], y = miss_label_agent_info["y"], width=miss_label_agent_info["width"], height=miss_label_agent_info["height"])
         task_label = Label(root, text="Task", font=task_label_info["font"], fg=task_label_info["color"])
         task_label.place(x = task_label_info["x"], y = task_label_info["y"], width=task_label_info["width"], height=task_label_info["height"])
-
-    def initialize_misc_components():
-        widgets['miss_canvas_operator'] = MissCanavas(root, miss_canvas_operator_info, "operator")
-        widgets['miss_canvas_agent'] = MissCanavas(root, miss_canvas_agent_info, "agent")
-        widgets['flashing_image'] = FlashingImage(root, flashing_image_info)
-
+        
     def initialize_dialogue_system():
         if not global_variables.tutorial_mode or global_variables.practice_mode:
             widgets['dialogue_view'] = DialogueView(root, dialogueview_info)
@@ -334,6 +329,12 @@ def widget_init(root, tab1, tab2):
             widgets['dialogue_model'] = None
         widgets['dialogue_text'] = None
 
+    def initialize_misc_components():
+        widgets['miss_canvas_operator'] = MissCanavas(root, miss_canvas_operator_info, "operator")
+        widgets['miss_canvas_agent'] = MissCanavas(root, miss_canvas_agent_info, "agent")
+        widgets['flashing_image'] = FlashingImage(root, flashing_image_info)
+
+
     def initialize_ai():
         widgets['jackal_ai'] = JackalAI(root)
         widgets['user_ai'] = UserAI(root)
@@ -343,6 +344,7 @@ def widget_init(root, tab1, tab2):
     initialize_buttons()
     initialize_canvases()
     initialize_labels()
+    initialize_dialogue_system()
     initialize_misc_components()
     initialize_ai()
 
