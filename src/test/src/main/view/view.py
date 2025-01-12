@@ -313,6 +313,11 @@ def widget_init(root, tab1, tab2):
         widgets['miss_canvas_operator'] = MissCanavas(root, miss_canvas_operator_info, "operator")
         widgets['miss_canvas_agent'] = MissCanavas(root, miss_canvas_agent_info, "agent")
         widgets['flashing_image'] = FlashingImage(root, flashing_image_info)
+        widgets['avalogue'] = AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
+        if not global_variables.tutorial_mode:
+            widgets['avalogue'].set_avalogue("t_default", "start_q")
+        else:
+            widgets['avalogue'].set_avalogue("t_default", "t_start_q")
 
     def initialize_ai():
         widgets['jackal_ai'] = JackalAI(root)
