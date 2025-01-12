@@ -278,93 +278,54 @@ def widget_init(root, tab1, tab2):
     print('***Arya*** Initializing Widgets ...')
     widgets = {}
 
-    
-    print('***Arya*** Initializing Avalogue ...')
-    # if not global_variables.tutorial_mode or global_variables.practice_mode:
+    def initialize_camera_views():
+        widgets['view_back'] = camera.CameraView(tab1, flir_info, camera.camera_available(), "flir")
+        widgets['view_front'] = camera.CameraView(tab1, axis_info, camera.camera_available(), "axis")
 
-    #     # init the dialogue view
-    #     # the dialogue view is the visualization specs of the dialogue box
-    #     widgets['dialogue_view'] = DialogueView(root, dialogueview_info)
-    #     widgets['dialogue_model'] = None
-    #     if not global_variables.social_mode:
-    #         widgets['dialogue_model'] = DialogueModel(root, csv_dialogue_ns)
-    #     else:
-    #         widgets['dialogue_model'] = DialogueModel(root, csv_dialogue_s)
-            
-    #     widgets['avatar_view'] = AvatarView(root, javatar_info, global_variables.social_mode)
-    #     widgets['avatar_model'] = AvatarModel(csv_idle, csv_talking, csv_reactive)
+    def initialize_buttons():
+        widgets['manual_button'] = BaseButton(root, button_manual_info, enable=False)
+        widgets['auto_button'] = BaseButton(root, button_auto_info, enable=False)
+        widgets['calibrate_button'] = BaseButton(root, button_calibrate_info, activate=True, enable=False)
 
-    #     widgets['avalogue'] = AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
-        
-    #     if not global_variables.tutorial_mode:
-    #         widgets['avalogue'].set_avalogue("t_default","start_q")
-    #     else:
-    #         widgets['avalogue'].set_avalogue("t_default","t_start_q")
+    def initialize_canvases():
+        widgets['countdown'] = CountdownCanvas(root, countdown_info)
+        widgets['timer_canvas'] = TimerCanvas(root, timer_canvas_info)
+        widgets['task_canvas'] = TaskCanvas(root, task_canvas_info)
+        widgets['circle_canvas'] = CircleCanvas(tab2, circle_canvas_info) if not global_variables.practice_mode else None
+        widgets['score_canvas'] = None
+        widgets['dialogue_text'] = None
 
-    # else:
-    #     widgets['avatar_view'] = None
-    #     widgets['avatar_model'] = None
-    #     widgets['avalogue'] = None
-    #     widgets['dialogue_view'] = None
-    #     widgets['dialogue_model'] = None
-    widgets['dialogue_text'] = None
+    def initialize_labels():
+        widgets['small_label'] = CameraLabel(tab1, small_camera_label, "Back Camera")
+        widgets['big_label'] = CameraLabel(tab1, big_camera_label, "Front Camera")
+        widgets['calibrate_label'] = CalibrateLabel(root, clbr_label, "")
 
-    user_ai = UserAI(root)
+        timer_label = Label(root, text="Timer", font=timer_label_info["font"], fg=timer_label_info["color"])
+        timer_label.place(x = timer_label_info["x"], y = timer_label_info["y"], width=timer_label_info["width"], height=timer_label_info["height"])
+        miss_label_operator = Label(root, text="Operator", font=miss_label_operator_info["font"], fg=miss_label_operator_info["color"])
+        miss_label_operator.place(x = miss_label_operator_info["x"], y = miss_label_operator_info["y"], width=miss_label_operator_info["width"], height=miss_label_operator_info["height"])
+        miss_label_agent = Label(root, text="Agent", font=miss_label_agent_info["font"], fg=miss_label_agent_info["color"])
+        miss_label_agent.place(x = miss_label_agent_info["x"], y = miss_label_agent_info["y"], width=miss_label_agent_info["width"], height=miss_label_agent_info["height"])
+        task_label = Label(root, text="Task", font=task_label_info["font"], fg=task_label_info["color"])
+        task_label.place(x = task_label_info["x"], y = task_label_info["y"], width=task_label_info["width"], height=task_label_info["height"])
 
-    widgets['view_back'] = camera.CameraView(tab1, flir_info, camera.camera_available(), "flir")
-    widgets['view_front'] = camera.CameraView(tab1, axis_info, camera.camera_available(), "axis")
-    widgets['manual_button'] = BaseButton(root, button_manual_info, enable = False)
-    widgets['auto_button'] = BaseButton(root, button_auto_info, enable= False)
-    widgets['countdown'] = CountdownCanvas(root, countdown_info)
-   
-    #yes_button = BaseButton(root, button_yes_info, activate=False, enable=False)
-    #no_button = BaseButton(root, button_no_info, activate = False, enable=False)
-    #if not global_variables.tutorial_mode:
-     #   start_button = BaseButton(root, button_start_info, activate=True, enable=False)
-    #else: start_button = None
-    
-    if global_variables.tutorial_mode and global_variables.practice_mode == False:
-        freeze_button = BaseButton(root, button_freeze_info, activate=True, enable=False)
-    else:
-        freeze_button = BaseButton(root, button_freeze_info, activate=True, enable=True)
+    def initialize_misc_components():
+        widgets['miss_canvas_operator'] = MissCanavas(root, miss_canvas_operator_info, "operator")
+        widgets['miss_canvas_agent'] = MissCanavas(root, miss_canvas_agent_info, "agent")
+        widgets['flashing_image'] = FlashingImage(root, flashing_image_info)
 
-    widgets['calibrate_button'] = BaseButton(root, button_calibrate_info, activate=True, enable=False)
+    def initialize_ai():
+        widgets['jackal_ai'] = JackalAI(root)
+        widgets['user_ai'] = UserAI(root)
 
-    widgets['timer_canvas'] = TimerCanvas(root, timer_canvas_info)
-    timer_label = Label(root, text="Timer", font=timer_label_info["font"], fg=timer_label_info["color"])
-    timer_label.place(x = timer_label_info["x"], y = timer_label_info["y"], width=timer_label_info["width"], height=timer_label_info["height"])
+    # Call the modularized initialization functions
+    initialize_camera_views()
+    initialize_buttons()
+    initialize_canvases()
+    initialize_labels()
+    initialize_misc_components()
+    initialize_ai()
 
-    # initializing the camera labels.
-    widgets['small_label'] = CameraLabel(tab1, small_camera_label, "Back Camera")
-    widgets['big_label'] = CameraLabel(tab1, big_camera_label, "Front Camera")
-    widgets['calibrate_label'] = CalibrateLabel(root, clbr_label, "")
-    
-
-    widgets['score_canvas'] = None
-    #score_canvas = ScoreCanvas(root, score_canvas_info)
-    #score_label = Label(root, text="Score", font=score_label_info["font"], fg=score_label_info["color"])
-    #score_label.place(x = score_label_info["x"], y = score_label_info["y"], width=score_label_info["width"], height=score_label_info["height"])
-    
-    
-    if not global_variables.practice_mode: widgets['circle_canvas'] = CircleCanvas(tab2, circle_canvas_info)
-    else: widgets['circle_canvas'] = None
-    
-    miss_canvas_operator = MissCanavas(root,miss_canvas_operator_info, "operator")
-    miss_label_operator = Label(root, text="Operator", font=miss_label_operator_info["font"], fg=miss_label_operator_info["color"])
-    miss_label_operator.place(x = miss_label_operator_info["x"], y = miss_label_operator_info["y"], width=miss_label_operator_info["width"], height=miss_label_operator_info["height"])
-    
-    miss_canvas_agent = MissCanavas(root,miss_canvas_agent_info, "agent")
-    miss_label_agent = Label(root, text="Agent", font=miss_label_agent_info["font"], fg=miss_label_agent_info["color"])
-    miss_label_agent.place(x = miss_label_agent_info["x"], y = miss_label_agent_info["y"], width=miss_label_agent_info["width"], height=miss_label_agent_info["height"])
-
-    widgets['task_canvas'] = TaskCanvas(root, task_canvas_info)
-    task_label = Label(root, text="Task", font=task_label_info["font"], fg=task_label_info["color"])
-    task_label.place(x = task_label_info["x"], y = task_label_info["y"], width=task_label_info["width"], height=task_label_info["height"])
-
-    widgets['flashing_image'] = FlashingImage(root, flashing_image_info)
-
-    widgets['jackal_ai'] = JackalAI(root)
-    
     return widgets
 #############################################################################
 
