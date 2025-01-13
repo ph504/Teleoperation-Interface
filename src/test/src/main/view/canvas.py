@@ -161,18 +161,18 @@ class TaskCanvas(BaseCanvas):
             
         #Danger State I
             if c == 2:
-                self.fsm.s12()
+                self.fsm.start_to_danger1_start()
             elif c == 4:
                 if self.fsm.is_s2:
-                    self.fsm.s23()
+                    self.fsm.danger1_start_to_danger1_end()
 
             #Danger State II
             elif c == 6:
                 if self.fsm.is_s3:
-                    self.fsm.s34()
+                    self.fsm.danger1_end_to_danger2_start()
             elif c == 8:
                 if self.fsm.is_s4:
-                    self.fsm.s45()
+                    self.fsm.danger2_start_to_danger2_end()
 
             if c == 9:
                 #just to stop going forward, validating new codes will be denied until user makes a choice in
@@ -182,28 +182,28 @@ class TaskCanvas(BaseCanvas):
             #Danger State III
             elif c == 10:
                 if self.fsm.is_s7:
-                    self.fsm.s78()
+                    self.fsm.decision_outcome_to_danger3_start()
             elif c == 12:
                 if self.fsm.is_s8:
-                    self.fsm.s89()
+                    self.fsm.danger3_start_to_danger3_end()
             
             #End
             elif c == 13:
-                self.fsm.s910()
+                self.fsm.danger3_end_to_termination()
         else:
             
             if c != 5:
                 EventManager.post_event("congratulations", -1)
 
             if c == 2:
-                self.fsm.s12()
+                self.fsm.start_to_danger1_start()
             elif c == 4:
                 if self.fsm.is_s2:
-                    self.fsm.s23()
+                    self.fsm.danger1_start_to_danger1_end()
 
             if c == 5:
                 if self.fsm.is_s3:
-                    self.fsm.s34()
+                    self.fsm.danger1_end_to_danger2_start()
             
             
 

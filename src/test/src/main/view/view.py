@@ -232,7 +232,7 @@ def main():
     else:
         tutorial_fsm = state.TutorialGUIMachine(timer= widgets['timer_canvas'], amode_btn=widgets['auto_button'], flashing_image= widgets['flashing_image'], jckl_ai= widgets['jackal_ai'], nmode_btn= widgets['manual_button'], avalogue= widgets['avalogue'])
 
-    #if not global_variables.tutorial_mode: start_button.add_event(gui_fsm.s01)
+    #if not global_variables.tutorial_mode: start_button.add_event(gui_fsm.initializing_to_start)
     #if not global_variables.tutorial_mode: yes_button.add_event(gui_fsm.on_yes)
     #if not global_variables.tutorial_mode: no_button.add_event(gui_fsm.on_no)
     if not global_config.tutorial_mode: 
@@ -390,7 +390,7 @@ def start_tutorial(tab, t_fsm):
     tab.unbind_all('b')
     tab.unbind_all('a')
     tab.unbind_all('9')
-    t_fsm.s01()
+    t_fsm.initializing_to_start()
 
 def color_transition_reverse(view_b, view_f, circle_canvas):
     view_b.color_transition_reverse()

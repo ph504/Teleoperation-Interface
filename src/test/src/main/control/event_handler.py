@@ -6,11 +6,6 @@ class EventManager():
 
     subscribers = defaultdict(list)
     
-    
-    def __init__():
-        pass
-        
-
     def subscribe(event_type, fn):
         EventManager.subscribers[event_type].append(fn)
 

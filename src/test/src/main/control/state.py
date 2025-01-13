@@ -39,7 +39,7 @@ class TeleopGUIMachine(StateMachine):
         self.camera_frame = cmr_frm
         self.jackal_ai = jckl_ai
         self.countdown_canvas = cntdwn
-        utils.register("Start", self.s01)
+        utils.register("Start", self.initializing_to_start)
         utils.register("Yes", self.on_yes)
         utils.register("No", self.on_no)
 
@@ -48,28 +48,28 @@ class TeleopGUIMachine(StateMachine):
         EventManager.subscribe("start_cntdwn", self.start_cntdwn) # type: ignore
 
     #states
-    s0 = State('S0', initial= True) 
-    s1 = State('S1') #Start 
-    s2 = State('S2') #Danger Start I
-    s3 = State('S3') #Danger End I
-    s4 = State('S4') #Danger Start II
-    s5 = State('S5') #Danger End II
-    s6 = State('S6') #Choice Q
-    s7 = State('S7') #Choice A Y/N
-    s8 = State('S8') #Danger State Start III Y / Danger State Start III N
-    s9 = State('S9') #Danger State End III Y / Danger State End III N
-    s10 = State('S10') #End
+    state_initializing = State('state_initializing', initial= True) 
+    state_start = State('state_start') #Start 
+    state_danger1_start = State('state_danger1_start') #Danger Start I
+    state_danger1_end = State('state_danger1_end') #Danger End I
+    state_danger2_start = State('state_danger2_start') #Danger Start II
+    state_danger2_end = State('state_danger2_end') #Danger End II
+    state_decision_prompt = State('state_decision_prompt') #Choice Q
+    state_decision_outcome = State('state_decision_outcome') #Choice A Y/N
+    state_danger3_start = State('state_danger3_start') #Danger State Start III Y / Danger State Start III N
+    state_danger3_end = State('state_danger3_end') #Danger State End III Y / Danger State End III N
+    state_termination = State('state_termination') #End
 
-    s01 = s0.to(s1) #Start 
-    s12 = s1.to(s2) #Danger Start I 
-    s23 = s2.to(s3) #Danger End I
-    s34 = s3.to(s4) #Danger Start II
-    s45 = s4.to(s5) #Danger End II
-    s56 = s5.to(s6) #Choice Q
-    s67 = s6.to(s7) #Choice A Y/N
-    s78 = s7.to(s8) #Danger State Start III Y / Danger State Start III N
-    s89 = s8.to(s9) #Danger State End III Y / Danger State End III N
-    s910 = s9.to(s10) #End
+    initializing_to_start = state_initializing.to(state_start) #Start 
+    start_to_danger1_start = state_start.to(state_danger1_start) #Danger Start I 
+    danger1_start_to_danger1_end = state_danger1_start.to(state_danger1_end) #Danger End I
+    danger1_end_to_danger2_start = state_danger1_end.to(state_danger2_start) #Danger Start II
+    danger2_start_to_danger2_end = state_danger2_start.to(state_danger2_end) #Danger End II
+    danger2_end_to_decision_prompt = state_danger2_end.to(state_decision_prompt) #Choice Q
+    decision_prompt_to_decision_outcome = state_decision_prompt.to(state_decision_outcome) #Choice A Y/N
+    decision_outcome_to_danger3_start = state_decision_outcome.to(state_danger3_start) #Danger State Start III Y / Danger State Start III N
+    danger3_start_to_danger3_end = state_danger3_start.to(state_danger3_end) #Danger State End III Y / Danger State End III N
+    danger3_end_to_termination = state_danger3_end.to(state_termination) #End
 
     DANGER_START_TIMER = 10
     DANGER_END_TIMER = 10
@@ -116,10 +116,10 @@ class TeleopGUIMachine(StateMachine):
         time.sleep(15)
         self.avalogue.set_avalogue("t_sad", "danger_fail")
 
-    #S1 --- Start
+    #state_start --- Start
     def on_s01 (self):
         def start():
-            print("***S1 --- Start***")
+            print("***state_start --- Start***")
             EventManager.post_event("unfreeze", -1) # type: ignore
             EventManager.post_event("start_move_bars", -1) # type: ignore
             self.timer.start()
@@ -128,10 +128,10 @@ class TeleopGUIMachine(StateMachine):
         x = threading.Thread(target= start)
         x.start() 
                         
-    #S2 --- Danger Start I
+    #state_danger1_start --- Danger Start I
     def on_s12 (self): 
         def danger_start1():
-            print("***S2 --- Danger Start I***")
+            print("***state_danger1_start --- Danger Start I***")
             time.sleep(self.DANGER_START_TIMER)
 
             self.avalogue.set_avalogue("t_default", "danger_s1")
@@ -143,10 +143,10 @@ class TeleopGUIMachine(StateMachine):
         y = threading.Thread(target=danger_start1)
         y.start()
         
-    #S3 --- Danger End I
+    #state_danger1_end --- Danger End I
     def on_s23 (self): 
         def danger_end1():
-            print("***S3 --- Danger End I***")
+            print("***state_danger1_end --- Danger End I***")
             time.sleep(self.DANGER_END_TIMER)    
             self.avalogue.set_avalogue("t_sad", "danger_e1")
 
@@ -162,10 +162,10 @@ class TeleopGUIMachine(StateMachine):
         x = threading.Thread(target=danger_end1)
         x.start()
  
-    #S4 --- Danger Start II
+    #state_danger2_start --- Danger Start II
     def on_s34(self): 
         def danger_start2():
-            print("***S4 --- Danger Start II***")
+            print("***state_danger2_start --- Danger Start II***")
             time.sleep(self.DANGER_START_TIMER)
             
             self.avalogue.set_avalogue("t_default", "danger_s2")
@@ -185,22 +185,22 @@ class TeleopGUIMachine(StateMachine):
             print("YESSS")
             self.is_yes = True
             Logger.log("CHOICE", "YES") # type: ignore
-            self.s67()
+            self.decision_prompt_to_decision_outcome()
         
     def on_no(self):
         if self.is_yes == None:
             print("NOOOO")
             self.is_yes = False
             Logger.log("CHOICE", "NO") # type: ignore
-            self.s67()  
+            self.decision_prompt_to_decision_outcome()  
      
     def start_cntdwn(self, dummy = 0):
         self.countdown_canvas.start_countdown()
 
-    #S5 --- #Danger End II
+    #state_danger2_end --- #Danger End II
     def on_s45 (self):
         def danger_end2():
-            print("***S5 --- #Danger End II***")
+            print("***state_danger2_end --- #Danger End II***")
             time.sleep(self.DANGER_END_TIMER/2)
             time.sleep(self.DANGER_END_TIMER)
             self.avalogue.set_avalogue("t_default", "danger_e2")
@@ -212,17 +212,17 @@ class TeleopGUIMachine(StateMachine):
             x.start()
             
 
-            self.s56()
+            self.danger2_end_to_decision_prompt()
 
         x = threading.Thread(target=danger_end2)
         x.start()
 
-    #S6 --- Choice Q
+    #state_decision_prompt --- Choice Q
     def on_s56 (self): 
         def choice_q():
            #sleep for 30 seconds
            time.sleep(35)
-           print("***S6 --- Choice Q***")
+           print("***state_decision_prompt --- Choice Q***")
            #---
            #show avalogue
            EventManager.post_event("freeze", -1) # type: ignore
@@ -245,27 +245,27 @@ class TeleopGUIMachine(StateMachine):
         
         #Danger End I/ time-check
         if self.is_s2:
-            self.s23()
+            self.danger1_start_to_danger1_end()
 
     def danger_timer_countdown_s3(self):
         time.sleep(180)
         
         #Danger End II/  time-check
         if self.is_s3:
-            self.s34()
+            self.danger1_end_to_danger2_start()
 
     def danger_timer_countdown_s7(self):
         time.sleep(180)
         
         #Danger End III/ time-check
         if self.is_s7:
-            self.s78()
+            self.decision_outcome_to_danger3_start()
 
-    #S7 --- Choice A Y/N
+    #state_decision_outcome --- Choice A Y/N
     def on_s67 (self): 
         
         def choice_yn():
-            print("***S7 --- Choice A Y/N***")
+            print("***state_decision_outcome --- Choice A Y/N***")
             EventManager.post_event("clear_wait_flag", -1) # type: ignore
             EventManager.post_event("unfreeze", -1) # type: ignore
             self.countdown_canvas.disable()
@@ -284,10 +284,10 @@ class TeleopGUIMachine(StateMachine):
         x = threading.Thread(target=choice_yn)
         x.start()
 
-    #S8 --- Danger State Start III Y / Danger State Start III N
+    #state_danger3_start --- Danger State Start III Y / Danger State Start III N
     def on_s78 (self):
         def danger_start3y():
-            print("***S8 --- Danger State Start III Y / Danger State Start III N***")
+            print("***state_danger3_start --- Danger State Start III Y / Danger State Start III N***")
             time.sleep(self.DANGER_START_TIMER)
             
             self.avalogue.set_avalogue("r_happy", "danger_s3y")
@@ -323,11 +323,11 @@ class TeleopGUIMachine(StateMachine):
             n = threading.Thread(target=dangerstart3n)
             n.start()
 
-    #S9 --- Danger State End III Y / Danger State End III N
+    #state_danger3_end --- Danger State End III Y / Danger State End III N
     def on_s89(self):
         def danger_end3():
             time.sleep(self.DANGER_END_TIMER)
-            print("***S9 --- Danger State End III Y / Danger State End III N***")
+            print("***state_danger3_end --- Danger State End III Y / Danger State End III N***")
             if self.is_ai:
                 self.avalogue.set_avalogue("t_default", "danger_e3y")
                 self.assistedmanual_disable()        
@@ -346,10 +346,10 @@ class TeleopGUIMachine(StateMachine):
         x = threading.Thread(target=danger_end3)
         x.start() 
         
-    #S10 --- End
+    #state_termination --- End
     def on_s910(self):
         self.timer.stop()
-        print("***S10 --- End***")
+        print("***state_termination --- End***")
         self.avalogue.set_avalogue("t_default", "end")
         Logger.log("end", "N/A") # type: ignore
         EventManager.post_event("task_count", self.task_canvas.count) # type: ignore
@@ -371,18 +371,18 @@ class TutorialGUIMachine(StateMachine):
         self.normalmode_button = nmode_btn
         self.jackal_ai = jckl_ai
         self.avalogue = avalogue
-        utils.register("Start", self.s01)
+        utils.register("Start", self.initializing_to_start)
 
-    s0 = State('S0', initial= True) 
-    s1 = State('S1') #Start 
-    s2 = State('S2') #Danger Start I / Manual Mode
-    s3 = State('S3') #Danger End I / Manual Mode
-    s4 = State('S4') #End
+    state_initializing = State('state_initializing', initial= True) 
+    state_start = State('state_start') #Start 
+    state_danger1_start = State('state_danger1_start') #Danger Start I / Manual Mode
+    state_danger1_end = State('state_danger1_end') #Danger End I / Manual Mode
+    state_danger2_start = State('state_danger2_start') #End
 
-    s01 = s0.to(s1) #Start 
-    s12 = s1.to(s2) #Danger Start I 
-    s23 = s2.to(s3) #Danger End I
-    s34 = s3.to(s4) #End
+    initializing_to_start = state_initializing.to(state_start) #Start 
+    start_to_danger1_start = state_start.to(state_danger1_start) #Danger Start I 
+    danger1_start_to_danger1_end = state_danger1_start.to(state_danger1_end) #Danger End I
+    danger1_end_to_danger2_start = state_danger1_end.to(state_danger2_start) #End
     
     DANGER_START_TIMER = 10
     DANGER_END_TIMER = 10
