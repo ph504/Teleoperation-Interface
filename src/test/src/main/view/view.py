@@ -5,7 +5,7 @@ import random
 import numpy as np
 import cv2
 from playsound import playsound
-import state
+import test.src.main.control.state as state
 from tkinter import * 
 from tkinter.ttk import *
 from PIL import ImageTk
@@ -19,20 +19,20 @@ import camera
 from avalogue import AvalogueController
 
 from dialogue import DialogueView, DialogueModel, dialogueview_info
-from avatar import AvatarView, AvatarModel, javatar_info
+from test.src.main.view.avatar_view import AvatarView, AvatarModel, javatar_info
 
 from button import *
-from jackalAI import *
+from test.src.main.control.jackal_ai_controller import *
 from inspection import *
 import socket
 import socketserver
 from flashing_image import *
 from labels import *
 from std_msgs.msg import Bool
-import global_variables   
+import test.src.main.view.global_config as global_config   
 import sys
 import subprocess
-from userAI import *
+from test.src.main.control.userAI import *
 from bar_canvas import *
 import pygame
 
@@ -59,20 +59,20 @@ def init():
         arg3 = sys.argv[3]
         
         if arg1 == "t":
-            global_variables.tutorial_mode = True
+            global_config.tutorial_mode = True
             
         else:
-            global_variables.tutorial_mode = False
+            global_config.tutorial_mode = False
             EventManager.post_event("freeze", -1) # type: ignore
             sys.exit(1)
         
         if arg2 == "s":
-            global_variables.social_mode = True
+            global_config.social_mode = True
         elif arg2 == "ns":
-             global_variables.social_mode = False
+             global_config.social_mode = False
         elif arg2 == "nn":
-            global_variables.social_mode = None
-            global_variables.practice_mode = False
+            global_config.social_mode = None
+            global_config.practice_mode = False
         else:
             print("Incorrect command or typo")
             sys.exit(1)
@@ -80,10 +80,10 @@ def init():
 
         
         if arg3 == '1':
-            global_variables.practice_mode = True
+            global_config.practice_mode = True
             EventManager.post_event("freeze", -1) # type: ignore
         elif arg3 == '0':
-            global_variables.practice_mode = False
+            global_config.practice_mode = False
             EventManager.post_event("unfreeze", -1) # type: ignore
         else:
             print("Incorrect command or typo")
@@ -94,15 +94,15 @@ def init():
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
 
-        global_variables.practice_mode = False
-        global_variables.tutorial_mode = False
+        global_config.practice_mode = False
+        global_config.tutorial_mode = False
          
-        global_variables.participant = arg1
+        global_config.participant = arg1
        
         if arg2 == "s":
-            global_variables.social_mode = True
+            global_config.social_mode = True
         elif arg2 == "ns":
-            global_variables.social_mode = False
+            global_config.social_mode = False
         else:
             print("Incorrect command or typo")
             sys.exit(1)
@@ -209,16 +209,16 @@ def main():
     
     EventManager.subscribe("toggle_bar", toggle_barcontroller)          # type: ignore
    
-    if global_variables.tutorial_mode and not global_variables.practice_mode:
+    if global_config.tutorial_mode and not global_config.practice_mode:
         unfreeze()
     
     
     def tab_checker():
         # what happens if neither of the values? why cant I just put ==1 in the equation
         if tabControl.index("current") == 1:
-            global_variables.in_inspection = True
+            global_config.in_inspection = True
         elif tabControl.index("current") == 0:
-            global_variables.in_inspection = False
+            global_config.in_inspection = False
         Tk.after(root, 100, tab_checker)
     
     tab_checker()
@@ -226,7 +226,7 @@ def main():
     # rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
     
     inspection_page = InspectionPage(tab2, widgets['task_canvas'])
-    if not global_variables.tutorial_mode:
+    if not global_config.tutorial_mode:
         gui_fsm = state.TeleopGUIMachine(widgets['timer_canvas'], widgets['avalogue'], widgets['dialogue_text'], widgets['manual_button'], widgets['auto_button'], jackal_avatar= None, flashing_image=widgets['flashing_image'], tsk_cnvs=widgets['task_canvas'], cmr_frm = widgets['view_front'], jckl_ai= widgets['jackal_ai'], cntdwn= widgets['countdown'])
         
     else:
@@ -235,25 +235,25 @@ def main():
     #if not global_variables.tutorial_mode: start_button.add_event(gui_fsm.s01)
     #if not global_variables.tutorial_mode: yes_button.add_event(gui_fsm.on_yes)
     #if not global_variables.tutorial_mode: no_button.add_event(gui_fsm.on_no)
-    if not global_variables.tutorial_mode: 
+    if not global_config.tutorial_mode: 
         widgets['task_canvas'].add_fsm(gui_fsm)
     else:
         widgets['task_canvas'].add_fsm(tutorial_fsm)
 
 
-    if not global_variables.tutorial_mode: 
+    if not global_config.tutorial_mode: 
         widgets['timer_canvas'].add_fsm(gui_fsm)
     else:
         widgets['timer_canvas'].add_fsm(tutorial_fsm)
 
 
-    if not global_variables.tutorial_mode: widgets['countdown'].add_fsm(gui_fsm)
+    if not global_config.tutorial_mode: widgets['countdown'].add_fsm(gui_fsm)
 
     widgets['calibrate_button'].add_event(widgets['calibrate_label'].activate)
     
     #if  global_variables.tutorial_mode: auto_button.enable()
 
-    if global_variables.tutorial_mode: 
+    if global_config.tutorial_mode: 
         bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, widgets['task_canvas'], widgets['view_back'], widgets['view_front'], widgets['manual_button'], widgets['auto_button'], widgets['circle_canvas'], widgets['jackal_ai'], tutorial_fsm)
         # bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm)
 
@@ -291,7 +291,7 @@ def widget_init(root, tab1, tab2):
         widgets['countdown'] = CountdownCanvas(root, countdown_info)
         widgets['timer_canvas'] = TimerCanvas(root, timer_canvas_info)
         widgets['task_canvas'] = TaskCanvas(root, task_canvas_info)
-        widgets['circle_canvas'] = CircleCanvas(tab2, circle_canvas_info) if not global_variables.practice_mode else None
+        widgets['circle_canvas'] = CircleCanvas(tab2, circle_canvas_info) if not global_config.practice_mode else None
         widgets['score_canvas'] = None
 
     def initialize_labels():
@@ -309,15 +309,15 @@ def widget_init(root, tab1, tab2):
         task_label.place(x = task_label_info["x"], y = task_label_info["y"], width=task_label_info["width"], height=task_label_info["height"])
         
     def initialize_dialogue_system():
-        if not global_variables.tutorial_mode or global_variables.practice_mode:
+        if not global_config.tutorial_mode or global_config.practice_mode:
             widgets['dialogue_view'] = DialogueView(root, dialogueview_info)
-            widgets['dialogue_model'] = DialogueModel(root, csv_dialogue_ns if not global_variables.social_mode else csv_dialogue_s)
-            widgets['avatar_view'] = AvatarView(root, javatar_info, global_variables.social_mode)
+            widgets['dialogue_model'] = DialogueModel(root, csv_dialogue_ns if not global_config.social_mode else csv_dialogue_s)
+            widgets['avatar_view'] = AvatarView(root, javatar_info, global_config.social_mode)
             widgets['avatar_model'] = AvatarModel(csv_idle, csv_talking, csv_reactive)
 
             widgets['avalogue'] = AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
 
-            if not global_variables.tutorial_mode:
+            if not global_config.tutorial_mode:
                 widgets['avalogue'].set_avalogue("t_default", "start_q")
             else:
                 widgets['avalogue'].set_avalogue("t_default", "t_start_q")
@@ -355,17 +355,17 @@ def widget_init(root, tab1, tab2):
 def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
 # def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, view_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
     
-    if not global_variables.practice_mode:
+    if not global_config.practice_mode:
         tab1.bind('s', lambda e: switch(back = view_back, front = view_front, small=cursor_canvas_small, big=cursor_canvas_big))
         tab1.bind('o', lambda e: task_canvas.plus()) 
         tab1.bind('[', lambda e: color_transition(view_back, view_front, circle_canvas))
         tab1.bind(']', lambda e: color_transition_reverse(view_back, view_front, circle_canvas))
         tab1.bind('b', lambda e: toggle_barcontroller())
         tab1.bind('a', lambda e: toggle_assistedmode(jackal_ai,manual_button,auto_button))
-        tab1.bind('x', lambda e: pygame.mixer.find_channel().play(global_variables.beep_sound))
-        tab1.bind('z', lambda e: pygame.mixer.find_channel().play(global_variables.beep_sound))
+        tab1.bind('x', lambda e: pygame.mixer.find_channel().play(global_config.beep_sound))
+        tab1.bind('z', lambda e: pygame.mixer.find_channel().play(global_config.beep_sound))
         
-    elif global_variables.practice_mode:
+    elif global_config.practice_mode:
         tab1.bind('9', lambda e: start_tutorial(tab1, tutorial_fsm))
         tab1.bind('x', lambda e: playsound_beep_thread())
         tab1.bind('z', lambda e: playsound_beep_thread())
@@ -399,7 +399,7 @@ def color_transition_reverse(view_b, view_f, circle_canvas):
 
 def toggle_assistedmode(jackal_ai, man_btn, ato_btn):
     
-    if global_variables.jackalai_active:
+    if global_config.jackalai_active:
         jackal_ai.disable()
         man_btn.enable()
         ato_btn.disable()
@@ -410,7 +410,7 @@ def toggle_assistedmode(jackal_ai, man_btn, ato_btn):
         ato_btn.enable()
     
 def toggle_barcontroller():
-    global_variables.bar_controller = not global_variables.bar_controller
+    global_config.bar_controller = not global_config.bar_controller
     EventManager.post_event("start_move_bars", -1) # type: ignore
 
 def change_scan_mode():
@@ -501,7 +501,7 @@ def joy_config(data, widgets):
 
     jackal_ai = widgets["jackal_ai"]
 
-    if global_variables.in_inspection:
+    if global_config.in_inspection:
         return
 
     #camera switch
@@ -521,7 +521,7 @@ def playsound_beep_thread():
     x.start()
 
 def playsound_animalese_thread():
-    x = threading.Thread(target=playsound(random.choice(global_variables.animalese_sound_dir)))
+    x = threading.Thread(target=playsound(random.choice(global_config.animalese_sound_dir)))
     x.start
 
 if __name__ == "__main__":

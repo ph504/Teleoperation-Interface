@@ -5,9 +5,9 @@ from tkinter import DISABLED, Label, Text
 from playsound import *
 import threading
 import time
-from event import *
+from test.src.main.control.event_handler import *
 import random
-import global_variables
+import test.src.main.view.global_config as global_config
 from thread_pool import DialogueThread
 
 
@@ -38,13 +38,13 @@ class DialogueBox():
     "Danger State Start I":
                                 "The alarm is beeping!! It's your turn to handle that. ",
     "Danger State End I":                       #DS1 score loss
-                                f"Wooof! You lost {global_variables.ds1_scoreloss_social - diff} points during the danger zone. Don't worry, we can handle that. ",  
+                                f"Wooof! You lost {global_config.ds1_scoreloss_social - diff} points during the danger zone. Don't worry, we can handle that. ",  
     
     "Danger State Start II":    "That alarm again! I will handle it this time.",
     
     
     "Danger State End II/Warning II Q":                             #DS2 Score Loss                                         #DS1 score loss
-                                f"Uuh! I did some mistakes and lost {global_variables.ds2_scoreloss_social  - diff} points. You lost {global_variables.ds1_scoreloss_social}. Together, we lost {global_variables.ds1_scoreloss_social  - diff + global_variables.ds2_scoreloss_social - diff} points overall. I am sorry about this. I know your experiment reward might be at stake! Some of my sensor are not calibrated correctly, will try to fix that now ... I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
+                                f"Uuh! I did some mistakes and lost {global_config.ds2_scoreloss_social  - diff} points. You lost {global_config.ds1_scoreloss_social}. Together, we lost {global_config.ds1_scoreloss_social  - diff + global_config.ds2_scoreloss_social - diff} points overall. I am sorry about this. I know your experiment reward might be at stake! Some of my sensor are not calibrated correctly, will try to fix that now ... I calibrated my sensors and I think it won't happen again. can you let me do it again? I try to do better this time.",
     
     "Danger State Warning II A-Y": "Thanks buddy!! I'll try my best.",
     
@@ -57,9 +57,9 @@ class DialogueBox():
 
 
     "Danger State End III Y":                           #DS3 Score Loss
-                                f"This time I only lost {global_variables.ds3_scoreloss_social_ai - diff} score. Better than the last time ({global_variables.ds2_scoreloss_social - diff}) but still ... ",
+                                f"This time I only lost {global_config.ds3_scoreloss_social_ai - diff} score. Better than the last time ({global_config.ds2_scoreloss_social - diff}) but still ... ",
 
-    "Danger State End III N":    f"You lost {global_variables.ds3_scoreloss_social_h - diff} this round. Better than your first round ({global_variables.ds1_scoreloss_social - diff}). Good Job! ",
+    "Danger State End III N":    f"You lost {global_config.ds3_scoreloss_social_h - diff} this round. Better than your first round ({global_config.ds1_scoreloss_social - diff}). Good Job! ",
 
     "End":
                                 "It was nice working with you! Hope you enjoyed the experiment! The experiment designer will notify you about you getting the reward after the end of the experiment. Remember that it is all about the journey!",   
@@ -81,12 +81,12 @@ class DialogueBox():
     "Danger State Start I":
                                 "The alarm is ringing. Activating Assisted Mode",
     
-    "Danger State End I":      f"Scores Lost: {global_variables.ds1_scoreloss_nonsocial - diff}\n LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...", #DS1 Score Loss
+    "Danger State End I":      f"Scores Lost: {global_config.ds1_scoreloss_nonsocial - diff}\n LogError: Uncalibrated sensors. Initiating Calibration for maximum performance ...", #DS1 Score Loss
 
     "Danger State Start II":
                                 "The alarm is ringing. Activating Manual Mode",
     "Danger State End II/Warning II Q":         #DS2 Score Loss
-                                f"Scores Lost: {global_variables.ds2_scoreloss_nonsocial - diff} \n LogWarning: System loss: {global_variables.ds2_scoreloss_nonsocial - diff}.  User loss: {global_variables.ds1_scoreloss_nonsocial - diff}. Total loss: {global_variables.ds1_scoreloss_nonsocial  - diff + global_variables.ds2_scoreloss_nonsocial  - diff}. Experiment Reward at stake. \n If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",
+                                f"Scores Lost: {global_config.ds2_scoreloss_nonsocial - diff} \n LogWarning: System loss: {global_config.ds2_scoreloss_nonsocial - diff}.  User loss: {global_config.ds1_scoreloss_nonsocial - diff}. Total loss: {global_config.ds1_scoreloss_nonsocial  - diff + global_config.ds2_scoreloss_nonsocial  - diff}. Experiment Reward at stake. \n If a new task is added regarding logging dangerous gases, would you like to activate assisted mode again?",
     
     "Danger State Warning II A-Y": "Assisted mode has been chosen.",
     
@@ -98,9 +98,9 @@ class DialogueBox():
     "Danger State Start III N": "The alarm is ringing. Proceeding with manual mode.",
 
     "Danger State End III Y":                   #DS3 Score Loss
-                                f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial_ai  - diff}.\n Scores Lost on first round: {global_variables.ds1_scoreloss_nonsocial}\n Log: System did {global_variables.ds1_scoreloss_nonsocial  - diff - global_variables.ds3_scoreloss_nonsocial_ai  - diff} points better than last round.",
+                                f"Scores Lost: {global_config.ds3_scoreloss_nonsocial_ai  - diff}.\n Scores Lost on first round: {global_config.ds1_scoreloss_nonsocial}\n Log: System did {global_config.ds1_scoreloss_nonsocial  - diff - global_config.ds3_scoreloss_nonsocial_ai  - diff} points better than last round.",
 
-    "Danger State End III N":    f"Scores Lost: {global_variables.ds3_scoreloss_nonsocial_h  - diff}\n",
+    "Danger State End III N":    f"Scores Lost: {global_config.ds3_scoreloss_nonsocial_h  - diff}\n",
 
     "End":
                                 "Experiment is over. The experiment designer will notify you about you getting the reward after the end of the experiment. \n Exiting ...",   
@@ -115,7 +115,7 @@ class DialogueBox():
         self.state = "Start Q"
         self.first_time = True
         self.finish_talking = False
-        self.dialogue = self.social_dialogue_dict[self.state] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[self.state]
+        self.dialogue = self.social_dialogue_dict[self.state] if global_config.social_mode is True else self.nonsocial_dialogue_dict[self.state]
         self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#d9d7bd', wraplength= 800)
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
         x = threading.Thread(target=self.letterbyletter)
@@ -154,7 +154,7 @@ class DialogueBox():
                 #locker.wait()
             else:
                 #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
-                global_variables.beep_sliced_sound.play()
+                global_config.beep_sliced_sound.play()
             x = x + l 
             self.dialoguetext.configure(text=x)
             if x == self.dialogue:
@@ -176,7 +176,7 @@ class DialogueBox():
         self.start_or_yesno = True
 
     def return_randomdialogue(self, string):
-        d_list = self.social_dialogue_dict[string] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[string]
+        d_list = self.social_dialogue_dict[string] if global_config.social_mode is True else self.nonsocial_dialogue_dict[string]
         if string == "Collision":
             if len(d_list) == 1:
                 return d_list[0]
@@ -210,7 +210,7 @@ class DialogueBox():
             self.talk_mode = True
 
         self.state = string
-        self.dialogue = self.social_dialogue_dict[self.state] if global_variables.social_mode is True else self.nonsocial_dialogue_dict[self.state]
+        self.dialogue = self.social_dialogue_dict[self.state] if global_config.social_mode is True else self.nonsocial_dialogue_dict[self.state]
         self.dialoguetext.configure(text="")
         
         x = threading.Thread(target=self.letterbyletter)

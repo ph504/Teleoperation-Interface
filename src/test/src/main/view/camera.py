@@ -6,9 +6,9 @@ from sensor_msgs.msg import CompressedImage
 import cv2
 import PIL.Image
 import numpy as np
-from event import *
+from test.src.main.control.event_handler import *
 from cv_bridge.core import CvBridge
-import global_variables
+import test.src.main.view.global_config as global_config
 
 
 #Make it false when you are not working with jackal
@@ -41,7 +41,7 @@ class CameraView():
         self.cam_available = cam_available
         self.bridge = CvBridge()
         self.border_thick = 15
-        if not global_variables.practice_mode:
+        if not global_config.practice_mode:
             self.frame = Frame(root, highlightbackground=self.border_colors["light_green"], highlightthickness=self.border_thick)
         else:
             self.frame = Frame(root)
@@ -155,7 +155,7 @@ class CameraView():
             self.frame.configure(highlightbackground=self.border_colors["orange"])
             self.state = "orange"
         
-        elif global_variables.tutorial_mode and self.state == "orange":
+        elif global_config.tutorial_mode and self.state == "orange":
             self.frame.configure(highlightbackground=self.border_colors["red"])
             self.state = "red"
 
@@ -169,6 +169,6 @@ class CameraView():
             self.frame.configure(highlightbackground=self.border_colors["yellow"])
             self.state = "yellow"
         
-        elif global_variables.tutorial_mode and self.state == "yellow":
+        elif global_config.tutorial_mode and self.state == "yellow":
             self.frame.configure(highlightbackground=self.border_colors["light_green"])
             self.state = "green"

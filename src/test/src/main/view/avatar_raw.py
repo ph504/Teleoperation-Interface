@@ -2,9 +2,9 @@ from tkinter import Label
 from PIL import Image, ImageTk
 import time
 import threading
-import event
+import test.src.main.control.event_handler as event_handler
 from canvas import RepeatedTimer
-import global_variables
+import test.src.main.view.global_config as global_config
 
 
 class Avatar():
@@ -14,7 +14,7 @@ class Avatar():
             self.y = avatar_info["y"]
             self.width = avatar_info["width"]
             self.height = avatar_info["height"]
-            self.image = Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS) if global_variables.social_mode is True else Image.open(avatar_images["nonsocial"]).resize((self.width,self.height), Image.ANTIALIAS)
+            self.image = Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS) if global_config.social_mode is True else Image.open(avatar_images["nonsocial"]).resize((self.width,self.height), Image.ANTIALIAS)
             self.imagetk = ImageTk.PhotoImage(self.image)
             self.label = Label(root)
             self.label.config(image = self.imagetk)
@@ -27,14 +27,14 @@ class Avatar():
             self.count_blink = 0
             self.sad_mode = False
             self.first_time_sad = True
-            if global_variables.social_mode:
-                event.EventManager.subscribe("collision", self.change_image_hit)
-                event.EventManager.subscribe("mistake", self.change_image_hit)
-                event.EventManager.subscribe("congratulations", self.change_image_congratulations)
-                event.EventManager.subscribe("talking_started", self.change_image_talking)
-                event.EventManager.subscribe("talking_ended", self.end_talking)
-                event.EventManager.subscribe("talking_started_sad", self.change_image_talking_sad)
-                event.EventManager.subscribe("stop_talking", self.end_talking)
+            if global_config.social_mode:
+                event_handler.EventManager.subscribe("collision", self.change_image_hit)
+                event_handler.EventManager.subscribe("mistake", self.change_image_hit)
+                event_handler.EventManager.subscribe("congratulations", self.change_image_congratulations)
+                event_handler.EventManager.subscribe("talking_started", self.change_image_talking)
+                event_handler.EventManager.subscribe("talking_ended", self.end_talking)
+                event_handler.EventManager.subscribe("talking_started_sad", self.change_image_talking_sad)
+                event_handler.EventManager.subscribe("stop_talking", self.end_talking)
                 self.idle_event = threading.Event()
                 self.idle_event.set()
                 t = threading.Thread(target=self.idle_loop)

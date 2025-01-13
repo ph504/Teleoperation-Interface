@@ -1,7 +1,7 @@
 from tkinter import Label
 from PIL import Image, ImageTk
 import time
-import utils
+import test.src.main.utils.utils as utils
 from tkinter import Tk
 import csv
 from collections import deque
