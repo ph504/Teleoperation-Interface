@@ -2,7 +2,7 @@ from statemachine import State, StateMachine
 from playsound import *
 import time
 import threading
-from test.src.main.control.event_handler import *
+from test.src.main.model.event_model import *
 from test.src.main.utils.logger import Logger
 import test.src.main.view.global_config as global_config
 import test.src.main.utils.utils as utils
@@ -117,7 +117,7 @@ class TeleopGUIMachine(StateMachine):
         self.avalogue.set_avalogue("t_sad", "danger_fail")
 
     #state_start --- Start
-    def on_s01 (self):
+    def on_initializing_to_start (self):
         def start():
             print("***state_start --- Start***")
             EventManager.post_event("unfreeze", -1) # type: ignore
@@ -129,7 +129,7 @@ class TeleopGUIMachine(StateMachine):
         x.start() 
                         
     #state_danger1_start --- Danger Start I
-    def on_s12 (self): 
+    def on_start_to_danger1_start (self): 
         def danger_start1():
             print("***state_danger1_start --- Danger Start I***")
             time.sleep(self.DANGER_START_TIMER)
@@ -144,7 +144,7 @@ class TeleopGUIMachine(StateMachine):
         y.start()
         
     #state_danger1_end --- Danger End I
-    def on_s23 (self): 
+    def on_danger1_start_to_danger1_end (self): 
         def danger_end1():
             print("***state_danger1_end --- Danger End I***")
             time.sleep(self.DANGER_END_TIMER)    
@@ -163,7 +163,7 @@ class TeleopGUIMachine(StateMachine):
         x.start()
  
     #state_danger2_start --- Danger Start II
-    def on_s34(self): 
+    def on_danger1_end_to_danger2_start(self): 
         def danger_start2():
             print("***state_danger2_start --- Danger Start II***")
             time.sleep(self.DANGER_START_TIMER)
@@ -198,7 +198,7 @@ class TeleopGUIMachine(StateMachine):
         self.countdown_canvas.start_countdown()
 
     #state_danger2_end --- #Danger End II
-    def on_s45 (self):
+    def on_danger2_start_to_danger2_end (self):
         def danger_end2():
             print("***state_danger2_end --- #Danger End II***")
             time.sleep(self.DANGER_END_TIMER/2)
@@ -218,7 +218,7 @@ class TeleopGUIMachine(StateMachine):
         x.start()
 
     #state_decision_prompt --- Choice Q
-    def on_s56 (self): 
+    def on_danger2_end_to_decision_prompt (self): 
         def choice_q():
            #sleep for 30 seconds
            time.sleep(35)
@@ -262,7 +262,7 @@ class TeleopGUIMachine(StateMachine):
             self.decision_outcome_to_danger3_start()
 
     #state_decision_outcome --- Choice A Y/N
-    def on_s67 (self): 
+    def on_decision_prompt_to_decision_outcome (self): 
         
         def choice_yn():
             print("***state_decision_outcome --- Choice A Y/N***")
@@ -285,7 +285,7 @@ class TeleopGUIMachine(StateMachine):
         x.start()
 
     #state_danger3_start --- Danger State Start III Y / Danger State Start III N
-    def on_s78 (self):
+    def on_decision_outcome_to_danger3_start (self):
         def danger_start3y():
             print("***state_danger3_start --- Danger State Start III Y / Danger State Start III N***")
             time.sleep(self.DANGER_START_TIMER)
@@ -324,7 +324,7 @@ class TeleopGUIMachine(StateMachine):
             n.start()
 
     #state_danger3_end --- Danger State End III Y / Danger State End III N
-    def on_s89(self):
+    def on_danger3_start_to_danger3_end(self):
         def danger_end3():
             time.sleep(self.DANGER_END_TIMER)
             print("***state_danger3_end --- Danger State End III Y / Danger State End III N***")
@@ -347,7 +347,7 @@ class TeleopGUIMachine(StateMachine):
         x.start() 
         
     #state_termination --- End
-    def on_s910(self):
+    def on_danger3_end_to_termination(self):
         self.timer.stop()
         print("***state_termination --- End***")
         self.avalogue.set_avalogue("t_default", "end")
@@ -408,7 +408,7 @@ class TutorialGUIMachine(StateMachine):
         time.sleep(15)
         self.avalogue.set_avalogue("t_default", "t_danger_w")
 
-    def on_s01(self):
+    def on_initializing_to_start(self):
         EventManager.post_event("unfreeze", -1) # type: ignore
         global_config.bar_controller = False
         EventManager.post_event("start_move_bars", -1) # type: ignore
@@ -419,7 +419,7 @@ class TutorialGUIMachine(StateMachine):
         x = threading.Thread(target=self.danger_warning_tutorial)
         x.start()
             
-    def on_s12(self):
+    def on_start_to_danger1_start(self):
         def danger_start():
             time.sleep(self.DANGER_START_TIMER)
             self.normal_activate()
@@ -428,7 +428,7 @@ class TutorialGUIMachine(StateMachine):
         x = threading.Thread(target=danger_start)
         x.start()
 
-    def on_s23(self):
+    def on_danger1_start_to_danger1_end(self):
         def danger_end():
             time.sleep(self.DANGER_END_TIMER)
             self.assistedmanual_disable()
@@ -437,7 +437,7 @@ class TutorialGUIMachine(StateMachine):
         x = threading.Thread(target=danger_end)
         x.start()
         
-    def on_s34(self):
+    def on_danger1_end_to_danger2_start(self):
         self.timer.stop()
         global_config.bar_controller = True
         EventManager.post_event("stop_move_bars", -1) # type: ignore

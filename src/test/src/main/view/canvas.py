@@ -3,7 +3,7 @@ from textwrap import fill
 from tkinter import *
 import numpy as np
 from playsound import *
-from test.src.main.control.event_handler import *
+from test.src.main.model.event_model import *
 from test.src.main.utils.logger import Logger
 import test.src.main.view.global_config as global_config
 from test.src.main.utils.repeated_timer import RepeatedTimer

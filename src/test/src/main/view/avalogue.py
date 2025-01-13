@@ -1,6 +1,6 @@
 from dialogue import *
 from test.src.main.view.avatar_view import *
-from test.src.main.control.event_handler import EventManager
+from test.src.main.model.event_model import EventManager
 import test.src.main.view.global_config as global_config
 class AvalogueController():
     def __init__(self, frame, d_model: DialogueModel, d_view: DialogueView, a_model: AvatarModel, a_view: AvatarView):

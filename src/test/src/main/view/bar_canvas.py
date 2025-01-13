@@ -1,4 +1,4 @@
-from test.src.main.control.event_handler import EventManager
+from test.src.main.model.event_model import EventManager
 from canvas import BaseCanvas
 from playsound import *
 import test.src.main.view.global_config as global_config

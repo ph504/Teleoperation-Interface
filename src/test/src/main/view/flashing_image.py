@@ -4,7 +4,7 @@ import PIL.Image
 from PIL import ImageTk
 import threading
 from canvas import BaseCanvas, RepeatedTimer
-from test.src.main.control.event_handler import EventManager
+from test.src.main.model.event_model import EventManager
 flashing_image_info = {
     "x": 1600,
     "y": 800,

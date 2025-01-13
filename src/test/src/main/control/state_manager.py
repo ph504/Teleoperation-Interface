@@ -1,6 +1,6 @@
 from statemachine import State, StateMachine
 from model.state_model import StateModel
-from event_handler import EventManager
+from test.src.main.model.event_model import EventManager
 
 class StateManager(StateMachine):
     """

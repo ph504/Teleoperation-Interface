@@ -2,7 +2,7 @@ from tkinter import Label
 from PIL import Image, ImageTk
 import time
 import threading
-import test.src.main.control.event_handler as event_handler
+import test.src.main.model.event_model as event_model
 from canvas import RepeatedTimer
 import test.src.main.view.global_config as global_config
 
@@ -28,13 +28,13 @@ class Avatar():
             self.sad_mode = False
             self.first_time_sad = True
             if global_config.social_mode:
-                event_handler.EventManager.subscribe("collision", self.change_image_hit)
-                event_handler.EventManager.subscribe("mistake", self.change_image_hit)
-                event_handler.EventManager.subscribe("congratulations", self.change_image_congratulations)
-                event_handler.EventManager.subscribe("talking_started", self.change_image_talking)
-                event_handler.EventManager.subscribe("talking_ended", self.end_talking)
-                event_handler.EventManager.subscribe("talking_started_sad", self.change_image_talking_sad)
-                event_handler.EventManager.subscribe("stop_talking", self.end_talking)
+                event_model.EventManager.subscribe("collision", self.change_image_hit)
+                event_model.EventManager.subscribe("mistake", self.change_image_hit)
+                event_model.EventManager.subscribe("congratulations", self.change_image_congratulations)
+                event_model.EventManager.subscribe("talking_started", self.change_image_talking)
+                event_model.EventManager.subscribe("talking_ended", self.end_talking)
+                event_model.EventManager.subscribe("talking_started_sad", self.change_image_talking_sad)
+                event_model.EventManager.subscribe("stop_talking", self.end_talking)
                 self.idle_event = threading.Event()
                 self.idle_event.set()
                 t = threading.Thread(target=self.idle_loop)

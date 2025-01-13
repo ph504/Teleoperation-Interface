@@ -5,7 +5,7 @@ from tkinter import DISABLED, Label, Text
 from playsound import *
 import threading
 import time
-from test.src.main.control.event_handler import *
+from test.src.main.model.event_model import *
 import random
 import test.src.main.view.global_config as global_config
 from thread_pool import DialogueThread

@@ -6,7 +6,7 @@ from sensor_msgs.msg import CompressedImage
 import cv2
 import PIL.Image
 import numpy as np
-from test.src.main.control.event_handler import *
+from test.src.main.model.event_model import *
 from cv_bridge.core import CvBridge
 import test.src.main.view.global_config as global_config
 

@@ -1,7 +1,7 @@
 from tkinter import *
 import time
 import threading
-from test.src.main.control.event_handler import EventManager
+from test.src.main.model.event_model import EventManager
 import subprocess
 import global_statics
 import test.src.main.view.global_config as global_config
