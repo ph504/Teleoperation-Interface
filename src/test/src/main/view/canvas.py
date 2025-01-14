@@ -3,10 +3,10 @@ from textwrap import fill
 from tkinter import *
 import numpy as np
 from playsound import *
-from event import *
-from logger import Logger
-import global_variables
-from repeated_timer import RepeatedTimer
+from test.src.main.model.event_model import *
+from test.src.main.utils.logger import Logger
+import test.src.main.view.global_config as global_config
+from test.src.main.utils.repeated_timer import RepeatedTimer
 
 class BaseCanvas():
     def __init__(self, r, info_dict):
@@ -131,7 +131,7 @@ class TaskCanvas(BaseCanvas):
         self.color = dict_info["color"]
         self.font = dict_info["font"]
         
-        if global_variables.tutorial_mode:
+        if global_config.tutorial_mode:
             self.text = '0/5'
         else:
             self.text = '0/13'
@@ -151,28 +151,28 @@ class TaskCanvas(BaseCanvas):
         if c  > 13: return
         self.count += 1
         Logger.log("task_advance" , str(self.count))
-        global_variables.task_advance = self.count
+        global_config.task_advance = self.count
         
       
         
-        if not global_variables.tutorial_mode:
+        if not global_config.tutorial_mode:
             if c != 13:
                 EventManager.post_event("congratulations", -1)
             
         #Danger State I
             if c == 2:
-                self.fsm.s12()
+                self.fsm.start_to_danger1_start()
             elif c == 4:
                 if self.fsm.is_s2:
-                    self.fsm.s23()
+                    self.fsm.danger1_start_to_danger1_end()
 
             #Danger State II
             elif c == 6:
                 if self.fsm.is_s3:
-                    self.fsm.s34()
+                    self.fsm.danger1_end_to_danger2_start()
             elif c == 8:
                 if self.fsm.is_s4:
-                    self.fsm.s45()
+                    self.fsm.danger2_start_to_danger2_end()
 
             if c == 9:
                 #just to stop going forward, validating new codes will be denied until user makes a choice in
@@ -182,32 +182,32 @@ class TaskCanvas(BaseCanvas):
             #Danger State III
             elif c == 10:
                 if self.fsm.is_s7:
-                    self.fsm.s78()
+                    self.fsm.decision_outcome_to_danger3_start()
             elif c == 12:
                 if self.fsm.is_s8:
-                    self.fsm.s89()
+                    self.fsm.danger3_start_to_danger3_end()
             
             #End
             elif c == 13:
-                self.fsm.s910()
+                self.fsm.danger3_end_to_termination()
         else:
             
             if c != 5:
                 EventManager.post_event("congratulations", -1)
 
             if c == 2:
-                self.fsm.s12()
+                self.fsm.start_to_danger1_start()
             elif c == 4:
                 if self.fsm.is_s2:
-                    self.fsm.s23()
+                    self.fsm.danger1_start_to_danger1_end()
 
             if c == 5:
                 if self.fsm.is_s3:
-                    self.fsm.s34()
+                    self.fsm.danger1_end_to_danger2_start()
             
             
 
-        if global_variables.tutorial_mode:        
+        if global_config.tutorial_mode:        
             self.text = "{count}/5".format(count=str(c))
             self.canvas.delete('all')
             self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
@@ -250,10 +250,10 @@ class MissCanavas(BaseCanvas):
 
     
     def operator_is_doing_mistake_in_manual(self):
-        return not global_variables.jackalai_active and self.user == "operator"
+        return not global_config.jackalai_active and self.user == "operator"
 
     def agent_is_doing_mistake_in_assisted(self):
-        return global_variables.jackalai_active and self.user == "agent"
+        return global_config.jackalai_active and self.user == "agent"
             
 
 
@@ -343,7 +343,7 @@ class CircleCanvas(BaseCanvas):
             self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
             self.state = "orange"
         elif self.state == "orange":
-            if global_variables.tutorial_mode:
+            if global_config.tutorial_mode:
                 self.canvas.delete("circle")
                 self.canvas.create_oval(5, 5, 200, 200, fill=self.color_red, outline=self.color_red, tags="circle")
                 self.state = "red"
@@ -351,7 +351,7 @@ class CircleCanvas(BaseCanvas):
     def color_transition_reverse(self, dummy = 0):
         
         if self.state == "red":
-                if global_variables.tutorial_mode:
+                if global_config.tutorial_mode:
                     self.canvas.delete("circle")
                     self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
                     self.state = "orange"

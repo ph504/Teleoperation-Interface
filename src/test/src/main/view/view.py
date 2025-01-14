@@ -384,7 +384,7 @@ def start_tutorial(tab, t_fsm):
     tab.unbind_all('b')
     tab.unbind_all('a')
     tab.unbind_all('9')
-    t_fsm.s01()
+    t_fsm.initializing_to_start()
 
 def color_transition_reverse(view_b, view_f, circle_canvas):
     view_b.color_transition_reverse()

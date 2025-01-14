@@ -1,10 +1,10 @@
 from tkinter import *
 import time
 import threading
-from event import EventManager
+from test.src.main.model.event_model import EventManager
 import subprocess
 import global_statics
-import global_variables
+import test.src.main.view.global_config as global_config
 
 
 class CameraLabel():

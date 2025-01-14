@@ -1,7 +1,7 @@
 from dialogue import *
-from avatar import *
-from event import EventManager
-import global_variables
+from test.src.main.view.avatar_view import *
+from test.src.main.model.event_model import EventManager
+import test.src.main.view.global_config as global_config
 class AvalogueController():
     def __init__(self, frame, d_model: DialogueModel, d_view: DialogueView, a_model: AvatarModel, a_view: AvatarView):
         self.frame = frame 
@@ -40,19 +40,19 @@ class AvalogueController():
             
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name
-            self.func_btn = utils.find_func(self.btn_press_name)
+            self.func_btn = test.src.main.utils.utils.find_func(self.btn_press_name)
             self.d_view.button_press = False
         
        if self.d_view.button_press_1:
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name_1
-            self.func_btn = utils.find_func(self.btn_press_name)
+            self.func_btn = test.src.main.utils.utils.find_func(self.btn_press_name)
             self.d_view.button_press_1 = False
 
        if self.d_view.button_press_2:
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name_2
-            self.func_btn = utils.find_func(self.btn_press_name)
+            self.func_btn = test.src.main.utils.utils.find_func(self.btn_press_name)
             self.d_view.button_press_2 = False
         
 
@@ -221,7 +221,7 @@ class AvalogueController():
         self.set_avalogue("r_happy", "congrats")
     
     def on_mistake(self, dummy):
-        if global_variables.jackalai_active:
+        if global_config.jackalai_active:
             self.set_avalogue("r_sad", "mistake")
     
     def on_collision(self, dummy):

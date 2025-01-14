@@ -2,7 +2,7 @@ from tkinter import ACTIVE, DISABLED, Button
 
 from canvas import TaskCanvas
 
-from event import *
+from test.src.main.model.event_model import *
 
 #TODO: create a dict for the two buttons and organize it properly
 

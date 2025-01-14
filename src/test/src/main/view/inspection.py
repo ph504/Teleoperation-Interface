@@ -2,7 +2,7 @@ from tkinter import *
 from canvas import *
 import time
 import threading
-import global_variables
+import test.src.main.view.global_config as global_config
 
 task_inspect_info = {
     "x": 980,
@@ -117,15 +117,15 @@ class InspectionPage():
                 else:
                     self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned")
                     #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/inspect_succ.wav", block=False)
-                    global_variables.inspect_succ_sound.play()
+                    global_config.inspect_succ_sound.play()
                     
                     self.delete_err_lbl()
                     
-                    if global_variables.tutorial_mode:
+                    if global_config.tutorial_mode:
                         
                         self.tutorial_code_list.remove(string)
                     else:
-                        self.code_list2.remove(string) if global_variables.is_code_list_2 else self.code_list.remove(string)
+                        self.code_list2.remove(string) if global_config.is_code_list_2 else self.code_list.remove(string)
 
                     self.code_list_used.append(string)
                     self.task_count += 1
