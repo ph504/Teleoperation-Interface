@@ -1,9 +1,17 @@
+import sys
 
-from tkinter import ACTIVE, DISABLED, Button
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
 
-from canvas import TaskCanvas
 
-from test.src.main.model.event_model import *
+
+import tkinter as tk
+import canvas
+import event_model
 
 #TODO: create a dict for the two buttons and organize it properly
 button_auto_info = {

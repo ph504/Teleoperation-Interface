@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-# TODO move to controller
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
 
 import rospy
-from geometry_msgs.msg import Twist
-from sensor_msgs.msg import Joy
-from axis_camera.msg import Axis
-from event import *
-from std_msgs.msg import Bool
-import global_variables
+import geometry_msgs.msg as geo_msg
+import sensor_msgs.msg as sen_msg
+import axis_camera.msg as ac_msg
+import std_msgs.msg as std_msg
+import global_config
 
 global freeze_var
 
@@ -24,7 +30,7 @@ def start():
         global pub_jackal
         global twist
         
-        twist =  Twist()
+        twist =  geo_msg.Twist()
         
         
 
@@ -42,10 +48,10 @@ def start():
         print('***Arya*** Wheel Node Activated!')
 
         rospy.init_node('teleop_wheel_node')
-        pub_jackal = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+        pub_jackal = rospy.Publisher('/cmd_vel', geo_msg.Twist, queue_size=1)
         
-        rospy.Subscriber("freeze", Bool , callback=freeze_manager)
-        rospy.Subscriber("joy", Joy, callback)
+        rospy.Subscriber("freeze", std_msg.Bool , callback=freeze_manager)
+        rospy.Subscriber("joy", sen_msg.Joy, callback)
 
         rate = rospy.Rate(30)
 

@@ -1,9 +1,18 @@
+import sys
 #!/usr/bin/env python3
 
-import state
-from tkinter import * 
-from tkinter.ttk import *
-from axis_camera.msg import Axis
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data')
+
+
+
+import tkinter as tk
+import tkinter.ttk as ttk
+import axis_camera.msg as ac_msg
 import playsound as ps
 import camera 
 #from dialogue import *
@@ -13,16 +22,15 @@ import inspection
 import canvas
 import flashing_image
 import labels
-from std_msgs.msg import Bool
-import global_variables as gv
+import std_msgs.msg as std_msg
+import global_config as gv
 import global_statics as gs
-from avalogue import AvalogueController
-from dialogue import DialogueView, DialogueModel, dialogueview_info
-from avatar import AvatarView, AvatarModel, javatar_info
+import avalogue
+import dialogue
+import avatar
 import jackalAI
 import userAI
 import random
-import sys
 import time
 import threading
 import pygame
@@ -103,7 +111,7 @@ def init():
 
 def main(): 
     
-    root = Tk()
+    root = tk.Tk()
 
     global big_canvas_info, small_canvas_info
     global timer_canvas_info, timer_label_info
@@ -139,9 +147,9 @@ def main():
     # width, height = 1440, 900
     root.geometry('%dx%d+0+0' % (width, height))
     root.title("Jackal Teleoperator GUI")
-    tabControl = Notebook(root)
-    tab1 = Frame(tabControl)
-    tab2 = Frame(tabControl)
+    tabControl = ttk.Notebook(root)
+    tab1 = tk.Frame(tabControl)
+    tab2 = tk.Frame(tabControl)
     tabControl.add(tab1, text = "Main")
     tabControl.add(tab2, text = "Inspection")
     tabControl.place(x = 5, y = 5, width=width ,height=height)
@@ -159,11 +167,11 @@ def main():
         rospy.init_node("viewer", anonymous= True)
         rospy.loginfo("viewer node started ...")
         #global prev_angle 
-        axis = Axis()
+        axis = ac_msg.Axis()
         axis.pan = -180
-        pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=10)
+        pub_axis = rospy.Publisher('/axis/cmd', ac_msg.Axis, queue_size=10)
         pub_axis.publish(axis)
-        x = rospy.wait_for_message("/axis/state", Axis).pan
+        x = rospy.wait_for_message("/axis/state", ac_msg.Axis).pan
         print("Initial angle: " + str(x))
         # currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
         #TODO: make the camera tilt
@@ -213,7 +221,7 @@ def main():
             gv.in_inspection = True
         elif tabControl.index("current") == 0:
             gv.in_inspection = False
-        Tk.after(root, 100, tab_checker)
+        tk.Tk.after(root, 100, tab_checker)
     
     tab_checker()
     
@@ -304,12 +312,12 @@ def widget_init(root, tab1, tab2):
         
     def initialize_dialogue_system():
         if not gv.tutorial_mode or gv.practice_mode:
-            widgets['dialogue_view'] = DialogueView(root, dialogueview_info)
-            widgets['dialogue_model'] = DialogueModel(root, csv_dialogue_ns if not gv.social_mode else csv_dialogue_s)
-            widgets['avatar_view'] = AvatarView(root, javatar_info, gv.social_mode)
-            widgets['avatar_model'] = AvatarModel(csv_idle, csv_talking, csv_reactive)
+            widgets['dialogue_view'] = dialogue.DialogueView(root, dialogue.dialogueview_info)
+            widgets['dialogue_model'] = dialogue.DialogueModel(root, csv_dialogue_ns if not gv.social_mode else csv_dialogue_s)
+            widgets['avatar_view'] = avatar.AvatarView(root, avatar.javatar_info, gv.social_mode)
+            widgets['avatar_model'] = avatar.AvatarModel(csv_idle, csv_talking, csv_reactive)
 
-            widgets['avalogue'] = AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
+            widgets['avalogue'] = avalogue.AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
 
             if not gv.tutorial_mode:
                 widgets['avalogue'].set_avalogue("t_default", "start_q")

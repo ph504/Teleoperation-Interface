@@ -1,20 +1,28 @@
-from PIL import ImageTk
-from tkinter import *
+import sys
+#!/usr/bin/env python3
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
+import PIL
+import tkinter as tk
 import rospy
 import rosnode
-from sensor_msgs.msg import CompressedImage
+import sensor_msgs.msg
 import cv2
-import PIL.Image
 import numpy as np
-from test.src.main.model.event_model import *
-from cv_bridge.core import CvBridge
-import test.src.main.view.global_config as global_config
+import event_model
+import cv_bridge.core
+import global_config as gv
 
 
 #Make it false when you are not working with jackal
 # camera_available = True
 def camera_available():
-    return True
+    return False
     try:
         node_list = rosnode.get_node_names()
         print(node_list)
