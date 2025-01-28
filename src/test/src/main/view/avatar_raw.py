@@ -1,11 +1,21 @@
-from tkinter import Label
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
+import tkinter as tk
 from PIL import Image, ImageTk
 import time
 import threading
-import test.src.main.model.event_model as event_model
-from canvas import RepeatedTimer
-import test.src.main.view.global_config as global_config
-
+import event_model
+import canvas
+import global_config as gv
+import global_statics as gs
+import repeated_timer
 
 class Avatar():
     
@@ -14,9 +24,9 @@ class Avatar():
             self.y = avatar_info["y"]
             self.width = avatar_info["width"]
             self.height = avatar_info["height"]
-            self.image = Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS) if global_config.social_mode is True else Image.open(avatar_images["nonsocial"]).resize((self.width,self.height), Image.ANTIALIAS)
+            self.image = PIL.Image.Image.open(avatar_images["default"]).resize((self.width,self.height), Image.ANTIALIAS) if gv.social_mode is True else Image.open(avatar_images["nonsocial"]).resize((self.width,self.height), Image.ANTIALIAS)
             self.imagetk = ImageTk.PhotoImage(self.image)
-            self.label = Label(root)
+            self.label = tk.Label(root)
             self.label.config(image = self.imagetk)
             self.label.image = self.imagetk
             self.label.place(x = self.x ,y = self.y ,width = self.width ,height = self.height)
@@ -27,7 +37,7 @@ class Avatar():
             self.count_blink = 0
             self.sad_mode = False
             self.first_time_sad = True
-            if global_config.social_mode:
+            if gv.social_mode:
                 event_model.EventManager.subscribe("collision", self.change_image_hit)
                 event_model.EventManager.subscribe("mistake", self.change_image_hit)
                 event_model.EventManager.subscribe("congratulations", self.change_image_congratulations)
@@ -67,7 +77,7 @@ class Avatar():
             self.change_image('default')
 
     def change_image(self,state):
-        self.image = Image.open(javatar_images[state]).resize((self.width,self.height), Image.ANTIALIAS)
+        self.image = Image.open(gs.javatar_images[state]).resize((self.width,self.height), Image.ANTIALIAS)
         self.state = state
         self.imagetk = ImageTk.PhotoImage(self.image)
         self.label.config(image = self.imagetk)
@@ -94,7 +104,7 @@ class Avatar():
             self.first_time = False
             def wait_start():
                 time.sleep(1.5)
-                self.repeated_talking = RepeatedTimer(2, swap_images)
+                self.repeated_talking = repeated_timer.RepeatedTimer(2, swap_images)
             t= threading.Thread(target=wait_start)
             t.start()
         else:
@@ -114,7 +124,7 @@ class Avatar():
                 self.first_time_sad = False
                 def wait_start():
                     swap_images()
-                    self.repeated_talking_sad  = RepeatedTimer(2, swap_images)
+                    self.repeated_talking_sad  = repeated_timer.RepeatedTimer(2, swap_images)
                 t= threading.Thread(target=wait_start)
                 t.start()
             else:

@@ -203,7 +203,7 @@ def main():
     def calibrate_btn_dsbl(dummy = 0):
         widgets['calibrate_button'].disable()
 
-    pub = rospy.Publisher("freeze", Bool, queue_size=10)
+    pub = rospy.Publisher("freeze", std_msg.Bool, queue_size=10)
     EventManager.subscribe("freeze", freeze)                            # type: ignore
     EventManager.subscribe("unfreeze", unfreeze)                        # type: ignore
     EventManager.subscribe("activate_calibration", calibrate_btn_enbl)  # type: ignore

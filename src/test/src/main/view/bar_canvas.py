@@ -1,9 +1,18 @@
-from test.src.main.model.event_model import EventManager
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
+from event_manager import EventManager
 from canvas import BaseCanvas
-from playsound import *
-import test.src.main.view.global_config as global_config
-from test.src.main.utils.logger import Logger
-from test.src.main.utils.repeated_timer import RepeatedTimer
+import playsound
+import global_config as gv
+from logger import Logger
+from repeated_timer import RepeatedTimer
 import time
 
 bar_canvas_info_main = {
@@ -275,7 +284,7 @@ class BarCanvas(BaseCanvas):
             Logger.log("thrshldpsscntdngrttl_nrml", self.threshold_pass_count_normal)
         
         # print("BarCanvas Colorchange Check (" + self.tag_bar + "):"
-        #       + "\n\t" + "Task Number: " + str(global_variables.task_advance)
+        #       + "\n\t" + "Task Number: " + str(gv.task_advance)
         #       + "\n\tSelf Passes: " + str(beforePassed) + " A:" + str(self.passed)
         #       + "\n\tBar Percent: " + str(beforeBarPercent) + " A:" + str(self.bar_percent)
         #       + "\n\tRed Mode: " + str(beforeRedMode) + " A:" + str(self.red_mode)

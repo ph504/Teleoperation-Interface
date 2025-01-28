@@ -239,6 +239,116 @@ button_auto_info_percent = {
 
 button_manual_info_percent = {
     "x": 70 / original_width,
+    "y": 550 / original_height,
+    "width": 150 / original_width,
+    "height": 50 / original_height,
+    "text": "Manual Mode",
+    "state": tk.ACTIVE,
+    "tag": 2,
+
+}
+
+button_yes_info_percent = {
+    "x": 1250 / original_width,
+    "y": 940 / original_height,
+    "width": 100 / original_width,
+    "height": 30 / original_height,
+    "text": "Yes",
+    "state": tk.ACTIVE,
+    "tag": 3,
+
+    
+}
+
+button_no_info_percent = {
+    "x": 1350 / original_width,
+    "y": 940 / original_height,
+    "width": 100 / original_width,
+    "height": 30 / original_height,
+    "text": "No",
+    "state": tk.ACTIVE,
+    "tag": 3,
+
+}
+
+button_start_info_percent = {
+    "x": 1300 / original_width,
+    "y": 940 / original_height,
+    "width": 100 / original_width,
+    "height": 30 / original_height,
+    "text": "Start",
+    "state": tk.ACTIVE,
+    "tag": 5,
+ 
+    
+}
+
+button_freeze_info_percent = {
+    "x": 70 / original_width,
+    "y": 900 / original_height,
+    "width": 150 / original_width,
+    "height": 50 / original_height,
+    "text": "Freeze",
+    "state": tk.ACTIVE,
+    "tag": 6,
+
+    
+}
+
+button_calibrate_info_percent = {
+    "x": 70 / original_width,
+    "y": 850 / original_height,
+    "width": 150 / original_width,
+    "height": 50 / original_height,
+    "text": "Calibrate",
+    "state": tk.ACTIVE,
+    "tag": 7,
+
+    
+}
+
+button_auto_info_percent = {
+    "x": 70 / original_width,
+    "y": 500 / original_height,
+    "width": 150 / original_width,
+    "height": 50 / original_height,
+    "text": "Assisted Mode",
+    "state": tk.DISABLED,
+    "tag": 1,
+
+}
+
+flashing_image_info_percent = {
+    "x": 1600 / original_width,
+    "y": 800 / original_height,
+    "width": 200 / original_width,
+    "height": 180 / original_height,
+}
+
+countdown_info_percent = {
+    "x": 1215 / original_width,
+    "y": 941 / original_height,
+    "width": 25 / original_width,
+    "height": 25 / original_height,
+    "color": "black",
+    "bg": '#d9d7bd',
+    "font": ('Helvetica', '15', 'bold'),
+    "active": False
+
+}
+
+task_inspect_info_percent = {
+    "x": 980 / original_width,
+    "y": 313 / original_height,
+    "width": 150 / original_width,
+    "height": 20 / original_height,
+    "color": "black",
+    "font": ('Helvetica', '12', 'bold'),
+    "active": True
+}
+
+button_manual_info_percent = {
+    "x": 70 / original_width,
     "y": 560 / original_height,
     "width": 150 / original_width,
     "height": 50 / original_height,

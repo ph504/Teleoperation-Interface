@@ -1,10 +1,19 @@
-from tkinter import *
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
+import tkinter as tk
 import time
 import threading
-from test.src.main.model.event_model import EventManager
+from event_manager import EventManager
 import subprocess
-import global_statics
-import test.src.main.view.global_config as global_config
+import global_statics as gs
+import global_config as gv
 
 
 class CameraLabel():
@@ -17,7 +26,7 @@ class CameraLabel():
         self.font = label_info["font"]
         
         
-        self.label = Label(r, text= self.text, font=self.font)
+        self.label = tk.Label(r, text= self.text, font=self.font)
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
 
@@ -46,7 +55,7 @@ class CalibrateLabel():
         self.color = label_info["color"]
         
         
-        self.label = Label(r, text= self.text, font=self.font, fg=self.color, anchor='s')
+        self.label = tk.Label(r, text= self.text, font=self.font, fg=self.color, anchor='s')
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
     def activate(self):

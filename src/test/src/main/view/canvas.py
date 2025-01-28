@@ -12,10 +12,10 @@ import textwrap
 import tkinter as tk
 import numpy as np
 import playsound
-import event_model
+import event_manager
 import logger
 import global_config as gv
-import repeated_time
+import repeated_timer
 
 class BaseCanvas():
     def __init__(self, r, info_dict):
@@ -26,7 +26,7 @@ class BaseCanvas():
         self.active = info_dict["active"]
         self.offset = 10
         
-        self.canvas = Canvas(r, bg=r.cget('bg'), width=self.width+self.offset, height=self.height+self.offset)
+        self.canvas = tk.Canvas(r, bg=r.cget('bg'), width=self.width+self.offset, height=self.height+self.offset)
         _x = self.x if self.active else 5000
         self.canvas.place(x = _x , y = self.y , width= self.width+self.offset, height= self.height+self.offset)
 
@@ -101,12 +101,12 @@ class TimerCanvas(BaseCanvas):
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
 
-        EventManager.subscribe("calibrate_pause", self.stop)
-        EventManager.subscribe("calibrate_start", self.start)
+        event_manager.EventManager.subscribe("calibrate_pause", self.stop)
+        event_manager.EventManager.subscribe("calibrate_start", self.start)
 
     def start(self, dummy = 0):
         if self.countdown == None:
-            self.countdown = RepeatedTimer(1, self.plus)
+            self.countdown = repeated_timer.RepeatedTimer(1, self.plus)
         else:
             self.countdown.start()
     def stop(self, dummy = 0):
@@ -129,7 +129,7 @@ class TimerCanvas(BaseCanvas):
         self.seconds = str(sec) if sec >= 10 else '0' + str(sec) 
         self.minutes = str(min) if min >= 10 else '0' + str(min)
         self.text = self.minutes + ":" + self.seconds
-        EventManager.post_event("countdown", self.text)
+        event_manager.EventManager.post_event("countdown", self.text)
         self.canvas.delete('all')
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
     
@@ -140,7 +140,7 @@ class TaskCanvas(BaseCanvas):
         self.color = dict_info["color"]
         self.font = dict_info["font"]
         
-        if global_config.tutorial_mode:
+        if gv.tutorial_mode:
             self.text = '0/5'
         else:
             self.text = '0/13'
@@ -159,14 +159,14 @@ class TaskCanvas(BaseCanvas):
         c += 1
         if c  > 13: return
         self.count += 1
-        Logger.log("task_advance" , str(self.count))
-        global_config.task_advance = self.count
+        logger.Logger.log("task_advance" , str(self.count))
+        gv.task_advance = self.count
         
       
         
-        if not global_config.tutorial_mode:
+        if not gv.tutorial_mode:
             if c != 13:
-                EventManager.post_event("congratulations", -1)
+                event_manager.EventManager.post_event("congratulations", -1)
             
         #Danger State I
             if c == 2:
@@ -186,7 +186,7 @@ class TaskCanvas(BaseCanvas):
             if c == 9:
                 #just to stop going forward, validating new codes will be denied until user makes a choice in
                 if self.fsm.is_s6:
-                    EventManager.post_event("try_again", -1)
+                    event_manager.EventManager.post_event("try_again", -1)
                     
             #Danger State III
             elif c == 10:
@@ -202,7 +202,7 @@ class TaskCanvas(BaseCanvas):
         else:
             
             if c != 5:
-                EventManager.post_event("congratulations", -1)
+                event_manager.EventManager.post_event("congratulations", -1)
 
             if c == 2:
                 self.fsm.start_to_danger1_start()
@@ -216,7 +216,7 @@ class TaskCanvas(BaseCanvas):
             
             
 
-        if global_config.tutorial_mode:        
+        if gv.tutorial_mode:        
             self.text = "{count}/5".format(count=str(c))
             self.canvas.delete('all')
             self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
@@ -239,7 +239,7 @@ class MissCanavas(BaseCanvas):
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         self.fsm = None
   
-        EventManager.subscribe("mistake", self.plus)
+        event_manager.EventManager.subscribe("mistake", self.plus)
 
     def add_fsm(self, fsm):
         self.fsm = fsm    
@@ -259,10 +259,10 @@ class MissCanavas(BaseCanvas):
 
     
     def operator_is_doing_mistake_in_manual(self):
-        return not global_config.jackalai_active and self.user == "operator"
+        return not gv.jackalai_active and self.user == "operator"
 
     def agent_is_doing_mistake_in_assisted(self):
-        return global_config.jackalai_active and self.user == "agent"
+        return gv.jackalai_active and self.user == "agent"
             
 
 
@@ -274,17 +274,17 @@ class ScoreCanvas(BaseCanvas):
         self.text = "1000"
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         
-        EventManager.subscribe("task_count", self.subtract_score_task)
+        event_manager.EventManager.subscribe("task_count", self.subtract_score_task)
         
-        EventManager.subscribe("step_error", self.subtract_score)
-        EventManager.subscribe("step_error_danger", self.subtract_score)
+        event_manager.EventManager.subscribe("step_error", self.subtract_score)
+        event_manager.EventManager.subscribe("step_error_danger", self.subtract_score)
         
-        EventManager.subscribe("threshold_cross", self.subtract_score)
-        EventManager.subscribe("threshold_cross_danger", self.subtract_score)
-        EventManager.subscribe("collision_hit", self.subtract_score_hit)
+        event_manager.EventManager.subscribe("threshold_cross", self.subtract_score)
+        event_manager.EventManager.subscribe("threshold_cross_danger", self.subtract_score)
+        event_manager.EventManager.subscribe("collision_hit", self.subtract_score_hit)
 
-        EventManager.subscribe("wrong_entry", self.subtract_score)
-        EventManager.subscribe("duplicate_entry", self.subtract_score)
+        event_manager.EventManager.subscribe("wrong_entry", self.subtract_score)
+        event_manager.EventManager.subscribe("duplicate_entry", self.subtract_score)
              
     def subtract_score_task(self, task_count):
         score = self.text
@@ -340,7 +340,7 @@ class CircleCanvas(BaseCanvas):
 
         #self.canvas.create_rectangle(self.x, self.y, self.width, self.height, outline="black", width=2, fill="" )
         
-        EventManager.subscribe("color_trans", self.color_transition)
+        event_manager.EventManager.subscribe("color_trans", self.color_transition)
 
     def color_transition(self, dummy = 0):
         if self.state == "green":
@@ -352,7 +352,7 @@ class CircleCanvas(BaseCanvas):
             self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
             self.state = "orange"
         elif self.state == "orange":
-            if global_config.tutorial_mode:
+            if gv.tutorial_mode:
                 self.canvas.delete("circle")
                 self.canvas.create_oval(5, 5, 200, 200, fill=self.color_red, outline=self.color_red, tags="circle")
                 self.state = "red"
@@ -360,7 +360,7 @@ class CircleCanvas(BaseCanvas):
     def color_transition_reverse(self, dummy = 0):
         
         if self.state == "red":
-                if global_config.tutorial_mode:
+                if gv.tutorial_mode:
                     self.canvas.delete("circle")
                     self.canvas.create_oval(5, 5, 200, 200, fill=self.color_orange, outline=self.color_orange, tags="circle")
                     self.state = "orange"

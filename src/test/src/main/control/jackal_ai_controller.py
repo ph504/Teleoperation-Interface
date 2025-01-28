@@ -1,7 +1,15 @@
-from bar_canvas import BarCanvas
-from event import *
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
+import event_manager
 from logger import Logger
-import global_variables
+import global_config as gv
 import random
 from tkinter import Tk
 import playsound
@@ -9,7 +17,7 @@ import playsound
 
 class JackalAI():
     
-    global_variables.jackalai_active = False
+    gv.jackalai_active = False
 
     def __init__(self, root):
         self.root = root
@@ -56,7 +64,7 @@ class JackalAI():
 
     def press_yellow(self, bar: BarCanvas):    
         
-        if global_variables.jackalai_active:
+        if gv.jackalai_active:
            
             if self.bar_hit_count <= self.max_barhitcount and bar.bar_tag == self.bar_hitter_tag:
 
@@ -72,7 +80,7 @@ class JackalAI():
                 bar.jackal_reset("yellow")
                 
     def press_red_init(self, bar: BarCanvas):   
-        if global_variables.jackalai_active:
+        if gv.jackalai_active:
                 
                 if self.first_time and self.bar_hit_count == self.COLOR_TASK_TRANSITION_YELLOW:
                     EventManager.post_event("color_trans", -1) 
@@ -88,7 +96,7 @@ class JackalAI():
     
     def press_red(self, bar: BarCanvas):
         
-        if global_variables.jackalai_active and global_variables.danger_mode: 
+        if gv.jackalai_active and gv.danger_mode: 
 
             self.press_red_init(bar)
             self.mode_switchter()
@@ -102,36 +110,36 @@ class JackalAI():
         
         self.count = 0
         
-        global_variables.jackalai_active = True
+        gv.jackalai_active = True
 
     def disable(self):
-        global_variables.jackalai_active = False
+        gv.jackalai_active = False
 
     def hitter(self):
-        if global_variables.jackalai_active:
+        if gv.jackalai_active:
             if self.mistake == 0:
-                if not global_variables.in_inspection:
+                if not gv.in_inspection:
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                     self.c_maxcount = 10
                     return
             elif self.mistake == 1:
-                if not global_variables.in_inspection:
+                if not gv.in_inspection:
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                     return
             elif self.mistake == 2:
-                if not global_variables.in_inspection:
+                if not gv.in_inspection:
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                     return
             elif self.mistake == 3:
-                if not global_variables.in_inspection:
+                if not gv.in_inspection:
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                     return
             elif self.mistake == 4:
-                if not global_variables.in_inspection:
+                if not gv.in_inspection:
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                     return
             elif self.mistake == 5:
-                if not global_variables.in_inspection:
+                if not gv.in_inspection:
                     EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                     return
         else:
@@ -141,7 +149,7 @@ class JackalAI():
         Tk.after(self.root, 100, self.hitter)
 
     def mode_switchter(self, dummy = -1):
-        if global_variables.danger_mode and global_variables.jackalai_active:
+        if gv.danger_mode and gv.jackalai_active:
             self.counter = 0
             self.mistake += 1
             if self.mistake <= self.max_mistake:
@@ -156,7 +164,7 @@ class JackalAI():
     
     def counter_modecheck(self):
         
-        if global_variables.danger_mode and global_variables.jackalai_active:
+        if gv.danger_mode and gv.jackalai_active:
             self.counter += 1   
             if self.counter >= self.c_maxcount and self.mistake <= self.max_mistake:
                 if not self.waiting_to_hit:

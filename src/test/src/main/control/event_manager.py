@@ -1,3 +1,12 @@
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
 class EventManager:
     _subscribers = {}
     _registered_events = set()
@@ -11,13 +20,17 @@ class EventManager:
 
 
     @staticmethod
-    def subscribe(event_name, handler):
+    def subscribe(event_name):
         """Subscribe a handler only if the event is registered."""
         if event_name not in EventManager._registered_events:
             raise ValueError(f"Event '{event_name}' not registered!")
-        if event_name not in EventManager._subscribers:
-            EventManager._subscribers[event_name] = []
-        EventManager._subscribers[event_name].append(handler)
+        
+        def decorator(func):
+            if event_name not in EventManager._subscribers:
+                EventManager._subscribers[event_name] = []
+            EventManager._subscribers[event_name].append(func)
+            return func
+        return decorator
 
 
     @staticmethod

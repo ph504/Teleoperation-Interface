@@ -1,10 +1,19 @@
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
 from statemachine import State, StateMachine
-from playsound import *
+import playsound
 import time
 import threading
-from test.src.main.model.event_model import *
-from test.src.main.utils.logger import Logger
-import test.src.main.view.global_config as global_config
+import event_manager
+from logger import Logger
+import global_config as gv
 import test.src.main.utils.utils as utils
 
 
@@ -87,7 +96,7 @@ class TeleopGUIMachine(StateMachine):
         EventManager.post_event("count_manual_trans_active", -1) # type: ignore
         self.flashing_image.enable()
         #playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
-        global_config.danger_alarm_sound.play()
+        gv.danger_alarm_sound.play()
         self.assistedmode_button.disable()
         self.normalmode_button.enable()
         self.jackal_ai.disable()
@@ -95,7 +104,7 @@ class TeleopGUIMachine(StateMachine):
     def assisted_activate(self):
         self.flashing_image.enable()
         #playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
-        global_config.danger_alarm_sound.play()
+        gv.danger_alarm_sound.play()
         self.assistedmode_button.enable()
         self.normalmode_button.disable()
         self.jackal_ai.enable()
@@ -179,6 +188,7 @@ class TeleopGUIMachine(StateMachine):
         a = threading.Thread(target=danger_start2)
         a.start()
      
+    # TODO wtf 
     def on_yes(self):
         
         if self.is_yes == None:
@@ -353,7 +363,7 @@ class TeleopGUIMachine(StateMachine):
         self.avalogue.set_avalogue("t_default", "end")
         Logger.log("end", "N/A") # type: ignore
         EventManager.post_event("task_count", self.task_canvas.count) # type: ignore
-        global_config.bar_controller = True
+        gv.bar_controller = True
         EventManager.post_event("stop_move_bars", -1) # type: ignore
 
 class TutorialGUIMachine(StateMachine):
@@ -399,7 +409,7 @@ class TutorialGUIMachine(StateMachine):
         EventManager.post_event("count_manual_trans_active", -1) # type: ignore
         self.flashing_image.enable()
         #playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
-        global_config.danger_alarm_sound.play()
+        gv.danger_alarm_sound.play()
         self.assistedmode_button.disable()
         self.normalmode_button.enable()
         self.jackal_ai.disable()
@@ -410,7 +420,7 @@ class TutorialGUIMachine(StateMachine):
 
     def on_initializing_to_start(self):
         EventManager.post_event("unfreeze", -1) # type: ignore
-        global_config.bar_controller = False
+        gv.bar_controller = False
         EventManager.post_event("start_move_bars", -1) # type: ignore
         self.avalogue.set_avalogue("r_happy", "t_start_a")
         
@@ -439,7 +449,7 @@ class TutorialGUIMachine(StateMachine):
         
     def on_danger1_end_to_danger2_start(self):
         self.timer.stop()
-        global_config.bar_controller = True
+        gv.bar_controller = True
         EventManager.post_event("stop_move_bars", -1) # type: ignore
         self.avalogue.set_avalogue("t_default", "t_end")
         

@@ -7,13 +7,10 @@ sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/s
 sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
 sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
 
-EVENT_FREEZE = "freeze"
-EVENT_UNFREEZE = "unfreeze"
-EVENT_CALIBRATE = "calibrate"
-EVENT_CALIBRATE_PAUSE = "calibrate_pause"
-EVENT_JOY = "joy"
-EVENT_COLLISION = "collision"
-EVENT_CONGRATULATIONS = "congratulations"
-EVENT_COUNTDOWN = "countdown"
-EVENT_TRY_AGAIN = "try_again"
-EVENT_CLEAR_WAIT_FLAG = "clear_wait_flag"
+import event_model
+
+class EventRegistrar:
+    def register_all(widgets):
+        pass
+    def register_event(event):
+        pass

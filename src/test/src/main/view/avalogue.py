@@ -1,9 +1,22 @@
-from dialogue import *
-from test.src.main.view.avatar_view import *
-from test.src.main.model.event_model import EventManager
-import test.src.main.view.global_config as global_config
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
+import dialogue
+import avatar_view
+from event_manager import EventManager
+import global_config as gv
 class AvalogueController():
-    def __init__(self, frame, d_model: DialogueModel, d_view: DialogueView, a_model: AvatarModel, a_view: AvatarView):
+    def __init__(self, frame, 
+                 d_model: dialogue.DialogueModel, 
+                 d_view: dialogue.DialogueView, 
+                 a_model: avatar_view.AvatarModel, 
+                 a_view: avatar_view.AvatarView):
         self.frame = frame 
 
         self.a_model = a_model

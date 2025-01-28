@@ -1,9 +1,17 @@
-from test.src.main.model.event_model import *
-from test.src.main.utils.logger import Logger
-import test.src.main.view.global_config as global_config
-from tkinter import * 
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+
+from event_manager import EventManager
+from logger import Logger
+import global_config as gv
+import tkinter as tk
 import random
-from bar_canvas import BarCanvas
 from collections import deque
 
 class UserAI():
