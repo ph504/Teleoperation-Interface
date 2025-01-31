@@ -1,19 +1,14 @@
 import sys
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
 import tkinter as tk
-from event_manager import EventManager
-from logger import Logger
-import canvas
+from main.control import event_manager
+from main.utils import logger
+from main.view import canvas
 import time
 import threading
-import global_config as gv
+from main.data import global_config as gv
 
 class InspectionPage():
     def __init__(self, root, task_canvas):

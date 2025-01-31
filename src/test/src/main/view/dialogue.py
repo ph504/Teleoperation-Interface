@@ -1,23 +1,18 @@
 import sys
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
 
 from tkinter import Label, Button, ACTIVE, DISABLED
 import time
 from tkinter import Tk
-import test.src.main.utils.utils as utils
+import main.utils as utils
 import csv
 from collections import deque
 import threading
 import random
 import playsound
-import test.src.main.view.global_config as global_config
+import main.data as global_config
 
 dialogueview_info = {
     "x": 660,

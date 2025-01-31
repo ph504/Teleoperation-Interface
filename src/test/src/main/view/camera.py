@@ -14,9 +14,9 @@ import rosnode
 import sensor_msgs.msg
 import cv2
 import numpy as np
-import event_manager
 import cv_bridge.core
-import global_config as gv
+from main.control import event_manager
+from main.data import global_config as gv
 
 
 #Make it false when you are not working with jackal

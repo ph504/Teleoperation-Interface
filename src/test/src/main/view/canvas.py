@@ -1,21 +1,16 @@
 import sys
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
 import math
 import textwrap
 import tkinter as tk
 import numpy as np
 import playsound
-import event_manager
-import logger
-import global_config as gv
-import repeated_timer
+from main.control import event_manager
+from main.utils import logger
+from main.data import global_config as gv
+from main.utils import repeated_timer
 
 class BaseCanvas():
     def __init__(self, r, info_dict):

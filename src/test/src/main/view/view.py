@@ -1,35 +1,29 @@
 import sys
 #!/usr/bin/env python3
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data')
-
-
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
 import tkinter as tk
 import tkinter.ttk as ttk
 import axis_camera.msg as ac_msg
 import playsound as ps
-import camera 
+from main.view import camera
 #from dialogue import *
 #from avatar import *
-import button
+from main.view import button
 import inspection
-import canvas
-import flashing_image
-import labels
+from main.view import canvas
+from main.view import flashing_image
+from main.view import labels
 import std_msgs.msg as std_msg
-import global_config as gv
-import global_statics as gs
-import avalogue
-import dialogue
-import avatar
-import jackalAI
-import userAI
+from main.data import global_config as gv
+from main.data import global_statics as gs
+from main.view import avalogue
+from main.view import dialogue
+from main.view import avatar_raw
+from main.model import avatar_model
+from main.control import jackal_ai_controller
+from main.control import userAI
 import random
 import time
 import threading

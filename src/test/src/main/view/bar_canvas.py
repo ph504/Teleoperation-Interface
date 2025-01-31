@@ -1,18 +1,13 @@
 import sys
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
-from event_manager import EventManager
-from canvas import BaseCanvas
+from main.control import event_manager
+from main.data import global_config as gv
+from main.utils import logger
+from main.view import canvas
+from main.utils import repeated_timer
 import playsound
-import global_config as gv
-from logger import Logger
-from repeated_timer import RepeatedTimer
 import time
 
 bar_canvas_info_main = {

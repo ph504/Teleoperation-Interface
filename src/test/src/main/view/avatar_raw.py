@@ -11,11 +11,11 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import time
 import threading
-import event_model
-import canvas
-import global_config as gv
-import global_statics as gs
-import repeated_timer
+from main.model import event_model
+from main.view import canvas
+from main.data import global_config as gv
+from main.data import global_statics as gs
+from main.utils import repeated_timer
 
 class Avatar():
     

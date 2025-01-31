@@ -1,23 +1,17 @@
 import sys
 
 sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
 
 from statemachine import State, StateMachine
-from model.state_model import StateModel
-from test.src.main.model.event_model import EventManager
-
+from main.model import state_model
+from main.control import event_manager
 class StateManager(StateMachine):
     """
     Core state machine managing state transitions for the Teleoperation Interface.
     """
     def __init__(self):
         super().__init__()
-        self.state_model = StateModel()
+        self.state_model = state_model.StateModel()
 
         # Initialize state definitions
         self.state_initializing = State('Initializing', initial=True)
