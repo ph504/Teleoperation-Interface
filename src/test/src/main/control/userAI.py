@@ -2,7 +2,6 @@ import sys
 
 sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
-from event_manager import EventManager
 from main.control import event_manager
 from main.utils import logger
 from main.data import global_config as gv
@@ -34,7 +33,7 @@ class UserAI():
 
         self.m_max_count = None #containter for max num of mistakes base on condition
 
-        if global_config.tutorial_mode:
+        if gv.tutorial_mode:
             self.m_max_count = self.MAX_COUNT_TUTORIAL
         else:
             self.m_max_count = self.MAX_COUNT_EXPERIMENT
@@ -58,7 +57,7 @@ class UserAI():
        
         self.q = None
         
-        if global_config.tutorial_mode:
+        if gv.tutorial_mode:
             self.q = self.tutorial_q
         else:
             self.q = self.experiment_q
@@ -66,7 +65,7 @@ class UserAI():
         self.counter_modecheck()
       
     def red_checker(self, dummy = -1):
-        if global_config.danger_mode and not global_config.jackalai_active:
+        if gv.danger_mode and not gv.jackalai_active:
             if not self.red_continue:
                 self.mode_switchter()
                 self.red_continue = True
@@ -77,11 +76,11 @@ class UserAI():
     
     def normal_counterback(self, bar: BarCanvas):
 
-        if global_config.danger_mode and not global_config.jackalai_active and self.mistake >= self.m_max_count:
+        if gv.danger_mode and not gv.jackalai_active and self.mistake >= self.m_max_count:
             EventManager.post_event("move_bar_backward", bar)
 
     def counter_modecheck(self):
-        if global_config.danger_mode and not global_config.jackalai_active:
+        if gv.danger_mode and not gv.jackalai_active:
             self.counter += 1
            
             if self.counter >= self.c_max_count and self.mistake < self.m_max_count:
@@ -102,43 +101,43 @@ class UserAI():
         
     def hitter_test(self):
         print(len(self.q))
-        if len(self.q) != 0 and global_config.in_inspection:
+        if len(self.q) != 0 and gv.in_inspection:
             print("*** -- here")
             EventManager.post_event(self.q.popleft(), self.bar_hitter_tag)
            
     def hitter(self):
-        if not global_config.jackalai_active:
-            if global_config.tutorial_mode:    
+        if not gv.jackalai_active:
+            if gv.tutorial_mode:    
                 if self.mistake == 0:
-                    if not global_config.in_inspection:
+                    if not gv.in_inspection:
                         EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                         self.c_max_count = 10
                         return    
                 elif self.mistake == 1:
-                    if not global_config.in_inspection:
+                    if not gv.in_inspection:
                         EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                         return           
                 elif self.mistake == 2:
-                    if global_config.in_inspection:
+                    if gv.in_inspection:
                         EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
                         return           
                 elif self.mistake == 3:
-                    if not global_config.in_inspection:
+                    if not gv.in_inspection:
                         EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)
                         
                         return
             
             else:    
                 if self.mistake == 0:
-                    if not global_config.in_inspection:
+                    if not gv.in_inspection:
                         EventManager.post_event("bar_fast_mode", self.bar_hitter_tag)    
                         return
                 elif self.mistake == 1:
-                    if  global_config.in_inspection:
+                    if  gv.in_inspection:
                         EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)
                         return
                 elif self.mistake == 2:
-                    if  global_config.in_inspection:
+                    if  gv.in_inspection:
                         EventManager.post_event("bar_ultra_mode", self.bar_hitter_tag)                    
                         return
         else:
@@ -149,7 +148,7 @@ class UserAI():
     def mode_switchter(self, dummy = -1):
         
         
-        if global_config.danger_mode and not global_config.jackalai_active:
+        if gv.danger_mode and not gv.jackalai_active:
             
             self.counter = 0
             self.mistake += 1
@@ -172,7 +171,7 @@ class UserAI():
                 self.waiting_to_hit = False
 
     def bar_hit_slow(self, bar:BarCanvas):
-        if global_config.danger_mode and not global_config.jackalai_active:
+        if gv.danger_mode and not gv.jackalai_active:
             if bar.bar_tag == self.bar_hitter_tag:
                 EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
                 self.bar_hitter_tag = -1
