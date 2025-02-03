@@ -15,17 +15,29 @@ class EventManager:
 
 
     @staticmethod
-    def subscribe(event_name):
+    def subscribe(event):
         """Subscribe a handler only if the event is registered."""
-        if event_name not in EventManager._registered_events:
-            raise ValueError(f"Event '{event_name}' not registered!")
+        if event not in EventManager._registered_events:
+            raise ValueError(f"Event '{event}' not registered!")
         
         def decorator(func):
-            if event_name not in EventManager._subscribers:
-                EventManager._subscribers[event_name] = []
-            EventManager._subscribers[event_name].append(func)
+            if event not in EventManager._subscribers:
+                EventManager._subscribers[event] = []
+            EventManager._subscribers[event].append(func)
             return func
         return decorator
+    
+    @staticmethod
+    def subscribe_handler(event, handler):
+        if event not in EventManager._registered_events:
+            raise ValueError(f"[ERROR] Event '{event}' is not registered!")
+        
+        if event not in EventManager._subscribers:
+                EventManager._subscribers[event] = []
+
+        EventManager._subscribers[event].append(handler)
+        print(f"[INFO] Subscribed handler to event: {event}")
+        
 
 
     @staticmethod

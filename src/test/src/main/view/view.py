@@ -24,6 +24,7 @@ from main.view import avatar_raw
 from main.model import avatar_model
 from main.control import jackal_ai_controller
 from main.control import userAI
+from main.control import event_registrar
 import random
 import time
 import threading
@@ -105,6 +106,7 @@ def init():
 
 def main(): 
     
+    event_registrar.EventRegistrar.register_events()
     root = tk.Tk()
 
     global big_canvas_info, small_canvas_info
@@ -198,6 +200,8 @@ def main():
         widgets['calibrate_button'].disable()
 
     pub = rospy.Publisher("freeze", std_msg.Bool, queue_size=10)
+
+
     EventManager.subscribe("freeze", freeze)                            # type: ignore
     EventManager.subscribe("unfreeze", unfreeze)                        # type: ignore
     EventManager.subscribe("activate_calibration", calibrate_btn_enbl)  # type: ignore
@@ -364,9 +368,7 @@ def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, vie
     elif gv.practice_mode:
         tab1.bind('9', lambda e: start_tutorial(tab1, tutorial_fsm))
         tab1.bind('x', lambda e: playsound_beep_thread())
-        tab1.bind('z', lambda e: playsound_beep_thread())
-        
-        
+        tab1.bind('z', lambda e: playsound_beep_thread())       
     
 def color_transition(view_b, view_f,circle_canvas):
     view_b.color_transition()
