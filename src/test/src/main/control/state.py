@@ -15,37 +15,26 @@ from main.data import global_config as gv
 class TeleopGUIMachine(StateMachine):
 
 
-    def __init__(self,
-                timer,
-                avalogue,
-                dialogue,
-                nmode_btn,
-                amode_btn,
-                jackal_avatar,
-                flashing_image,
-                tsk_cnvs,
-                cmr_frm,
-                jckl_ai,
-                cntdwn) -> None:
+    def __init__(self, widgets) -> None:
         super().__init__()
-        self.timer = timer
-        self.avalogue = avalogue
-        self.dialogue = dialogue
-        self.normalmode_button = nmode_btn
-        self.assistedmode_button = amode_btn
-        self.javatar = jackal_avatar
-        self.flashing_image = flashing_image
-        self.is_ai = False
-        self.task_canvas = tsk_cnvs
+        self.timer_canvas = widgets['timer_canvas']
+        self.avalogue = widgets['avalogue']
+        self.dialogue_text = widgets['dialogue_text']
+        self.manual_button = widgets['manual_button']
+        self.auto_button = widgets['auto_button']
+        self.jackal_avatar = widgets['jackal_avatar']
+        self.flashing_image = widgets['flashing_image']
+        self.task_canvas = widgets['task_canvas']
+        self.camera_front = widgets['camera_front']
+        self.jackal_ai = widgets['jackal_ai']
+        self.countdown = widgets['countdown']
+        # ??? TODO
         self.is_yes = None
-        self.camera_frame = cmr_frm
-        self.jackal_ai = jckl_ai
-        self.countdown_canvas = cntdwn
+        self.is_ai = False
         utils.register("Start", self.initializing_to_start)
         utils.register("Yes", self.on_yes)
         utils.register("No", self.on_no)
 
-       
         self.jackal_ai.disable()
         EventManager.subscribe("start_cntdwn", self.start_cntdwn) # type: ignore
 
@@ -361,19 +350,16 @@ class TeleopGUIMachine(StateMachine):
 
 class TutorialGUIMachine(StateMachine):
     
-    def __init__(self,timer,
-                nmode_btn,
-                amode_btn,
-                flashing_image,
-                jckl_ai,
-                avalogue) -> None:
+    def __init__(self, widgets) -> None:
         super().__init__()
-        self.timer = timer
-        self.flashing_image = flashing_image
-        self.assistedmode_button = amode_btn
-        self.normalmode_button = nmode_btn
-        self.jackal_ai = jckl_ai
-        self.avalogue = avalogue
+        
+        self.timer = widgets['timer_canvas']
+        self.flashing_image = widgets['flashing_image']
+        self.assistedmode_button = widgets['auto_button']
+        self.normalmode_button = widgets['manual_button']
+        self.jackal_ai = widgets['jackal_ai']
+        self.avalogue = widgets['avalogue']
+
         utils.register("Start", self.initializing_to_start)
 
     state_initializing = State('state_initializing', initial= True) 
