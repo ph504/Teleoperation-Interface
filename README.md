@@ -46,6 +46,103 @@ before switching to this [solution][12].
 [11]: https://github.com/PouyaJigsaw/teleop-interface/blob/master/src/test/src/main/view/avatar.py
 [12]: https://github.com/PouyaJigsaw/teleop-interface/blob/master/src/test/src/main/view/thread_pool.py
 
+## Event-Driven Architecture
+# Robotics GUI: Centralized Event Handling
+
+This document describes our **event-driven architecture** for handling GUI and logic interactions in our Robotics project. We focus on three main files:
+
+1. **`event_model.py`** – Defines the **list of possible event names** (as strings).
+2. **`event_manager.py`** – Implements the publish/subscribe logic.
+3. **`event_registrar.py`** – Centralizes **all event subscriptions** in one place, showing exactly which functions handle which events.
+
+The goal is to keep the code clean, consistent, and easy to read/maintain. Instead of scattering `subscribe(...)` calls all over the place, we maintain them in `event_registrar.py`.
+
+---
+
+## 1. Overview
+
+### 1.1 Why This Architecture?
+
+- **Clarity**: Everyone can open `event_registrar.py` to see the complete picture of “who handles which event.”  
+- **Scalability**: Adding new events or new handlers is straightforward: define the new event name, register it, then subscribe from a single location.  
+- **Testability**: By having one place for subscription, we can quickly mock or replace certain handlers in testing.  
+- **Reduced Coupling**: Modules do not need to be directly aware of each other. They only rely on the event system to dispatch signals.
+
+### 1.2 High-Level Flow
+
+1. **Define** event names in `event_model.py`.  
+2. **Register** them with `EventManager.register_event(...)` in `event_registrar.py`.  
+3. **Subscribe** callback functions to these events with either the `@EventManager.subscribe("some_event")` decorator or `EventManager.subscribe_handler("some_event", someFunction)`.  
+4. **Trigger** them anywhere with `EventManager.post_event("some_event", *args, **kwargs)`, and all subscribed callbacks get invoked.
+
+---
+
+## 2. `event_model.py`
+
+```python
+# event_model.py
+
+EVENTS = {
+    "FREEZE": "freeze",
+    "UNFREEZE": "unfreeze",
+    "FREEZE_ALL": "freeze_all",
+    "UNFREEZE_ALL": "unfreeze_all",
+    "CALIBRATE_START": "calibrate_start",
+    "CALIBRATE_PAUSE": "calibrate_pause",
+    "JOY": "joy",
+    "AVALOGUE_COLLISION": "avalogue_collision",
+    "AVALOGUE_MISTAKE": "avalogue_mistake",
+    "AVALOGUE_CONGRATULATIONS": "avalogue_congratulations",
+    "COUNTDOWN": "countdown",
+    "TRY_AGAIN": "try_again",
+    "CLEAR_WAIT_FLAG": "clear_wait_flag",
+    "USER_RESET": "user_reset",
+    "YELLOW_MODE": "yellow_mode",
+    "RED_INIT_MODE": "red_init_mode",
+    "STEP_ERROR_DANGER": "step_error_danger",
+    "ASSISTED_SECOND": "assisted_second",
+    "START_CNTDWN": "start_cntdwn",
+    "STATE_INITIALIZING": "state_initializing",
+    "STATE_START": "state_start",
+    "STATE_DANGER1_START": "state_danger1_start",
+    "STATE_DANGER1_END": "state_danger1_end",
+    "STATE_DANGER2_START": "state_danger2_start",
+    "STATE_DANGER2_END": "state_danger2_end",
+    "STATE_DECISION_PROMPT": "state_decision_prompt",
+    "STATE_DECISION_OUTCOME": "state_decision_outcome",
+    "STATE_DANGER3_START": "state_danger3_start",
+    "STATE_DANGER3_END": "state_danger3_end",
+    "STATE_TERMINATION": "state_termination",
+    "MANUAL_SECOND": "manual_second",
+    "MOVE_BAR_BACKWARD": "move_bar_backward",
+    "BAR_SLOW_MODE": "bar_slow_mode",
+    "BAR_FAST_MODE": "bar_fast_mode",
+    "BAR_ULTRA_MODE": "bar_ultra_mode",
+    "COLOR_TRANS": "color_trans",
+    "TALKING_STARTED": "talking_started",
+    "TALKING_ENDED": "talking_ended",
+    "TALKING_STARTED_SAD": "talking_started_sad",
+    "STOP_TALKING": "stop_talking",
+    "COUNT_MANUAL_TRANS_DEACTIVE": "count_manual_trans_deactive",
+    "COUNT_MANUAL_TRANS_ACTIVE": "count_manual_trans_active",
+    "RED_MODE": "red_mode",
+    "BUTTON_ACTIVATE": "button_activate",
+    "TASK_COUNT": "task_count",
+    "STEP_ERROR": "step_error",
+    "THRESHOLD_CROSS": "threshold_cross",
+    "THRESHOLD_CROSS_DANGER": "threshold_cross_danger",
+    "COLLISION_HIT": "collision_hit",
+    "WRONG_ENTRY": "wrong_entry",
+    "DUPLICATE_ENTRY": "duplicate_entry",
+    "LABEL_CAMERA_SWITCH": "label_camera_switch",
+    "TOGGLE_BAR": "toggle_bar",
+    "ACTIVATE_CALIBRATION": "activate_calibration"
+}
+
+# Example usage:
+# print(EVENTS["FREEZE"])  # Outputs: "freeze"
+```
+
 ## Experiment Design
 To create our social interface, we created a social agent using human-like language and simple
 avatar with animations in comparison to a conventional machine-like terminal. Both represents the
