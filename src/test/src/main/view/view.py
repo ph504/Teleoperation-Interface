@@ -309,7 +309,7 @@ def widget_init(root, tab1, tab2):
         widgets['jackal_ai'] = jackal_ai_controller.JackalAI(root)
         widgets['user_ai'] = userAI.UserAI(root)
 
-    def initialize_finite_statemachine():    
+    def initialize_finite_statemachine():   
         if not gv.tutorial_mode:
             ui_fsm = state.TeleopGUIMachine(widgets)  
         else:
