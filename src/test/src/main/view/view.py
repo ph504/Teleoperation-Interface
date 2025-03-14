@@ -446,7 +446,7 @@ def server_program():
                 s.bind((HOST, PORT))
                 s.listen()
                 s.settimeout(None)
-                conn, addr = s.accept()
+                conn, addr = s.accept() 
                 with conn:
                     print(f"Connected by {addr}")
                     while True:
