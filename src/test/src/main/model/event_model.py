@@ -1,3 +1,4 @@
+# mode/event_model.py
 import sys
 
 sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
@@ -9,11 +10,13 @@ EVENTS = {
     "UNFREEZE": "unfreeze",
     "FREEZE_ALL": "freeze_all",
     "UNFREEZE_ALL": "unfreeze_all",
-    "CALIBRATE": "calibrate",
+    # "CALIBRATE": "calibrate",
+    "CALIBRATE_START": "calibrate_start",
     "CALIBRATE_PAUSE": "calibrate_pause",
     "JOY": "joy",
-    "COLLISION": "collision",
-    "CONGRATULATIONS": "congratulations",
+    "AVALOGUE_COLLISION": "avalogue_collision",
+    "AVALOGUE_MISTAKE": "avalogue_mistake",
+    "AVALOGUE_CONGRATULATIONS": "avalogue_congratulations",
     "COUNTDOWN": "countdown",
     "TRY_AGAIN": "try_again",
     "CLEAR_WAIT_FLAG": "clear_wait_flag",
@@ -22,7 +25,7 @@ EVENTS = {
     "RED_INIT_MODE": "red_init_mode",
     "STEP_ERROR_DANGER": "step_error_danger",
     "ASSISTED_SECOND": "assisted_second",
-    "START_CNTDOWN": "start_cntdwn",
+    "START_CNTDWN": "start_cntdwn",
     "STATE_INITIALIZING": "state_initializing",
     "STATE_START": "state_start",
     "STATE_DANGER1_START": "state_danger1_start",
@@ -40,7 +43,6 @@ EVENTS = {
     "BAR_FAST_MODE": "bar_fast_mode",
     "BAR_ULTRA_MODE": "bar_ultra_mode",
     "COLOR_TRANS": "color_trans",
-    "MISTAKE": "mistake",
     "TALKING_STARTED": "talking_started",
     "TALKING_ENDED": "talking_ended",
     "TALKING_STARTED_SAD": "talking_started_sad",
@@ -49,7 +51,6 @@ EVENTS = {
     "COUNT_MANUAL_TRANS_ACTIVE": "count_manual_trans_active",
     "RED_MODE": "red_mode",
     "BUTTON_ACTIVATE": "button_activate",
-    "CALIBRATE_START": "calibrate_start",
     "TASK_COUNT": "task_count",
     "STEP_ERROR": "step_error",
     "THRESHOLD_CROSS": "threshold_cross",
@@ -58,7 +59,8 @@ EVENTS = {
     "WRONG_ENTRY": "wrong_entry",
     "DUPLICATE_ENTRY": "duplicate_entry",
     "LABEL_CAMERA_SWITCH": "label_camera_switch",
-    "TOGGLE_BAR": "toggle_bar"
+    "TOGGLE_BAR": "toggle_bar",
+    "ACTIVATE_CALIBRATION": "activate_calibration"
 }
 
 # Example usage:

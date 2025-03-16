@@ -1,12 +1,10 @@
 import sys
 
 sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
-
 import csv
 from main.control import event_manager
-from main.data import global_config as gv
 import time
-
+from main.data import global_config as gv
 
 class Logger():
     
@@ -31,10 +29,7 @@ class Logger():
     def log(event, value):    
         Logger.dict_list.append({"Event": event, "Value": value, "Timestamp": Logger.elapsed_time})
         Logger.write_data()
-        
-    @event_manager.EventManager.subscribe("countdown")
-    def time_update(text):
-        Logger.elapsed_time = text
+    
 
     def write_data():
         if gv.tutorial_mode: return
@@ -42,8 +37,6 @@ class Logger():
             writer = csv.DictWriter(file, fieldnames = Logger.fields, dialect='excel')
             writer.writeheader() 
             writer.writerows(Logger.dict_list)
-
-
 
 
     

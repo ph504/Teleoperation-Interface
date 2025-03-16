@@ -22,9 +22,7 @@ class UserAI():
         self.red_continue = False
 
         self.bar_hitter_tag = None
-        EventManager.subscribe("user_reset", self.bar_hit_slow)
         EventManager.subscribe("red_init_mode", self.mode_switchter)
-        EventManager.subscribe("yellow_mode", self.normal_counterback)
 
         self.MAX_COUNT_TUTORIAL = 4 #number of mistakes that has to happen in tutorial for the user
         self.MAX_COUNT_EXPERIMENT = 3 #number of mistakes that has to happen in experiment for the user

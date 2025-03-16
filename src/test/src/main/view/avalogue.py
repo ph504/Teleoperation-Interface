@@ -35,7 +35,6 @@ class AvalogueController():
         self.avalogue_stack = deque()
 
         
-        EventManager.subscribe("collision", self.on_collision)
         EventManager.subscribe("congratulations", self.on_congrats)
         EventManager.subscribe("mistake", self.on_mistake)
         self.update_btnpress()
@@ -229,11 +228,10 @@ class AvalogueController():
         self.set_avalogue("r_happy", "congrats")
     
     def on_mistake(self, dummy):
-        if global_config.jackalai_active:
+        if gv.jackalai_active:
             self.set_avalogue("r_sad", "mistake")
     
     def on_collision(self, dummy):
-        
         self.set_avalogue("r_sad", "collision")
 
         

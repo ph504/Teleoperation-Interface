@@ -39,12 +39,10 @@ class InspectionPage():
         self.delay = False
         self.wait = False
 
-    @EventManager.subscribe("clear_wait_flag")
-    def clear_wait_flag(self, dumy):
+    def clear_wait_flag(self):
          self.wait = False
 
-    @EventManager.subscribe("try_again")
-    def try_again(self, dummy):
+    def try_again(self):
          self.wait = True
 
     def delete_err_lbl(self):

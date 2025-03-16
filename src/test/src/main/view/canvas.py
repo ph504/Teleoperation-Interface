@@ -95,10 +95,6 @@ class TimerCanvas(BaseCanvas):
         self.fsm = None
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
-
-        event_manager.EventManager.subscribe("calibrate_pause", self.stop)
-        event_manager.EventManager.subscribe("calibrate_start", self.start)
-
     def start(self, dummy = 0):
         if self.countdown == None:
             self.countdown = repeated_timer.RepeatedTimer(1, self.plus)
@@ -161,7 +157,7 @@ class TaskCanvas(BaseCanvas):
         
         if not gv.tutorial_mode:
             if c != 13:
-                event_manager.EventManager.post_event("congratulations", -1)
+                event_manager.EventManager.post_event("congratulations")
             
         #Danger State I
             if c == 2:
@@ -181,7 +177,7 @@ class TaskCanvas(BaseCanvas):
             if c == 9:
                 #just to stop going forward, validating new codes will be denied until user makes a choice in
                 if self.fsm.is_s6:
-                    event_manager.EventManager.post_event("try_again", -1)
+                    event_manager.EventManager.post_event("try_again")
                     
             #Danger State III
             elif c == 10:

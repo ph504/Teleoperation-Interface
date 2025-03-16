@@ -168,18 +168,18 @@ class BarCanvas(BaseCanvas):
         self.step_pass_count_normal = 0
         self.step_pass_count_danger = 0
 
-        EventManager.subscribe("count_manual_trans_deactive", self.manual_deactive)
-        EventManager.subscribe("count_manual_trans_active", self.manual_active)
+        # EventManager.subscribe("count_manual_trans_deactive", self.manual_deactive)
+        # EventManager.subscribe("count_manual_trans_active", self.manual_active)
 
-        EventManager.subscribe("bar_fast_mode", self.bar_mode_fast)
-        EventManager.subscribe("bar_slow_mode", self.bar_mode_slow)
-        EventManager.subscribe("bar_ultra_mode", self.bar_mode_ultra)
+        # EventManager.subscribe("bar_fast_mode", self.bar_mode_fast)
+        # EventManager.subscribe("bar_slow_mode", self.bar_mode_slow)
+        # EventManager.subscribe("bar_ultra_mode", self.bar_mode_ultra)
     
 
-        EventManager.subscribe("start_move_bars", self.random_movement)
-        EventManager.subscribe("stop_move_bars", self.stop_move_bars)
+        # EventManager.subscribe("start_move_bars", self.random_movement)
+        # EventManager.subscribe("stop_move_bars", self.stop_move_bars)
 
-        EventManager.subscribe("move_bar_backward", self.normal_cooldown)
+        # EventManager.subscribe("move_bar_backward", self.normal_cooldown)
     
     def start(self):
         pass
@@ -248,9 +248,9 @@ class BarCanvas(BaseCanvas):
         self.canvas.create_line(self.width * self.line_thresholdpercent, 0, self.width * self.line_thresholdpercent, self.height, fill="blue", width=self.line_width, tags=self.tag_line)
         
     def playsound_if_manual(self):
-        if not global_config.jackalai_active:
+        if not gv.jackalai_active:
             #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/error.wav", block=False)
-            global_config.error_sound.play()
+            gv.error_sound.play()
             
 
     def update_view_yellow(self):
@@ -327,7 +327,7 @@ class BarCanvas(BaseCanvas):
 
         if self.passed:
             #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav", block=False)
-            global_config.beep_sound.play()
+            gv.beep_sound.play()
             self.reset_bar()
         else:
             pass#playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/error.wav", block=False)
@@ -337,11 +337,11 @@ class BarCanvas(BaseCanvas):
     def jackal_reset(self, state):   
         if state == "yellow":
             #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav", block=False) 
-            global_config.beep_sound.play()
+            gv.beep_sound.play()
             self.reset_bar()
         elif state == "red_init":
             #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/error.wav", block=False)
-            global_config.error_sound.play()
+            gv.error_sound.play()
             self.reset_bar()
 
     def reset_bar(self):
@@ -373,15 +373,15 @@ class BarCanvas(BaseCanvas):
 
     def move_bar_repeat(self, string, interval):
         
-        if global_config.tutorial_mode:
+        if gv.tutorial_mode:
             
-            if global_config.bar_controller and self.repeat_moving is None:
+            if gv.bar_controller and self.repeat_moving is None:
                 return 
             
-            elif global_config.bar_controller and self.repeat_moving is not None:
+            elif gv.bar_controller and self.repeat_moving is not None:
             
                 self.repeat_moving.stop()
-            elif not global_config.bar_controller:
+            elif not gv.bar_controller:
                 if self.repeat_moving is not None:
                    
                     self.repeat_moving.stop()
