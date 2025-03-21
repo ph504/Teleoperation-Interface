@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
+sys.path.append('/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/')
 
 import math
 import textwrap
@@ -257,65 +257,65 @@ class MissCanavas(BaseCanvas):
             
 
 
-class ScoreCanvas(BaseCanvas):  
-    def __init__(self, r, dict_info):
-        super().__init__(r, dict_info)
-        self.color = dict_info["color"]
-        self.font = dict_info["font"]
-        self.text = "1000"
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+# class ScoreCanvas(BaseCanvas):  
+#     def __init__(self, r, dict_info):
+#         super().__init__(r, dict_info)
+#         self.color = dict_info["color"]
+#         self.font = dict_info["font"]
+#         self.text = "1000"
+#         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         
-        event_manager.EventManager.subscribe("task_count", self.subtract_score_task)
+#         event_manager.EventManager.subscribe("task_count", self.subtract_score_task)
         
-        event_manager.EventManager.subscribe("step_error", self.subtract_score)
-        event_manager.EventManager.subscribe("step_error_danger", self.subtract_score)
+#         event_manager.EventManager.subscribe("step_error", self.subtract_score)
+#         event_manager.EventManager.subscribe("step_error_danger", self.subtract_score)
         
-        event_manager.EventManager.subscribe("threshold_cross", self.subtract_score)
-        event_manager.EventManager.subscribe("threshold_cross_danger", self.subtract_score)
-        event_manager.EventManager.subscribe("collision_hit", self.subtract_score_hit)
+#         event_manager.EventManager.subscribe("threshold_cross", self.subtract_score)
+#         event_manager.EventManager.subscribe("threshold_cross_danger", self.subtract_score)
+#         event_manager.EventManager.subscribe("collision_hit", self.subtract_score_hit)
 
-        event_manager.EventManager.subscribe("wrong_entry", self.subtract_score)
-        event_manager.EventManager.subscribe("duplicate_entry", self.subtract_score)
+#         event_manager.EventManager.subscribe("wrong_entry", self.subtract_score)
+#         event_manager.EventManager.subscribe("duplicate_entry", self.subtract_score)
              
-    def subtract_score_task(self, task_count):
-        score = self.text
-        score = int(score)
-        score -= score_events["task_count"] * (10-int(task_count))
-        self.text = str(score)
-        self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+#     def subtract_score_task(self, task_count):
+#         score = self.text
+#         score = int(score)
+#         score -= score_events["task_count"] * (10-int(task_count))
+#         self.text = str(score)
+#         self.canvas.delete('all')
+#         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
-    def add_score(self, event_type):
-        score = self.text
-        score = int(score)
-        score += score_events[event_type]
-        self.text = str(score)
-        self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+#     def add_score(self, event_type):
+#         score = self.text
+#         score = int(score)
+#         score += score_events[event_type]
+#         self.text = str(score)
+#         self.canvas.delete('all')
+#         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
-    def add_score_hit(self, hit_count):
-        score = self.text
-        score = int(score)
-        score += score_events["collision_hit"] * int(hit_count)
-        self.text = str(score)
-        self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+#     def add_score_hit(self, hit_count):
+#         score = self.text
+#         score = int(score)
+#         score += score_events["collision_hit"] * int(hit_count)
+#         self.text = str(score)
+#         self.canvas.delete('all')
+#         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         
-    def subtract_score(self, event_type):
-        score = self.text
-        score = int(score)
-        score -= score_events[event_type]
-        self.text = str(score)
-        self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+#     def subtract_score(self, event_type):
+#         score = self.text
+#         score = int(score)
+#         score -= score_events[event_type]
+#         self.text = str(score)
+#         self.canvas.delete('all')
+#         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
-    def subtract_score_hit(self, hit_count):
-        score = self.text
-        score = int(score)
-        score -= score_events["collision_hit"] * int(hit_count)
-        self.text = str(score)
-        self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+#     def subtract_score_hit(self, hit_count):
+#         score = self.text
+#         score = int(score)
+#         score -= score_events["collision_hit"] * int(hit_count)
+#         self.text = str(score)
+#         self.canvas.delete('all')
+#         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
 
 class CircleCanvas(BaseCanvas):
     def __init__(self, r, info_dict):

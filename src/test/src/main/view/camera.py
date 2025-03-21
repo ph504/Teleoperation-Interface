@@ -1,11 +1,6 @@
 import sys
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/model/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/control/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/view/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/utils/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/test/')
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/main/data/')
+sys.path.append('/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/main/')
 
 import PIL
 import tkinter as tk
@@ -131,9 +126,9 @@ class CameraView():
 
     def image_placeholder(self, string):
         if string == "flir":
-            img = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), PIL.Image.ANTIALIAS)
+            img = PIL.Image.open("/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), PIL.Image.ANTIALIAS)
         else:
-            img = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/kirby.jpg").resize((self.width,self.height), PIL.Image.ANTIALIAS)
+            img = PIL.Image.open("/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/images/kirby.jpg").resize((self.width,self.height), PIL.Image.ANTIALIAS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)

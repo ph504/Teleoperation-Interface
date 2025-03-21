@@ -2,7 +2,7 @@
 
 import sys
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src')
+sys.path.append('/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src')
 
 from main.model import event_model
 from main.control import event_manager
@@ -110,51 +110,71 @@ class EventRegistrar:
                 lambda widgets, canvas : widgets['jackal_ai'].press_red_init(canvas),
                 lambda widgets, canvas : widgets['jackal_ai'].mode_switchter(canvas)
             ],
+            # TODO check the type arg
             event_model.EVENTS["STEP_ERROR_DANGER"]: [
                 lambda widgets, type : widgets['jackal_ai'].subtract_score(type),
             ],
+            # TODO check the type arg
             event_model.EVENTS["ASSISTED_SECOND"]: [
                 lambda widgets, type : widgets['jackal_ai'].second_round(type),
             ],
             event_model.EVENTS["START_CNTDWN"]: [
-                lambda gui, type : widgets['gui'].start_cntdwn(),
+                lambda widgets : widgets['ui_fsm'].start_cntdwn(),
             ],
-            # event_model.EVENTS["STATE_INITIALIZING"]: [
-            #     lambda widgets : 
-            # ],
-            # event_model.EVENTS["STATE_START"]: lambda: ,
-            # event_model.EVENTS["STATE_DANGER1_START"]: lambda: ,
-            # event_model.EVENTS["STATE_DANGER1_END"]: lambda: ,
-            # event_model.EVENTS["STATE_DANGER2_START"]: lambda: ,
-            # event_model.EVENTS["STATE_DANGER2_END"]: lambda: ,
-            # event_model.EVENTS["STATE_DECISION_PROMPT"]: lambda: ,
-            # event_model.EVENTS["STATE_DECISION_OUTCOME"]: lambda: ,
-            # event_model.EVENTS["STATE_DANGER3_START"]: lambda: ,
-            # event_model.EVENTS["STATE_DANGER3_END"]: lambda: ,
-            # event_model.EVENTS["STATE_TERMINATION"]: lambda: ,
             # event_model.EVENTS["MANUAL_SECOND"]: lambda: ,
-            # event_model.EVENTS["MOVE_BAR_BACKWARD"]: lambda: ,
-            # event_model.EVENTS["BAR_SLOW_MODE"]: lambda: ,
-            # event_model.EVENTS["BAR_FAST_MODE"]: lambda: ,
-            # event_model.EVENTS["BAR_ULTRA_MODE"]: lambda: ,
-            # event_model.EVENTS["COLOR_TRANS"]: lambda: ,
-            # event_model.EVENTS["TALKING_STARTED"]: lambda: ,
-            # event_model.EVENTS["TALKING_ENDED"]: lambda: ,
-            # event_model.EVENTS["TALKING_STARTED_SAD"]: lambda: ,
-            # event_model.EVENTS["STOP_TALKING"]: lambda: ,
-            # event_model.EVENTS["COUNT_MANUAL_TRANS_DEACTIVE"]: lambda: ,
-            # event_model.EVENTS["COUNT_MANUAL_TRANS_ACTIVE"]: lambda: ,
-            # event_model.EVENTS["RED_MODE"]: lambda: ,
-            # event_model.EVENTS["BUTTON_ACTIVATE"]: lambda: ,
-            # event_model.EVENTS["TASK_COUNT"]: lambda: ,
-            # event_model.EVENTS["STEP_ERROR"]: lambda: ,
-            # event_model.EVENTS["THRESHOLD_CROSS"]: lambda: ,
-            # event_model.EVENTS["THRESHOLD_CROSS_DANGER"]: lambda: ,
-            # event_model.EVENTS["COLLISION_HIT"]: lambda: ,
-            # event_model.EVENTS["WRONG_ENTRY"]: lambda: ,
-            # event_model.EVENTS["DUPLICATE_ENTRY"]: lambda: ,
+            # TODO check the type arg
+            event_model.EVENTS["MANUAL_SECOND"]: [
+                lambda widgets, type : widgets['jackal_ai'].second_round(type),
+                lambda widgets, type : widgets['user_ai'].second_round(type),
+            ],
+            event_model.EVENTS["COLOR_TRANS"]: [
+                lambda widgets : widgets['view_back'].color_transition(),
+                lambda widgets : widgets['camera_front'].color_transition(),
+                lambda widgets : widgets['circle_canvas'].color_transition(),
+            ],
+            # event_model.EVENTS["TALKING_STARTED"]: lambda: ,      # avatar raw disabled
+            # event_model.EVENTS["TALKING_ENDED"]: lambda: ,        # avatar raw disabled
+            # event_model.EVENTS["TALKING_STARTED_SAD"]: lambda: ,  # avatar raw disabled
+            # event_model.EVENTS["STOP_TALKING"]: lambda: ,         # avatar raw disabled
+
+            # event_model.EVENTS["MOVE_BAR_BACKWARD"]: lambda: ,    # this is for bar_canvas and it was deleted.
+            # event_model.EVENTS["BAR_SLOW_MODE"]: lambda: ,        # this is for bar_canvas and it was deleted.
+            # event_model.EVENTS["BAR_FAST_MODE"]: lambda: ,        # this is for bar_canvas and it was deleted.
+            # event_model.EVENTS["BAR_ULTRA_MODE"]: lambda: ,       # this is for bar_canvas and it was deleted.
+            
+            # event_model.EVENTS["COUNT_MANUAL_TRANS_DEACTIVE"]: lambda: ,  # bar_canvas disabled.
+            # event_model.EVENTS["COUNT_MANUAL_TRANS_ACTIVE"]: lambda: ,    # bar_canvas disabled.
+            # event_model.EVENTS["RED_MODE"]: lambda: ,                     # bar_canvas disabled
+
+            event_model.EVENTS["BUTTON_ACTIVATE"]: [
+                lambda widgets, tag : widgets['manual_button'].enable_event(tag),
+                lambda widgets, tag : widgets['auto_button'].enable_event(tag),
+                lambda widgets, tag : widgets['calibrate_button'].enable_event(tag),
+            ],
+            # event_model.EVENTS["TASK_COUNT"]: lambda: ,               # score canvas was disabled.
+            # event_model.EVENTS["STEP_ERROR"]: lambda: ,               # this is in the jackal ai controller code but it uses the bar canvas which was removed.
+            # event_model.EVENTS["THRESHOLD_CROSS"]: lambda: ,          # score canvas and bar canvas were disabled.
+            # event_model.EVENTS["THRESHOLD_CROSS_DANGER"]: lambda: ,   # score canvas and bar canvas were disabled.
+            # event_model.EVENTS["COLLISION_HIT"]: lambda: ,            # score canvas was disabled.
+            # event_model.EVENTS["WRONG_ENTRY"]: lambda: ,              # score canvas was disabled.
+            # event_model.EVENTS["DUPLICATE_ENTRY"]: lambda: ,          # score canvas was disabled.
             # event_model.EVENTS["LABEL_CAMERA_SWITCH"]: lambda: ,
-            # event_model.EVENTS["TOGGLE_BAR"]: lambda: 
+            event_model.EVENTS["LABEL_CAMERA_SWITCH"]: [
+                lambda widgets, tag : widgets['small_label'].switch_camera(),
+                lambda widgets, tag : widgets['big_label'].switch_camera(),
+            ],
+            # event_model.EVENTS["TOGGLE_BAR"]: lambda:                         # toggle bar is not apparent.
+            # event_model.EVENTS["STATE_INITIALIZING"]: [ lambda widgets :],    # state disabled
+            # event_model.EVENTS["STATE_START"]: lambda: ,                      # state disabled
+            # event_model.EVENTS["STATE_DANGER1_START"]: lambda: ,              # state disabled                
+            # event_model.EVENTS["STATE_DANGER1_END"]: lambda: ,                # state disabled  
+            # event_model.EVENTS["STATE_DANGER2_START"]: lambda: ,              # state disabled
+            # event_model.EVENTS["STATE_DANGER2_END"]: lambda: ,                # state disabled  
+            # event_model.EVENTS["STATE_DECISION_PROMPT"]: lambda: ,            # state disabled  
+            # event_model.EVENTS["STATE_DECISION_OUTCOME"]: lambda: ,           # state disabled 
+            # event_model.EVENTS["STATE_DANGER3_START"]: lambda: ,              # state disabled
+            # event_model.EVENTS["STATE_DANGER3_END"]: lambda: ,                # state disabled  
+            # event_model.EVENTS["STATE_TERMINATION"]: lambda: ,                # state disabled  
         }
         for event, handlers in event_handlers.items():
             event_manager.EventManager.register_event(event)
