@@ -27,19 +27,19 @@ class JackalAI():
         self.step_error_max = 3
         
         self.correct_logging = 0
-        EventManager.subscribe("yellow_mode", self.press_yellow) # type: ignore
-        EventManager.subscribe("red_init_mode", self.press_red_init) # type: ignore
-        EventManager.subscribe("step_error_danger", self.press_red) # type: ignore
+        # EventManager.subscribe("yellow_mode", self.press_yellow) # type: ignore
+        # EventManager.subscribe("red_init_mode", self.press_red_init) # type: ignore
+        # EventManager.subscribe("step_error_danger", self.press_red) # type: ignore
         self.incorrect_logging = 0
         #EventManager.subscribe("red_mode", self.press_red) #TODO:What?
         self.bar_hitter_tag = None
         self.bar_hit_count = 0
         self.waiting_to_hit = None
-        EventManager.subscribe("red_init_mode", self.mode_switchter) # type: ignore
+        # EventManager.subscribe("red_init_mode", self.mode_switchter) # type: ignore
 
         self.max_mistake = 5
         self.max_barhitcount = 6
-        EventManager.subscribe("assisted_second", self.second_round) # type: ignore
+        # EventManager.subscribe("assisted_second", self.second_round) # type: ignore
 
         self.c_maxcount = 15
 
@@ -57,44 +57,44 @@ class JackalAI():
 
         self.counter = 0
 
-    def press_yellow(self, bar: BarCanvas):    
+    # def press_yellow(self, bar: BarCanvas):    
         
-        if gv.jackalai_active:
+    #     if gv.jackalai_active:
            
-            if self.bar_hit_count <= self.max_barhitcount and bar.bar_tag == self.bar_hitter_tag:
+    #         if self.bar_hit_count <= self.max_barhitcount and bar.bar_tag == self.bar_hitter_tag:
 
-                self.count -= 1
-                self.bar_hit_count += 1
-                return
-            else:
+    #             self.count -= 1
+    #             self.bar_hit_count += 1
+    #             return
+    #         else:
   
-                self.count += 1
-                self.correct_logging += 1
-                Logger.log("ai_correctlogging", self.correct_logging) # type: ignore
+    #             self.count += 1
+    #             self.correct_logging += 1
+    #             Logger.log("ai_correctlogging", self.correct_logging) # type: ignore
                 
-                bar.jackal_reset("yellow")
+    #             bar.jackal_reset("yellow")
                 
-    def press_red_init(self, bar: BarCanvas):   
-        if gv.jackalai_active:
+    # def press_red_init(self, bar: BarCanvas):   
+    #     if gv.jackalai_active:
                 
-                if self.first_time and self.bar_hit_count == self.COLOR_TASK_TRANSITION_YELLOW:
-                    EventManager.post_event("color_trans", -1) 
+    #             if self.first_time and self.bar_hit_count == self.COLOR_TASK_TRANSITION_YELLOW:
+    #                 EventManager.post_event("color_trans", -1) 
                 
 
 
-                EventManager.post_event("mistake", -1)
-                self.count += 1
-                self.incorrect_logging  += 1
-                Logger.log("ai_incorrectlogging", self.incorrect_logging)
+    #             EventManager.post_event("mistake", -1)
+    #             self.count += 1
+    #             self.incorrect_logging  += 1
+    #             Logger.log("ai_incorrectlogging", self.incorrect_logging)
                 
-                bar.jackal_reset("red_init")                                         
+    #             bar.jackal_reset("red_init")                                         
     
-    def press_red(self, bar: BarCanvas):
+    # def press_red(self, bar: BarCanvas):
         
-        if gv.jackalai_active and gv.danger_mode: 
+    #     if gv.jackalai_active and gv.danger_mode: 
 
-            self.press_red_init(bar)
-            self.mode_switchter()
+    #         self.press_red_init(bar)
+    #         self.mode_switchter()
 
     def enable(self):     
         if not self.first_time and not self.second_time:

@@ -38,7 +38,7 @@ class Logger():
             writer.writerows(Logger.dict_list)
 
 
-    EventManager.subscribe("countdown", time_update)
+    # EventManager.subscribe("countdown", time_update)
 
 
     

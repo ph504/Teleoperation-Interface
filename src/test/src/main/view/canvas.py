@@ -230,7 +230,7 @@ class MissCanavas(BaseCanvas):
         self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
         self.fsm = None
   
-        event_manager.EventManager.subscribe("mistake", self.plus)
+        # event_manager.EventManager.subscribe("mistake", self.plus)
 
     def add_fsm(self, fsm):
         self.fsm = fsm    
@@ -331,7 +331,7 @@ class CircleCanvas(BaseCanvas):
 
         #self.canvas.create_rectangle(self.x, self.y, self.width, self.height, outline="black", width=2, fill="" )
         
-        event_manager.EventManager.subscribe("color_trans", self.color_transition)
+        # event_manager.EventManager.subscribe("color_trans", self.color_transition)
 
     def color_transition(self, dummy = 0):
         if self.state == "green":

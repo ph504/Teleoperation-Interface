@@ -5,7 +5,7 @@ sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/s
 from tkinter import Label
 from PIL import Image, ImageTk
 import time
-import main.utils as utils
+from main.utils import utils
 from tkinter import Tk
 import csv
 from collections import deque

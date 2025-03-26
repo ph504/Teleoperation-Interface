@@ -6,13 +6,13 @@ sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/s
 from tkinter import Label, Button, ACTIVE, DISABLED
 import time
 from tkinter import Tk
-import main.utils as utils
+from main.utils import utils
 import csv
 from collections import deque
 import threading
 import random
 import playsound
-import main.data as global_config
+from main.data import global_config
 
 dialogueview_info = {
     "x": 660,

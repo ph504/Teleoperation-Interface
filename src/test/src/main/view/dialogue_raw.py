@@ -127,10 +127,10 @@ class DialogueBox():
         EventManager.post_event("talking_started", True)
         self.start_or_yesno = False
         self.talk_mode = True
-        EventManager.subscribe("stop_talking", self.finish_talking_func)
-        EventManager.subscribe("collision", self.change_dialogue_collision)
-        EventManager.subscribe("congratulations", self.change_dialogue_congratulations)
-        EventManager.subscribe("mistake", self.change_dialogue_mistake)
+        # EventManager.subscribe("stop_talking", self.finish_talking_func)
+        # EventManager.subscribe("collision", self.change_dialogue_collision)
+        # EventManager.subscribe("congratulations", self.change_dialogue_congratulations)
+        # EventManager.subscribe("mistake", self.change_dialogue_mistake)
     
     def finish_talking_func(self, dummy):
         self.finish_talking = True

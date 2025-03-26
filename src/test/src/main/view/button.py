@@ -17,7 +17,7 @@ class BaseButton():
         self.state = info_dict["state"]
         self.tag = info_dict["tag"]
         self.active = True if self.state == tk.ACTIVE else False
-        self.button = Button(r, width= self.width, height=self.height, 
+        self.button = tk.Button(r, width= self.width, height=self.height, 
             text= self.text)
 
         
@@ -28,9 +28,9 @@ class BaseButton():
         if activate == True: self.activate()
         elif activate == False: self.deactivate()
 
-        EventManager.subscribe("button_activate", self.enable_event)
-        EventManager.subscribe("freeze", self.enable_freeze)
-        EventManager.subscribe("unfreeze", self.disable_freeze)
+        # EventManager.subscribe("button_activate", self.enable_event)
+        # EventManager.subscribe("freeze", self.enable_freeze)
+        # EventManager.subscribe("unfreeze", self.disable_freeze)
         
     def add_event(self, event, arg = None):
             self.button.config(command=event)
@@ -40,25 +40,25 @@ class BaseButton():
     
     def enable_event(self, tag=0):
         if(self.tag == tag):
-            self.button.config(state=ACTIVE)
+            self.button.config(state=tk.ACTIVE)
 
     def enable(self):
         if self.text == "Assisted Mode" or self.text == "Manual Mode":
             self.button.config(background="#faf289", activebackground="#faf289")
-        self.button.config(state=ACTIVE)
+        self.button.config(state=tk.ACTIVE)
 
     def disable(self):
         if self.text == "Assisted Mode" or self.text == "Manual Mode":
             self.button.config(background="#d9d7bd")
-        self.button.config(state=DISABLED)
+        self.button.config(state=tk.DISABLED)
 
     def enable_freeze(self, tag=-1):
         if(self.tag == 6):
-            self.button.config(state=ACTIVE)
+            self.button.config(state=tk.ACTIVE)
 
     def disable_freeze(self, tag=-1):
         if(self.tag == 6):
-            self.button.config(state=DISABLED)       
+            self.button.config(state=tk.DISABLED)       
 
 
 

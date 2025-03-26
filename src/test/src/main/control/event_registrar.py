@@ -182,7 +182,7 @@ class EventRegistrar:
             # if isinstance(handlers, list): 
             # changed the definition to all lists
             for handler in handlers:
-                @event_manager.EventManager.subscribe(event)(handler)
+                event_manager.EventManager.subscribe(event)(handler)
             # else:
             #     @event_manager.EventManager.subscribe(event)
             #     def wrapped_handler():

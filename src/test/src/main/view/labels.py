@@ -26,7 +26,7 @@ class CameraLabel():
 
 
 
-        EventManager.subscribe("label_camera_switch", self.switch_camera)
+        # EventManager.subscribe("label_camera_switch", self.switch_camera)
 
     def switch_camera(self, dummy = -1):
         if self.text == "Front Camera":

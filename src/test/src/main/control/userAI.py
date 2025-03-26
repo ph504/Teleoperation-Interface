@@ -22,7 +22,7 @@ class UserAI():
         self.red_continue = False
 
         self.bar_hitter_tag = None
-        EventManager.subscribe("red_init_mode", self.mode_switchter)
+        # EventManager.subscribe("red_init_mode", self.mode_switchter)
 
         self.MAX_COUNT_TUTORIAL = 4 #number of mistakes that has to happen in tutorial for the user
         self.MAX_COUNT_EXPERIMENT = 3 #number of mistakes that has to happen in experiment for the user
@@ -39,7 +39,7 @@ class UserAI():
 
         self.c_max_count = 15 #number of seconds that has to pass so a mistake happens
 
-        EventManager.subscribe("manual_second", self.second_round)
+        # EventManager.subscribe("manual_second", self.second_round)
 
 
         f = "bar_fast_mode"
@@ -72,10 +72,10 @@ class UserAI():
         self.mistake = 0
         self.m_max_count = 1
     
-    def normal_counterback(self, bar: BarCanvas):
+    # def normal_counterback(self, bar: BarCanvas):
 
-        if gv.danger_mode and not gv.jackalai_active and self.mistake >= self.m_max_count:
-            EventManager.post_event("move_bar_backward", bar)
+    #     if gv.danger_mode and not gv.jackalai_active and self.mistake >= self.m_max_count:
+    #         EventManager.post_event("move_bar_backward", bar)
 
     def counter_modecheck(self):
         if gv.danger_mode and not gv.jackalai_active:
@@ -95,7 +95,7 @@ class UserAI():
             self.mistake = 0
             self.counter = 0
             self.waiting_to_hit = False
-        Tk.after(self.root, 1000, self.counter_modecheck)
+        tk.Tk.after(self.root, 1000, self.counter_modecheck)
         
     def hitter_test(self):
         print(len(self.q))
@@ -141,7 +141,7 @@ class UserAI():
         else:
             return
 
-        Tk.after(self.root, 100, self.hitter)
+        tk.Tk.after(self.root, 100, self.hitter)
 
     def mode_switchter(self, dummy = -1):
         
@@ -168,12 +168,12 @@ class UserAI():
                 self.bar_hitter_tag = -1
                 self.waiting_to_hit = False
 
-    def bar_hit_slow(self, bar:BarCanvas):
-        if gv.danger_mode and not gv.jackalai_active:
-            if bar.bar_tag == self.bar_hitter_tag:
-                EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
-                self.bar_hitter_tag = -1
-                self.waiting_to_hit = False
+    # def bar_hit_slow(self, bar:BarCanvas):
+    #     if gv.danger_mode and not gv.jackalai_active:
+    #         if bar.bar_tag == self.bar_hitter_tag:
+    #             EventManager.post_event("bar_slow_mode", self.bar_hitter_tag)
+    #             self.bar_hitter_tag = -1
+    #             self.waiting_to_hit = False
 
     def toggle_fast(self):
         if self.waiting_to_hit == False:

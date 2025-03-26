@@ -35,8 +35,8 @@ class AvalogueController():
         self.avalogue_stack = deque()
 
         
-        EventManager.subscribe("congratulations", self.on_congrats)
-        EventManager.subscribe("mistake", self.on_mistake)
+        # EventManager.subscribe("congratulations", self.on_congrats)
+        # EventManager.subscribe("mistake", self.on_mistake)
         self.update_btnpress()
         self.update_loop()
 

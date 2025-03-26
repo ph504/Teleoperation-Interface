@@ -347,76 +347,6 @@ task_inspect_info_percent = {
     "active": True
 }
 
-button_manual_info_percent = {
-    "x": 70 / original_width,
-    "y": 560 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Manual Mode",
-    "state": tk.ACTIVE,
-    "tag": 2,
-
-}
-
-button_yes_info_percent = {
-    "x": 1250 / original_width,
-    "y": 940 / original_height,
-    "width": 100 / original_width,
-    "height": 30 / original_height,
-    "text": "Yes",
-    "state": tk.ACTIVE,
-    "tag": 3,
-
-    
-}
-
-button_no_info_percent = {
-    "x": 1350 / original_width,
-    "y": 940 / original_height,
-    "width": 100 / original_width,
-    "height": 30 / original_height,
-    "text": "No",
-    "state": tk.ACTIVE,
-    "tag": 3,
-
-}
-
-button_start_info_percent = {
-    "x": 1300 / original_width,
-    "y": 940 / original_height,
-    "width": 100 / original_width,
-    "height": 30 / original_height,
-    "text": "Start",
-    "state": tk.ACTIVE,
-    "tag": 5,
- 
-    
-}
-
-button_freeze_info_percent = {
-    "x": 70 / original_width,
-    "y": 900 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Freeze",
-    "state": tk.ACTIVE,
-    "tag": 6,
-
-    
-}
-
-button_calibrate_info_percent = {
-    "x": 70 / original_width,
-    "y": 800 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Calibrate",
-    "state": tk.ACTIVE,
-    "tag": 7,
-
-    
-}
-
 
 # wtf is a javatar???
 javatar_info_percent = {
@@ -445,8 +375,124 @@ javatar_images = {
 }
 
 # -------------------------------------------------------- functions --------------------------------------------------------
+#############################################################################
+def load_all_pixel_info(screen_width, screen_height):
+    # 📌 Declare all globals to assign them from inside this function
+    global flir_info, axis_info
+    global big_camera_label, small_camera_label, clbr_label
 
+    global big_canvas_info, small_canvas_info
+    global timer_canvas_info, timer_label_info
+    global task_canvas_info, task_label_info
+    global miss_canvas_agent_info, miss_label_agent_info
+    global miss_canvas_operator_info, miss_label_operator_info
+    global score_canvas_info, score_label_info
+    global circle_canvas_info
+
+    global dialogueview_info, dbox_info
+    global button_auto_info, button_manual_info
+    global button_yes_info, button_no_info, button_start_info
+    global button_freeze_info, button_calibrate_info
+
+    global flashing_image_info, countdown_info
+    global task_inspect_info
+
+    global javatar_info
+
+    # 🎥 Camera views
+    flir_info = convert_to_pixels(flir_info_percent, screen_width, screen_height)
+    axis_info = convert_to_pixels(axis_info_percent, screen_width, screen_height)
+
+    # 🏷️ Camera label overlays and calibration label
+    big_camera_label = convert_to_pixels(big_camera_label_percent, screen_width, screen_height)
+    small_camera_label = convert_to_pixels(small_camera_label_percent, screen_width, screen_height)
+    clbr_label = convert_to_pixels(clbr_label_percent, screen_width, screen_height)
+
+    # 📊 Canvases (bar indicators, timers, tasks)
+    big_canvas_info = convert_to_pixels(big_canvas_info_percent, screen_width, screen_height)
+    small_canvas_info = convert_to_pixels(small_canvas_info_percent, screen_width, screen_height)
+    timer_canvas_info = convert_to_pixels(timer_canvas_info_percent, screen_width, screen_height)
+    timer_label_info = convert_to_pixels(timer_label_info_percent, screen_width, screen_height)
+    task_canvas_info = convert_to_pixels(task_canvas_info_percent, screen_width, screen_height)
+    task_label_info = convert_to_pixels(task_label_info_percent, screen_width, screen_height)
+
+    # ❌ Mistake and score tracking
+    miss_canvas_agent_info = convert_to_pixels(miss_canvas_agent_info_percent, screen_width, screen_height)
+    miss_label_agent_info = convert_to_pixels(miss_label_agent_info_percent, screen_width, screen_height)
+    miss_canvas_operator_info = convert_to_pixels(miss_canvas_operator_info_percent, screen_width, screen_height)
+    miss_label_operator_info = convert_to_pixels(miss_label_operator_info_percent, screen_width, screen_height)
+    score_canvas_info = convert_to_pixels(score_canvas_info_percent, screen_width, screen_height)
+    score_label_info = convert_to_pixels(score_label_info_percent, screen_width, screen_height)
+
+    # 🟢 Circle state indicator
+    circle_canvas_info = convert_to_pixels(circle_canvas_info_percent, screen_width, screen_height)
+
+    # 💬 Dialogue and button layout
+    dialogueview_info = convert_to_pixels(dialogueview_info_percent, screen_width, screen_height)
+    dialogueview_info["btn1_info"] = convert_to_pixels(dialogueview_info_percent["btn1_info_percent"], screen_width, screen_height)
+    dialogueview_info["btn2_info"] = convert_to_pixels(dialogueview_info_percent["btn2_info_percent"], screen_width, screen_height)
+    dialogueview_info["btn_info"] = convert_to_pixels(dialogueview_info_percent["btn_info_percent"], screen_width, screen_height)
+    dbox_info = convert_to_pixels(dbox_info_percent, screen_width, screen_height)
+
+    # 🎮 Buttons (mode selection, calibration, yes/no)
+    button_auto_info = convert_to_pixels(button_auto_info_percent, screen_width, screen_height)
+    button_manual_info = convert_to_pixels(button_manual_info_percent, screen_width, screen_height)
+    button_yes_info = convert_to_pixels(button_yes_info_percent, screen_width, screen_height)
+    button_no_info = convert_to_pixels(button_no_info_percent, screen_width, screen_height)
+    button_start_info = convert_to_pixels(button_start_info_percent, screen_width, screen_height)
+    button_freeze_info = convert_to_pixels(button_freeze_info_percent, screen_width, screen_height)
+    button_calibrate_info = convert_to_pixels(button_calibrate_info_percent, screen_width, screen_height)
+
+    # ⚡ Visual signals
+    flashing_image_info = convert_to_pixels(flashing_image_info_percent, screen_width, screen_height)
+    countdown_info = convert_to_pixels(countdown_info_percent, screen_width, screen_height)
+
+    # 🔍 Inspection view
+    task_inspect_info = convert_to_pixels(task_inspect_info_percent, screen_width, screen_height)
+
+    # 🤖 Avatar (Javatar) position
+    javatar_info = convert_to_pixels(javatar_info_percent, screen_width, screen_height)
+    
+    # return{
+    #     "flir_info": flir_info,
+    #     "axis_info": axis_info,
+    #     "big_camera_label": big_camera_label,
+    #     "small_camera_label": small_camera_label,
+    #     "clbr_label": clbr_label,
+    #     "big_canvas_info": big_canvas_info,
+    #     "small_canvas_info": small_canvas_info,
+    #     "timer_canvas_info": timer_canvas_info,
+    #     "timer_label_info": timer_label_info,
+    #     "task_canvas_info": task_canvas_info,
+    #     "task_label_info": task_label_info,
+    #     "miss_canvas_agent_info": miss_canvas_agent_info,
+    #     "miss_label_agent_info": miss_label_agent_info,
+    #     "miss_canvas_operator_info": miss_canvas_operator_info,
+    #     "miss_label_operator_info": miss_label_operator_info,
+    #     "score_canvas_info": score_canvas_info,
+    #     "score_label_info": score_label_info,
+    #     "circle_canvas_info": circle_canvas_info,
+    #     "dialogueview_info": dialogueview_info,
+    #     "dbox_info": dbox_info,
+    #     "button_auto_info": button_auto_info,
+    #     "button_manual_info": button_manual_info,
+    #     "button_yes_info": button_yes_info,
+    #     "button_no_info": button_no_info,
+    #     "button_start_info": button_start_info,
+    #     "button_freeze_info": button_freeze_info,
+    #     "button_calibrate_info": button_calibrate_info,
+    #     "flashing_image_info": flashing_image_info,
+    #     "countdown_info": countdown_info,
+    #     "task_inspect_info": task_inspect_info,
+    #     "javatar_info": javatar_info
+    # }
+#############################################################################
+
+#############################################################################
 def convert_to_pixels(percent_info, screen_width, screen_height):
+    wraplength = percent_info.get("wraplength", None)
+    if wraplength is not None:
+        wraplength = int(wraplength * screen_width)
     pixel_info = {
         "x": int(percent_info["x"] * screen_width),
         "y": int(percent_info["y"] * screen_height),
@@ -457,11 +503,18 @@ def convert_to_pixels(percent_info, screen_width, screen_height):
         "endright_angle": percent_info.get("endright_angle", None),
         "outline_color": percent_info.get("outline_color", None),  # Colors stay the same
         "outline_width": percent_info.get("outline_width", None),  # Leave unchanged
+        "wraplength": wraplength,
+
+        "text": percent_info.get("text", None), # Keep the text as is
         "color": percent_info.get("color", None),  # Colors stay the same
         "colors": percent_info.get("colors", None),  # Colors stay the same
-        "font": percent_info.get("font", None),
-        "active": percent_info.get("active", None)  # Keep the boolean as is
+        "font" : percent_info.get("font", None),
+        "active" : percent_info.get("active", None),  # Keep the boolean as is
+        "state" : percent_info.get("state", None),  # Keep the state as is
+        "tag" : percent_info.get("tag", None),  # Keep the tag as is
+        "bg": percent_info.get("bg", None), # Keep the background color as is
+
     }
     return pixel_info
-
+#############################################################################
 # -------------------------------------------------------- functions --------------------------------------------------------

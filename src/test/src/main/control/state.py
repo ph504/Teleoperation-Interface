@@ -8,6 +8,7 @@ import time
 import threading
 from main.control import event_manager
 from main.utils import logger
+from main.utils import utils
 from main.data import global_config as gv
 
 #https://lucid.app/lucidchart/9bb1bf19-cce4-4f60-bbae-7a752431570e/edit?viewport_loc=-315%2C-960%2C2760%2C2400%2C0_0&invitationId=inv_32ea1377-4a91-40f0-9b16-40a05b0fa630
@@ -36,7 +37,7 @@ class TeleopGUIMachine(StateMachine):
         utils.register("No", self.on_no)
 
         self.jackal_ai.disable()
-        EventManager.subscribe("start_cntdwn", self.start_cntdwn) # type: ignore
+        # event_manager.EventManager.subscribe("start_cntdwn", self.start_cntdwn) # type: ignore
 
     #states
     state_initializing = State('state_initializing', initial= True) 
@@ -111,8 +112,8 @@ class TeleopGUIMachine(StateMachine):
     def on_initializing_to_start (self):
         def start():
             print("***state_start --- Start***")
-            EventManager.post_event("unfreeze", -1) # type: ignore
-            EventManager.post_event("start_move_bars", -1) # type: ignore
+            event_manager.EventManager.post_event("unfreeze", -1) # type: ignore
+            event_manager.EventManager.post_event("start_move_bars", -1) # type: ignore
             self.timer.start()
             self.avalogue.set_avalogue("r_happy", "start_a")
   

@@ -29,9 +29,9 @@ class BaseButton():
         if activate == True: self.activate()
         elif activate == False: self.deactivate()
 
-        EventManager.subscribe("button_activate", self.enable_event)
-        EventManager.subscribe("freeze", self.enable_freeze)
-        EventManager.subscribe("unfreeze", self.disable_freeze)
+        # EventManager.subscribe("button_activate", self.enable_event)
+        # EventManager.subscribe("freeze", self.enable_freeze)
+        # EventManager.subscribe("unfreeze", self.disable_freeze)
         
     def add_event(self, event, arg = None):
             def x():

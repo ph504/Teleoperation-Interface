@@ -2,14 +2,15 @@ import sys
 
 sys.path.append('/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/main/')
 
-import PIL
+from PIL import Image, ImageTk
+from tkinter import Frame, Label
 import tkinter as tk
 import rospy
 import rosnode
 import sensor_msgs.msg
 import cv2
 import numpy as np
-import cv_bridge.core
+from cv_bridge import CvBridge
 from main.control import event_manager
 from main.data import global_config as gv
 
@@ -44,7 +45,7 @@ class CameraView():
         self.cam_available = cam_available
         self.bridge = CvBridge()
         self.border_thick = 15
-        if not global_config.practice_mode:
+        if not gv.practice_mode:
             self.frame = Frame(root, highlightbackground=self.border_colors["light_green"], highlightthickness=self.border_thick)
         else:
             self.frame = Frame(root)
@@ -55,7 +56,7 @@ class CameraView():
         if self.camera == "flir":
             self.one_second_counter()
 
-        EventManager.subscribe("color_trans", self.color_transition)
+        # event_manager.EventManager.subscribe("color_trans", self.color_transition)
 
         #??
         if cam_available:
@@ -80,7 +81,7 @@ class CameraView():
        
         self.counter = 0
 
-        Tk.after(self.root, 1000, self.one_second_counter)            
+        tk.Tk.after(self.root, 1000, self.one_second_counter)            
 
     def update_pos(self,dict_info):
         
@@ -101,7 +102,7 @@ class CameraView():
         image_np = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
 
         if CameraView.scan_mode and self.camera == "axis":
-            EventManager.post_event("tag_detection", ros_data)
+            event_manager.EventManager.post_event("tag_detection", ros_data)
 
         #find the shape of array (number of elements in each dimensions) convert it to a number and multiply it by scale factor. The shape int number is the value of pixel numbers for width/height. multiplying just downscales/upscales it.
         new_width = int(image_np.shape[1] * self.img_scale_factor)
@@ -114,26 +115,26 @@ class CameraView():
         
 
         #convert numpy image (with array interface) to pillow image
-        img = PIL.Image.fromarray(image_np).resize((self.width,self.height), PIL.Image.ANTIALIAS)
+        img = Image.fromarray(image_np).resize((self.width,self.height), Image.ANTIALIAS)
         
 
         
         #for displayin the image in the tkinter GUI
         self.imgtk = ImageTk.PhotoImage(image=img)
         self.imagewidget.config(image=self.imgtk)
-        self.imagewidget.image = self.imgtk
+        self._imgtk_reference = self.imgtk
         self.imagewidget.place(x= 0, y= 0, width= self.width, height= self.height)
 
     def image_placeholder(self, string):
         if string == "flir":
-            img = PIL.Image.open("/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), PIL.Image.ANTIALIAS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), Image.ANTIALIAS)
         else:
-            img = PIL.Image.open("/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/images/kirby.jpg").resize((self.width,self.height), PIL.Image.ANTIALIAS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/kirby.jpg").resize((self.width,self.height), Image.ANTIALIAS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)
         self.imagewidget.config(image=self.imgtk)
-        self.imagewidget.image = self.imgtk
+        self._imgtk_reference = self.imgtk
         self.imagewidget.place(x= self.x, y= self.y, width= self.width, height= self.height)
 
     def change_angle(data, small, big, curr_angle):
@@ -158,7 +159,7 @@ class CameraView():
             self.frame.configure(highlightbackground=self.border_colors["orange"])
             self.state = "orange"
         
-        elif global_config.tutorial_mode and self.state == "orange":
+        elif gv.tutorial_mode and self.state == "orange":
             self.frame.configure(highlightbackground=self.border_colors["red"])
             self.state = "red"
 
@@ -172,6 +173,6 @@ class CameraView():
             self.frame.configure(highlightbackground=self.border_colors["yellow"])
             self.state = "yellow"
         
-        elif global_config.tutorial_mode and self.state == "yellow":
+        elif gv.tutorial_mode and self.state == "yellow":
             self.frame.configure(highlightbackground=self.border_colors["light_green"])
             self.state = "green"
