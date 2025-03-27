@@ -66,7 +66,7 @@ class TeleopGUIMachine(StateMachine):
     # DANGER_START_TIMER = 10
     # DANGER_END_TIMER = 10
     # COLOR_TRANS_TIMER = 30
-    WARNING_TIMER = 15   
+    # WARNING_TIMER = 15   
 
     # def assistedmanual_disable(self):
     #     EventManager.post_event("count_manual_trans_deactive", -1) # type: ignore
