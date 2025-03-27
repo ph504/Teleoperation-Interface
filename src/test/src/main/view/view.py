@@ -129,29 +129,16 @@ def main():
     # x = threading.Thread(target=server_program)
     # x.start()
     
-
-    # TODO remove, these are completely extra and unnecessary
-    # cursor_canvas_small = canvas.CursorCanvas(tab1, gs.small_canvas_info)
-    # cursor_canvas_small.disable()
-    # cursor_canvas_big = canvas.CursorCanvas(tab1, gs.big_canvas_info)
-    # cursor_canvas_big.disable()
-
     if camera.camera_available(): 
         rospy.init_node("viewer", anonymous= True)
         NODE_INITIALIZED = True
         rospy.loginfo("viewer node started ...")
-        #global prev_angle 
         axis = ac_msg.Axis()
         axis.pan = -180
         pub_axis = rospy.Publisher('/axis/cmd', ac_msg.Axis, queue_size=10)
         pub_axis.publish(axis)
         x = rospy.wait_for_message("/axis/state", ac_msg.Axis).pan
         print("Initial angle: " + str(x))
-        # currentangle = rospy.wait_for_message("/axis/state", Axis).pan # might be a problem
-        #TODO: make the camera tilt
-        # rospy.EventManager.subscriber("/axis/cmd", Axis, change_angle, callback_args=(cursor) queue_size=1) #TODO: Fix cursor change!
-        # cursor_canvases = (cursor_canvas_small, cursor_canvas_big)
-        # rospy.EventManager.subscriber("/axis/cmd", Axis, callback= change_angle, callback_args= cursor_canvases, queue_size=1)
 
 
     global cs, dialogue_end
@@ -201,12 +188,9 @@ def main():
     
     tab_checker()
     
-    #if  gv.tutorial_mode: auto_button.enable()
 
     if gv.tutorial_mode: 
         bind_keyboard(root, widgets['camera_front'], widgets['jackal_ai'], widgets['ui_fsm'])
-        # bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, widgets['task_canvas'], widgets['view_back'], widgets['camera_front'], widgets['manual_button'], widgets['auto_button'], widgets['circle_canvas'], widgets['jackal_ai'], widgets['ui_fsm'])
-        # bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm)
 
     
     # TODO
@@ -235,16 +219,11 @@ def widget_init(root, tab1, tab2):
         widgets['camera_front'] = camera.CameraView(tab1, gs.axis_info, camera.camera_available(), "axis")
 
     def initialize_buttons():
-        # widgets['manual_button'] = button.BaseButton(root, gs.button_manual_info, enable=False)
-        # widgets['auto_button'] = button.BaseButton(root, gs.button_auto_info, enable=False)
         widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)
 
     def initialize_canvases():
         widgets['countdown'] = flashing_image.CountdownCanvas(root, gs.countdown_info)
         widgets['timer_canvas'] = canvas.TimerCanvas(root, gs.timer_canvas_info)
-        # widgets['task_canvas'] = canvas.TaskCanvas(root, gs.task_canvas_info)
-        # widgets['circle_canvas'] = canvas.CircleCanvas(tab2, gs.circle_canvas_info) if not gv.practice_mode else None
-        # widgets['score_canvas'] = None
 
     def initialize_labels():
         # widgets['small_label'] = labels.CameraLabel(tab1, gs.small_camera_label)
@@ -255,12 +234,6 @@ def widget_init(root, tab1, tab2):
 
         timer_label = tk.Label(root, text=gs.timer_label_info["text"], font=gs.timer_label_info["font"], fg=gs.timer_label_info["color"])
         timer_label.place(x = gs.timer_label_info["x"], y = gs.timer_label_info["y"], width=gs.timer_label_info["width"], height=gs.timer_label_info["height"])
-        # miss_label_operator = tk.Label(root, text="Operator", font=gs.miss_label_operator_info["font"], fg=gs.miss_label_operator_info["color"])
-        # miss_label_operator.place(x = gs.miss_label_operator_info["x"], y = gs.miss_label_operator_info["y"], width=gs.miss_label_operator_info["width"], height=gs.miss_label_operator_info["height"])
-        # miss_label_agent = tk.Label(root, text="Agent", font=gs.miss_label_agent_info["font"], fg=gs.miss_label_agent_info["color"])
-        # miss_label_agent.place(x = gs.miss_label_agent_info["x"], y = gs.miss_label_agent_info["y"], width=gs.miss_label_agent_info["width"], height=gs.miss_label_agent_info["height"])
-        # task_label = tk.Label(root, text=gs.task_label_info["text"], font=gs.task_label_info["font"], fg=gs.task_label_info["color"])
-        # task_label.place(x = gs.task_label_info["x"], y = gs.task_label_info["y"], width=gs.task_label_info["width"], height=gs.task_label_info["height"])
         
     def initialize_dialogue_system():
         if not gv.tutorial_mode or gv.practice_mode:
@@ -284,9 +257,7 @@ def widget_init(root, tab1, tab2):
         widgets['dialogue_text'] = None
 
     def initialize_misc_components():
-        # widgets['miss_canvas_operator'] = canvas.MissCanavas(root, gs.miss_canvas_operator_info, "operator")
-        # widgets['miss_canvas_agent'] = canvas.MissCanavas(root, gs.miss_canvas_agent_info, "agent")
-        widgets['flashing_image'] = flashing_image.FlashingImage(root, gs.flashing_image_info)
+        # widgets['flashing_image'] = flashing_image.FlashingImage(root, gs.flashing_image_info)
         widgets['inspection_page'] = inspection.InspectionPage(tab2)
 
 
@@ -305,13 +276,6 @@ def widget_init(root, tab1, tab2):
         widgets['countdown'].add_fsm(ui_fsm)
         widgets['ui_fsm'] = ui_fsm
 
-    # rospy.Subscriber("joy", Joy, callback= joy_config, callback_args= widgets)
-    
-    #if not gv.tutorial_mode: start_button.add_event(gui_fsm.s01)
-    #if not gv.tutorial_mode: yes_button.add_event(gui_fsm.on_yes)
-    #if not gv.tutorial_mode: no_button.add_event(gui_fsm.on_no)
-    
-    
 
     # Call the modularized initialization functions
     initialize_camera_views()
@@ -331,12 +295,7 @@ def bind_keyboard(tab1, camera_front, jackal_ai, tutorial_fsm):
 # def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
     
     if not gv.practice_mode:
-        # tab1.bind('s', lambda e: switch(back = view_back, front = camera_front, small=cursor_canvas_small, big=cursor_canvas_big))
-        # tab1.bind('o', lambda e: task_canvas.plus()) 
-        # tab1.bind('[', lambda e: color_transition(view_back, camera_front, circle_canvas))
-        # tab1.bind(']', lambda e: color_transition_reverse(view_back, camera_front, circle_canvas))
         tab1.bind('b', lambda e: toggle_barcontroller())
-        # tab1.bind('a', lambda e: toggle_assistedmode(jackal_ai,manual_button,auto_button))
         tab1.bind('x', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
         tab1.bind('z', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
         
@@ -344,11 +303,6 @@ def bind_keyboard(tab1, camera_front, jackal_ai, tutorial_fsm):
         tab1.bind('9', lambda e: start_tutorial(tab1, tutorial_fsm))
         tab1.bind('x', lambda e: playsound_beep_thread())
         tab1.bind('z', lambda e: playsound_beep_thread())       
-    
-# def color_transition(view_b, view_f,circle_canvas):
-#     view_b.color_transition()
-#     view_f.color_transition()
-#     circle_canvas.color_transition()
     
 def start_tutorial(tab, t_fsm):
     tab.unbind_all('s')
@@ -365,23 +319,6 @@ def start_tutorial(tab, t_fsm):
     tab.unbind_all('9')
     t_fsm.initializing_to_start()
 
-# def color_transition_reverse(view_b, view_f, circle_canvas):
-#     view_b.color_transition_reverse()
-#     view_f.color_transition_reverse()
-#     circle_canvas.color_transition_reverse()
-
-# def toggle_assistedmode(jackal_ai, man_btn, ato_btn):
-    
-#     if gv.jackalai_active:
-#         jackal_ai.disable()
-#         # man_btn.enable()
-#         # ato_btn.disable()
-        
-#     else:
-#         jackal_ai.enable()
-#         # man_btn.disable()
-#         # ato_btn.enable()
-    
 def toggle_barcontroller():
     gv.bar_controller = not gv.bar_controller
     event_manager.EventManager.post_event("start_move_bars", -1) # type: ignore
@@ -389,32 +326,6 @@ def toggle_barcontroller():
 def change_scan_mode():
     camera.CameraView.scan_mode = not camera.CameraView.scan_mode
     print(camera.CameraView.scan_mode)
-
-# def switch(back, front, small, big):
-        
-#         event_manager.EventManager.post_event("label_camera_switch", -1) # type: ignore
-        
-#         if back.is_front == False:
-#             #Flir is front, Axis is back
-#             # front.update_pos(gs.flir_info)
-#             back.update_pos(gs.axis_info)
-#             #small.switch_camera()
-#             #big.switch_camera()
-#         else:
-#             #Axis is front, Flir is back
-#             front.update_pos(gs.axis_info)
-#             # back.update_pos(gs.flir_info)
-#             #small.switch_camera()
-#             #big.switch_camera()
-       
-# def switch_auto(auto_button, manual_button):
-
-#     if auto_button.active:
-#         auto_button.disable()
-#         manual_button.enable()
-#     elif manual_button.active:
-#         auto_button.enable()
-#         manual_button.disable()
 
 def server_program():
     socketserver.TCPServer.allow_reuse_address = True
@@ -477,13 +388,8 @@ def joy_config(data, widgets):
     if gv.in_inspection:
         return
 
-    # #camera switch
-    # cs_buff = cs
-    # cs = data.buttons[3]
-    # if cs == 1 and cs_buff == 0:
-    #     switch(back = widgets["view_back"], front = widgets["camera_front"], small=widgets["small_label"], big=widgets["big_label"])
 
-    #end the dialogue talking sound and show all the text
+    # end the dialogue talking sound and show all the text
     dialogue_end_buff = dialogue_end
     dialogue_end = data.buttons[5]
     if dialogue_end == 1 and dialogue_end_buff == 0:
