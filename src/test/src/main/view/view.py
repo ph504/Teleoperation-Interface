@@ -13,7 +13,7 @@ from main.view import camera
 from main.view import button
 import inspection
 from main.view import canvas
-from main.view import flashing_image
+# from main.view import flashing_image
 from main.view import labels
 import std_msgs.msg as std_msg
 from main.data import global_config as gv
@@ -222,7 +222,7 @@ def widget_init(root, tab1, tab2):
         widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)
 
     def initialize_canvases():
-        widgets['countdown'] = flashing_image.CountdownCanvas(root, gs.countdown_info)
+        # widgets['countdown'] = flashing_image.CountdownCanvas(root, gs.countdown_info)
         widgets['timer_canvas'] = canvas.TimerCanvas(root, gs.timer_canvas_info)
 
     def initialize_labels():

@@ -328,12 +328,12 @@ button_calibrate_info_percent = {
 
 # }
 
-flashing_image_info_percent = {
-    "x": 1600 / original_width,
-    "y": 800 / original_height,
-    "width": 200 / original_width,
-    "height": 180 / original_height,
-}
+# flashing_image_info_percent = {
+#     "x": 1600 / original_width,
+#     "y": 800 / original_height,
+#     "width": 200 / original_width,
+#     "height": 180 / original_height,
+# }
 
 countdown_info_percent = {
     "x": 1215 / original_width,
@@ -404,7 +404,7 @@ def load_all_pixel_info(screen_width, screen_height):
     global button_yes_info, button_no_info, button_start_info
     global button_freeze_info, button_calibrate_info
 
-    global flashing_image_info, countdown_info
+    global countdown_info
     # global task_inspect_info
 
     global javatar_info
@@ -454,7 +454,7 @@ def load_all_pixel_info(screen_width, screen_height):
     button_calibrate_info = convert_to_pixels(button_calibrate_info_percent, screen_width, screen_height)
 
     # ⚡ Visual signals
-    flashing_image_info = convert_to_pixels(flashing_image_info_percent, screen_width, screen_height)
+    # flashing_image_info = convert_to_pixels(flashing_image_info_percent, screen_width, screen_height)
     countdown_info = convert_to_pixels(countdown_info_percent, screen_width, screen_height)
 
     # 🔍 Inspection view
