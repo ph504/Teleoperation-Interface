@@ -19,15 +19,15 @@ big_camera_label_percent = {
     "font": ('Helvetica', '13', 'bold')
 }
 
-small_camera_label_percent = {
-    "x": 120 / original_width,
-    "y": 35 / original_height,
-    "width": 200 / original_width,
-    "height": 15 / original_height,
-    "text" : "Back Camera",
-    "font": ('Helvetica', '10', 'bold')
+# small_camera_label_percent = {
+#     "x": 120 / original_width,
+#     "y": 35 / original_height,
+#     "width": 200 / original_width,
+#     "height": 15 / original_height,
+#     "text" : "Back Camera",
+#     "font": ('Helvetica', '10', 'bold')
 
-}
+# }
 
 clbr_label_percent = {
     "x": 5 / original_width,
@@ -38,14 +38,14 @@ clbr_label_percent = {
     "font": ('Helvetica', '20', 'bold')
 }
 
-flir_info_percent = {
-    "x": 15 / original_width,
-    "y": 50 / original_height,
-    "width": 400 / original_width,
-    "height": 300 / original_height,
-    # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
-    "color" : "#faa94d",
-}
+# flir_info_percent = {
+#     "x": 15 / original_width,
+#     "y": 50 / original_height,
+#     "width": 400 / original_width,
+#     "height": 300 / original_height,
+#     # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
+#     "color" : "#faa94d",
+# }
 axis_info_percent = {
     "x": 560 / original_width,
     "y": 150 / original_height,
@@ -56,33 +56,33 @@ axis_info_percent = {
 }
 
 
-big_canvas_info_percent = {
-    "x": 1500 / original_width,  # 78.13%
-    "y": 600 / original_height,  # 55.56%
-    "width": 150 / original_width,  # 7.81%
-    "height": 150 / original_height,  # 13.89%
-    "endup_angle": np.deg2rad(-90),
-    "endleft_angle": np.deg2rad(-240),
-    "endright_angle": np.deg2rad(60),
-    "outline_color": "blue",
-    "outline_width": 5,  # Leave unchanged
-    "color": "blue",
-    "active": True
-}
+# big_canvas_info_percent = {
+#     "x": 1500 / original_width,  # 78.13%
+#     "y": 600 / original_height,  # 55.56%
+#     "width": 150 / original_width,  # 7.81%
+#     "height": 150 / original_height,  # 13.89%
+#     "endup_angle": np.deg2rad(-90),
+#     "endleft_angle": np.deg2rad(-240),
+#     "endright_angle": np.deg2rad(60),
+#     "outline_color": "blue",
+#     "outline_width": 5,  # Leave unchanged
+#     "color": "blue",
+#     "active": True
+# }
 
-small_canvas_info_percent = {
-    "x": 430 / original_width,  # 22.40%
-    "y": 250 / original_height,  # 23.15%
-    "width": 50 / original_width,  # 2.60%
-    "height": 50 / original_height,  # 4.63%
-    "endup_angle": np.deg2rad(-90),
-    "endleft_angle": np.deg2rad(-240),
-    "endright_angle": np.deg2rad(60),
-    "outline_color": "SpringGreen3",
-    "outline_width": 2,  # Leave unchanged
-    "color": "green",
-    "active": True
-}
+# small_canvas_info_percent = {
+#     "x": 430 / original_width,  # 22.40%
+#     "y": 250 / original_height,  # 23.15%
+#     "width": 50 / original_width,  # 2.60%
+#     "height": 50 / original_height,  # 4.63%
+#     "endup_angle": np.deg2rad(-90),
+#     "endleft_angle": np.deg2rad(-240),
+#     "endright_angle": np.deg2rad(60),
+#     "outline_color": "SpringGreen3",
+#     "outline_width": 2,  # Leave unchanged
+#     "color": "green",
+#     "active": True
+# }
 
 timer_canvas_info_percent = {
     "x": 1725 / original_width,  # 89.84%
@@ -388,7 +388,7 @@ javatar_images = {
 #############################################################################
 def load_all_pixel_info(screen_width, screen_height):
     # 📌 Declare all globals to assign them from inside this function
-    global flir_info, axis_info
+    global axis_info
     global big_camera_label, small_camera_label, clbr_label
 
     global big_canvas_info, small_canvas_info
@@ -410,17 +410,17 @@ def load_all_pixel_info(screen_width, screen_height):
     global javatar_info
 
     # 🎥 Camera views
-    flir_info = convert_to_pixels(flir_info_percent, screen_width, screen_height)
+    # flir_info = convert_to_pixels(flir_info_percent, screen_width, screen_height)
     axis_info = convert_to_pixels(axis_info_percent, screen_width, screen_height)
 
     # 🏷️ Camera label overlays and calibration label
     big_camera_label = convert_to_pixels(big_camera_label_percent, screen_width, screen_height)
-    small_camera_label = convert_to_pixels(small_camera_label_percent, screen_width, screen_height)
+    # small_camera_label = convert_to_pixels(small_camera_label_percent, screen_width, screen_height)
     clbr_label = convert_to_pixels(clbr_label_percent, screen_width, screen_height)
 
     # 📊 Canvases (bar indicators, timers, tasks)
-    big_canvas_info = convert_to_pixels(big_canvas_info_percent, screen_width, screen_height)
-    small_canvas_info = convert_to_pixels(small_canvas_info_percent, screen_width, screen_height)
+    # big_canvas_info = convert_to_pixels(big_canvas_info_percent, screen_width, screen_height)
+    # small_canvas_info = convert_to_pixels(small_canvas_info_percent, screen_width, screen_height)
     timer_canvas_info = convert_to_pixels(timer_canvas_info_percent, screen_width, screen_height)
     timer_label_info = convert_to_pixels(timer_label_info_percent, screen_width, screen_height)
     # task_canvas_info = convert_to_pixels(task_canvas_info_percent, screen_width, screen_height)

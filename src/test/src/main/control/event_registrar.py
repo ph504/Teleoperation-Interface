@@ -128,9 +128,9 @@ class EventRegistrar:
                 lambda widgets, type : widgets['user_ai'].second_round(type),
             ],
             event_model.EVENTS["COLOR_TRANS"]: [
-                lambda widgets : widgets['view_back'].color_transition(),
+                # lambda widgets : widgets['view_back'].color_transition(),
                 lambda widgets : widgets['camera_front'].color_transition(),
-                lambda widgets : widgets['circle_canvas'].color_transition(),
+                # lambda widgets : widgets['circle_canvas'].color_transition(),
             ],
             # event_model.EVENTS["TALKING_STARTED"]: lambda: ,      # avatar raw disabled
             # event_model.EVENTS["TALKING_ENDED"]: lambda: ,        # avatar raw disabled
