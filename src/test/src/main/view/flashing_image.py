@@ -66,7 +66,7 @@ class CountdownCanvas(canvas.BaseCanvas):
         event_manager.EventManager.post_event("unfreeze", -1)
         
         if self.countdown == None:
-            self.countdown = RepeatedTimer.RepeatedTimer(1, self.minus)
+            self.countdown = repeated_timer.RepeatedTimer(1, self.minus)
         else:
             self.countdown.start()
     
