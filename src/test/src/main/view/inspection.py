@@ -11,7 +11,7 @@ import threading
 from main.data import global_config as gv
 
 class InspectionPage():
-    def __init__(self, root, task_canvas):
+    def __init__(self, root):
         
         self.description_lbl = tk.Label(root, text= "Enter the string written on each paper")
         self.description_lbl.place(x= 760, y= 340, width= 500,height= 20)
@@ -26,8 +26,8 @@ class InspectionPage():
         self.btn_validate = tk.Button(root, text= "Validate" , command= self.validate)
         self.btn_validate.place(x = 885, y = 430, width = 250, height = 25)
 
-        self.task_canvas = task_canvas
-        self.task_count = 0
+        # self.task_canvas = task_canvas
+        # self.task_count = 0
 
         self.code_list = ["pKFRjK8wr8",
                           "bRaVW4Wd9M",]
@@ -67,8 +67,8 @@ class InspectionPage():
             
             if string in self.code_list_used:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg="yellow", text="This equipment has been validated before.") # type: ignore
-                Logger.log("duplicated_entry", "N/A")
-                EventManager.post_event("duplicate_entry")
+                logger.Logger.log("duplicated_entry", "N/A") # type: ignore
+                event_manager.EventManager.post_event("duplicate_entry")
                 self.delete_err_lbl()
 
         
@@ -91,13 +91,13 @@ class InspectionPage():
                         self.code_list.remove(string)
 
                     self.code_list_used.append(string)
-                    self.task_count += 1
-                    self.task_canvas.plus()
+                    # self.task_count += 1
+                    # self.task_canvas.plus()
             
             elif string not in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!") # type: ignore
-                Logger.log("wrong_entry", "N/A")
-                EventManager.post_event("wrong_entry")
+                logger.Logger.log("wrong_entry", "N/A") # type: ignore
+                event_manager.EventManager.post_event("wrong_entry")
                 self.delete_err_lbl()
             
             if len(self.code_list) == 0:
