@@ -347,15 +347,15 @@ countdown_info_percent = {
 
 }
 
-task_inspect_info_percent = {
-    "x": 980 / original_width,
-    "y": 313 / original_height,
-    "width": 150 / original_width,
-    "height": 20 / original_height,
-    "color": "black",
-    "font": ('Helvetica', '12', 'bold'),
-    "active": True
-}
+# task_inspect_info_percent = {
+#     "x": 980 / original_width,
+#     "y": 313 / original_height,
+#     "width": 150 / original_width,
+#     "height": 20 / original_height,
+#     "color": "black",
+#     "font": ('Helvetica', '12', 'bold'),
+#     "active": True
+# }
 
 
 # wtf is a javatar???
