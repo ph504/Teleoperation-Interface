@@ -190,7 +190,7 @@ def main():
     
 
     if gv.tutorial_mode: 
-        bind_keyboard(root, widgets['camera_front'], widgets['jackal_ai'], widgets['ui_fsm'])
+        bind_keyboard(root, widgets['camera_front'], widgets['jackal_ai'])
 
     
     # TODO
@@ -265,16 +265,16 @@ def widget_init(root, tab1, tab2):
         widgets['jackal_ai'] = jackal_ai_controller.JackalAI(root)
         widgets['user_ai'] = userAI.UserAI(root)
 
-    def initialize_finite_statemachine():   
-        if not gv.tutorial_mode:
-            ui_fsm = state.TeleopGUIMachine(widgets)  
-        else:
-            ui_fsm = state.TutorialGUIMachine(widgets)
+    # def initialize_finite_statemachine():   
+    #     if not gv.tutorial_mode:
+    #         ui_fsm = state.TeleopGUIMachine(widgets)  
+    #     else:
+    #         ui_fsm = state.TutorialGUIMachine(widgets)
         
         # widgets['task_canvas'].add_fsm(ui_fsm)
-        widgets['timer_canvas'].add_fsm(ui_fsm)
-        widgets['countdown'].add_fsm(ui_fsm)
-        widgets['ui_fsm'] = ui_fsm
+        # widgets['timer_canvas'].add_fsm(ui_fsm)
+        # widgets['countdown'].add_fsm(ui_fsm)
+        # widgets['ui_fsm'] = ui_fsm
 
 
     # Call the modularized initialization functions
@@ -285,13 +285,13 @@ def widget_init(root, tab1, tab2):
     initialize_dialogue_system()
     initialize_misc_components()
     initialize_ai()
-    initialize_finite_statemachine()
+    # initialize_finite_statemachine()
 
     return widgets
 #############################################################################
 
 #############################################################################
-def bind_keyboard(tab1, camera_front, jackal_ai, tutorial_fsm):
+def bind_keyboard(tab1, camera_front, jackal_ai):
 # def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
     
     if not gv.practice_mode:
@@ -300,11 +300,11 @@ def bind_keyboard(tab1, camera_front, jackal_ai, tutorial_fsm):
         tab1.bind('z', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
         
     elif gv.practice_mode:
-        tab1.bind('9', lambda e: start_tutorial(tab1, tutorial_fsm))
+        tab1.bind('9', lambda e: start_tutorial(tab1))
         tab1.bind('x', lambda e: playsound_beep_thread())
         tab1.bind('z', lambda e: playsound_beep_thread())       
     
-def start_tutorial(tab, t_fsm):
+def start_tutorial(tab):
     tab.unbind_all('s')
     tab.unbind_all('w')
     tab.unbind_all('`')
@@ -317,7 +317,7 @@ def start_tutorial(tab, t_fsm):
     tab.unbind_all('b')
     tab.unbind_all('a')
     tab.unbind_all('9')
-    t_fsm.initializing_to_start()
+    # t_fsm.initializing_to_start()
 
 def toggle_barcontroller():
     gv.bar_controller = not gv.bar_controller

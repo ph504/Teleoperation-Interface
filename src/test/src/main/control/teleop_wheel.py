@@ -34,10 +34,7 @@ def start():
             
             global freeze_var
 
-            if data.data:
-                freeze_var = True
-            else:
-                freeze_var = False
+            freeze_var = data.data
 
 
         print('***Arya*** Wheel Node Activated!')
@@ -52,8 +49,8 @@ def start():
 
         while not rospy.is_shutdown():
             # print(freeze_var)
-            # if freeze_var == False: pub_jackal.publish(twist)
-            pub_jackal.publish(twist)
+            if not freeze_var: pub_jackal.publish(twist)
+            # pub_jackal.publish(twist)
             rate.sleep()
              
 
