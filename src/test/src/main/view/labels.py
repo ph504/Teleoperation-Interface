@@ -12,12 +12,12 @@ from main.data import global_config as gv
 
 
 class CameraLabel():
-    def __init__(self, r, label_info, text):
+    def __init__(self, r, label_info):
         self.x = label_info["x"]
         self.y = label_info["y"]
         self.width = label_info["width"]
         self.height = label_info["height"]
-        self.text = text
+        self.text = label_info["text"]
         self.font = label_info["font"]
         
         

@@ -44,7 +44,7 @@ class CursorCanvas(BaseCanvas):
         self.outline_width = info_dict["outline_width"]
 
         self.angle_diff = 1
-
+        
         cursor_endpoints = self.create_arrowpoints()
         self.canvas.create_polygon(cursor_endpoints, outline=self.outline_color, fill=self.color, width=self.outline_width)
     def create_arrowpoints(self):

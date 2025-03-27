@@ -6,6 +6,9 @@ import dialogue
 import avatar_view
 from main.control import event_manager
 from main.data import global_config as gv
+from collections import deque
+from main.utils import utils
+import tkinter as tk
 class AvalogueController():
     def __init__(self, frame, 
                  d_model: dialogue.DialogueModel, 
@@ -47,23 +50,23 @@ class AvalogueController():
             
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name
-            self.func_btn = test.src.main.utils.utils.find_func(self.btn_press_name)
+            self.func_btn = utils.find_func(self.btn_press_name)
             self.d_view.button_press = False
         
        if self.d_view.button_press_1:
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name_1
-            self.func_btn = test.src.main.utils.utils.find_func(self.btn_press_name)
+            self.func_btn = utils.find_func(self.btn_press_name)
             self.d_view.button_press_1 = False
 
        if self.d_view.button_press_2:
             self.button_press = True
             self.btn_press_name = self.d_view.button_press_name_2
-            self.func_btn = test.src.main.utils.utils.find_func(self.btn_press_name)
+            self.func_btn = utils.find_func(self.btn_press_name)
             self.d_view.button_press_2 = False
         
 
-       Tk.after(self.frame, 50, self.update_btnpress)
+       tk.Tk.after(self.frame, 50, self.update_btnpress)
 
     #the avatar is dependent on the dialogue
     def update_loop(self):
@@ -134,7 +137,7 @@ class AvalogueController():
                 self.btn_press_name = None
                 self.func_btn()
 
-        Tk.after(self.frame, 100, self.update_loop)
+        tk.Tk.after(self.frame, 100, self.update_loop)
        
        
     '''

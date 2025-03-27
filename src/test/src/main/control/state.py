@@ -23,7 +23,7 @@ class TeleopGUIMachine(StateMachine):
         self.dialogue_text = widgets['dialogue_text']
         self.manual_button = widgets['manual_button']
         self.auto_button = widgets['auto_button']
-        self.jackal_avatar = widgets['jackal_avatar']
+        # self.jackal_avatar = widgets['jackal_avatar']
         self.flashing_image = widgets['flashing_image']
         self.task_canvas = widgets['task_canvas']
         self.camera_front = widgets['camera_front']

@@ -3,11 +3,13 @@ import tkinter as tk
 original_width, original_height = 1920, 1080
 
 
+# front camera label text
 big_camera_label_percent = {
     "x": 860 / original_width,
     "y": 130 / original_height,
     "width": 200 / original_width,
     "height": 20 / original_height,
+    "text" : "Front Camera",
     "font": ('Helvetica', '13', 'bold')
 }
 
@@ -16,7 +18,7 @@ small_camera_label_percent = {
     "y": 35 / original_height,
     "width": 200 / original_width,
     "height": 15 / original_height,
-    
+    "text" : "Back Camera",
     "font": ('Helvetica', '10', 'bold')
 
 }
@@ -27,7 +29,7 @@ clbr_label_percent = {
     "width": 300 / original_width,
     "height": 20 / original_height,
     "color": "red",
-    "font": ('Helvetica', '9', 'bold')
+    "font": ('Helvetica', '20', 'bold')
 }
 
 flir_info_percent = {
@@ -35,14 +37,16 @@ flir_info_percent = {
     "y": 50 / original_height,
     "width": 400 / original_width,
     "height": 300 / original_height,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
+    # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
+    "color" : "#faa94d",
 }
 axis_info_percent = {
     "x": 560 / original_width,
     "y": 150 / original_height,
     "width": 800 / original_width,
     "height": 600 / original_height,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
+    # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
+    "color" : "#ecfc03",
 }
 
 
@@ -54,9 +58,9 @@ big_canvas_info_percent = {
     "endup_angle": np.deg2rad(-90),
     "endleft_angle": np.deg2rad(-240),
     "endright_angle": np.deg2rad(60),
-    "outline_color": "SpringGreen3",
+    "outline_color": "blue",
     "outline_width": 5,  # Leave unchanged
-    "color": "green",
+    "color": "blue",
     "active": True
 }
 
@@ -71,7 +75,7 @@ small_canvas_info_percent = {
     "outline_color": "SpringGreen3",
     "outline_width": 2,  # Leave unchanged
     "color": "green",
-    "active": False
+    "active": True
 }
 
 timer_canvas_info_percent = {
@@ -79,7 +83,7 @@ timer_canvas_info_percent = {
     "y": 75 / original_height,  # 6.94%
     "width": 200 / original_width,  # 10.42%
     "height": 50 / original_height,  # 4.63%
-    "color": "blue",
+    "color": "red",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
@@ -174,8 +178,9 @@ circle_canvas_info_percent = {
     "y": 290 / original_height,  # 26.85%
     "width": 802 / original_width,  # 41.77%
     "height": 602 / original_height,  # 55.74%
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
-    "active": True
+    # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
+    "color": "light_green",
+    "active": True,
 }
 
 dialogueview_info_percent = {
@@ -183,7 +188,7 @@ dialogueview_info_percent = {
     "y": 800 / original_height,
     "width": 800 / original_width,
     "height": 180 / original_height,
-    "font": ('Calibri',12, 'bold', 'italic'),
+    "font": ('Calibri',10, 'bold', 'italic'),
     "bg": '#d9d7bd',
     "wraplength": 800 / original_width,
     
@@ -213,9 +218,6 @@ dialogueview_info_percent = {
         "height": 30 / original_height,
         "text": "Button",
     },
-
-    
-   
 
 }
 
@@ -490,9 +492,15 @@ def load_all_pixel_info(screen_width, screen_height):
 
 #############################################################################
 def convert_to_pixels(percent_info, screen_width, screen_height):
+    scale_factor = min(screen_width/original_width, screen_height/original_height)
     wraplength = percent_info.get("wraplength", None)
     if wraplength is not None:
         wraplength = int(wraplength * screen_width)
+    font = percent_info.get("font", None)
+    if font is not None:
+        fontsize = int(scale_factor*int(font[1]))
+        font = (font[0], fontsize, font[2])
+
     pixel_info = {
         "x": int(percent_info["x"] * screen_width),
         "y": int(percent_info["y"] * screen_height),
@@ -507,8 +515,9 @@ def convert_to_pixels(percent_info, screen_width, screen_height):
 
         "text": percent_info.get("text", None), # Keep the text as is
         "color": percent_info.get("color", None),  # Colors stay the same
-        "colors": percent_info.get("colors", None),  # Colors stay the same
-        "font" : percent_info.get("font", None),
+        # "colors": percent_info.get("colors", None),  # Colors stay the same
+        # "font" : percent_info.get("font", None),
+        "font": font,
         "active" : percent_info.get("active", None),  # Keep the boolean as is
         "state" : percent_info.get("state", None),  # Keep the state as is
         "tag" : percent_info.get("tag", None),  # Keep the tag as is

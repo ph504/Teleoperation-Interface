@@ -37,7 +37,7 @@ class CameraView():
         self.y = dict_info["y"]
         self.width = dict_info["width"]
         self.height = dict_info["height"]
-        self.border_colors = dict_info["colors"]
+        self.border_color = dict_info["color"]
         self.camera = camera
         self.state = "green"
         self.imagetk = None
@@ -46,9 +46,11 @@ class CameraView():
         self.bridge = CvBridge()
         self.border_thick = 15
         if not gv.practice_mode:
-            self.frame = Frame(root, highlightbackground=self.border_colors["light_green"], highlightthickness=self.border_thick)
+            self.frame = Frame(root, highlightbackground=self.border_color, highlightthickness=self.border_thick)
         else:
-            self.frame = Frame(root)
+            # self.frame = Frame(root)
+            self.frame = Frame(root, highlightbackground=self.border_color, highlightthickness=self.border_thick)
+
 
         self.frame.place_configure(x= self.x - self.border_thick, y = self.y - self.border_thick , width=self.width + self.border_thick * 2, height=self.height + self.border_thick * 2)
         self.imagewidget = Label(self.frame) 
@@ -62,11 +64,11 @@ class CameraView():
         if cam_available:
             if self.camera == "flir":
                 rospy.loginfo("using flir")
-                self.flir_image = rospy.Subscriber("/camera/image_color/compressed", CompressedImage, self.update_image, queue_size=1)
+                self.flir_image = rospy.Subscriber("/camera/image_color/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
                 self.is_front = False
             else:
                 rospy.loginfo("using axis")
-                self.axis_image = rospy.Subscriber("axis/image_raw/compressed", CompressedImage, self.update_image, queue_size=1)
+                self.axis_image = rospy.Subscriber("axis/image_raw/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
                 self.is_front = True
         else:
             if self.camera == "flir":
@@ -129,7 +131,7 @@ class CameraView():
         if string == "flir":
             img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), Image.ANTIALIAS)
         else:
-            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/kirby.jpg").resize((self.width,self.height), Image.ANTIALIAS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width,self.height), Image.ANTIALIAS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)

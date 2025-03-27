@@ -49,10 +49,10 @@ fi
 # echo "The current directory matches with the workspace directory."
 
 # echo "Activating Joystick in a seperate terminal"
-# gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
-rosparam set joy_node/dev "/dev/input/js0"
-# sleep 1
-rosrun joy joy_node &
+# # gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
+# rosparam set joy_node/dev "/dev/input/js0"
+# # sleep 1
+# rosrun joy joy_node &
 
 # echo "Joystick Activated"
 
