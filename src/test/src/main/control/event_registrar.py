@@ -147,8 +147,8 @@ class EventRegistrar:
             # event_model.EVENTS["RED_MODE"]: lambda: ,                     # bar_canvas disabled
 
             event_model.EVENTS["BUTTON_ACTIVATE"]: [
-                lambda widgets, tag : widgets['manual_button'].enable_event(tag),
-                lambda widgets, tag : widgets['auto_button'].enable_event(tag),
+                # lambda widgets, tag : widgets['manual_button'].enable_event(tag),
+                # lambda widgets, tag : widgets['auto_button'].enable_event(tag),
                 lambda widgets, tag : widgets['calibrate_button'].enable_event(tag),
             ],
             # event_model.EVENTS["TASK_COUNT"]: lambda: ,               # score canvas was disabled.

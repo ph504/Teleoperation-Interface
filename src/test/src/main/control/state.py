@@ -21,8 +21,8 @@ class TeleopGUIMachine(StateMachine):
         self.timer_canvas = widgets['timer_canvas']
         self.avalogue = widgets['avalogue']
         self.dialogue_text = widgets['dialogue_text']
-        self.manual_button = widgets['manual_button']
-        self.auto_button = widgets['auto_button']
+        # self.manual_button = widgets['manual_button']
+        # self.auto_button = widgets['auto_button']
         # self.jackal_avatar = widgets['jackal_avatar']
         self.flashing_image = widgets['flashing_image']
         self.task_canvas = widgets['task_canvas']
@@ -356,8 +356,8 @@ class TutorialGUIMachine(StateMachine):
         
         self.timer = widgets['timer_canvas']
         self.flashing_image = widgets['flashing_image']
-        self.assistedmode_button = widgets['auto_button']
-        self.normalmode_button = widgets['manual_button']
+        # self.assistedmode_button = widgets['auto_button']
+        # self.normalmode_button = widgets['manual_button']
         self.jackal_ai = widgets['jackal_ai']
         self.avalogue = widgets['avalogue']
 

@@ -2,6 +2,12 @@ import numpy as np
 import tkinter as tk
 original_width, original_height = 1920, 1080
 
+COLOR_CODE = {
+    "light_green": '#03fc0f',
+    "yellow": '#ecfc03',
+    "orange": '#faa94d',
+    "red": "#f70505"
+}
 
 # front camera label text
 big_camera_label_percent = {
@@ -94,94 +100,96 @@ timer_label_info_percent = {
     "width": 50 / original_width,  # 2.60%
     "height": 17 / original_height,  # 1.57%
     "color": "blue",
+    "text": "Timer",
     "font": ('Helvetica', '12', 'bold'),
 }
 
-task_canvas_info_percent = {
-    "x": 1675 / original_width,  # 87.24%
-    "y": 75 / original_height,  # 6.94%
-    "width": 100 / original_width,  # 5.21%
-    "height": 50 / original_height,  # 4.63%
-    "color": "green",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": True
-}
+# task_canvas_info_percent = {
+#     "x": 1675 / original_width,  # 87.24%
+#     "y": 75 / original_height,  # 6.94%
+#     "width": 100 / original_width,  # 5.21%
+#     "height": 50 / original_height,  # 4.63%
+#     "color": "green",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": True
+# }
 
-task_label_info_percent = {
-    "x": 1700 / original_width,  # 88.54%
-    "y": 60 / original_height,  # 5.56%
-    "width": 50 / original_width,  # 2.60%
-    "height": 17 / original_height,  # 1.57%
-    "color": "green",
-    "font": ('Helvetica', '12', 'bold'),
-}
+# task_label_info_percent = {
+#     "x": 1700 / original_width,  # 88.54%
+#     "y": 60 / original_height,  # 5.56%
+#     "width": 50 / original_width,  # 2.60%
+#     "height": 17 / original_height,  # 1.57%
+#     "color": "green",
+#     "text" : "Task",
+#     "font": ('Helvetica', '12', 'bold'),
+# }
 
-miss_canvas_agent_info_percent = {
-    "x": 1400 / original_width,  # 72.92%
-    "y": 75 / original_height,  # 6.94%
-    "width": 100 / original_width,  # 5.21%
-    "height": 50 / original_height,  # 4.63%
-    "color": "red",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": True
-}
+# miss_canvas_agent_info_percent = {
+#     "x": 1400 / original_width,  # 72.92%
+#     "y": 75 / original_height,  # 6.94%
+#     "width": 100 / original_width,  # 5.21%
+#     "height": 50 / original_height,  # 4.63%
+#     "color": "red",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": True
+# }
 
-miss_label_agent_info_percent = {
-    "x": 1425 / original_width,  # 74.22%
-    "y": 60 / original_height,  # 5.56%
-    "width": 50 / original_width,  # 2.60%
-    "height": 17 / original_height,  # 1.57%
-    "color": "red",
-    "font": ('Helvetica', '12', 'bold'),
-}
+# miss_label_agent_info_percent = {
+#     "x": 1425 / original_width,  # 74.22%
+#     "y": 60 / original_height,  # 5.56%
+#     "width": 50 / original_width,  # 2.60%
+#     "height": 17 / original_height,  # 1.57%
+#     "color": "red",
+#     "font": ('Helvetica', '12', 'bold'),
+# }
 
-miss_canvas_operator_info_percent = {
-    "x": 1500 / original_width,  # 78.13%
-    "y": 75 / original_height,  # 6.94%
-    "width": 100 / original_width,  # 5.21%
-    "height": 50 / original_height,  # 4.63%
-    "color": "red",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": True
-}
+# miss_canvas_operator_info_percent = {
+#     "x": 1500 / original_width,  # 78.13%
+#     "y": 75 / original_height,  # 6.94%
+#     "width": 100 / original_width,  # 5.21%
+#     "height": 50 / original_height,  # 4.63%
+#     "color": "red",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": True
+# }
 
-miss_label_operator_info_percent = {
-    "x": 1515 / original_width,  # 78.91%
-    "y": 60 / original_height,  # 5.56%
-    "width": 70 / original_width,  # 3.65%
-    "height": 17 / original_height,  # 1.57%
-    "color": "red",
-    "font": ('Helvetica', '12', 'bold'),
-}
+# miss_label_operator_info_percent = {
+#     "x": 1515 / original_width,  # 78.91%
+#     "y": 60 / original_height,  # 5.56%
+#     "width": 70 / original_width,  # 3.65%
+#     "height": 17 / original_height,  # 1.57%
+#     "color": "red",
+#     "font": ('Helvetica', '12', 'bold'),
+# }
 
-score_canvas_info_percent = {
-    "x": 1450 / original_width,  # 75.52%
-    "y": 75 / original_height,  # 6.94%
-    "width": 150 / original_width,  # 7.81%
-    "height": 50 / original_height,  # 4.63%
-    "color": "blue",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": False
-}
+# score_canvas_info_percent = {
+#     "x": 1450 / original_width,  # 75.52%
+#     "y": 75 / original_height,  # 6.94%
+#     "width": 150 / original_width,  # 7.81%
+#     "height": 50 / original_height,  # 4.63%
+#     "color": "blue",
+#     "font": ('Helvetica', '24', 'bold'),
+#     "active": False
+# }
 
-score_label_info_percent = {
-    "x": 1500 / original_width,  # 78.13%
-    "y": 60 / original_height,  # 5.56%
-    "width": 50 / original_width,  # 2.60%
-    "height": 17 / original_height,  # 1.57%
-    "color": "blue",
-    "font": ('Helvetica', '12', 'bold'),
-}
+# score_label_info_percent = {
+#     "x": 1500 / original_width,  # 78.13%
+#     "y": 60 / original_height,  # 5.56%
+#     "width": 50 / original_width,  # 2.60%
+#     "height": 17 / original_height,  # 1.57%
+#     "color": "blue",
+#     "font": ('Helvetica', '12', 'bold'),
+# }
 
-circle_canvas_info_percent = {
-    "x": 1550 / original_width,  # 80.73%
-    "y": 290 / original_height,  # 26.85%
-    "width": 802 / original_width,  # 41.77%
-    "height": 602 / original_height,  # 55.74%
-    # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
-    "color": "light_green",
-    "active": True,
-}
+# circle_canvas_info_percent = {
+#     "x": 1550 / original_width,  # 80.73%
+#     "y": 290 / original_height,  # 26.85%
+#     "width": 802 / original_width,  # 41.77%
+#     "height": 602 / original_height,  # 55.74%
+#     # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
+#     "color": "light_green",
+#     "active": True,
+# }
 
 dialogueview_info_percent = {
     "x": 660 / original_width,
@@ -228,27 +236,27 @@ dbox_info_percent = {
     "height": 180 / original_height
 }
 
-button_auto_info_percent = {
-    "x": 70 / original_width,
-    "y": 500 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Assisted Mode",
-    "state": tk.DISABLED,
-    "tag": 1,
+# button_auto_info_percent = {
+#     "x": 70 / original_width,
+#     "y": 500 / original_height,
+#     "width": 150 / original_width,
+#     "height": 50 / original_height,
+#     "text": "Assisted Mode",
+#     "state": tk.DISABLED,
+#     "tag": 1,
 
-}
+# }
 
-button_manual_info_percent = {
-    "x": 70 / original_width,
-    "y": 550 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Manual Mode",
-    "state": tk.ACTIVE,
-    "tag": 2,
+# button_manual_info_percent = {
+#     "x": 70 / original_width,
+#     "y": 550 / original_height,
+#     "width": 150 / original_width,
+#     "height": 50 / original_height,
+#     "text": "Manual Mode",
+#     "state": tk.ACTIVE,
+#     "tag": 2,
 
-}
+# }
 
 button_yes_info_percent = {
     "x": 1250 / original_width,
@@ -309,16 +317,16 @@ button_calibrate_info_percent = {
     
 }
 
-button_auto_info_percent = {
-    "x": 70 / original_width,
-    "y": 500 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Assisted Mode",
-    "state": tk.DISABLED,
-    "tag": 1,
+# button_auto_info_percent = {
+#     "x": 70 / original_width,
+#     "y": 500 / original_height,
+#     "width": 150 / original_width,
+#     "height": 50 / original_height,
+#     "text": "Assisted Mode",
+#     "state": tk.DISABLED,
+#     "tag": 1,
 
-}
+# }
 
 flashing_image_info_percent = {
     "x": 1600 / original_width,
@@ -386,18 +394,18 @@ def load_all_pixel_info(screen_width, screen_height):
     global big_canvas_info, small_canvas_info
     global timer_canvas_info, timer_label_info
     global task_canvas_info, task_label_info
-    global miss_canvas_agent_info, miss_label_agent_info
-    global miss_canvas_operator_info, miss_label_operator_info
-    global score_canvas_info, score_label_info
-    global circle_canvas_info
+    # global miss_canvas_agent_info, miss_label_agent_info
+    # global miss_canvas_operator_info, miss_label_operator_info
+    # global score_canvas_info, score_label_info
+    # global circle_canvas_info
 
     global dialogueview_info, dbox_info
-    global button_auto_info, button_manual_info
+    # global button_auto_info, button_manual_info
     global button_yes_info, button_no_info, button_start_info
     global button_freeze_info, button_calibrate_info
 
     global flashing_image_info, countdown_info
-    global task_inspect_info
+    # global task_inspect_info
 
     global javatar_info
 
@@ -415,19 +423,19 @@ def load_all_pixel_info(screen_width, screen_height):
     small_canvas_info = convert_to_pixels(small_canvas_info_percent, screen_width, screen_height)
     timer_canvas_info = convert_to_pixels(timer_canvas_info_percent, screen_width, screen_height)
     timer_label_info = convert_to_pixels(timer_label_info_percent, screen_width, screen_height)
-    task_canvas_info = convert_to_pixels(task_canvas_info_percent, screen_width, screen_height)
-    task_label_info = convert_to_pixels(task_label_info_percent, screen_width, screen_height)
+    # task_canvas_info = convert_to_pixels(task_canvas_info_percent, screen_width, screen_height)
+    # task_label_info = convert_to_pixels(task_label_info_percent, screen_width, screen_height)
 
     # ❌ Mistake and score tracking
-    miss_canvas_agent_info = convert_to_pixels(miss_canvas_agent_info_percent, screen_width, screen_height)
-    miss_label_agent_info = convert_to_pixels(miss_label_agent_info_percent, screen_width, screen_height)
-    miss_canvas_operator_info = convert_to_pixels(miss_canvas_operator_info_percent, screen_width, screen_height)
-    miss_label_operator_info = convert_to_pixels(miss_label_operator_info_percent, screen_width, screen_height)
-    score_canvas_info = convert_to_pixels(score_canvas_info_percent, screen_width, screen_height)
-    score_label_info = convert_to_pixels(score_label_info_percent, screen_width, screen_height)
+    # miss_canvas_agent_info = convert_to_pixels(miss_canvas_agent_info_percent, screen_width, screen_height)
+    # miss_label_agent_info = convert_to_pixels(miss_label_agent_info_percent, screen_width, screen_height)
+    # miss_canvas_operator_info = convert_to_pixels(miss_canvas_operator_info_percent, screen_width, screen_height)
+    # miss_label_operator_info = convert_to_pixels(miss_label_operator_info_percent, screen_width, screen_height)
+    # score_canvas_info = convert_to_pixels(score_canvas_info_percent, screen_width, screen_height)
+    # score_label_info = convert_to_pixels(score_label_info_percent, screen_width, screen_height)
 
     # 🟢 Circle state indicator
-    circle_canvas_info = convert_to_pixels(circle_canvas_info_percent, screen_width, screen_height)
+    # circle_canvas_info = convert_to_pixels(circle_canvas_info_percent, screen_width, screen_height)
 
     # 💬 Dialogue and button layout
     dialogueview_info = convert_to_pixels(dialogueview_info_percent, screen_width, screen_height)
@@ -437,8 +445,8 @@ def load_all_pixel_info(screen_width, screen_height):
     dbox_info = convert_to_pixels(dbox_info_percent, screen_width, screen_height)
 
     # 🎮 Buttons (mode selection, calibration, yes/no)
-    button_auto_info = convert_to_pixels(button_auto_info_percent, screen_width, screen_height)
-    button_manual_info = convert_to_pixels(button_manual_info_percent, screen_width, screen_height)
+    # button_auto_info = convert_to_pixels(button_auto_info_percent, screen_width, screen_height)
+    # button_manual_info = convert_to_pixels(button_manual_info_percent, screen_width, screen_height)
     button_yes_info = convert_to_pixels(button_yes_info_percent, screen_width, screen_height)
     button_no_info = convert_to_pixels(button_no_info_percent, screen_width, screen_height)
     button_start_info = convert_to_pixels(button_start_info_percent, screen_width, screen_height)
@@ -450,7 +458,7 @@ def load_all_pixel_info(screen_width, screen_height):
     countdown_info = convert_to_pixels(countdown_info_percent, screen_width, screen_height)
 
     # 🔍 Inspection view
-    task_inspect_info = convert_to_pixels(task_inspect_info_percent, screen_width, screen_height)
+    # task_inspect_info = convert_to_pixels(task_inspect_info_percent, screen_width, screen_height)
 
     # 🤖 Avatar (Javatar) position
     javatar_info = convert_to_pixels(javatar_info_percent, screen_width, screen_height)

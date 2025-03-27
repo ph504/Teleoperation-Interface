@@ -13,6 +13,7 @@ import numpy as np
 from cv_bridge import CvBridge
 from main.control import event_manager
 from main.data import global_config as gv
+from main.data import global_statics as gs
 
 
 #Make it false when you are not working with jackal
@@ -154,27 +155,27 @@ class CameraView():
     def color_transition(self, dummy = 0):
         
         if self.state == "green":
-            self.frame.configure(highlightbackground=self.border_colors["yellow"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["yellow"])
             self.state = "yellow"
         
         elif self.state == "yellow":
-            self.frame.configure(highlightbackground=self.border_colors["orange"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["orange"])
             self.state = "orange"
         
         elif gv.tutorial_mode and self.state == "orange":
-            self.frame.configure(highlightbackground=self.border_colors["red"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["red"])
             self.state = "red"
 
     def color_transition_reverse(self, dummy = 0):
         
         if self.state == "red":
-            self.frame.configure(highlightbackground=self.border_colors["orange"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["orange"])
             self.state = "orange"
         
         elif self.state == "orange":
-            self.frame.configure(highlightbackground=self.border_colors["yellow"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["yellow"])
             self.state = "yellow"
         
         elif gv.tutorial_mode and self.state == "yellow":
-            self.frame.configure(highlightbackground=self.border_colors["light_green"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["light_green"])
             self.state = "green"

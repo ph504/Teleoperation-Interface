@@ -63,7 +63,7 @@ def init():
             
         else:
             gv.tutorial_mode = False
-            EventManager.post_event("freeze", -1) # type: ignore
+            event_manager.EventManager.post_event("freeze", -1) # type: ignore
             sys.exit(1)
         
         if arg2 == "s":
@@ -131,10 +131,10 @@ def main():
     
 
     # TODO remove, these are completely extra and unnecessary
-    cursor_canvas_small = canvas.CursorCanvas(tab1, gs.small_canvas_info)
-    cursor_canvas_small.disable()
-    cursor_canvas_big = canvas.CursorCanvas(tab1, gs.big_canvas_info)
-    cursor_canvas_big.disable()
+    # cursor_canvas_small = canvas.CursorCanvas(tab1, gs.small_canvas_info)
+    # cursor_canvas_small.disable()
+    # cursor_canvas_big = canvas.CursorCanvas(tab1, gs.big_canvas_info)
+    # cursor_canvas_big.disable()
 
     if camera.camera_available(): 
         rospy.init_node("viewer", anonymous= True)
@@ -204,7 +204,8 @@ def main():
     #if  gv.tutorial_mode: auto_button.enable()
 
     if gv.tutorial_mode: 
-        bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, widgets['task_canvas'], widgets['view_back'], widgets['camera_front'], widgets['manual_button'], widgets['auto_button'], widgets['circle_canvas'], widgets['jackal_ai'], widgets['ui_fsm'])
+        bind_keyboard(root, widgets['view_back'], widgets['camera_front'], widgets['jackal_ai'], widgets['ui_fsm'])
+        # bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, widgets['task_canvas'], widgets['view_back'], widgets['camera_front'], widgets['manual_button'], widgets['auto_button'], widgets['circle_canvas'], widgets['jackal_ai'], widgets['ui_fsm'])
         # bind_keyboard(root, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm)
 
     
@@ -234,16 +235,16 @@ def widget_init(root, tab1, tab2):
         widgets['camera_front'] = camera.CameraView(tab1, gs.axis_info, camera.camera_available(), "axis")
 
     def initialize_buttons():
-        widgets['manual_button'] = button.BaseButton(root, gs.button_manual_info, enable=False)
-        widgets['auto_button'] = button.BaseButton(root, gs.button_auto_info, enable=False)
+        # widgets['manual_button'] = button.BaseButton(root, gs.button_manual_info, enable=False)
+        # widgets['auto_button'] = button.BaseButton(root, gs.button_auto_info, enable=False)
         widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)
 
     def initialize_canvases():
         widgets['countdown'] = flashing_image.CountdownCanvas(root, gs.countdown_info)
         widgets['timer_canvas'] = canvas.TimerCanvas(root, gs.timer_canvas_info)
-        widgets['task_canvas'] = canvas.TaskCanvas(root, gs.task_canvas_info)
-        widgets['circle_canvas'] = canvas.CircleCanvas(tab2, gs.circle_canvas_info) if not gv.practice_mode else None
-        widgets['score_canvas'] = None
+        # widgets['task_canvas'] = canvas.TaskCanvas(root, gs.task_canvas_info)
+        # widgets['circle_canvas'] = canvas.CircleCanvas(tab2, gs.circle_canvas_info) if not gv.practice_mode else None
+        # widgets['score_canvas'] = None
 
     def initialize_labels():
         widgets['small_label'] = labels.CameraLabel(tab1, gs.small_camera_label)
@@ -252,14 +253,14 @@ def widget_init(root, tab1, tab2):
         # TODO idk what to do with this
         widgets['calibrate_button'].add_event(widgets['calibrate_label'].activate)
 
-        timer_label = tk.Label(root, text="Timer", font=gs.timer_label_info["font"], fg=gs.timer_label_info["color"])
+        timer_label = tk.Label(root, text=gs.timer_label_info["text"], font=gs.timer_label_info["font"], fg=gs.timer_label_info["color"])
         timer_label.place(x = gs.timer_label_info["x"], y = gs.timer_label_info["y"], width=gs.timer_label_info["width"], height=gs.timer_label_info["height"])
-        miss_label_operator = tk.Label(root, text="Operator", font=gs.miss_label_operator_info["font"], fg=gs.miss_label_operator_info["color"])
-        miss_label_operator.place(x = gs.miss_label_operator_info["x"], y = gs.miss_label_operator_info["y"], width=gs.miss_label_operator_info["width"], height=gs.miss_label_operator_info["height"])
-        miss_label_agent = tk.Label(root, text="Agent", font=gs.miss_label_agent_info["font"], fg=gs.miss_label_agent_info["color"])
-        miss_label_agent.place(x = gs.miss_label_agent_info["x"], y = gs.miss_label_agent_info["y"], width=gs.miss_label_agent_info["width"], height=gs.miss_label_agent_info["height"])
-        task_label = tk.Label(root, text="Task", font=gs.task_label_info["font"], fg=gs.task_label_info["color"])
-        task_label.place(x = gs.task_label_info["x"], y = gs.task_label_info["y"], width=gs.task_label_info["width"], height=gs.task_label_info["height"])
+        # miss_label_operator = tk.Label(root, text="Operator", font=gs.miss_label_operator_info["font"], fg=gs.miss_label_operator_info["color"])
+        # miss_label_operator.place(x = gs.miss_label_operator_info["x"], y = gs.miss_label_operator_info["y"], width=gs.miss_label_operator_info["width"], height=gs.miss_label_operator_info["height"])
+        # miss_label_agent = tk.Label(root, text="Agent", font=gs.miss_label_agent_info["font"], fg=gs.miss_label_agent_info["color"])
+        # miss_label_agent.place(x = gs.miss_label_agent_info["x"], y = gs.miss_label_agent_info["y"], width=gs.miss_label_agent_info["width"], height=gs.miss_label_agent_info["height"])
+        # task_label = tk.Label(root, text=gs.task_label_info["text"], font=gs.task_label_info["font"], fg=gs.task_label_info["color"])
+        # task_label.place(x = gs.task_label_info["x"], y = gs.task_label_info["y"], width=gs.task_label_info["width"], height=gs.task_label_info["height"])
         
     def initialize_dialogue_system():
         if not gv.tutorial_mode or gv.practice_mode:
@@ -283,10 +284,10 @@ def widget_init(root, tab1, tab2):
         widgets['dialogue_text'] = None
 
     def initialize_misc_components():
-        widgets['miss_canvas_operator'] = canvas.MissCanavas(root, gs.miss_canvas_operator_info, "operator")
-        widgets['miss_canvas_agent'] = canvas.MissCanavas(root, gs.miss_canvas_agent_info, "agent")
+        # widgets['miss_canvas_operator'] = canvas.MissCanavas(root, gs.miss_canvas_operator_info, "operator")
+        # widgets['miss_canvas_agent'] = canvas.MissCanavas(root, gs.miss_canvas_agent_info, "agent")
         widgets['flashing_image'] = flashing_image.FlashingImage(root, gs.flashing_image_info)
-        widgets['inspection_page'] = inspection.InspectionPage(tab2, widgets['task_canvas'])
+        widgets['inspection_page'] = inspection.InspectionPage(tab2)
 
 
     def initialize_ai():
@@ -299,7 +300,7 @@ def widget_init(root, tab1, tab2):
         else:
             ui_fsm = state.TutorialGUIMachine(widgets)
         
-        widgets['task_canvas'].add_fsm(ui_fsm)
+        # widgets['task_canvas'].add_fsm(ui_fsm)
         widgets['timer_canvas'].add_fsm(ui_fsm)
         widgets['countdown'].add_fsm(ui_fsm)
         widgets['ui_fsm'] = ui_fsm
@@ -326,16 +327,16 @@ def widget_init(root, tab1, tab2):
 #############################################################################
 
 #############################################################################
-def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
+def bind_keyboard(tab1, view_back, camera_front, jackal_ai, tutorial_fsm):
 # def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
     
     if not gv.practice_mode:
-        tab1.bind('s', lambda e: switch(back = view_back, front = camera_front, small=cursor_canvas_small, big=cursor_canvas_big))
-        tab1.bind('o', lambda e: task_canvas.plus()) 
-        tab1.bind('[', lambda e: color_transition(view_back, camera_front, circle_canvas))
-        tab1.bind(']', lambda e: color_transition_reverse(view_back, camera_front, circle_canvas))
+        # tab1.bind('s', lambda e: switch(back = view_back, front = camera_front, small=cursor_canvas_small, big=cursor_canvas_big))
+        # tab1.bind('o', lambda e: task_canvas.plus()) 
+        # tab1.bind('[', lambda e: color_transition(view_back, camera_front, circle_canvas))
+        # tab1.bind(']', lambda e: color_transition_reverse(view_back, camera_front, circle_canvas))
         tab1.bind('b', lambda e: toggle_barcontroller())
-        tab1.bind('a', lambda e: toggle_assistedmode(jackal_ai,manual_button,auto_button))
+        # tab1.bind('a', lambda e: toggle_assistedmode(jackal_ai,manual_button,auto_button))
         tab1.bind('x', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
         tab1.bind('z', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
         
@@ -344,10 +345,10 @@ def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, vie
         tab1.bind('x', lambda e: playsound_beep_thread())
         tab1.bind('z', lambda e: playsound_beep_thread())       
     
-def color_transition(view_b, view_f,circle_canvas):
-    view_b.color_transition()
-    view_f.color_transition()
-    circle_canvas.color_transition()
+# def color_transition(view_b, view_f,circle_canvas):
+#     view_b.color_transition()
+#     view_f.color_transition()
+#     circle_canvas.color_transition()
     
 def start_tutorial(tab, t_fsm):
     tab.unbind_all('s')
@@ -373,17 +374,17 @@ def toggle_assistedmode(jackal_ai, man_btn, ato_btn):
     
     if gv.jackalai_active:
         jackal_ai.disable()
-        man_btn.enable()
-        ato_btn.disable()
+        # man_btn.enable()
+        # ato_btn.disable()
         
     else:
         jackal_ai.enable()
-        man_btn.disable()
-        ato_btn.enable()
+        # man_btn.disable()
+        # ato_btn.enable()
     
 def toggle_barcontroller():
     gv.bar_controller = not gv.bar_controller
-    EventManager.post_event("start_move_bars", -1) # type: ignore
+    event_manager.EventManager.post_event("start_move_bars", -1) # type: ignore
 
 def change_scan_mode():
     camera.CameraView.scan_mode = not camera.CameraView.scan_mode
@@ -391,7 +392,7 @@ def change_scan_mode():
 
 def switch(back, front, small, big):
         
-        EventManager.post_event("label_camera_switch", -1) # type: ignore
+        event_manager.EventManager.post_event("label_camera_switch", -1) # type: ignore
         
         if back.is_front == False:
             #Flir is front, Axis is back
@@ -406,14 +407,14 @@ def switch(back, front, small, big):
             #small.switch_camera()
             #big.switch_camera()
        
-def switch_auto(auto_button, manual_button):
+# def switch_auto(auto_button, manual_button):
 
-    if auto_button.active:
-        auto_button.disable()
-        manual_button.enable()
-    elif manual_button.active:
-        auto_button.enable()
-        manual_button.disable()
+#     if auto_button.active:
+#         auto_button.disable()
+#         manual_button.enable()
+#     elif manual_button.active:
+#         auto_button.enable()
+#         manual_button.disable()
 
 def server_program():
     socketserver.TCPServer.allow_reuse_address = True
@@ -447,10 +448,10 @@ def server_program():
                         print("From connected user: " + data)
                         if int(data) == 0:
                             Logger.log("calibration", 1) # type: ignore
-                            EventManager.post_event("activate_calibration", -1) # type: ignore
+                            event_manager.EventManager.post_event("activate_calibration", -1) # type: ignore
                         else:
                             Logger.log("collision", data) # type: ignore
-                            EventManager.post_event("collision", data) # type: ignore
+                            event_manager.EventManager.post_event("collision", data) # type: ignore
             
             except Exception as e:
                 print("shit happened: " + str(e))  
@@ -486,7 +487,7 @@ def joy_config(data, widgets):
     dialogue_end_buff = dialogue_end
     dialogue_end = data.buttons[5]
     if dialogue_end == 1 and dialogue_end_buff == 0:
-        EventManager.post_event("stop_talking", 1) # type: ignore
+        event_manager.EventManager.post_event("stop_talking", 1) # type: ignore
 
 def playsound_beep_thread():
     x = threading.Thread(target=ps.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav"))   

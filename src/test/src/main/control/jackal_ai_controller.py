@@ -43,8 +43,8 @@ class JackalAI():
 
         self.c_maxcount = 15
 
-        self.COLOR_TASK_TRANSITION_YELLOW = 2
-        self.COLOR_TASK_TRANSITION_ORANGE = 5
+        # self.COLOR_TASK_TRANSITION_YELLOW = 2
+        # self.COLOR_TASK_TRANSITION_ORANGE = 5
         #TODO: bar hit count should be flexible
         self.counter_modecheck()     
 
