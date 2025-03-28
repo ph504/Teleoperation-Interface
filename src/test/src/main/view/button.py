@@ -17,8 +17,7 @@ class BaseButton():
         self.state = info_dict["state"]
         self.tag = info_dict["tag"]
         self.active = True if self.state == tk.ACTIVE else False
-        self.button = tk.Button(r, width= self.width, height=self.height, 
-            text= self.text)
+        self.button = tk.Button(r, width= self.width, height=self.height, text= self.text)
 
         
         if enable == True: self.enable()

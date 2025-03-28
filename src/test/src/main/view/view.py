@@ -8,25 +8,19 @@ import tkinter.ttk as ttk
 import axis_camera.msg as ac_msg
 import playsound as ps
 from main.view import camera
-#from dialogue import *
-#from avatar import *
 from main.view import button
 import inspection
 from main.view import canvas
-# from main.view import flashing_image
 from main.view import labels
 import std_msgs.msg as std_msg
 from main.data import global_config as gv
 from main.data import global_statics as gs
 from main.view import avalogue
 from main.view import dialogue
-# from main.view import avatar_raw
 from main.view import avatar_view
-# from main.model import avatar_model
 from main.control import jackal_ai_controller
 from main.control import userAI
 from main.control import event_registrar
-from main.control import state
 from main.control import event_manager
 import random
 import time
@@ -239,7 +233,7 @@ def widget_init(root, tab1, tab2):
         
     def initialize_dialogue_system():
         if not gv.tutorial_mode or gv.practice_mode:
-            widgets['dialogue_view'] = dialogue.DialogueView(root, dialogue.dialogueview_info)
+            widgets['dialogue_view'] = dialogue.DialogueView(root, gs.dialogueview_info)
             widgets['dialogue_model'] = dialogue.DialogueModel(root, csv_dialogue_ns if not gv.social_mode else csv_dialogue_s)
             widgets['avatar_view'] = avatar_view.AvatarView(root, gs.javatar_info, gv.social_mode)
             widgets['avatar_model'] = avatar_view.AvatarModel(csv_idle, csv_talking, csv_reactive)

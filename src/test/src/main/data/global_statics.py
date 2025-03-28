@@ -19,6 +19,16 @@ big_camera_label_percent = {
     "font": ('Helvetica', '13', 'bold')
 }
 
+button_calibrate_info_percent = {
+    "x": 1615 / original_width,
+    "y": 850 / original_height,
+    "width": 150 / original_width,
+    "height": 50 / original_height,
+    "text": "Calibrate",
+    "state": tk.ACTIVE,
+    "tag": 7,    
+}
+
 clbr_label_percent = {
     "x": 5 / original_width,
     "y": 815 / original_height,
@@ -30,16 +40,16 @@ clbr_label_percent = {
 
 axis_info_percent = {
     "x": 560 / original_width,
-    "y": 150 / original_height,
-    "width": 800 / original_width,
-    "height": 600 / original_height,
+    "y": 90 / original_height,
+    "width": 900 / original_width,
+    "height": 850 / original_height,
     # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
     "color" : "#ecfc03",
 }
 
 timer_canvas_info_percent = {
-    "x": 1625 / original_width,  # 89.84%
-    "y": 150 / original_height,  # 6.94%
+    "x": 1565 / original_width,  # 89.84%
+    "y": 215 / original_height,  # 6.94%
     "width": 200 / original_width,  # 10.42%
     "height": 50 / original_height,  # 4.63%
     "color": "red",
@@ -48,8 +58,8 @@ timer_canvas_info_percent = {
 }
 
 timer_label_info_percent = {
-    "x": 1700 / original_width,  # 93.75%
-    "y": 135 / original_height,  # 5.56%
+    "x": 1640 / original_width,  # 93.75%
+    "y": 200 / original_height,  # 5.56%
     "width": 50 / original_width,  # 2.60%
     "height": 17 / original_height,  # 1.57%
     "color": "blue",
@@ -57,11 +67,29 @@ timer_label_info_percent = {
     "font": ('Helvetica', '12', 'bold'),
 }
 
-dialogueview_info_percent = {
-    "x": 75 / original_width,
-    "y": 335 / original_height,
-    "width": 800 / original_width,
+button_freeze_info_percent = {
+    "x": 1565 / original_width,
+    "y": 900 / original_height,
+    "width": 150 / original_width,
+    "height": 50 / original_height,
+    "text": "Freeze",
+    "state": tk.ACTIVE,
+    "tag": 6,
+}
+
+# jackal avatar info on the view
+javatar_info_percent = {
+    "x": 150 / original_width,
+    "y": 100 / original_height,
+    "width": 200 / original_width,
     "height": 180 / original_height,
+}
+
+dialogueview_info_percent = {
+    "x": 50 / original_width,
+    "y": 300 / original_height,
+    "width": 450 / original_width,
+    "height": 700 / original_height,
     "font": ('Calibri',10, 'bold', 'italic'),
     "bg": '#d9d7bd',
     "wraplength": 800 / original_width,
@@ -94,93 +122,6 @@ dialogueview_info_percent = {
     },
 
 }
-
-# dbox_info_percent = {
-#     "x": 660 / original_width,
-#     "y": 800 / original_height,
-#     "width": 800 / original_width,
-#     "height": 180 / original_height
-# }
-
-button_yes_info_percent = {
-    "x": 1250 / original_width,
-    "y": 940 / original_height,
-    "width": 100 / original_width,
-    "height": 30 / original_height,
-    "text": "Yes",
-    "state": tk.ACTIVE,
-    "tag": 3,
-
-    
-}
-
-button_no_info_percent = {
-    "x": 1350 / original_width,
-    "y": 940 / original_height,
-    "width": 100 / original_width,
-    "height": 30 / original_height,
-    "text": "No",
-    "state": tk.ACTIVE,
-    "tag": 3,
-
-}
-
-button_start_info_percent = {
-    "x": 1300 / original_width,
-    "y": 940 / original_height,
-    "width": 100 / original_width,
-    "height": 30 / original_height,
-    "text": "Start",
-    "state": tk.ACTIVE,
-    "tag": 5,
- 
-    
-}
-
-button_freeze_info_percent = {
-    "x": 70 / original_width,
-    "y": 900 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Freeze",
-    "state": tk.ACTIVE,
-    "tag": 6,
-
-    
-}
-
-button_calibrate_info_percent = {
-    "x": 70 / original_width,
-    "y": 850 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Calibrate",
-    "state": tk.ACTIVE,
-    "tag": 7,
-
-    
-}
-
-countdown_info_percent = {
-    "x": 1215 / original_width,
-    "y": 941 / original_height,
-    "width": 25 / original_width,
-    "height": 25 / original_height,
-    "color": "black",
-    "bg": '#d9d7bd',
-    "font": ('Helvetica', '15', 'bold'),
-    "active": False
-
-}
-
-# jackal avatar info on the view
-javatar_info_percent = {
-    "x": 75 / original_width,
-    "y": 135 / original_height,
-    "width": 200 / original_width,
-    "height": 180 / original_height,
-}
-
 
 javatar_images = {
     "default" : "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_01.png",
@@ -230,17 +171,11 @@ def load_all_pixel_info(screen_width, screen_height):
     dialogueview_info["btn1_info"] = convert_to_pixels(dialogueview_info_percent["btn1_info_percent"], screen_width, screen_height)
     dialogueview_info["btn2_info"] = convert_to_pixels(dialogueview_info_percent["btn2_info_percent"], screen_width, screen_height)
     dialogueview_info["btn_info"] = convert_to_pixels(dialogueview_info_percent["btn_info_percent"], screen_width, screen_height)
-    dbox_info = convert_to_pixels(dbox_info_percent, screen_width, screen_height)
 
     # 🎮 Buttons (mode selection, calibration, yes/no)
-    button_yes_info = convert_to_pixels(button_yes_info_percent, screen_width, screen_height)
-    button_no_info = convert_to_pixels(button_no_info_percent, screen_width, screen_height)
-    button_start_info = convert_to_pixels(button_start_info_percent, screen_width, screen_height)
     button_freeze_info = convert_to_pixels(button_freeze_info_percent, screen_width, screen_height)
     button_calibrate_info = convert_to_pixels(button_calibrate_info_percent, screen_width, screen_height)
 
-    # ⚡ Visual signals
-    countdown_info = convert_to_pixels(countdown_info_percent, screen_width, screen_height)
 
     # 🤖 Avatar (Javatar) position
     javatar_info = convert_to_pixels(javatar_info_percent, screen_width, screen_height)

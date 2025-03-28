@@ -14,55 +14,6 @@ import random
 import playsound
 from main.data import global_config
 
-dialogueview_info = {
-    "x": 660,
-    "y": 800,
-    "width": 800,
-    "height": 180,
-    "font": ('Calibri',12, 'bold', 'italic'),
-    "bg": '#d9d7bd',
-    "wraplength": 800,
-    
-
-    "btn1_info": {
-        "x": 1250,
-        "y": 940,
-        "text": "Button 1", 
-        "width": 100,
-        "height": 30,
-        
-    },
-
-    "btn2_info": { 
-        "x": 1350,
-        "y": 940,
-        "text": "Button 2",
-        "width": 100,
-        "height": 30,
-        
-    },
-
-    "btn_info": {   
-        "x": 1300,
-        "y": 940,
-        "text": "Button",
-        "width": 100,
-        "height": 30,
-    },
-
-    
-   
-
-}
-
-
-# dbox_info = {
-#     "x": 660,
-#     "y": 800,
-#     "width": 800,
-#     "height": 180
-# }
-
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
         self.x = info_dict["x"]
