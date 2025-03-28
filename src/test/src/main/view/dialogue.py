@@ -56,12 +56,12 @@ dialogueview_info = {
 }
 
 
-dbox_info = {
-    "x": 660,
-    "y": 800,
-    "width": 800,
-    "height": 180
-}
+# dbox_info = {
+#     "x": 660,
+#     "y": 800,
+#     "width": 800,
+#     "height": 180
+# }
 
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):

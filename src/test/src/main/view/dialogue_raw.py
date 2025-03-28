@@ -15,12 +15,12 @@ from main.data import global_config as gv
 from thread_pool import DialogueThread
 
 
-dbox_info = {
-    "x": 660,
-    "y": 800,
-    "width": 800,
-    "height": 180
-}
+# dbox_info = {
+#     "x": 660,
+#     "y": 800,
+#     "width": 800,
+#     "height": 180
+# }
 
 def unfreeze(dummy = 1):
     pass

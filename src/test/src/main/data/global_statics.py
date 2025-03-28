@@ -38,8 +38,8 @@ axis_info_percent = {
 }
 
 timer_canvas_info_percent = {
-    "x": 1725 / original_width,  # 89.84%
-    "y": 75 / original_height,  # 6.94%
+    "x": 1625 / original_width,  # 89.84%
+    "y": 150 / original_height,  # 6.94%
     "width": 200 / original_width,  # 10.42%
     "height": 50 / original_height,  # 4.63%
     "color": "red",
@@ -48,8 +48,8 @@ timer_canvas_info_percent = {
 }
 
 timer_label_info_percent = {
-    "x": 1800 / original_width,  # 93.75%
-    "y": 60 / original_height,  # 5.56%
+    "x": 1700 / original_width,  # 93.75%
+    "y": 135 / original_height,  # 5.56%
     "width": 50 / original_width,  # 2.60%
     "height": 17 / original_height,  # 1.57%
     "color": "blue",
@@ -58,8 +58,8 @@ timer_label_info_percent = {
 }
 
 dialogueview_info_percent = {
-    "x": 660 / original_width,
-    "y": 800 / original_height,
+    "x": 75 / original_width,
+    "y": 335 / original_height,
     "width": 800 / original_width,
     "height": 180 / original_height,
     "font": ('Calibri',10, 'bold', 'italic'),
@@ -95,12 +95,12 @@ dialogueview_info_percent = {
 
 }
 
-dbox_info_percent = {
-    "x": 660 / original_width,
-    "y": 800 / original_height,
-    "width": 800 / original_width,
-    "height": 180 / original_height
-}
+# dbox_info_percent = {
+#     "x": 660 / original_width,
+#     "y": 800 / original_height,
+#     "width": 800 / original_width,
+#     "height": 180 / original_height
+# }
 
 button_yes_info_percent = {
     "x": 1250 / original_width,
@@ -173,10 +173,10 @@ countdown_info_percent = {
 
 }
 
-# wtf is a javatar???
+# jackal avatar info on the view
 javatar_info_percent = {
-    "x": 460 / original_width,
-    "y": 800 / original_height,
+    "x": 75 / original_width,
+    "y": 135 / original_height,
     "width": 200 / original_width,
     "height": 180 / original_height,
 }
