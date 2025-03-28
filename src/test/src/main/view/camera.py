@@ -1,20 +1,25 @@
-from PIL import ImageTk
-from tkinter import *
+import sys
+
+sys.path.append('/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/main/')
+
+from PIL import Image, ImageTk
+from tkinter import Frame, Label
+import tkinter as tk
 import rospy
 import rosnode
-from sensor_msgs.msg import CompressedImage
+import sensor_msgs.msg
 import cv2
-import PIL.Image
 import numpy as np
-from event import *
-from cv_bridge.core import CvBridge
-import global_variables
+from cv_bridge import CvBridge
+from main.control import event_manager
+from main.data import global_config as gv
+from main.data import global_statics as gs
 
 
 #Make it false when you are not working with jackal
 # camera_available = True
 def camera_available():
-    return True
+    return False
     try:
         node_list = rosnode.get_node_names()
         print(node_list)
@@ -33,7 +38,7 @@ class CameraView():
         self.y = dict_info["y"]
         self.width = dict_info["width"]
         self.height = dict_info["height"]
-        self.border_colors = dict_info["colors"]
+        self.border_color = dict_info["color"]
         self.camera = camera
         self.state = "green"
         self.imagetk = None
@@ -41,10 +46,12 @@ class CameraView():
         self.cam_available = cam_available
         self.bridge = CvBridge()
         self.border_thick = 15
-        if not global_variables.practice_mode:
-            self.frame = Frame(root, highlightbackground=self.border_colors["light_green"], highlightthickness=self.border_thick)
+        if not gv.practice_mode:
+            self.frame = Frame(root, highlightbackground=self.border_color, highlightthickness=self.border_thick)
         else:
-            self.frame = Frame(root)
+            # self.frame = Frame(root)
+            self.frame = Frame(root, highlightbackground=self.border_color, highlightthickness=self.border_thick)
+
 
         self.frame.place_configure(x= self.x - self.border_thick, y = self.y - self.border_thick , width=self.width + self.border_thick * 2, height=self.height + self.border_thick * 2)
         self.imagewidget = Label(self.frame) 
@@ -52,17 +59,17 @@ class CameraView():
         if self.camera == "flir":
             self.one_second_counter()
 
-        EventManager.subscribe("color_trans", self.color_transition)
+        # event_manager.EventManager.subscribe("color_trans", self.color_transition)
 
         #??
         if cam_available:
             if self.camera == "flir":
                 rospy.loginfo("using flir")
-                self.flir_image = rospy.Subscriber("/camera/image_color/compressed", CompressedImage, self.update_image, queue_size=1)
+                self.flir_image = rospy.Subscriber("/camera/image_color/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
                 self.is_front = False
             else:
                 rospy.loginfo("using axis")
-                self.axis_image = rospy.Subscriber("axis/image_raw/compressed", CompressedImage, self.update_image, queue_size=1)
+                self.axis_image = rospy.Subscriber("axis/image_raw/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
                 self.is_front = True
         else:
             if self.camera == "flir":
@@ -77,7 +84,7 @@ class CameraView():
        
         self.counter = 0
 
-        Tk.after(self.root, 1000, self.one_second_counter)            
+        tk.Tk.after(self.root, 1000, self.one_second_counter)            
 
     def update_pos(self,dict_info):
         
@@ -98,7 +105,7 @@ class CameraView():
         image_np = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
 
         if CameraView.scan_mode and self.camera == "axis":
-            EventManager.post_event("tag_detection", ros_data)
+            event_manager.EventManager.post_event("tag_detection", ros_data)
 
         #find the shape of array (number of elements in each dimensions) convert it to a number and multiply it by scale factor. The shape int number is the value of pixel numbers for width/height. multiplying just downscales/upscales it.
         new_width = int(image_np.shape[1] * self.img_scale_factor)
@@ -111,26 +118,26 @@ class CameraView():
         
 
         #convert numpy image (with array interface) to pillow image
-        img = PIL.Image.fromarray(image_np).resize((self.width,self.height), PIL.Image.ANTIALIAS)
+        img = Image.fromarray(image_np).resize((self.width,self.height), Image.ANTIALIAS)
         
 
         
         #for displayin the image in the tkinter GUI
         self.imgtk = ImageTk.PhotoImage(image=img)
         self.imagewidget.config(image=self.imgtk)
-        self.imagewidget.image = self.imgtk
+        self._imgtk_reference = self.imgtk
         self.imagewidget.place(x= 0, y= 0, width= self.width, height= self.height)
 
     def image_placeholder(self, string):
         if string == "flir":
-            img = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), PIL.Image.ANTIALIAS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), Image.ANTIALIAS)
         else:
-            img = PIL.Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/kirby.jpg").resize((self.width,self.height), PIL.Image.ANTIALIAS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width,self.height), Image.ANTIALIAS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)
         self.imagewidget.config(image=self.imgtk)
-        self.imagewidget.image = self.imgtk
+        self._imgtk_reference = self.imgtk
         self.imagewidget.place(x= self.x, y= self.y, width= self.width, height= self.height)
 
     def change_angle(data, small, big, curr_angle):
@@ -148,27 +155,27 @@ class CameraView():
     def color_transition(self, dummy = 0):
         
         if self.state == "green":
-            self.frame.configure(highlightbackground=self.border_colors["yellow"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["yellow"])
             self.state = "yellow"
         
         elif self.state == "yellow":
-            self.frame.configure(highlightbackground=self.border_colors["orange"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["orange"])
             self.state = "orange"
         
-        elif global_variables.tutorial_mode and self.state == "orange":
-            self.frame.configure(highlightbackground=self.border_colors["red"])
+        elif gv.tutorial_mode and self.state == "orange":
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["red"])
             self.state = "red"
 
     def color_transition_reverse(self, dummy = 0):
         
         if self.state == "red":
-            self.frame.configure(highlightbackground=self.border_colors["orange"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["orange"])
             self.state = "orange"
         
         elif self.state == "orange":
-            self.frame.configure(highlightbackground=self.border_colors["yellow"])
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["yellow"])
             self.state = "yellow"
         
-        elif global_variables.tutorial_mode and self.state == "yellow":
-            self.frame.configure(highlightbackground=self.border_colors["light_green"])
+        elif gv.tutorial_mode and self.state == "yellow":
+            self.frame.configure(highlightbackground=gs.COLOR_CODE["light_green"])
             self.state = "green"

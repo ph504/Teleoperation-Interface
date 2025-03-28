@@ -1,13 +1,18 @@
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
+
+
 from tkinter import Label, Button, ACTIVE, DISABLED
 import time
 from tkinter import Tk
-import utils
+from main.utils import utils
 import csv
 from collections import deque
 import threading
 import random
 import playsound
-import global_variables
+from main.data import global_config
 
 dialogueview_info = {
     "x": 660,
@@ -108,7 +113,7 @@ class DialogueView():
         self.bg = dict_info["bg"]
         self.wraplength = dict_info["wraplength"]
         
-        if not global_variables.social_mode:
+        if not global_config.social_mode:
             self.dbox = Label(frame,font=self.font, bg=self.bg)
         else:
             self.dbox = Label(frame,font=self.font, bg=self.bg, wraplength=self.wraplength)
@@ -269,8 +274,8 @@ class DialogueObject():
                     time.sleep(self.space_pause)
                 else:
                     #playsound.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
-                    time.sleep(global_variables.beep_sliced_sound.get_length() * 1.5)
-                    global_variables.beep_sliced_sound.play()
+                    time.sleep(global_config.beep_sliced_sound.get_length() * 1.5)
+                    global_config.beep_sliced_sound.play()
 
                 self.update_texts(l)
         
@@ -280,7 +285,7 @@ class DialogueObject():
                 self.event.wait()
                 # word gap
                 time.sleep(self.space_pause)
-                sound = random.choice(global_variables.animalese_sound)
+                sound = random.choice(global_config.animalese_sound)
                 time.sleep(sound.get_length() - 2*self.space_pause)
                 sound.play()
                 self.update_texts(w+' ')

@@ -1,28 +1,32 @@
-from tkinter import *
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
+
+import tkinter as tk
 import time
 import threading
-from event import EventManager
+from main.control import event_manager
 import subprocess
-import global_statics
-import global_variables
+from main.data import global_statics as gs
+from main.data import global_config as gv
 
 
 class CameraLabel():
-    def __init__(self, r, label_info, text):
+    def __init__(self, r, label_info):
         self.x = label_info["x"]
         self.y = label_info["y"]
         self.width = label_info["width"]
         self.height = label_info["height"]
-        self.text = text
+        self.text = label_info["text"]
         self.font = label_info["font"]
         
         
-        self.label = Label(r, text= self.text, font=self.font)
+        self.label = tk.Label(r, text= self.text, font=self.font)
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
 
 
-        EventManager.subscribe("label_camera_switch", self.switch_camera)
+        # EventManager.subscribe("label_camera_switch", self.switch_camera)
 
     def switch_camera(self, dummy = -1):
         if self.text == "Front Camera":
@@ -46,7 +50,7 @@ class CalibrateLabel():
         self.color = label_info["color"]
         
         
-        self.label = Label(r, text= self.text, font=self.font, fg=self.color, anchor='s')
+        self.label = tk.Label(r, text= self.text, font=self.font, fg=self.color, anchor='s')
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
     def activate(self):

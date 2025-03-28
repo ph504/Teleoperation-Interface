@@ -1,9 +1,20 @@
-from dialogue import *
-from avatar import *
-from event import EventManager
-import global_variables
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
+
+import dialogue
+import avatar_view
+from main.control import event_manager
+from main.data import global_config as gv
+from collections import deque
+from main.utils import utils
+import tkinter as tk
 class AvalogueController():
-    def __init__(self, frame, d_model: DialogueModel, d_view: DialogueView, a_model: AvatarModel, a_view: AvatarView):
+    def __init__(self, frame, 
+                 d_model: dialogue.DialogueModel, 
+                 d_view: dialogue.DialogueView, 
+                 a_model: avatar_view.AvatarModel, 
+                 a_view: avatar_view.AvatarView):
         self.frame = frame 
 
         self.a_model = a_model
@@ -27,9 +38,8 @@ class AvalogueController():
         self.avalogue_stack = deque()
 
         
-        EventManager.subscribe("collision", self.on_collision)
-        EventManager.subscribe("congratulations", self.on_congrats)
-        EventManager.subscribe("mistake", self.on_mistake)
+        # EventManager.subscribe("congratulations", self.on_congrats)
+        # EventManager.subscribe("mistake", self.on_mistake)
         self.update_btnpress()
         self.update_loop()
 
@@ -56,7 +66,7 @@ class AvalogueController():
             self.d_view.button_press_2 = False
         
 
-       Tk.after(self.frame, 50, self.update_btnpress)
+       tk.Tk.after(self.frame, 50, self.update_btnpress)
 
     #the avatar is dependent on the dialogue
     def update_loop(self):
@@ -127,7 +137,7 @@ class AvalogueController():
                 self.btn_press_name = None
                 self.func_btn()
 
-        Tk.after(self.frame, 100, self.update_loop)
+        tk.Tk.after(self.frame, 100, self.update_loop)
        
        
     '''
@@ -221,11 +231,10 @@ class AvalogueController():
         self.set_avalogue("r_happy", "congrats")
     
     def on_mistake(self, dummy):
-        if global_variables.jackalai_active:
+        if gv.jackalai_active:
             self.set_avalogue("r_sad", "mistake")
     
     def on_collision(self, dummy):
-        
         self.set_avalogue("r_sad", "collision")
 
         

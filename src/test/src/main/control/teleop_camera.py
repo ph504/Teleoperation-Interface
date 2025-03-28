@@ -1,7 +1,7 @@
-# TODO move to controller
-
-
 #!/usr/bin/env python3
+import sys
+
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
 import rospy
 from geometry_msgs.msg import Twist

@@ -1,91 +1,10 @@
+import sys
 
-from tkinter import ACTIVE, DISABLED, Button
+sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
-from canvas import TaskCanvas
-
-from event import *
-
-#TODO: create a dict for the two buttons and organize it properly
-button_auto_info = {
-    "x": 70,
-    "y": 500,
-    "width": 150,
-    "height": 50,
-    "text": "Assisted Mode",
-    "state": DISABLED,
-    "tag": 1,
-
-}
-
-button_manual_info = {
-    "x": 70,
-    "y": 550,
-    "width": 150,
-    "height": 50,
-    "text": "Manual Mode",
-    "state": ACTIVE,
-    "tag": 2,
-
-}
-
-button_yes_info = {
-    "x": 1250,
-    "y": 940,
-    "width": 100,
-    "height": 30,
-    "text": "Yes",
-    "state": ACTIVE,
-    "tag": 3,
-
-    
-}
-
-button_no_info = {
-    "x": 1350,
-    "y": 940,
-    "width": 100,
-    "height": 30,
-    "text": "No",
-    "state": ACTIVE,
-    "tag": 3,
-
-}
-
-button_start_info = {
-    "x": 1300,
-    "y": 940,
-    "width": 100,
-    "height": 30,
-    "text": "Start",
-    "state": ACTIVE,
-    "tag": 5,
- 
-    
-}
-
-button_freeze_info = {
-    "x": 70,
-    "y": 900,
-    "width": 150,
-    "height": 50,
-    "text": "Freeze",
-    "state": ACTIVE,
-    "tag": 6,
-
-    
-}
-
-button_calibrate_info = {
-    "x": 70,
-    "y": 850,
-    "width": 150,
-    "height": 50,
-    "text": "Calibrate",
-    "state": ACTIVE,
-    "tag": 7,
-
-    
-}
+import tkinter as tk
+from main.view import canvas
+from main.control import event_manager
 
 
 class BaseButton():
@@ -97,8 +16,8 @@ class BaseButton():
         self.text = info_dict["text"]
         self.state = info_dict["state"]
         self.tag = info_dict["tag"]
-        self.active = True if self.state == ACTIVE else False
-        self.button = Button(r, width= self.width, height=self.height, 
+        self.active = True if self.state == tk.ACTIVE else False
+        self.button = tk.Button(r, width= self.width, height=self.height, 
             text= self.text)
 
         
@@ -109,40 +28,34 @@ class BaseButton():
         if activate == True: self.activate()
         elif activate == False: self.deactivate()
 
-        EventManager.subscribe("button_activate", self.enable_event)
-        EventManager.subscribe("freeze", self.enable_freeze)
-        EventManager.subscribe("unfreeze", self.disable_freeze)
+        # EventManager.subscribe("button_activate", self.enable_event)
+        # EventManager.subscribe("freeze", self.enable_freeze)
+        # EventManager.subscribe("unfreeze", self.disable_freeze)
         
     def add_event(self, event, arg = None):
             self.button.config(command=event)
-            
-        
-       
     
     def enable_event(self, tag=0):
         if(self.tag == tag):
-            self.button.config(state=ACTIVE)
+            self.button.config(state=tk.ACTIVE)
 
     def enable(self):
         if self.text == "Assisted Mode" or self.text == "Manual Mode":
             self.button.config(background="#faf289", activebackground="#faf289")
-        self.button.config(state=ACTIVE)
+        self.button.config(state=tk.ACTIVE)
 
     def disable(self):
         if self.text == "Assisted Mode" or self.text == "Manual Mode":
             self.button.config(background="#d9d7bd")
-        self.button.config(state=DISABLED)
+        self.button.config(state=tk.DISABLED)
 
     def enable_freeze(self, tag=-1):
         if(self.tag == 6):
-            self.button.config(state=ACTIVE)
+            self.button.config(state=tk.ACTIVE)
 
     def disable_freeze(self, tag=-1):
         if(self.tag == 6):
-            self.button.config(state=DISABLED)       
-
-
-
+            self.button.config(state=tk.DISABLED)
 
     def deactivate(self):
         self.button.place(x = 5000, y = self.y, width=self.width, height=self.height)

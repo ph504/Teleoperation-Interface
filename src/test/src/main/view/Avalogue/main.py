@@ -1,7 +1,7 @@
 from tkinter import Tk
-from test.src.main.view.avatar import AvatarModel, AvatarView
+from test.src.main.view.avatar_view import AvatarModel, AvatarView
 from test.src.main.view.dialogue import *
-from test.src.main.view.avatar import *
+from test.src.main.view.avatar_view import *
 from test.src.main.view.avalogue import *
 
 

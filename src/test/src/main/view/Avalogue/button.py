@@ -2,7 +2,7 @@ from tkinter import ACTIVE, DISABLED, Button
 
 from canvas import TaskCanvas
 
-from event import *
+from test.src.main.model.event_model import *
 
 #TODO: create a dict for the two buttons and organize it properly
 
@@ -29,9 +29,9 @@ class BaseButton():
         if activate == True: self.activate()
         elif activate == False: self.deactivate()
 
-        EventManager.subscribe("button_activate", self.enable_event)
-        EventManager.subscribe("freeze", self.enable_freeze)
-        EventManager.subscribe("unfreeze", self.disable_freeze)
+        # EventManager.subscribe("button_activate", self.enable_event)
+        # EventManager.subscribe("freeze", self.enable_freeze)
+        # EventManager.subscribe("unfreeze", self.disable_freeze)
         
     def add_event(self, event, arg = None):
             def x():

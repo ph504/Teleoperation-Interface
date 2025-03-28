@@ -36,7 +36,7 @@ SEARCH_STRING="/home/ph504/Desktop/Projects/Teleoperation-Interface"
 # Get the current directory (workspace)
 REPLACEMENT_STRING=$(pwd)
 
-# echo "Checking whether the current directory and the workspace directory are matching."
+echo "Checking whether the current directory and the workspace directory are matching."
 
 # Check if the search string is already equal to the replacement string
 if [ "$SEARCH_STRING" != "$REPLACEMENT_STRING" ]; then
@@ -49,10 +49,10 @@ fi
 # echo "The current directory matches with the workspace directory."
 
 # echo "Activating Joystick in a seperate terminal"
-# gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
-rosparam set joy_node/dev "/dev/input/js1"
-# sleep 1
-rosrun joy joy_node &
+# # gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
+# rosparam set joy_node/dev "/dev/input/js0"
+# # sleep 1
+# rosrun joy joy_node &
 
 # echo "Joystick Activated"
 
@@ -67,7 +67,7 @@ timeout 0s kill $!
 # echo "Activating Controller"
 
 
-python3 src/test/src/main/view/teleop_wheel.py &
+python3 src/test/src/main/control/teleop_wheel.py &
 
 sleep 1
 # echo "Controller is activated"
