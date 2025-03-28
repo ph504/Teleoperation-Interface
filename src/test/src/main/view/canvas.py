@@ -1,166 +1,12 @@
 import math
 from textwrap import fill
 from tkinter import *
-import numpy
-import threading
-import random
+import numpy as np
 from playsound import *
 from event import *
-import string
 from logger import Logger
 import global_variables
-import time
 from repeated_timer import RepeatedTimer
-
-#------Canvas Position ---- #
-big_canvas_info = {
-    "x": 1500,
-    "y": 600,
-    "width": 150,
-    "height": 150,
-    "endup_angle": numpy.deg2rad(-90),
-    "endleft_angle": numpy.deg2rad(-240),
-    "endright_angle": numpy.deg2rad(60),
-    "outline_color": "SpringGreen3",
-    "outline_width": 5,
-    "color": "green",
-    "active": True
-}
-small_canvas_info = {
-    "x": 430,
-    "y": 250,
-    "width": 50,
-    "height": 50,
-    "endup_angle": numpy.deg2rad(-90),
-    "endleft_angle": numpy.deg2rad(-240),
-    "endright_angle": numpy.deg2rad(60),
-    "outline_color": "SpringGreen3",
-    "outline_width": 2,
-    "color": "green",
-    "active": False
-
-
-}
-
-
-timer_canvas_info = {
-    "x": 1725,
-    "y": 75,
-    "width": 200,
-    "height": 50,
-    "color": "blue",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": True
-}
-timer_lbl_info = {
-    "x": 1800,
-    "y": 60,
-    "width": 50,
-    "height": 17,
-    "color": "blue",
-    "font": ('Helvetica', '12', 'bold'),
-}
-task_canvas_info = {
-    "x": 1675,
-    "y": 75,
-    "width": 100,
-    "height": 50,
-    "color": "green",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": True
-}
-task_lbl_info = {
-    "x": 1700,
-    "y": 60,
-    "width": 50,
-    "height": 17,
-    "color": "green",
-    "font": ('Helvetica', '12', 'bold'),
-
-}
-
-miss_canvas_agent_info = {
-    "x": 1400,
-    "y": 75,
-    "width": 100,
-    "height": 50,
-    "color": "red",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": True
-}
-
-miss_lbl_agent_info = {
-    "x": 1425,
-    "y": 60,
-    "width": 50,
-    "height": 17,
-    "color": "red",
-    "font": ('Helvetica', '12', 'bold'),
-}
-
-
-miss_canvas_operator_info = {
-    "x": 1500,
-    "y": 75,
-    "width": 100,
-    "height": 50,
-    "color": "red",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": True
-}
-
-miss_lbl_operator_info = {
-    "x": 1515,
-    "y": 60,
-    "width": 70,
-    "height": 17,
-    "color": "red",
-    "font": ('Helvetica', '12', 'bold'),
-}
-
-score_canvas_info = {
-    "x": 1450,
-    "y": 75,
-    "width": 150,
-    "height": 50,
-    "color": "blue",
-    "font": ('Helvetica', '24', 'bold'),
-    "active": False
-}
-score_lbl_info = {
-    "x": 1500,
-    "y": 60,
-    "width": 50,
-    "height": 17,
-    "color": "blue",
-    "font": ('Helvetica', '12', 'bold'),
-
-}
-score_events = {
-    "step_error": 5,
-    "step_error_danger": 25,
-    
-    "threshold_cross": 25,
-    "threshold_cross_danger": 50,
-    
-    "collision_hit": 50,
-    
-    "wrong_entry": 25,
-    "duplicate_entry": 10,
-
-    "task_count": 100
-}
-circle_canvas_info = {
-    "x": 1550,
-    "y": 290,
-    "width": 802,
-    "height": 602,
-    "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"},
-    "active": True
-}
-
-
-
 
 class BaseCanvas():
     def __init__(self, r, info_dict):
@@ -221,13 +67,13 @@ class CursorCanvas(BaseCanvas):
     def rotate(self, string):
 
         if string == "right":
-            self.a_up += numpy.deg2rad(self.angle_diff)
-            self.a_left += numpy.deg2rad(self.angle_diff)
-            self.a_right += numpy.deg2rad(self.angle_diff)
+            self.a_up += np.deg2rad(self.angle_diff)
+            self.a_left += np.deg2rad(self.angle_diff)
+            self.a_right += np.deg2rad(self.angle_diff)
         elif string == "left":
-            self.a_up -= numpy.deg2rad(self.angle_diff)
-            self.a_left -= numpy.deg2rad(self.angle_diff)
-            self.a_right -= numpy.deg2rad(self.angle_diff)
+            self.a_up -= np.deg2rad(self.angle_diff)
+            self.a_left -= np.deg2rad(self.angle_diff)
+            self.a_right -= np.deg2rad(self.angle_diff)
         
         new_cursor_endpoints = self.create_arrowpoints()
         self.canvas.delete('all')

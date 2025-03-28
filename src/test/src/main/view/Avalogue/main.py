@@ -6,10 +6,10 @@ from test.src.main.view.avalogue import *
 
 
 
-csv_dialogue = "/home/pouya/catkin_ws/src/test/src/spreadsheets/dialogue_spreadsheet_linux.csv"
-csv_idle = "/home/pouya/catkin_ws/src/test/src/spreadsheets/IdleAvatars.csv"
-csv_talking = "/home/pouya/catkin_ws/src/test/src/spreadsheets/TalkingAvatars.csv"
-csv_reactive = "/home/pouya/catkin_ws/src/test/src/spreadsheets/ReactiveAvatars.csv"
+csv_dialogue = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/dialogue_spreadsheet_linux.csv"
+csv_idle = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/IdleAvatars.csv"
+csv_talking = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/TalkingAvatars.csv"
+csv_reactive = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
 
 
 #Dumb combination of avatar and dialogue. it makes sense to me so it doesn't matter

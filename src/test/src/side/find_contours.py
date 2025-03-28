@@ -172,7 +172,7 @@ def encode_tag(square_img):
     return [report_img, id_str]
 
 
-im = cv.imread('/home/pouya/catkin_ws/src/test/src/images/artag_3.png')
+im = cv.imread('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/artag_3.png')
 
 
 [all_cnts,cnts] = findcontours(im,180)

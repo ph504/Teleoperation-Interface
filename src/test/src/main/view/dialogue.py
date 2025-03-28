@@ -207,6 +207,7 @@ class DialogueObject():
         self.button1_title = dict_info["btn1_title"]
         self.button2_title = dict_info["btn2_title"]   
         self.random = eval(dict_info["random"].lower().capitalize()) #choose text randomly from the list of texts or not
+        self.sociality = dict_info["sociality"]
  
 
         if self.random:
@@ -246,21 +247,12 @@ class DialogueObject():
                 rand = random.randint(0, len(list)-1)
                 return list[rand]
 
-    def update_texts(self, char):
-        if char == "\\":
-            self.str_index += 1
-            self.full_text = self.full_text.replace("\\","\n", 1)
-            self.shown_text = self.full_text[:self.str_index] 
-            self.remaining_text = self.full_text[self.str_index:]
-        else:
-            self.str_index += 1
-            self.shown_text = self.full_text[:self.str_index] 
-            self.remaining_text = self.full_text[self.str_index:]
-
-            
-            print("*Shown Text*; " + self.shown_text)
-            
-
+    def update_texts(self, mystr):
+        if mystr == "\\":
+            mystr="\n"
+        
+        self.shown_text += mystr
+        print("*Shown Text*; " + self.shown_text)
         
 
 
@@ -270,17 +262,32 @@ class DialogueObject():
         time.sleep(self.wait_before_start)
 
         self.showing = True
+        if(self.sociality=='ns'):
+            for l in self.full_text:
+                self.event.wait()
+                if l == " ":   
+                    time.sleep(self.space_pause)
+                else:
+                    #playsound.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
+                    time.sleep(global_variables.beep_sliced_sound.get_length() * 1.5)
+                    global_variables.beep_sliced_sound.play()
 
-        for l in self.full_text:
-            self.event.wait()
-            if l == " ":   
+                self.update_texts(l)
+        
+        elif(self.sociality=='s'):
+            for w in self.full_text.split():
+                print(w)
+                self.event.wait()
+                # word gap
                 time.sleep(self.space_pause)
-            else:
-                #playsound.playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
-                time.sleep(global_variables.beep_sliced_sound.get_length() * 1.5)
-                global_variables.beep_sliced_sound.play()
+                sound = random.choice(global_variables.animalese_sound)
+                time.sleep(sound.get_length() - 2*self.space_pause)
+                sound.play()
+                self.update_texts(w+' ')
+        else:
+            pass # TODO should raise error
+                
             
-            self.update_texts(l)
         
         if not self.wipe_with_button: 
            self.wipe(self.wipe_time)

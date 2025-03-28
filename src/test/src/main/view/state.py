@@ -1,5 +1,4 @@
 from statemachine import State, StateMachine
-from view import switch_danger
 from playsound import *
 import time
 import threading
@@ -20,8 +19,6 @@ class TeleopGUIMachine(StateMachine):
                 dialogue,
                 nmode_btn,
                 amode_btn,
-                n_bar,
-                d_bars,
                 jackal_avatar,
                 flashing_image,
                 tsk_cnvs,
@@ -34,8 +31,6 @@ class TeleopGUIMachine(StateMachine):
         self.dialogue = dialogue
         self.normalmode_button = nmode_btn
         self.assistedmode_button = amode_btn
-        self.normal_bar = n_bar
-        self.danger_bars = d_bars
         self.javatar = jackal_avatar
         self.flashing_image = flashing_image
         self.is_ai = False
@@ -50,7 +45,7 @@ class TeleopGUIMachine(StateMachine):
 
        
         self.jackal_ai.disable()
-        EventManager.subscribe("start_cntdwn", self.start_cntdwn)
+        EventManager.subscribe("start_cntdwn", self.start_cntdwn) # type: ignore
 
     #states
     s0 = State('S0', initial= True) 
@@ -82,16 +77,14 @@ class TeleopGUIMachine(StateMachine):
     WARNING_TIMER = 15   
 
     def assistedmanual_disable(self):
-        EventManager.post_event("count_manual_trans_deactive", -1)
-        switch_danger(self.normal_bar, self.danger_bars)
+        EventManager.post_event("count_manual_trans_deactive", -1) # type: ignore
         self.flashing_image.disable()
         self.assistedmode_button.disable()
         self.normalmode_button.disable()
         self.jackal_ai.disable()
 
     def normal_activate(self):
-        switch_danger(self.normal_bar, self.danger_bars)
-        EventManager.post_event("count_manual_trans_active", -1)
+        EventManager.post_event("count_manual_trans_active", -1) # type: ignore
         self.flashing_image.enable()
         #playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
         global_variables.danger_alarm_sound.play()
@@ -100,7 +93,6 @@ class TeleopGUIMachine(StateMachine):
         self.jackal_ai.disable()
 
     def assisted_activate(self):
-        switch_danger(self.normal_bar, self.danger_bars)
         self.flashing_image.enable()
         #playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
         global_variables.danger_alarm_sound.play()
@@ -118,7 +110,7 @@ class TeleopGUIMachine(StateMachine):
 
     def unfrezee_delay(self):
         time.sleep(5)
-        EventManager.post_event("unfreeze", -1)
+        EventManager.post_event("unfreeze", -1) # type: ignore
     
     def danger_fail(self):
         time.sleep(15)
@@ -128,8 +120,8 @@ class TeleopGUIMachine(StateMachine):
     def on_s01 (self):
         def start():
             print("***S1 --- Start***")
-            EventManager.post_event("unfreeze", -1)
-            EventManager.post_event("start_move_bars", -1)
+            EventManager.post_event("unfreeze", -1) # type: ignore
+            EventManager.post_event("start_move_bars", -1) # type: ignore
             self.timer.start()
             self.avalogue.set_avalogue("r_happy", "start_a")
   
@@ -143,7 +135,7 @@ class TeleopGUIMachine(StateMachine):
             time.sleep(self.DANGER_START_TIMER)
 
             self.avalogue.set_avalogue("t_default", "danger_s1")
-            Logger.log("danger_zone_start", "ai_handler")
+            Logger.log("danger_zone_start", "ai_handler") # type: ignore
             self.assisted_activate()
             x = threading.Thread(target=self.danger_timer_countdown_s2)
             x.start()
@@ -159,7 +151,7 @@ class TeleopGUIMachine(StateMachine):
             self.avalogue.set_avalogue("t_sad", "danger_e1")
 
 
-            Logger.log("danger_zone_end", "ai_handler")
+            Logger.log("danger_zone_end", "ai_handler") # type: ignore
             
             
             self.assistedmanual_disable()
@@ -179,7 +171,7 @@ class TeleopGUIMachine(StateMachine):
             self.avalogue.set_avalogue("t_default", "danger_s2")
             self.normal_activate()
 
-            Logger.log("danger_zone_start", "operator_handler")
+            Logger.log("danger_zone_start", "operator_handler") # type: ignore
 
             x = threading.Thread(target=self.danger_timer_countdown_s3)
             x.start()
@@ -192,14 +184,14 @@ class TeleopGUIMachine(StateMachine):
         if self.is_yes == None:
             print("YESSS")
             self.is_yes = True
-            Logger.log("CHOICE", "YES")
+            Logger.log("CHOICE", "YES") # type: ignore
             self.s67()
         
     def on_no(self):
         if self.is_yes == None:
             print("NOOOO")
             self.is_yes = False
-            Logger.log("CHOICE", "NO")
+            Logger.log("CHOICE", "NO") # type: ignore
             self.s67()  
      
     def start_cntdwn(self, dummy = 0):
@@ -214,7 +206,7 @@ class TeleopGUIMachine(StateMachine):
             self.avalogue.set_avalogue("t_default", "danger_e2")
 
             self.assistedmanual_disable()
-            Logger.log("danger_zone_end", "operator_handler")
+            Logger.log("danger_zone_end", "operator_handler") # type: ignore
 
             x = threading.Thread(target=self.danger_fail)
             x.start()
@@ -233,7 +225,7 @@ class TeleopGUIMachine(StateMachine):
            print("***S6 --- Choice Q***")
            #---
            #show avalogue
-           EventManager.post_event("freeze", -1)
+           EventManager.post_event("freeze", -1) # type: ignore
            self.avalogue.set_avalogue("t_default", "choice_q")
 
            
@@ -274,16 +266,16 @@ class TeleopGUIMachine(StateMachine):
         
         def choice_yn():
             print("***S7 --- Choice A Y/N***")
-            EventManager.post_event("clear_wait_flag", -1)
-            EventManager.post_event("unfreeze", -1)
+            EventManager.post_event("clear_wait_flag", -1) # type: ignore
+            EventManager.post_event("unfreeze", -1) # type: ignore
             self.countdown_canvas.disable()
 
             if self.is_yes:
-                EventManager.post_event("assisted_second", -1)
+                EventManager.post_event("assisted_second", -1) # type: ignore
                 self.avalogue.set_avalogue("r_happy", "choice_y")
                 self.is_ai = True 
             else:
-                EventManager.post_event("manual_second", -1)
+                EventManager.post_event("manual_second", -1) # type: ignore
                 self.avalogue.set_avalogue("t_default", "choice_n")
                 self.is_ai = False
 
@@ -300,7 +292,7 @@ class TeleopGUIMachine(StateMachine):
             
             self.avalogue.set_avalogue("r_happy", "danger_s3y")
 
-            Logger.log("danger_zone_start", "ai_handler")
+            Logger.log("danger_zone_start", "ai_handler") # type: ignore
             
             self.assisted_activate()
 
@@ -317,7 +309,7 @@ class TeleopGUIMachine(StateMachine):
 
             
 
-            Logger.log("danger_zone_start", "operator_handler")
+            Logger.log("danger_zone_start", "operator_handler") # type: ignore
             
             self.normal_activate()
 
@@ -339,7 +331,7 @@ class TeleopGUIMachine(StateMachine):
             if self.is_ai:
                 self.avalogue.set_avalogue("t_default", "danger_e3y")
                 self.assistedmanual_disable()        
-                Logger.log("danger_zone_end", "ai_handler")       
+                Logger.log("danger_zone_end", "ai_handler")        # type: ignore
             else:
                 self.avalogue.set_avalogue("t_default", "danger_e3n")
 
@@ -348,7 +340,7 @@ class TeleopGUIMachine(StateMachine):
                 
                 
 
-                Logger.log("danger_zone_end", "operator_handler")
+                Logger.log("danger_zone_end", "operator_handler") # type: ignore
                 
                 
         x = threading.Thread(target=danger_end3)
@@ -359,25 +351,21 @@ class TeleopGUIMachine(StateMachine):
         self.timer.stop()
         print("***S10 --- End***")
         self.avalogue.set_avalogue("t_default", "end")
-        Logger.log("end", "N/A")
-        EventManager.post_event("task_count", self.task_canvas.count)
+        Logger.log("end", "N/A") # type: ignore
+        EventManager.post_event("task_count", self.task_canvas.count) # type: ignore
         global_variables.bar_controller = True
-        EventManager.post_event("stop_move_bars", -1)
+        EventManager.post_event("stop_move_bars", -1) # type: ignore
 
 class TutorialGUIMachine(StateMachine):
     
     def __init__(self,timer,
                 nmode_btn,
                 amode_btn,
-                n_bar,
                 flashing_image,
-                d_bars,
                 jckl_ai,
                 avalogue) -> None:
         super().__init__()
         self.timer = timer
-        self.normal_bar = n_bar
-        self.danger_bars = d_bars
         self.flashing_image = flashing_image
         self.assistedmode_button = amode_btn
         self.normalmode_button = nmode_btn
@@ -401,16 +389,14 @@ class TutorialGUIMachine(StateMachine):
 
 
     def assistedmanual_disable(self):
-        EventManager.post_event("count_manual_trans_deactive", -1)
-        switch_danger(self.normal_bar, self.danger_bars)
+        EventManager.post_event("count_manual_trans_deactive", -1) # type: ignore
         self.flashing_image.disable()
         self.assistedmode_button.disable()
         self.normalmode_button.disable()
         self.jackal_ai.disable()
     
     def normal_activate(self):
-        switch_danger(self.normal_bar, self.danger_bars)
-        EventManager.post_event("count_manual_trans_active", -1)
+        EventManager.post_event("count_manual_trans_active", -1) # type: ignore
         self.flashing_image.enable()
         #playsound("/home/pouya/catkin_ws/src/test/src/sounds/danger-alarm.wav", block= False)
         global_variables.danger_alarm_sound.play()
@@ -423,9 +409,9 @@ class TutorialGUIMachine(StateMachine):
         self.avalogue.set_avalogue("t_default", "t_danger_w")
 
     def on_s01(self):
-        EventManager.post_event("unfreeze", -1)
+        EventManager.post_event("unfreeze", -1) # type: ignore
         global_variables.bar_controller = False
-        EventManager.post_event("start_move_bars", -1)
+        EventManager.post_event("start_move_bars", -1) # type: ignore
         self.avalogue.set_avalogue("r_happy", "t_start_a")
         
         self.timer.start()
@@ -454,6 +440,6 @@ class TutorialGUIMachine(StateMachine):
     def on_s34(self):
         self.timer.stop()
         global_variables.bar_controller = True
-        EventManager.post_event("stop_move_bars", -1)
+        EventManager.post_event("stop_move_bars", -1) # type: ignore
         self.avalogue.set_avalogue("t_default", "t_end")
         

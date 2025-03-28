@@ -1,3 +1,6 @@
+# TODO move to controller
+
+
 #!/usr/bin/env python3
 
 import rospy
@@ -18,7 +21,7 @@ from axis_camera.msg import Axis
 def callback(data):
     global joystick_input
 
-    joystick_input = data.axes[3]
+    # joystick_input = data.axes[3]
        
 
 def control_camera(joys_i):
@@ -48,12 +51,12 @@ def start():
         axis.autofocus = False
         axis.tilt = 0
         axis.zoom = 0 
+        print('***Arya*** Camera Node Activated!')
         rospy.init_node('teleop_camera_node')
-
         pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)
 
         # EventManager.subscribed to joystick inputs on topic "joy"
-        #rospy.EventManager.subscriber("joy", Joy, callback)
+        rospy.Subscriber("joy", Joy, callback)
         
         rate = rospy.Rate(8)
 
@@ -63,10 +66,6 @@ def start():
             #control_camera(joystick_input)
             pub_axis.publish(axis)
             rate.sleep()
-       
-
-        
-        
 
         # starts the node
         

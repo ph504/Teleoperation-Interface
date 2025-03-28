@@ -6,31 +6,6 @@ import event
 from canvas import RepeatedTimer
 import global_variables
 
-javatar_info = {
-    "x": 460,
-    "y": 800,
-    "width": 200,
-    "height": 180,
-}
-
-
-javatar_images = {
-    "default" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_01.png",
-    "default-talking": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_05.png",
-    "default-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_04.png",
-    "default-left": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_02.png",
-    "default-right": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/default/IDLE_03.png",
-    "happy" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_17.png",
-    "happy-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/happy/IDLE_20.png",
-    "sad" : "/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_09.png",
-    "sad-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_12.png",
-    "sad-talking": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/sad/IDLE_13.png",
-    "angry": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/angry/IDLE_21.png",
-    "angry-blink": "/home/pouya/catkin_ws/src/test/src/images/JACKEL/angry/IDLE_24.png",
-    "nonsocial": "/home/pouya/catkin_ws/src/test/src/images/non_social.png"
-
-}
-
 
 class Avatar():
     

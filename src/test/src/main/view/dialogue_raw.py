@@ -153,7 +153,7 @@ class DialogueBox():
                 time.sleep(0.1)
                 #locker.wait()
             else:
-                #playsound("/home/pouya/catkin_ws/src/test/src/sounds/bleep_sliced.wav")
+                #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
                 global_variables.beep_sliced_sound.play()
             x = x + l 
             self.dialoguetext.configure(text=x)
