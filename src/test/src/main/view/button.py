@@ -34,9 +34,6 @@ class BaseButton():
         
     def add_event(self, event, arg = None):
             self.button.config(command=event)
-            
-        
-       
     
     def enable_event(self, tag=0):
         if(self.tag == tag):
@@ -58,10 +55,7 @@ class BaseButton():
 
     def disable_freeze(self, tag=-1):
         if(self.tag == 6):
-            self.button.config(state=tk.DISABLED)       
-
-
-
+            self.button.config(state=tk.DISABLED)
 
     def deactivate(self):
         self.button.place(x = 5000, y = self.y, width=self.width, height=self.height)

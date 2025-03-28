@@ -7,6 +7,8 @@ sys.path.append('/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src')
 from main.model import event_model
 from main.control import event_manager
 from main.utils import logger
+import rospy
+import std_msgs.msg as std_msg
 from tkinter import ACTIVE as tk_ACTIVE
 from tkinter import DISABLED as tk_DISABLED
 # import std_msgs.msg as std_msg
@@ -18,7 +20,7 @@ class EventRegistrar:
     @staticmethod
     def register_events():
         
-        def on_freeze_all(widgets):
+        def on_freeze_all(widgets): 
             # for all the selected widgets, make them frozen
             for widget_name in widgets:
                 widgets[widget_name].config(state=tk_DISABLED)
@@ -43,13 +45,15 @@ class EventRegistrar:
 
         event_handlers = {
             event_model.EVENTS["FREEZE"]: [
-                # lambda : rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(True), 
                 # for the above code we might want to pass in as an argument for dynamicity (ros_publisher)
                 # what does this even accomplish
                 # I changed the definition to the opposite, at it was ACTIVE before
 
                 # I don't know if the widgets arguments passing is necessary but I will try after fixing all this, getting one clean run should be the blessing
-                lambda widget_name, widgets : on_freeze(widget_name, widgets)
+                lambda widget_name, widgets : on_freeze(widget_name, widgets),
+                lambda : rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(True), 
+                
+                
             ],
             event_model.EVENTS["UNFREEZE"]: [
                 lambda widget_name, widgets : on_unfreeze(widget_name, widgets) 

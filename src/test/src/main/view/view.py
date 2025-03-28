@@ -109,6 +109,8 @@ def init():
 
 def main(): 
     
+    global NODE_INITIALIZED
+
     root = tk.Tk()
 
     # root.geometry("1440x900")
@@ -153,9 +155,9 @@ def main():
         pub.publish(True)
     
     def unfreeze(dummy = 0):
-        # if not NODE_INITIALIZED:
-        #     print("No node yet, skipping publish.")
-        #     return
+        if not NODE_INITIALIZED:
+            print("No node yet, skipping publish.")
+            return
         def x():
             print("sending data to unfreeze ...")
             time.sleep(1)
