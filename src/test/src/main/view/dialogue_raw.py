@@ -125,7 +125,7 @@ class DialogueBox():
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
         x = threading.Thread(target=self.letterbyletter)
         x.start()
-        EventManager.post_event("talking_started", True)
+        event_manager.EventManager.post_event("talking_started", True)
         self.start_or_yesno = False
         self.talk_mode = True
         # EventManager.subscribe("stop_talking", self.finish_talking_func)
@@ -204,9 +204,9 @@ class DialogueBox():
     def change_dialogue(self, string):
         
         if string == "Danger State End II/Warning II Q": 
-            EventManager.post_event("talking_started_sad", -1)
+            event_manager.EventManager.post_event("talking_started_sad", -1)
         else: 
-            EventManager.post_event("talking_started", -1)
+            event_manager.EventManager.post_event("talking_started", -1)
         
 
         if string == "Start A" or string == "Danger State Warning II A-Y":
