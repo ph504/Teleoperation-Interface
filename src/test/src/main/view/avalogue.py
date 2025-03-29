@@ -93,11 +93,11 @@ class AvalogueController():
         
 
             if not self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
-               print("5 --- it is waiting for start (in seconds)")
+            #    print("5 --- it is waiting for start (in seconds)")
                self.empty_view()
 
             elif self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
-                 print("6 --- it is talking")
+                #  print("6 --- it is talking")
                  self.update_view()
                  #if self.curr_avalogue[1].queue_flag and self.curr_avalogue[1].wipe_with_button:
                     # print("7 --- if the avalogue that was showing, got hidden and now is showing again had buttons, enable it(should we?)")

@@ -207,7 +207,7 @@ class DialogueObject():
             mystr="\n"
         
         self.shown_text += mystr
-        print("*Shown Text*; " + self.shown_text)
+        # print("*Shown Text*; " + self.shown_text)
         
 
 
@@ -231,7 +231,7 @@ class DialogueObject():
         
         elif(self.sociality=='s'):
             for w in self.full_text.split():
-                print(w)
+                # print(w)
                 self.event.wait()
                 # word gap
                 time.sleep(self.space_pause)

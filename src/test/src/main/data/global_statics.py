@@ -6,7 +6,18 @@ COLOR_CODE = {
     "light_green": '#03fc0f',
     "yellow": '#ecfc03',
     "orange": '#faa94d',
-    "red": "#f70505"
+    "red": "#f70505",
+    "black": "#000000",
+    "white": "#ffffff",
+    "blue": "#0000ff",
+    "light_blue": "#00ffff",
+    "dark_blue": "#00008b",
+    "light_gray": "#d3d3d3",
+    "gray": "#808080",
+    "dark_gray": "#a9a9a9",
+    "light_red": "#ffcccb",
+    "dark_red": "#8b0000",
+    "light_yellow": "#ffffe0",
 }
 
 # front camera label text
@@ -44,15 +55,15 @@ axis_info_percent = {
     "width": 900 / original_width,
     "height": 850 / original_height,
     # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
-    "color" : "#ecfc03",
+    "color" : COLOR_CODE['black'],
 }
 
 timer_canvas_info_percent = {
-    "x": 1565 / original_width,  # 89.84%
-    "y": 215 / original_height,  # 6.94%
+    "x": 1585 / original_width,  # 89.84%
+    "y": 250 / original_height,  # 6.94%
     "width": 200 / original_width,  # 10.42%
     "height": 50 / original_height,  # 4.63%
-    "color": "red",
+    "color": "black",
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
@@ -60,11 +71,11 @@ timer_canvas_info_percent = {
 timer_label_info_percent = {
     "x": 1640 / original_width,  # 93.75%
     "y": 200 / original_height,  # 5.56%
-    "width": 50 / original_width,  # 2.60%
-    "height": 17 / original_height,  # 1.57%
-    "color": "blue",
+    "width": 100 / original_width,  # 2.60%
+    "height": 50 / original_height,  # 1.57%
+    "color": "black",
     "text": "Timer",
-    "font": ('Helvetica', '12', 'bold'),
+    "font": ('Helvetica', '24', 'bold'),
 }
 
 # jackal avatar info on the view
@@ -82,7 +93,7 @@ dialogueview_info_percent = {
     "height": 700 / original_height,
     "font": ('Calibri',10, 'bold', 'italic'),
     "bg": '#d9d7bd',
-    "wraplength": 800 / original_width,
+    "wraplength": 450,
     
 
     "btn1_info_percent": {
@@ -95,19 +106,18 @@ dialogueview_info_percent = {
     },
 
     "btn2_info_percent": { 
-        "x": 1350 / original_width,
+        "x": 1615 / original_width,
         "y": 940 / original_height,
         "width": 100 / original_width,
         "height": 30 / original_height,
         "text": "Button 2",
-        
     },
 
     "btn_info_percent": {   
-        "x": 1300 / original_width,
-        "y": 940 / original_height,
-        "width": 100 / original_width,
-        "height": 30 / original_height,
+        "x": 1615 / original_width,
+        "y": 930 / original_height,
+        "width": 150 / original_width,
+        "height": 50 / original_height,
         "text": "Button",
     },
 

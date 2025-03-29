@@ -72,12 +72,12 @@ class CameraView():
                 self.axis_image = rospy.Subscriber("axis/image_raw/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
                 self.is_front = True
         else:
-            if self.camera == "flir":
-                self.flir_image = self.image_placeholder("flir")
-                self.is_front = False      
-            else:
-                self.axis_image = self.image_placeholder("axis")
-                self.is_front = True
+            # if self.camera == "flir":
+            #     self.flir_image = self.image_placeholder("flir")
+            #     self.is_front = False      
+            # else:
+            self.axis_image = self.image_placeholder("axis")
+            self.is_front = True
 
     def one_second_counter(self):
         

@@ -121,7 +121,7 @@ class DialogueBox():
         self.first_time = True
         self.finish_talking = False
         self.dialogue = self.social_dialogue_dict[self.state] if gv.social_mode is True else self.nonsocial_dialogue_dict[self.state]
-        self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#d9d7bd', wraplength= 800)
+        self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#d9d7bd', wraplength= 800, anchor='w', justify='left')
         self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
         x = threading.Thread(target=self.letterbyletter)
         x.start()
@@ -223,11 +223,11 @@ class DialogueBox():
         #x = DialogueThread(self.letterbyletter)
         
         
-    def change_dialogue_mistake(self, dummy):
-        self.talk_mode = False
-        dialogue = self.return_randomdialogue("Mistake")
-        self.dialogue = dialogue
-        self.dialoguetext.configure(text="")
+    # def change_dialogue_mistake(self, dummy):
+    #     self.talk_mode = False
+    #     dialogue = self.return_randomdialogue("Mistake")
+    #     self.dialogue = dialogue
+    #     self.dialoguetext.configure(text="")
 
         #x = DialogueThread(self.letterbyletter)
 
