@@ -67,15 +67,15 @@ timer_label_info_percent = {
     "font": ('Helvetica', '12', 'bold'),
 }
 
-button_freeze_info_percent = {
-    "x": 1565 / original_width,
-    "y": 900 / original_height,
-    "width": 150 / original_width,
-    "height": 50 / original_height,
-    "text": "Freeze",
-    "state": tk.ACTIVE,
-    "tag": 6,
-}
+# button_freeze_info_percent = {
+#     "x": 1565 / original_width,
+#     "y": 900 / original_height,
+#     "width": 150 / original_width,
+#     "height": 50 / original_height,
+#     "text": "Freeze",
+#     "state": tk.ACTIVE,
+#     "tag": 6,
+# }
 
 # jackal avatar info on the view
 javatar_info_percent = {
@@ -150,8 +150,8 @@ def load_all_pixel_info(screen_width, screen_height):
     global timer_canvas_info, timer_label_info
     global task_canvas_info, task_label_info
     global dialogueview_info, dbox_info
-    global button_yes_info, button_no_info, button_start_info
-    global button_freeze_info, button_calibrate_info
+    global button_yes_info, button_no_info
+    global button_calibrate_info
     global countdown_info
     global javatar_info
 
@@ -173,7 +173,7 @@ def load_all_pixel_info(screen_width, screen_height):
     dialogueview_info["btn_info"] = convert_to_pixels(dialogueview_info_percent["btn_info_percent"], screen_width, screen_height)
 
     # 🎮 Buttons (mode selection, calibration, yes/no)
-    button_freeze_info = convert_to_pixels(button_freeze_info_percent, screen_width, screen_height)
+    # button_freeze_info = convert_to_pixels(button_freeze_info_percent, screen_width, screen_height)
     button_calibrate_info = convert_to_pixels(button_calibrate_info_percent, screen_width, screen_height)
 
 

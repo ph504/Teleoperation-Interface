@@ -13,6 +13,7 @@ from main.model import event_model
 import random
 from main.data import global_config as gv
 from thread_pool import DialogueThread
+from main.control import event_manager
 
 
 # dbox_info = {
@@ -148,7 +149,7 @@ class DialogueBox():
         for l in self.dialogue:
             if self.finish_talking:
                 self.dialoguetext.configure(text=self.dialogue)
-                EventManager.post_event("stop_talking", self.talk_mode)
+                event_manager.EventManager.post_event("stop_talking", self.talk_mode)
                 self.talk_mode = False
                 self.finish_talking = False
                 break
@@ -162,13 +163,13 @@ class DialogueBox():
             x = x + l 
             self.dialoguetext.configure(text=x)
             if x == self.dialogue:
-                EventManager.post_event("talking_ended", self.talk_mode)
+                event_manager.EventManager.post_event("talking_ended", self.talk_mode)
                 self.talk_mode = False
 
-        if self.start_or_yesno == False:
-            EventManager.post_event("button_activate", 5)
-        else:
-            EventManager.post_event("button_activate", 3)
+        # if self.start_or_yesno == False:
+        #     EventManager.post_event("button_activate", 5)
+        # else:
+        #     EventManager.post_event("button_activate", 3)
 
         if self.state == "Start Q" or self.state  == "Danger State End II/Warning II Q":
             pass

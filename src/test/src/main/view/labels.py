@@ -55,14 +55,14 @@ class CalibrateLabel():
 
     def activate(self):
         subprocess.Popen("/home/ph504/Desktop/Projects/Teleoperation-Interface/camera_calib.sh", shell=True)
-        EventManager.post_event("calibrate_pause", -1)
+        event_manager.EventManager.post_event("calibrate_pause", -1)
         threading.Thread(target=self.calibration_label).start()
         
     def calibration_label(self):
         self.label.configure(text="calibrating ...")
         time.sleep(20)
         self.label.config(text="") 
-        EventManager.post_event("calibrate_start", -1)
+        event_manager.EventManager.post_event("calibrate_start", -1)
       
    
 

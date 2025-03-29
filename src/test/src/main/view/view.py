@@ -376,20 +376,20 @@ def change_angle(data, canvases):
     
     prev_angle = data.pan
 
-def joy_config(data, widgets):
-    global rb1, rb2normal, rb3, cs, dialogue_end
+# def joy_config(data, widgets):
+#     global rb1, rb2normal, rb3, cs, dialogue_end
 
-    jackal_ai = widgets["jackal_ai"]
+#     jackal_ai = widgets["jackal_ai"]
 
-    if gv.in_inspection:
-        return
+#     if gv.in_inspection:
+#         return
 
 
-    # end the dialogue talking sound and show all the text
-    dialogue_end_buff = dialogue_end
-    dialogue_end = data.buttons[5]
-    if dialogue_end == 1 and dialogue_end_buff == 0:
-        event_manager.EventManager.post_event("stop_talking", 1) # type: ignore
+#     # end the dialogue talking sound and show all the text
+#     dialogue_end_buff = dialogue_end
+#     dialogue_end = data.buttons[5]
+#     if dialogue_end == 1 and dialogue_end_buff == 0:
+#         event_manager.EventManager.post_event("stop_talking", 1) # type: ignore
 
 def playsound_beep_thread():
     x = threading.Thread(target=ps.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav"))   

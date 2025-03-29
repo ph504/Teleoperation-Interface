@@ -21,8 +21,7 @@ class BaseButton():
         self.width = info_dict["width"]
         self.height = info_dict["height"]
         self.text = info_dict["text"]
-        self.button = Button(r, width= self.width, height=self.height, 
-            text= self.text)
+        self.button = Button(r, width= self.width, height=self.height, text= self.text)
         
         if enable == True: self.enable()
         elif enable == False: self.disable()
