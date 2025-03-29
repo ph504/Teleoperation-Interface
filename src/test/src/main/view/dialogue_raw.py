@@ -120,9 +120,20 @@ class DialogueBox():
         self.state = "Start Q"
         self.first_time = True
         self.finish_talking = False
-        self.dialogue = self.social_dialogue_dict[self.state] if gv.social_mode is True else self.nonsocial_dialogue_dict[self.state]
-        self.dialoguetext = Label(root, font=('Calibri',12, 'bold', 'italic'), bg='#d9d7bd', wraplength= 800, anchor='w', justify='left')
-        self.dialoguetext.place(x = self.x, y = self.y, width= self.width, height= self.height)
+        self.dialogue = \
+            self.social_dialogue_dict[self.state] if gv.social_mode else \
+            self.nonsocial_dialogue_dict[self.state]
+        
+        self.dialoguetext = Label(root, 
+                                  font=('Calibri',12, 'bold', 'italic'), 
+                                  bg='#d9d7bd', 
+                                  wraplength= self.width, 
+                                  anchor='nw', 
+                                  justify='left')
+        
+        self.dialoguetext.place(x = self.x, y = self.y, 
+                                width= self.width, height= self.height)
+        
         x = threading.Thread(target=self.letterbyletter)
         x.start()
         event_manager.EventManager.post_event("talking_started", True)

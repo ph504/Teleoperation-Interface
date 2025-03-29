@@ -118,7 +118,7 @@ dialogueview_info_percent = {
         "y": 930 / original_height,
         "width": 150 / original_width,
         "height": 50 / original_height,
-        "text": "Button",
+        "text": "Start",
     },
 
 }
