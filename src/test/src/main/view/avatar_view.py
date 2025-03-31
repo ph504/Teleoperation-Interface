@@ -9,6 +9,7 @@ from main.utils import utils
 from tkinter import Tk
 import csv
 from collections import deque
+import random
 
 
 javatar_info = {
@@ -206,7 +207,11 @@ class AvatarTalking(AvatarObject):
     def animate(self):
             self.change_currimg(self.default_img)
             while True:
-                self.change_currimg(self.blink_img) if self.count_blink % self.blink_countmax == 0 else self.change_currimg(self.default_img)
+                if self.count_blink % self.blink_countmax == 0:
+                    self.change_currimg(self.blink_img)
+                else: 
+                    self.change_currimg(self.default_img)
+
                 self.count_blink += 1
                 time.sleep(self.talking_time)
                 self.change_currimg(self.talking_img)
@@ -218,22 +223,19 @@ class AvatarIdle(AvatarObject):
         
         self.type = "Idle"
         self.emotion = dict_info['emotion']
-        self.default_path = dict_info['default_path']
-        self.left_path = dict_info['left_path']
-        self.right_path = dict_info['right_path']
-        self.blink_path = dict_info['blink_path']
 
         self.idleloop_time = float(dict_info['idleloop_time'])
         self.blink_time = float(dict_info['blink_time'])
 
-
-        self.default_img = Image.open(self.default_path)
-        self.left_img = Image.open(self.left_path)
-        self.right_img = Image.open(self.right_path)
-        self.blink_img = Image.open(self.blink_path)
-
-
-        
+        self.default_img = Image.open(dict_info['default_path'])
+        self.left_img = Image.open(dict_info['left_path'])
+        self.right_img = Image.open(dict_info['right_path'])
+        self.blink_img = Image.open(dict_info['blink_path'])
+        self.idle_frames = [
+            self.default_img,
+            self.left_img,
+            self.right_img,
+        ]
 
         self.animate()
         
@@ -243,31 +245,11 @@ class AvatarIdle(AvatarObject):
         self.change_currimg(self.default_img)
 
         while True: 
-            
             print("Idle Loop is happening.")
             
             time.sleep(self.idleloop_time)
-
             self.change_currimg(self.blink_img)
-
             time.sleep(self.blink_time)
-
+            
+            frame = random.choice(self.idle_frames)
             self.change_currimg(self.left_img)
-
-            time.sleep(self.blink_time)
-
-            self.change_currimg(self.blink_img)
-
-            time.sleep(self.blink_time)
-
-            self.change_currimg(self.right_img)
-
-            time.sleep(self.blink_time)
-
-            self.change_currimg(self.blink_img)
-
-            time.sleep(self.blink_time)
-
-            self.change_currimg(self.default_img)
-
-    
