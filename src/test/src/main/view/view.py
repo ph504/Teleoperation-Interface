@@ -26,7 +26,7 @@ import random
 import time
 import threading
 import pygame
-import rospy
+# import rospy
 import socket
 import socketserver
 
@@ -126,14 +126,14 @@ def main():
     # x.start()
     
     if camera.camera_available(): 
-        rospy.init_node("viewer", anonymous= True)
+        # rospy.init_node("viewer", anonymous= True)
         NODE_INITIALIZED = True
-        rospy.loginfo("viewer node started ...")
+        # rospy.loginfo("viewer node started ...")
         axis = ac_msg.Axis()
         axis.pan = -180
-        pub_axis = rospy.Publisher('/axis/cmd', ac_msg.Axis, queue_size=10)
-        pub_axis.publish(axis)
-        x = rospy.wait_for_message("/axis/state", ac_msg.Axis).pan
+        # pub_axis = rospy.Publisher('/axis/cmd', ac_msg.Axis, queue_size=10)
+        # pub_axis.publish(axis)
+        # x = rospy.wait_for_message("/axis/state", ac_msg.Axis).pan
         print("Initial angle: " + str(x))
 
 
