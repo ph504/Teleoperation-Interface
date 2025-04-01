@@ -166,19 +166,12 @@ class AvatarReactive(AvatarObject):
     def animate(self):
         
         self.started = True
-
         self.change_currimg(self.reaction_img)
-
         time.sleep(self.reaction_time)
-
         self.change_currimg(self.blink_img)
-
         time.sleep(self.blink_time)
-
         self.change_currimg(self.reaction_img)
-
         time.sleep(self.reaction_time)
-        
         self.finished = True
 
 class AvatarTalking(AvatarObject):
