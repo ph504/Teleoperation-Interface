@@ -3,16 +3,21 @@ import sys
 
 sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
+from main.utils import ros_guard as rg
+
+if rg.HAS_ROS:
+    import rospy
+    import std_msgs.msg as std_msg
+    import axis_camera.msg as ac_msg
+
 import tkinter as tk
 import tkinter.ttk as ttk
-import axis_camera.msg as ac_msg
 import playsound as ps
 from main.view import camera
 from main.view import button
 import inspection
 from main.view import canvas
 from main.view import labels
-import std_msgs.msg as std_msg
 from main.data import global_config as gv
 from main.data import global_statics as gs
 from main.view import avalogue
@@ -26,7 +31,6 @@ import random
 import time
 import threading
 import pygame
-# import rospy
 import socket
 import socketserver
 
@@ -125,15 +129,15 @@ def main():
     # x = threading.Thread(target=server_program)
     # x.start()
     
-    if camera.camera_available(): 
-        # rospy.init_node("viewer", anonymous= True)
+    if camera.camera_available() and rg.HAS_ROS: 
+        rospy.init_node("viewer", anonymous= True)
         NODE_INITIALIZED = True
-        # rospy.loginfo("viewer node started ...")
+        rospy.loginfo("viewer node started ...")
         axis = ac_msg.Axis()
         axis.pan = -180
-        # pub_axis = rospy.Publisher('/axis/cmd', ac_msg.Axis, queue_size=10)
-        # pub_axis.publish(axis)
-        # x = rospy.wait_for_message("/axis/state", ac_msg.Axis).pan
+        pub_axis = rospy.Publisher('/axis/cmd', ac_msg.Axis, queue_size=10)
+        pub_axis.publish(axis)
+        x = rospy.wait_for_message("/axis/state", ac_msg.Axis).pan
         print("Initial angle: " + str(x))
 
 
@@ -165,8 +169,8 @@ def main():
     def calibrate_btn_dsbl(dummy = 0):
         widgets['calibrate_button'].disable()
 
-    # like why???? TODO
-    pub = rospy.Publisher("freeze", std_msg.Bool, queue_size=10)
+    if rg.HAS_ROS:
+        pub = rospy.Publisher("freeze", std_msg.Bool, queue_size=10)
 
     if gv.tutorial_mode and not gv.practice_mode:
         unfreeze()
@@ -190,7 +194,7 @@ def main():
 
     
     # TODO
-    if camera.camera_available():
+    if camera.camera_available() and rg.HAS_ROS:
         print('***Arya*** Camera Available.')
         try:
             tab1.mainloop()
