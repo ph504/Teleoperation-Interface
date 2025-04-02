@@ -53,7 +53,7 @@ class CalibrateLabel():
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
     def activate(self):
-        subprocess.Popen("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/camera_calib.sh", shell=True)
+        subprocess.Popen("C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/camera_calib.sh", shell=True)
         event_manager.EventManager.post_event("calibrate_pause", -1)
         threading.Thread(target=self.calibration_label).start()
         

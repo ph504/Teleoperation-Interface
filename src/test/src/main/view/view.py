@@ -33,12 +33,12 @@ import socket
 import socketserver
 
 NODE_INITIALIZED = False
-csv_dialogue_s = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/spreadsheets/s.csv"
-csv_dialogue_ns = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/spreadsheets/ns.csv"
+csv_dialogue_s = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/spreadsheets/s.csv"
+csv_dialogue_ns = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/spreadsheets/ns.csv"
 
-csv_idle = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/spreadsheets/IdleAvatars.csv"
-csv_talking = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/spreadsheets/TalkingAvatars.csv"
-csv_reactive = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
+csv_idle = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/spreadsheets/IdleAvatars.csv"
+csv_talking = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/spreadsheets/TalkingAvatars.csv"
+csv_reactive = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
 
 def init():
     if len(sys.argv) != 4 and len(sys.argv) != 3:
@@ -392,7 +392,7 @@ def change_angle(data, canvases):
 #         event_manager.EventManager.post_event("stop_talking", 1) # type: ignore
 
 def playsound_beep_thread():
-    x = threading.Thread(target=ps.playsound("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/sounds/beep.wav"))   
+    x = threading.Thread(target=ps.playsound("C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/sounds/beep.wav"))   
     x.start()
 
 def playsound_animalese_thread():

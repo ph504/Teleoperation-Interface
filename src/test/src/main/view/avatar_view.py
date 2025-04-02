@@ -30,8 +30,8 @@ class AvatarView():
         self.label.place(x = self.x, y = self.y, width = self.width, height = self.height)
         self.social = social
 
-        self.non_social_image = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/non_social.png").resize((self.width,self.height), Image.ANTIALIAS)
-        self.curr_image = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/happy/IDLE_19.png").resize((self.width,self.height), Image.ANTIALIAS)
+        self.non_social_image = Image.open("C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/non_social.png").resize((self.width,self.height), Image.ANTIALIAS)
+        self.curr_image = Image.open("C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/happy/IDLE_19.png").resize((self.width,self.height), Image.ANTIALIAS)
         self.imagetk = ImageTk.PhotoImage(self.curr_image)
 
         self.label.configure(image=self.imagetk)

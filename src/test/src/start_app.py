@@ -30,49 +30,50 @@ TELEOP_CAMERA_MODULE = "main.control.teleop_camera"
 TELEOP_WHEEL_MODULE = "main.control.teleop_wheel"
 VIEW_MODULE = "main.view.view"
 
-# --------- ✅ Hardcoded Linux path in codebase to be replaced ---------
-OLD_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
-NEW_PATH = os.getcwd()
-
+# ✅ Path replacement, the path from previous machine to this one
 def replace_hardcoded_paths():
     print("[Launcher] Replacing hardcoded paths (slash-agnostic)...")
 
-    # Normalize target (OS-correct)
-    if os.name == "nt":
-        norm_new = NEW_PATH.replace("/", "\\")
-        escaped_new = norm_new.replace("\\", "\\\\")  # double for Python string
-    else:
-        norm_new = NEW_PATH.replace("\\", "/")
-        escaped_new = norm_new
+    OLD_PATH = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface"
+    OLD_PYPATH = OLD_PATH.replace("\\", "\\\\")
+    NEW_PATH = os.getcwd()
+    NEW_PYPATH = NEW_PATH.replace("\\", "\\\\")
 
-    # Build regex to match ALL variants of OLD_PATH (slash-agnostic)
-    slash_agnostic_old = re.escape(OLD_PATH.replace("\\", "/")).replace("/", r"[\\/]")
-    path_regex = re.compile(slash_agnostic_old)
+    print(NEW_PATH)
 
     for dirpath, _, filenames in os.walk("."):
         for file in filenames:
-            if not file.endswith((".py", ".txt", ".csv", ".json")):
+            # Only process text file types
+            if not file.endswith((".sh", ".py", ".txt", ".csv", ".json")):
                 continue
-
+            
             full_path = os.path.join(dirpath, file)
+            if file.endswith((".py", ".json", ".sh")):
+                replace_file_content(full_path, NEW_PYPATH, OLD_PATH)
+                replace_file_content(full_path, NEW_PYPATH, OLD_PYPATH)
+            
+            else:
+                replace_file_content(full_path, NEW_PATH, OLD_PATH)
+            
+            
+def replace_file_content(full_path, NEW_PATH, OLD_PATH):
+    try:
+        with open(full_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        # print(f"looking for the old path {OLD_PATH} in {full_path}")
+        if OLD_PATH in content:
+            new_content = content.replace(OLD_PATH, NEW_PATH)
 
-            try:
-                with open(full_path, "r", encoding="utf-8") as f:
-                    content = f.read()
+            with open(full_path, "w", encoding="utf-8") as f:
+                f.write(new_content)
+            print(f"✅ Replaced in {full_path}")
 
-                if path_regex.search(content):
-                    if os.name == "nt" and file.endswith(".py"):
-                        replaced = path_regex.sub(escaped_new, content)
-                    else:
-                        replaced = path_regex.sub(norm_new, content)
-
-                    with open(full_path, "w", encoding="utf-8") as f:
-                        f.write(replaced)
-
-                    print(f"✅ Replaced in {full_path}")
-
-            except Exception as e:
-                print(f"⚠️ Skipped {full_path}: {e}")
+        else:
+            print(f"No changes in {full_path}")
+            
+    except Exception as e:
+        print(f"⚠️ Skipped {full_path}: {e}")
 
 
 def launch_camera():
@@ -143,7 +144,7 @@ def open_menu():
                    activeforeground=ACCENT, selectcolor=BOX_HIGHLIGHT).pack()
 
     # Launch button
-    tk.Button(root, text="Start GUI", command=lambda: on_start(),
+    tk.Button(root, text="Start", command=lambda: on_start(),
               font=("Helvetica", 12, "bold"),
               bg=ACCENT, fg=DARK_BG,
               activebackground=HOVER, activeforeground=FG_COLOR,

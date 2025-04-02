@@ -13,7 +13,7 @@ class Logger():
     elapsed_time = ""
     
     def generate_filename():
-        file_name = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/log_data/"
+        file_name = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface"
         file_name += str(gv.participant)
         if gv.second_round:
             file_name += "_2"
