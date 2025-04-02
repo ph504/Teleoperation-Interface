@@ -1,7 +1,5 @@
-import sys
-#!/usr/bin/env python3
-
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
+from main.utils.path_setup import extend_path_to_root
+extend_path_to_root()
 
 from main.utils import ros_guard as rg
 
@@ -38,11 +36,9 @@ NODE_INITIALIZED = False
 csv_dialogue_s = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/s.csv"
 csv_dialogue_ns = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ns.csv"
 
-
 csv_idle = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/IdleAvatars.csv"
 csv_talking = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/TalkingAvatars.csv"
 csv_reactive = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
-
 
 def init():
     if len(sys.argv) != 4 and len(sys.argv) != 3:

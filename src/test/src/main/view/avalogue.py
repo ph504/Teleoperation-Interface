@@ -1,6 +1,5 @@
-import sys
-
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
+from main.utils.path_setup import extend_path_to_root
+extend_path_to_root()
 
 import dialogue
 import avatar_view

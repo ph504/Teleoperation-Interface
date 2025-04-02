@@ -1,12 +1,11 @@
-# TODO move to controller
-
-
 #!/usr/bin/env python3
-
-import rospy
-from geometry_msgs.msg import Twist
-from sensor_msgs.msg import Joy
-from axis_camera.msg import Axis
+from main.utils import ros_guard as rg
+if rg.HAS_ROS:
+    import rospy
+    from geometry_msgs.msg import Twist
+    from sensor_msgs.msg import Joy
+    from axis_camera.msg import Axis
+    
 import threading
 
     # Author: Andrew Dai

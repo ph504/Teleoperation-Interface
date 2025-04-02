@@ -3,14 +3,18 @@
 # Basic PTZ node, based on documentation here:
 #   http://www.axis.com/files/manuals/vapix_ptz_45621_en_1112.pdf
 #
+
+from main.utils import ros_guard as rg
+if rg.HAS_ROS:
+    import rospy 
+    from axis_camera.msg import Axis
+    from std_msgs.msg import Bool
+    from axis_camera.cfg import PTZConfig
+
+from dynamic_reconfigure.server import Server
 import threading
 import httplib2, urllib
-import rospy 
-from axis_camera.msg import Axis
-from std_msgs.msg import Bool
 import math
-from dynamic_reconfigure.server import Server
-from axis_camera.cfg import PTZConfig
 
 class StateThread(threading.Thread):
     '''This class handles the publication of the positional state of the camera 

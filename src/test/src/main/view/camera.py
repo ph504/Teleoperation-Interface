@@ -1,16 +1,19 @@
-import sys
+from main.utils.path_setup import extend_path_to_root
+extend_path_to_root()
 
-sys.path.append('/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src/main/')
 
+from main.utils import ros_guard as rg
+if rg.HAS_ROS:
+    import rospy
+    import rosnode
+    import sensor_msgs.msg
+
+from cv_bridge import CvBridge
 from PIL import Image, ImageTk
 from tkinter import Frame, Label
 import tkinter as tk
-import rospy
-import rosnode
-import sensor_msgs.msg
 import cv2
 import numpy as np
-from cv_bridge import CvBridge
 from main.control import event_manager
 from main.data import global_config as gv
 from main.data import global_statics as gs

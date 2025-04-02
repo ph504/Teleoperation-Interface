@@ -1,0 +1,12 @@
+[
+    {
+        "key": "intro_1",
+        "next": "intro_2",
+        "Q_S": "Hi, I am Scout, How are you?",
+        "A_S": "Hi, I'm fine thanks! How are you? My name is (YOUR NAME)",
+    },
+    {
+        
+    }
+
+]

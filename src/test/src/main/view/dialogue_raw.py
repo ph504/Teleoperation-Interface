@@ -1,6 +1,6 @@
-import sys
+from main.utils.path_setup import extend_path_to_root
+extend_path_to_root()
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 
 from ast import If
 from email.policy import default

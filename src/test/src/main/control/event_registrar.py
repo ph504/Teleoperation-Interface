@@ -1,14 +1,15 @@
 # control/event_registrar.py
+from main.utils.path_setup import extend_path_to_root
+extend_path_to_root()
 
-import sys
-
-sys.path.append('/c/APH508/UNB/Thesis/Teleoperation-Interface/src/test/src')
+from main.utils import ros_guard as rg
+if rg.HAS_ROS:
+    import rospy
+    import std_msgs.msg as std_msg
 
 from main.model import event_model
 from main.control import event_manager
 from main.utils import logger
-import rospy
-import std_msgs.msg as std_msg
 from tkinter import ACTIVE as tk_ACTIVE
 from tkinter import DISABLED as tk_DISABLED
 # import std_msgs.msg as std_msg

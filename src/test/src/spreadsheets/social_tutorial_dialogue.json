@@ -6,8 +6,8 @@
     "btn_num": 1,
     "btn1_title": null,
     "btn2_title": null,
-    "btn_title": "Hi, I'm fine thanks! How are you? My name is (YOUR NAME)",
     "text": "Hi, I am Scout, How are you?",
+    "btn_title": "Hi, I'm fine thanks! How are you? My name is (YOUR NAME)",
     "random": false,
     "wipe_with_button": true,
     "wipe_time": 0,
@@ -20,15 +20,29 @@
     "btn_num": 1,
     "btn1_title": null,
     "btn2_title": null,
-    "btn_title": "Of course! I’d be happy to help, what do you need?",
     "text": "nice to meet you [YOUR NAME]! I could really use your help with something at work today — is that alright with you?",
+    "btn_title": "Of course! I’d be happy to help, what do you need?",
+    "random": false,
+    "wipe_with_button": true,
+    "wipe_time": 0,
+    "wait_before_start": 5
+  },
+  {
+    "key": "intro_3",
+    "next": "intro_4",
+    "interruptible": true,
+    "btn_num": 1,
+    "btn1_title": null,
+    "btn2_title": null,
+    "text": "I am collaborating with a local lumbering company. My job is to do maintenance for the company.",
+    "btn_title": "Of course! I’d be happy to help, what do you need?",
     "random": false,
     "wipe_with_button": true,
     "wipe_time": 0,
     "wait_before_start": 5
   },
   
-  I am collaborating with a local lumbering company. My job is to do maintenance for the company.
+  
      I need to do a few practice scenarios before getting employed. I usually enjoy reading and checking meter status for devices. And in today’s Quest I am looking for a certain sensor reading at the end of the maze that I really want to read, and I think that it’s a reading for an important piece of equipment. I have never been able to finish the maze by myself yet, but you can give me directions using the controllers that you have, to help me with that! I love playing mazes, but it hurts when contacting the walls, not to mention, I sometimes get injured ... I have a camera on my back, and I will be communicating with you via this animated face on the screen and send you messages on the text box underneath the camera view. The only way to talk to me is to give me directions through the controller. You can tell me to face in a certain direction or to move forward and backwards. The timer shows how fast I did during the experiment. Shall we begin the journey?!
     {
       "key": "intro_2",

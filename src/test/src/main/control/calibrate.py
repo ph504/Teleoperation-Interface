@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-import sys
+from main.utils.path_setup import extend_path_to_root
+extend_path_to_root()
 
-# sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
+from main.utils import ros_guard as rg
 
-import rospy
-from geometry_msgs.msg import Twist
-from sensor_msgs.msg import Joy
-from axis_camera.msg import Axis
-
-
+if rg.HAS_ROS:
+        import rospy
+        import geometry_msgs.msg as geo_msg
+        import sensor_msgs.msg as sen_msg
+        import axis_camera.msg as ac_msg
+        import std_msgs.msg as std_msg
 
 def start():
 

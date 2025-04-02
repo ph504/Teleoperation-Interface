@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-import sys
+from main.utils.path_setup import extend_path_to_root
+extend_path_to_root()
 
-sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
-
-import rospy
-from geometry_msgs.msg import Twist
-from sensor_msgs.msg import Joy
-from axis_camera.msg import Axis
+from main.utils import ros_guard as rg
+if rg.HAS_ROS:
+    import rospy
+    from geometry_msgs.msg import Twist
+    from sensor_msgs.msg import Joy
+    from axis_camera.msg import Axis
     # Author: Andrew Dai
     # This ROS Node converts Joystick inputs from the joy node
     # into commands for turtlesim
