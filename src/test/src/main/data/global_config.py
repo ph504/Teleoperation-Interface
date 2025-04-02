@@ -30,25 +30,25 @@ pygame.init()
 pygame.mixer.init()
 
 
-beep_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav")
-animalese_sound = [pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 1.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 2.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 3.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 4.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 5.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 6.wav")]
+beep_sound = pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/beep.wav")
+animalese_sound = [pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 1.wav"),
+                   pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 2.wav"),
+                   pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 3.wav"),
+                   pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 4.wav"),
+                   pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 5.wav"),
+                   pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 6.wav")]
 
-animalese_sound_dir =   [pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 1.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 2.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 3.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 4.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 5.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 6.wav")]
+animalese_sound_dir =   [pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 1.wav"),
+                        pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 2.wav"),
+                        pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 3.wav"),
+                        pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 4.wav"),
+                        pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 5.wav"),
+                        pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/convo 6.wav")]
 
-beep_sliced_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
-danger_alarm_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/danger-alarm.wav")
-error_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/error.wav")
-inspect_succ_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/inspect_succ.wav")
+beep_sliced_sound = pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
+danger_alarm_sound = pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/danger-alarm.wav")
+error_sound = pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/error.wav")
+inspect_succ_sound = pygame.mixer.Sound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/inspect_succ.wav")
 
 
 

@@ -78,7 +78,7 @@ class InspectionPage():
                      return
                 else:
                     self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "green", text="Scanned") # type: ignore
-                    #playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/inspect_succ.wav", block=False)
+                    #playsound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/inspect_succ.wav", block=False)
                     gv.inspect_succ_sound.play()
                     
                     self.delete_err_lbl()

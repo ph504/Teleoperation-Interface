@@ -221,7 +221,7 @@ class DialogueObject():
                 if l == " ":   
                     time.sleep(self.space_pause)
                 else:
-                    #playsound.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
+                    #playsound.playsound("C:\APH508\UNB\Thesis\Teleoepration-Interface\Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
                     time.sleep(global_config.beep_sliced_sound.get_length() * 1.5)
                     global_config.beep_sliced_sound.play()
 

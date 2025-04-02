@@ -2,6 +2,7 @@ from main.utils.path_setup import extend_path_to_root
 extend_path_to_root()
 
 import sys
+import re
 import os
 import subprocess
 import time
@@ -30,45 +31,49 @@ TELEOP_WHEEL_MODULE = "main.control.teleop_wheel"
 VIEW_MODULE = "main.view.view"
 
 # --------- ✅ Hardcoded Linux path in codebase to be replaced ---------
-OLD_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
+OLD_PATH = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface"
 NEW_PATH = os.getcwd()
 
 def replace_hardcoded_paths():
-    print("[Launcher] Checking for hardcoded paths...")
+    print("[Launcher] Replacing hardcoded paths (slash-agnostic)...")
 
-    # Walk through all directories and files starting from the current directory
+    # Normalize target (OS-correct)
+    if os.name == "nt":
+        norm_new = NEW_PATH.replace("/", "\\")
+        escaped_new = norm_new.replace("\\", "\\\\")  # double for Python string
+    else:
+        norm_new = NEW_PATH.replace("\\", "/")
+        escaped_new = norm_new
+
+    # Build regex to match ALL variants of OLD_PATH (slash-agnostic)
+    slash_agnostic_old = re.escape(OLD_PATH.replace("\\", "/")).replace("/", r"[\\/]")
+    path_regex = re.compile(slash_agnostic_old)
+
     for dirpath, _, filenames in os.walk("."):
-        
-        # Loop through each file in the current directory
         for file in filenames:
-
-            # Only target files with these extensions (likely to contain text-based paths)
             if not file.endswith((".py", ".txt", ".csv", ".json")):
-                continue  # skip binary or unrelated files (e.g., .png, .exe)
+                continue
 
-            # Create the full path to the file
             full_path = os.path.join(dirpath, file)
 
             try:
-                # Open the file in read mode and load its content
                 with open(full_path, "r", encoding="utf-8") as f:
                     content = f.read()
 
-                # Check if the OLD_PATH is present in the file content
-                if OLD_PATH in content:
-                    # Replace all occurrences of OLD_PATH with the NEW_PATH
-                    content = content.replace(OLD_PATH, NEW_PATH)
+                if path_regex.search(content):
+                    if os.name == "nt" and file.endswith(".py"):
+                        replaced = path_regex.sub(escaped_new, content)
+                    else:
+                        replaced = path_regex.sub(norm_new, content)
 
-                    # Write the updated content back to the same file
                     with open(full_path, "w", encoding="utf-8") as f:
-                        f.write(content)
+                        f.write(replaced)
 
-                    # Let the user know this file was updated
                     print(f"✅ Replaced in {full_path}")
 
             except Exception as e:
-                # If there's any error (like permission issues), log it and move on
                 print(f"⚠️ Skipped {full_path}: {e}")
+
 
 def launch_camera():
     subprocess.Popen([sys.executable, "-m", TELEOP_CAMERA_MODULE])
@@ -88,6 +93,7 @@ def launch_view(args):
 
 def start_app(args):
     print(f"[Launcher] ROS Available: {rg.HAS_ROS}")
+    replace_hardcoded_paths()
     launch_camera()
     launch_wheel()
     launch_view(args)
