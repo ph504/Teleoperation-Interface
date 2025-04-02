@@ -124,19 +124,19 @@ dialogueview_info_percent = {
 }
 
 javatar_images = {
-    "default" : "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_01.png",
-    "default-talking": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_05.png",
-    "default-blink": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_04.png",
-    "default-left": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_02.png",
-    "default-right": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_03.png",
-    "happy" : "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/happy/IDLE_17.png",
-    "happy-blink": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/happy/IDLE_20.png",
-    "sad" : "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/sad/IDLE_09.png",
-    "sad-blink": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/sad/IDLE_12.png",
-    "sad-talking": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/sad/IDLE_13.png",
-    "angry": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/angry/IDLE_21.png",
-    "angry-blink": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/JACKEL/angry/IDLE_24.png",
-    "nonsocial": "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/images/non_social.png"
+    "default" : "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_01.png",
+    "default-talking": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_05.png",
+    "default-blink": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_04.png",
+    "default-left": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_02.png",
+    "default-right": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/default/IDLE_03.png",
+    "happy" : "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/happy/IDLE_17.png",
+    "happy-blink": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/happy/IDLE_20.png",
+    "sad" : "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/sad/IDLE_09.png",
+    "sad-blink": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/sad/IDLE_12.png",
+    "sad-talking": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/sad/IDLE_13.png",
+    "angry": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/angry/IDLE_21.png",
+    "angry-blink": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/JACKEL/angry/IDLE_24.png",
+    "nonsocial": "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/non_social.png"
 
 }
 

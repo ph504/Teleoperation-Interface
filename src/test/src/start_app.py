@@ -34,10 +34,9 @@ VIEW_MODULE = "main.view.view"
 def replace_hardcoded_paths():
     print("[Launcher] Replacing hardcoded paths (slash-agnostic)...")
 
-    OLD_PATH = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface"
-    OLD_PYPATH = OLD_PATH.replace("\\", "\\\\")
+    OLD_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
     NEW_PATH = os.getcwd()
-    NEW_PYPATH = NEW_PATH.replace("\\", "\\\\")
+    NEW_PYPATH = NEW_PATH.replace("\\", "/")
 
     print(NEW_PATH)
 

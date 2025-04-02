@@ -169,7 +169,7 @@ class DialogueBox():
                 time.sleep(0.1)
                 #locker.wait()
             else:
-                #playsound("C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
+                #playsound("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
                 gv.beep_sliced_sound.play()
             x = x + l 
             self.dialoguetext.configure(text=x)
