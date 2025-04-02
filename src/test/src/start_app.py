@@ -31,7 +31,7 @@ TELEOP_WHEEL_MODULE = "main.control.teleop_wheel"
 VIEW_MODULE = "main.view.view"
 
 # --------- ✅ Hardcoded Linux path in codebase to be replaced ---------
-OLD_PATH = "C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface"
+OLD_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
 NEW_PATH = os.getcwd()
 
 def replace_hardcoded_paths():

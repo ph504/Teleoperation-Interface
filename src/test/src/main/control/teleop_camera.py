@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 
-sys.path.append('C:\\APH508\\UNB\\Thesis\\Teleoepration-Interface\\Teleoperation-Interface\\src\\test\\src\\')
+sys.path.append('C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/')
 
 from main.utils import ros_guard as rg
 if rg.HAS_ROS:
