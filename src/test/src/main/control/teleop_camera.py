@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-from main.utils.path_setup import extend_path_to_root
-extend_path_to_root()
-
 from main.utils import ros_guard as rg
 if rg.HAS_ROS:
     import rospy

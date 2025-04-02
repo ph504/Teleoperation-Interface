@@ -9,15 +9,13 @@ import platform
 import tkinter as tk
 from tkinter import messagebox
 
-# 🎯 Step 1: Change working directory if needed
-expected_dir = os.path.join("src", "test", "src")
-if not os.getcwd().endswith(expected_dir):
-    print(f"[Launcher] Changing working directory to: {expected_dir}")
-    os.chdir(expected_dir)
-
-sys.path.insert(0, os.getcwd())
+# # 👇 Ensure Python sees the project root to resolve `main.*` modules
+# project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# if project_root not in sys.path:
+#     sys.path.insert(0, project_root)
 
 from main.utils import ros_guard as rg
+
 
 # ✅ ROS optional imports
 if rg.HAS_ROS:
@@ -27,9 +25,9 @@ if rg.HAS_ROS:
     import axis_camera.msg as ac_msg
     import std_msgs.msg as std_msg
 
-TELEOP_CAMERA_PATH = os.path.join("main", "control", "teleop_camera.py")
-TELEOP_WHEEL_PATH = os.path.join("main", "control", "teleop_wheel.py")
-VIEW_PATH = os.path.join("main", "view", "view.py")
+TELEOP_CAMERA_MODULE = "main.control.teleop_camera"
+TELEOP_WHEEL_MODULE = "main.control.teleop_wheel"
+VIEW_MODULE = "main.view.view"
 
 # --------- ✅ Hardcoded Linux path in codebase to be replaced ---------
 OLD_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
@@ -73,17 +71,19 @@ def replace_hardcoded_paths():
                 print(f"⚠️ Skipped {full_path}: {e}")
 
 def launch_camera():
-    subprocess.Popen([sys.executable, TELEOP_CAMERA_PATH])
+    subprocess.Popen([sys.executable, "-m", TELEOP_CAMERA_MODULE])
+    # subprocess.Popen(
+    #     [sys.executable, "-m", TELEOP_CAMERA_MODULE],
+    #     cwd=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    # )
     time.sleep(5)
 
-
 def launch_wheel():
-    subprocess.Popen([sys.executable, TELEOP_WHEEL_PATH])
+    subprocess.Popen([sys.executable, "-m", TELEOP_WHEEL_MODULE])
     time.sleep(1)
 
-
 def launch_view(args):
-    subprocess.call([sys.executable, VIEW_PATH] + args)
+    subprocess.call([sys.executable, "-m", VIEW_MODULE] + args)
 
 
 def start_app(args):
@@ -95,7 +95,7 @@ def start_app(args):
 def open_menu():
     root = tk.Tk()
     root.title("Teleop GUI Launcher")
-    root.geometry("350x250")
+    root.geometry("500x500")
     root.resizable(False, False)
 
     # 🎨 Custom Dark + Violet-Blue Theme
@@ -113,7 +113,7 @@ def open_menu():
     social_var = tk.StringVar(value="s")
 
     # Title
-    tk.Label(root, text="Welcome to Teleop GUI", font=("Helvetica", 14, "bold"),
+    tk.Label(root, text="Welcome to HCI LAB!", font=("Helvetica", 14, "bold"),
              bg=DARK_BG, fg=ACCENT).pack(pady=10)
 
     # Checkbuttons
