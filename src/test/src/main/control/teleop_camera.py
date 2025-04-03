@@ -4,7 +4,7 @@ import os
 
 # sys.path.append('C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/')
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-print(project_root)
+# print("TEH FILE IS HERE", __file__)
 sys.path.insert(0, project_root)
 
 from main.utils import ros_guard as rg
@@ -50,13 +50,14 @@ def start():
         
         if rg.HAS_ROS:
             axis = Axis()
+            axis.pan = -180
+            axis.autofocus = False
+            axis.tilt = 0
+            axis.zoom = 0 
+
         joystick_input = 0
 
         next_pos = 0 
-        axis.pan = -180
-        axis.autofocus = False
-        axis.tilt = 0
-        axis.zoom = 0 
         print('***Arya*** Camera Node Activated!')
         if rg.HAS_ROS:
             rospy.init_node('teleop_camera_node')

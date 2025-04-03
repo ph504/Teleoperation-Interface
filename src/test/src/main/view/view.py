@@ -1,5 +1,13 @@
-from main.utils.path_setup import extend_path_to_root
-extend_path_to_root()
+# from main.utils.path_setup import extend_path_to_root
+# extend_path_to_root()
+import sys
+import os
+
+# sys.path.append('C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/')
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# print(project_root)
+# print("THE FILE IS HERE", __file__)
+sys.path.insert(0, project_root)
 
 from main.utils import ros_guard as rg
 
@@ -10,7 +18,7 @@ if rg.HAS_ROS:
 
 import tkinter as tk
 import tkinter.ttk as ttk
-import playsound as ps
+from playsound import playsound
 from main.view import camera
 from main.view import button
 import inspection
@@ -46,7 +54,7 @@ def init():
         print("Usage: python3 main.py tutorial 0/1(practice mode or not) n(number of mistakes)")
         print("Usage: python3 main.py p[0:infinite] social/nonsocial")
         sys.exit(1)
-
+        
     if len(sys.argv) == 4:
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
@@ -104,6 +112,7 @@ def init():
 def main(): 
     
     global NODE_INITIALIZED
+    print('***Arya*** View Node Activated!')
 
     root = tk.Tk()
 

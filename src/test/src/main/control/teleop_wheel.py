@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
-from main.utils.path_setup import extend_path_to_root
-extend_path_to_root()
+# from main.utils.path_setup import extend_path_to_root
+# extend_path_to_root()
+import sys
+import os
+
+# sys.path.append('C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/')
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# print("TEH FILE IS HERE", __file__)
+# print(project_root)
+sys.path.insert(0, project_root)
 
 from main.utils import ros_guard as rg
 if rg.HAS_ROS:
@@ -24,10 +32,11 @@ def callback(data):
     twist.angular.z = 2 * data.axes[0]      
 
 def start():
-        global pub_jackal
-        global twist
-        
-        twist =  geo_msg.Twist()
+        if rg.HAS_ROS:
+            global pub_jackal
+            global twist
+            
+            twist =  geo_msg.Twist()
         
         
 
@@ -41,22 +50,23 @@ def start():
 
         print('***Arya*** Wheel Node Activated!')
 
-        rospy.init_node('teleop_wheel_node')
-        pub_jackal = rospy.Publisher('/cmd_vel', geo_msg.Twist, queue_size=1)
-        
-        rospy.Subscriber("freeze", std_msg.Bool , callback=freeze_manager)
-        rospy.Subscriber("joy", sen_msg.Joy, callback)
+        if rg.HAS_ROS:
+            rospy.init_node('teleop_wheel_node')
+            pub_jackal = rospy.Publisher('/cmd_vel', geo_msg.Twist, queue_size=1)
+            
+            rospy.Subscriber("freeze", std_msg.Bool , callback=freeze_manager)
+            rospy.Subscriber("joy", sen_msg.Joy, callback)
 
-        rate = rospy.Rate(30)
+            rate = rospy.Rate(30)
 
-        while not rospy.is_shutdown():
-            # print(freeze_var)
-            if not freeze_var: pub_jackal.publish(twist)
-            # pub_jackal.publish(twist)
-            rate.sleep()
+            while not rospy.is_shutdown():
+                # print(freeze_var)
+                if not freeze_var: pub_jackal.publish(twist)
+                # pub_jackal.publish(twist)
+                rate.sleep()
              
 
-        rospy.spin()
+            rospy.spin()    
 
 if __name__ == '__main__':   
         start()

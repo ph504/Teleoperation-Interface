@@ -1,6 +1,10 @@
-from pickle5 import pickle
-from types import SimpleNamespace
+from main.utils import ros_guard as rg
+if rg.HAS_ROS:
+    from pickle5 import pickle
+
+# from types import SimpleNamespace
 import pygame
+from playsound import playsound
 
 tutorial_mode = None
 practice_mode = None # if true, start state machine and no binding, if false then it is pure tutorial

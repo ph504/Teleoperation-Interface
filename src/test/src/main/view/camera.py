@@ -7,8 +7,8 @@ if rg.HAS_ROS:
     import rospy
     import rosnode
     import sensor_msgs.msg
-
-from cv_bridge import CvBridge
+    from cv_bridge import CvBridge
+    
 from PIL import Image, ImageTk
 from tkinter import Frame, Label
 import tkinter as tk
@@ -47,7 +47,8 @@ class CameraView():
         self.imagetk = None
         self.is_front = None
         self.cam_available = cam_available
-        self.bridge = CvBridge()
+        if rg.HAS_ROS:
+            self.bridge = CvBridge()
         self.border_thick = 15
         if not gv.practice_mode:
             self.frame = Frame(root, highlightbackground=self.border_color, highlightthickness=self.border_thick)
@@ -121,7 +122,7 @@ class CameraView():
         
 
         #convert numpy image (with array interface) to pillow image
-        img = Image.fromarray(image_np).resize((self.width,self.height), Image.ANTIALIAS)
+        img = Image.fromarray(image_np).resize((self.width,self.height),  Image.Resampling.LANCZOS)
         
 
         
@@ -133,9 +134,9 @@ class CameraView():
 
     def image_placeholder(self, string):
         if string == "flir":
-            img = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height), Image.ANTIALIAS)
+            img = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height),  Image.Resampling.LANCZOS)
         else:
-            img = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width,self.height), Image.ANTIALIAS)
+            img = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width,self.height),  Image.Resampling.LANCZOS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)

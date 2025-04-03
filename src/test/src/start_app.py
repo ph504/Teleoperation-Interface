@@ -26,8 +26,8 @@ if rg.HAS_ROS:
     import std_msgs.msg as std_msg
 
 TELEOP_CAMERA_MODULE = "src/test/src/main/control/teleop_camera.py"
-TELEOP_WHEEL_MODULE = "main.control.teleop_wheel"
-VIEW_MODULE = "main.view.view"
+TELEOP_WHEEL_MODULE = "src/test/src/main/control/teleop_wheel.py"
+VIEW_MODULE = "src/test/src/main/view/view.py"
 
 # ✅ Path replacement, the path from previous machine to this one
 def replace_hardcoded_paths():
@@ -62,29 +62,27 @@ def replace_file_content(full_path, NEW_PATH, OLD_PATH):
 
             with open(full_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print(f"✅ Replaced in {full_path}")
+            # print(f"✅ Replaced in {full_path}")
 
-        else:
-            print(f"No changes in {full_path}")
+        # else:
+        #     print(f"No changes in {full_path}")
             
     except Exception as e:
         print(f"⚠️ Skipped {full_path}: {e}")
 
 
 def launch_camera():
-    subprocess.exec(open(TELEOP_CAMERA_MODULE).read())
-    # subprocess.Popen(
-    #     [sys.executable, "-m", TELEOP_CAMERA_MODULE],
-    #     cwd=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-    # )
+    os.system(f'python {TELEOP_CAMERA_MODULE}')
     time.sleep(5)
 
 def launch_wheel():
-    subprocess.Popen([sys.executable, "-m", TELEOP_WHEEL_MODULE])
+    os.system(f'python {TELEOP_WHEEL_MODULE}')
     time.sleep(1)
 
 def launch_view(args):
-    subprocess.call([sys.executable, "-m", VIEW_MODULE] + args)
+    # print(f'python {VIEW_MODULE} {" ".join(args)}')
+    os.system(f'python {VIEW_MODULE} {" ".join(args)}')
+    
 
 
 def start_app(args):
@@ -144,6 +142,8 @@ def open_menu():
               bg=ACCENT, fg=DARK_BG,
               activebackground=HOVER, activeforeground=FG_COLOR,
               relief=tk.RAISED, bd=2).pack(pady=20)
+    
+    # tk.
 
     # Callback to launch
     def on_start():
@@ -152,7 +152,7 @@ def open_menu():
         social = social_var.get()
 
         if tutorial:
-            args = ["tutorial", social, "1" if practice else "0"]
+            args = ["tutorial", social, "0" if practice else "1"]
         else:
             args = ["p0", social]
 
