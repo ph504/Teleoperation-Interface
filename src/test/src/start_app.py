@@ -2,7 +2,6 @@ from main.utils.path_setup import extend_path_to_root
 extend_path_to_root()
 
 import sys
-import re
 import os
 import subprocess
 import time
@@ -26,7 +25,7 @@ if rg.HAS_ROS:
     import axis_camera.msg as ac_msg
     import std_msgs.msg as std_msg
 
-TELEOP_CAMERA_MODULE = "main.control.teleop_camera"
+TELEOP_CAMERA_MODULE = "src/test/src/main/control/teleop_camera.py"
 TELEOP_WHEEL_MODULE = "main.control.teleop_wheel"
 VIEW_MODULE = "main.view.view"
 
@@ -36,9 +35,7 @@ def replace_hardcoded_paths():
 
     OLD_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
     NEW_PATH = os.getcwd()
-    NEW_PYPATH = NEW_PATH.replace("\\", "/")
-
-    print(NEW_PATH)
+    NEW_PATH = NEW_PATH.replace("\\", "/")
 
     for dirpath, _, filenames in os.walk("."):
         for file in filenames:
@@ -47,12 +44,11 @@ def replace_hardcoded_paths():
                 continue
             
             full_path = os.path.join(dirpath, file)
-            if file.endswith((".py", ".json", ".sh")):
-                replace_file_content(full_path, NEW_PYPATH, OLD_PATH)
-                replace_file_content(full_path, NEW_PYPATH, OLD_PYPATH)
+            # if file.endswith((".py", ".json", ".sh")):
+            #     replace_file_content(full_path, NEW_PYPATH, OLD_PATH)
             
-            else:
-                replace_file_content(full_path, NEW_PATH, OLD_PATH)
+            # else:
+            replace_file_content(full_path, NEW_PATH, OLD_PATH)
             
             
 def replace_file_content(full_path, NEW_PATH, OLD_PATH):
@@ -76,7 +72,7 @@ def replace_file_content(full_path, NEW_PATH, OLD_PATH):
 
 
 def launch_camera():
-    subprocess.Popen([sys.executable, "-m", TELEOP_CAMERA_MODULE])
+    subprocess.exec(open(TELEOP_CAMERA_MODULE).read())
     # subprocess.Popen(
     #     [sys.executable, "-m", TELEOP_CAMERA_MODULE],
     #     cwd=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))

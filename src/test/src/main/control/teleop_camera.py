@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 import sys
+import os
 
-sys.path.append('C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/')
+# sys.path.append('C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/')
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+print(project_root)
+sys.path.insert(0, project_root)
 
 from main.utils import ros_guard as rg
 if rg.HAS_ROS:
@@ -44,8 +48,8 @@ def start():
         global next_pos
         
         
-        
-        axis = Axis()
+        if rg.HAS_ROS:
+            axis = Axis()
         joystick_input = 0
 
         next_pos = 0 
@@ -54,24 +58,25 @@ def start():
         axis.tilt = 0
         axis.zoom = 0 
         print('***Arya*** Camera Node Activated!')
-        rospy.init_node('teleop_camera_node')
-        pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)
+        if rg.HAS_ROS:
+            rospy.init_node('teleop_camera_node')
+            pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)
 
-        # EventManager.subscribed to joystick inputs on topic "joy"
-        rospy.Subscriber("joy", Joy, callback)
+            # EventManager.subscribed to joystick inputs on topic "joy"
+            rospy.Subscriber("joy", Joy, callback)
         
-        rate = rospy.Rate(8)
+            rate = rospy.Rate(8)
 
 
-        while not rospy.is_shutdown():
-            
-            #control_camera(joystick_input)
-            pub_axis.publish(axis)
-            rate.sleep()
+            while not rospy.is_shutdown():
+                
+                #control_camera(joystick_input)
+                pub_axis.publish(axis)
+                rate.sleep()
 
-        # starts the node
+            # starts the node
         
-        rospy.spin()
+            rospy.spin()
 
 if __name__ == '__main__':   
         start()
