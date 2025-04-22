@@ -100,6 +100,8 @@ def init():
         gv.tutorial_mode = False
          
         gv.participant = arg1
+        print(f"*** ARYA DEBUG LOG :: PARTICIPANT ID: \"{arg1}\"")
+        # print("*** ARYA DEBUG LOG: ", gv.participant)
        
         if arg2 == "s":
             gv.social_mode = True
@@ -115,7 +117,7 @@ def main():
     print('***Arya*** View Node Activated!')
 
     root = tk.Tk()
-
+    root.configure(bg=gs.DARK_BG)
     # root.geometry("1440x900")
     width, height = root.winfo_screenwidth(), root.winfo_screenheight()
     gs.load_all_pixel_info(width, height)
@@ -124,6 +126,11 @@ def main():
     root.geometry('%dx%d+0+0' % (width, height))
     root.title("Jackal Teleoperator GUI")
     tabControl = ttk.Notebook(root)
+    style = ttk.Style()
+    style.theme_use('default')
+    style.configure("TNotebook", background=gs.DARK_BG, borderwidth=0)
+    style.configure("TNotebook.Tab", background=gs.BOX_HIGHLIGHT, foreground=gs.FG_COLOR)
+    style.map("TNotebook.Tab", background=[("selected", gs.HOVER)], foreground=[("selected", gs.ACCENT)])
     tab1 = tk.Frame(tabControl)
     tab2 = tk.Frame(tabControl)
     tabControl.add(tab1, text = "Main")
@@ -233,6 +240,8 @@ def widget_init(root, tab1, tab2):
     def initialize_labels():
         # widgets['small_label'] = labels.CameraLabel(tab1, gs.small_camera_label)
         widgets['big_label'] = labels.CameraLabel(tab1, gs.big_camera_label)
+        timer_label = tk.Label(root, text=gs.timer_label_info["text"], font=gs.timer_label_info["font"], fg=gs.FG_COLOR, bg=gs.DARK_BG)
+
         widgets['calibrate_label'] = labels.CalibrateLabel(root, gs.clbr_label, "")
         # TODO idk what to do with this
         widgets['calibrate_button'].add_event(widgets['calibrate_label'].activate)

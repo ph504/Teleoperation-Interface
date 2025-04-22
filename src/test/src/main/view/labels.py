@@ -19,8 +19,7 @@ class CameraLabel():
         self.text = label_info["text"]
         self.font = label_info["font"]
         
-        
-        self.label = tk.Label(r, text= self.text, font=self.font)
+        self.label = tk.Label(r, text= self.text, font=self.font, fg=gs.FG_COLOR, bg=gs.DARK_BG)
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
 

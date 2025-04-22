@@ -5,7 +5,7 @@
         "interruptible": false,
         "btn_num": 1,
         "btn1_title": null,
-        "btn2_title": null,
+        "btn2_title": "Proceed Please.",
         "btn_title": "Okay.",
         "text": "1-> login: Jackal, FM06",
         "random": false,
@@ -22,47 +22,11 @@
         "btn1_title": null,
         "btn2_title": null,
         "btn_title": "Proceed.",
-        "text": "2-> objective: robot training",
+        "text": ,
         "random": false,
         "wipe_with_button": true,
         "wipe_time": 0,
         "wait_before_start": 5
     },
-    {
-        "key": "intro_3",
-        "next": "intro_4",
-        "interruptible": false,
-        "btn_num": 1,
-        "btn1_title": null,
-        "btn2_title": null,
-        "btn_title": "Of course! I’d be happy to help, what do you need?",
-        "text": "I am collaborating with a local lumbering company. My job is to do maintenance for the company.",
-        "random": false,
-        "wipe_with_button": true,
-        "wipe_time": 0,
-        "wait_before_start": 5
-    },
-    
-    
-    
-    {
-        "key": "intro_2",
-        "sociality": "s",
-        "btn_num": 0,
-        "btn1_title": null,
-        "btn2_title": null,
-        "btn_title": null,
-        "text": "Awesome. Let's do this!",
-        "random": false,
-        "wipe_with_button": false,
-        "wipe_time": 5,
-        "wait_before_start": 0
-    },
-    {
-        "key": "collision_alert",
-        "eventTrigger": "COLLISION_HIT",
-        "text": "Ouch! We hit a wall. That hurts!",
-        "resumePrevious": true 
-    }
   ]
     

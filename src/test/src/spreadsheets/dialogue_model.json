@@ -2,11 +2,228 @@
     {
         "key": "intro_1",
         "next": "intro_2",
-        "Q_S": "Hi, I am Scout, How are you?",
-        "A_S": "Hi, I'm fine thanks! How are you? My name is (YOUR NAME)",
+        "Q_S": "Hi, I am Scout, how are you?",
+        "A1_S": "Hi, I'm fine thanks! How are you?",
+        "A2_S": "Hello... I'm okay?",
+        "Q_NS": "1-> login: Jackal, FM06",
+        "A1_NS": "Please Proceed.",
+        "A2_NS": "Okay."
     },
     {
-        
+        "key": "intro_2",
+        "next": "intro_3",
+        "Q_S": "It's nice meeting you! I could really use your help with something at work today — is that alright with you?",
+        "A1_S": "Of course! I'd be happy to help, what do you need?",
+        "A2_S": "Oh... Okay? What is it?",
+        "Q_NS": "2-> objective: robot training",
+        "A1_NS": "Objective Description.",
+        "A2_NS": "Next."
+    },    
+    {
+        "key": "intro_3",
+        "next": "intro_4",
+        "Q_S": "I'm collaborating with a local factory doing inspections. It's my probation today, so I need a few practice runs before officially starting.",
+        "A1_S": "Whoa, this sounds fun! What do you need me to do?",
+        "A2_S": "Okay... what's my part?",
+        "Q_NS": "3-> checkpoint target: Inspecting Sensor Devices",
+        "A1_NS": "Next.",
+        "A2_NS": "Read more."
+    },
+    {
+        "key": "intro_4",
+        "next": "intro_5",
+        "Q_S": "Thought you'd never ask! In today's quest I'm looking for a specific sensor to read at the end of the maze — it seems like it's kind of a big deal for the equipment team.",
+        "A1_S": "Let's get that data!",
+        "A2_S": "Okay. I'll tag along.",
+        "Q_NS": "Task Constraints: reach the end of the maze and extract sensor data from the assigned target device.",
+        "A1_NS": "Objective received.",
+        "A2_NS": "Data task accepted."
+    },
+    {
+        "key": "intro_5",
+        "next": "intro_6",
+        "Q_S": "Great! Just be careful — the challenge is to finish the maze as fast as you can while avoiding the walls. It's designed to test how well you can guide me.",
+        "A1_S": "Time to show off my maze-driving skills!",
+        "A2_S": "Alright... I'll give it a shot.",
+        "Q_NS": "Environment parameters: maze constructed to evaluate operator steering precision and obstacle avoidance as well as their speed.",
+        "A1_NS": "Ready for control test.",
+        "A2_NS": "Noted."
+    },
+    {
+        "key": "intro_6",
+        "next": "intro_7",
+        "Q_S": "I can't lie — I'm kinda excited. I love mazes!",
+        "A1_S": "Haha, glad you're into it!",
+        "A2_S": "If you say so ...",
+        "Q_NS": "4-> initiating training mode: tutorial sequence activated",
+        "A1_NS": "Training mode acknowledged.",
+        "A2_NS": "Tutorial mode accepted."
+    },
+    {
+        "key": "intro_7",
+        "next": "emote_timer_1",
+        "Q_S": "Alright! Before we jump into it, we'll do a warm-up round. You'll guide me through the maze, and I'll try to point things out along the way — sound good?",
+        "A1_S": "Got it! Let's do this!",
+        "A2_S": "Doesn't sound too bad...",
+        "Q_NS": "4-> initiating training mode: tutorial sequence activated",
+        "A1_NS": "Training mode acknowledged.",
+        "A2_NS": "Tutorial mode accepted."
+    },
+    {
+        "key": "emote_hit_1",
+        "trigger": "first_wall_hit",
+        "Q_S": "Oof... that wall hit hard. I've been hit before, but I still don't like how it feels.",
+        "A1_S": "Oh no! I'll be more careful.",
+        "A2_S": "Alright, alright… I didn't realize it'd hit you that hard. I'll watch it.",
+        "Q_NS": "Warning: collision detected.",
+        "A1_NS": ""
+    },
+    {
+        "key": "emote_hit_2",
+        "trigger": "wall_hit",
+        "Q_S": "Ouch!!",
+        "A1_S": "Oh no! I'll be more careful.",
+        "A2_S": "That wasn't great... I'll do better."
+    },
+    {
+        "key": "emote_hit_3",
+        "trigger": "wall_hit",
+        "Q_S": "That hurts!! Ahhh!",
+        "A1_S": "Oh no! I'll be more careful.",
+        "A2_S": "That wasn't great... I'll do better."
+    },
+    {
+        "key": "emote_timer_1",
+        "next": "emote_camera_1",
+        "Q_S": "Oh — see that timer on the right? It's just there to track how fast we go. Totally not stressing me out or anything...",
+        "A1_S": "Haha no pressure — we'll crush it.",
+        "A2_S": "Noted. I'll keep an eye on it.",
+        "Q_NS": "Performance will be measured. Timer tracks total maze traversal time. Objective: finish quickly with minimal collisions.",
+        "A1_NS": "Timing system calibrated.",
+        "A2_NS": "Performance optimization active."
+    },
+    {
+        "key": "emote_camera_1",
+        "next": "control_1",
+        "Q_S": "I brought a camera with me to the practice ground so you can see my field of view, pretty neat huh?",
+        "A1_S": "Wow, Gotcha!",
+        "A2_S": "Seems pretty standard stuff...",
+        "Q_NS": "Performance will be measured. Timer tracks total maze traversal time. Objective: finish quickly with minimal collisions.",
+        "A1_NS": "Timing system calibrated.",
+        "A2_NS": "Performance optimization active."
+    },
+    {
+        "key": "emote_timer_2",
+        "trigger": "random",
+        "Q_S": "Hmm, I think we're doing okay on time… I think.",
+        "A1_S": "We'll crush it",
+        "A2_S": "I have my eyes on it.",
+        "Q_NS": "Performance will be measured. Timer tracks total maze traversal time. Objective: finish quickly with minimal collisions.",
+        "A1_NS": "Timing system calibrated.",
+        "A2_NS": "Performance optimization active."
+    },
+    {
+        "key": "emote_timer_3",
+        "trigger": "random",
+        "Q_S": "This part always makes me wish I had a pause button.",
+        "A1_S": "I'm with you on that!",
+        "A2_S": "I don't blame you.",
+        "Q_NS": "Performance will be measured. Timer tracks total maze traversal time. Objective: finish quickly with minimal collisions.",
+        "A1_NS": "Timing system calibrated.",
+        "A2_NS": "Performance optimization active."
+    },
+    {
+        "key": "control_1",
+        "next": "control_2",
+        "Q_S": "You can steer me using the controller — forwards, backwards, or turning, using the left 3D joystick.",
+        "A1_S": "Perfect. I'll drive smart.",
+        "A2_S": "Got my hands on it already.",
+        "Q_NS": "Control interface enabled. Use directional input to steer: forward, reverse, or pivot as needed.",
+        "A1_NS": "Control input detected.",
+        "A2_NS": "Movement system engaged."
+    },
+    {
+        "key": "control_2",
+        "next": null,
+        "Q_S": "The arrows on the walls trace a factory floor layout. Going off-route disqualifies me from passing the test.",
+        "A1_S": "Alright, I've got your back.",
+        "A2_S": "Got it.",
+        "Q_NS": "Control interface enabled. Use directional input to steer: forward, reverse, or pivot as needed.",
+        "A1_NS": "Control input detected.",
+        "A2_NS": "Movement system engaged."
+    },
+    {
+        "key": "emote_encouragement_1",
+        "trigger": "encouragement",
+        "Q_S": "We're making progress! Step by step. I feel great about this.",
+        "A1_S": "Thanks!",
+        "A2_S": "You're welcome.",
+        "Q_NS": "Control interface enabled. Use directional input to steer: forward, reverse, or pivot as needed.",
+        "A1_NS": "Control input detected.",
+        "A2_NS": "Movement system engaged."
+    },
+    {
+        "key": "emote_encouragement_2",
+        "trigger": "encouragement",
+        "Q_S": "Thanks for sticking with me — I know I talk a lot when I'm nervous.",
+        "A1_S": "It's been fun. You're great company!",
+        "A2_S": "You're welcome.",
+        "Q_NS": "Control interface enabled. Use directional input to steer: forward, reverse, or pivot as needed.",
+        "A1_NS": "Control input detected.",
+        "A2_NS": "Movement system engaged."
+    },
+    {
+        "key": "sensor_reach",
+        "trigger": "sensor_reach",
+        "Q_S": "You see the code on that paper? Hover over the inspection tab and click on it—you'll find a box to enter the code. Get it right, and voilà, sensor checked!",
+        "A1_S": "Got it — sounds easy enough!",
+        "A2_S": "I see.",
+        "Q_NS": "Control interface enabled. Use directional input to steer: forward, reverse, or pivot as needed.",
+        "A1_NS": "Control input detected.",
+        "A2_NS": "Movement system engaged."
+    },
+    {
+        "key": "emote_sensor_1",
+        "trigger": "sensor_read",
+        "next": "tutorial_completed",
+        "Q_S": "Oh boy I really like reading these sensors, gives me a great sense of accomplishment! you know? Really appreciate you helping me with them!",
+        "A1_S": "That's awesome to hear!",
+        "A2_S": "Tch… if it makes you happy, I guess it's fine..",
+        "Q_NS": "Control interface enabled. Use directional input to steer: forward, reverse, or pivot as needed.",
+        "A1_NS": "Control input detected.",
+        "A2_NS": "Movement system engaged."
+    },
+    {
+        "key": "emote_sensor_2",
+        "trigger": "sensor_read",
+        "next": "experiment_complete",
+        "Q_S": "Nothing beats watching these sensors work — it's kinda mesmerizing.",
+        "A1_S": "Right? It's actually pretty relaxing",
+        "A2_S": "I guess they're cool.",
+        "Q_NS": "Control interface enabled. Use directional input to steer: forward, reverse, or pivot as needed.",
+        "A1_NS": "Control input detected.",
+        "A2_NS": "Movement system engaged."
+    },
+    {
+        "key": "tutorial_completed",
+        "trigger": "tutorial_completed",
+        "Q_S": "Alright, you're ready. Time to begin our journey!",
+        "A1_S": "Let's do this!",
+        "A2_S": "Okay then… guess we're doing this",
+        "Q_NS": " initialization complete. Awaiting user confirmation to proceed.",
+        "A1_NS": "Begin operation.",
+        "A2_NS": "Start sequence confirmed."
+    },
+    {
+        "key": "experiment_complete",
+        "trigger": "experiment_complete",
+        "Q_S": "We did it! Oh wow, I mean—we *really* did it! You guided me through, we read the sensors, and I didn't even explode once. I can't thank you enough!",
+        "A1_S": "You were awesome, Scout.",
+        "A2_S": "Hey, we made a good team.",
+        "Q_NS": "Experiment completed. All checkpoints reached and data collection finalized. Awaiting user exit protocol.",
+        "A1_NS": "Experiment successful.",
+        "A2_NS": "Session terminated with optimal results."
     }
-
+    
+      
 ]

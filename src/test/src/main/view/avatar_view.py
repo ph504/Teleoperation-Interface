@@ -224,6 +224,12 @@ class AvatarIdle(AvatarObject):
         self.left_img = Image.open(dict_info['left_path'])
         self.right_img = Image.open(dict_info['right_path'])
         self.blink_img = Image.open(dict_info['blink_path'])
+        
+        self.default_img = Image.open(dict_info['default_path'])
+        self.left_img = Image.open(dict_info['left_path'])
+        self.right_img = Image.open(dict_info['right_path'])
+        self.blink_img = Image.open(dict_info['blink_path'])
+        
         self.idle_frames = [
             self.default_img,
             self.left_img,

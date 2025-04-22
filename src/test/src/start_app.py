@@ -15,6 +15,7 @@ from tkinter import messagebox
 #     sys.path.insert(0, project_root)
 
 from main.utils import ros_guard as rg
+from main.data import global_statics as gs
 
 
 # ✅ ROS optional imports
@@ -81,7 +82,10 @@ def launch_wheel():
 
 def launch_view(args):
     # print(f'python {VIEW_MODULE} {" ".join(args)}')
-    os.system(f'python {VIEW_MODULE} {" ".join(args)}')
+    if platform.system() == "Windows":
+        os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
+    else:
+        os.system(f'python {VIEW_MODULE} {" ".join(args)} &')
     
 
 
@@ -97,64 +101,72 @@ def open_menu():
     root.title("Teleop GUI Launcher")
     root.geometry("500x500")
     root.resizable(False, False)
-
-    # 🎨 Custom Dark + Violet-Blue Theme
-    DARK_BG = "#1e1e2f"
-    FG_COLOR = "#f5f5f5"
-    ACCENT = "#8c9eff"
-    HOVER = "#5c6bc0"
-    BOX_HIGHLIGHT = "#2c2f4a"
-
     
-    root.configure(bg=DARK_BG)
+    root.configure(bg=gs.DARK_BG)
 
     tutorial_var = tk.BooleanVar()
     practice_var = tk.BooleanVar()
     social_var = tk.StringVar(value="s")
 
+
     # Title
     tk.Label(root, text="Welcome to HCI LAB!", font=("Helvetica", 14, "bold"),
-             bg=DARK_BG, fg=ACCENT).pack(pady=10)
+             bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=10)
 
     # Checkbuttons
     tk.Checkbutton(root, text="Tutorial Mode", variable=tutorial_var,
-                   bg=DARK_BG, fg=FG_COLOR, activebackground=BOX_HIGHLIGHT,
-                   activeforeground=ACCENT, selectcolor=BOX_HIGHLIGHT).pack(pady=2)
+                   bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
+                   activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT).pack(pady=2)
 
     tk.Checkbutton(root, text="Practice Mode (if tutorial)", variable=practice_var,
-                   bg=DARK_BG, fg=FG_COLOR, activebackground=BOX_HIGHLIGHT,
-                   activeforeground=ACCENT, selectcolor=BOX_HIGHLIGHT).pack(pady=2)
+                   bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
+                   activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT).pack(pady=2)
 
     # Radio buttons
-    tk.Label(root, text="Choose Mode:", bg=DARK_BG, fg=ACCENT).pack(pady=8)
+    tk.Label(root, text="Choose Mode:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
 
     tk.Radiobutton(root, text="Social", variable=social_var, value="s",
-                   bg=DARK_BG, fg=FG_COLOR, activebackground=BOX_HIGHLIGHT,
-                   activeforeground=ACCENT, selectcolor=BOX_HIGHLIGHT).pack()
+                   bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
+                   activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT).pack()
 
     tk.Radiobutton(root, text="Non-Social", variable=social_var, value="ns",
-                   bg=DARK_BG, fg=FG_COLOR, activebackground=BOX_HIGHLIGHT,
-                   activeforeground=ACCENT, selectcolor=BOX_HIGHLIGHT).pack()
+                   bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
+                   activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT).pack()
 
     # Launch button
     tk.Button(root, text="Start", command=lambda: on_start(),
               font=("Helvetica", 12, "bold"),
-              bg=ACCENT, fg=DARK_BG,
-              activebackground=HOVER, activeforeground=FG_COLOR,
+              bg=gs.ACCENT, fg=gs.DARK_BG,
+              activebackground=gs.HOVER, activeforeground=gs.FG_COLOR,
               relief=tk.RAISED, bd=2).pack(pady=20)
     
-    # tk.
+    # Participant ID
+    tk.Label(root, text="Enter Participant ID:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
+    participant_id_var = tk.StringVar()
+    tk.Entry(root, textvariable=participant_id_var, font=("Helvetica", 12), bg=gs.BOX_HIGHLIGHT,
+             fg=gs.FG_COLOR, insertbackground=gs.FG_COLOR).pack(pady=4)
+    
+
+    # Participant ID
+    tk.Label(root, text="Enter Participant Name:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
+    participant_name_var = tk.StringVar()
+    tk.Entry(root, textvariable=participant_name_var, font=("Helvetica", 12), bg=gs.BOX_HIGHLIGHT,
+             fg=gs.FG_COLOR, insertbackground=gs.FG_COLOR).pack(pady=4)
+    
 
     # Callback to launch
     def on_start():
         tutorial = tutorial_var.get()
         practice = practice_var.get()
         social = social_var.get()
+        pid = participant_id_var.get()
+        pid = pid if not pid=="" else "arya_testing"
+        print(f"*** ARYA DEBUG LOG :: PARTICIPANT ID: \"{pid}\"")
 
         if tutorial:
             args = ["tutorial", social, "0" if practice else "1"]
         else:
-            args = ["p0", social]
+            args = [pid, social]
 
         root.destroy()
         start_app(args)

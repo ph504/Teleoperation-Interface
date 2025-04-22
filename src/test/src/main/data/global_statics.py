@@ -2,6 +2,12 @@ import numpy as np
 import tkinter as tk
 original_width, original_height = 1920, 1080
 
+DARK_BG = "#1e1e2f"
+FG_COLOR = "#f5f5f5"
+ACCENT = "#8c9eff"
+HOVER = "#5c6bc0"
+BOX_HIGHLIGHT = "#2c2f4a"
+
 COLOR_CODE = {
     "light_green": '#03fc0f',
     "yellow": '#ecfc03',
@@ -80,15 +86,15 @@ timer_label_info_percent = {
 
 # jackal avatar info on the view
 javatar_info_percent = {
-    "x": 150 / original_width,
-    "y": 100 / original_height,
+    "x": 565 / original_width,
+    "y": 782 / original_height,
     "width": 200 / original_width,
     "height": 180 / original_height,
 }
 
 dialogueview_info_percent = {
     "x": 50 / original_width,
-    "y": 300 / original_height,
+    "y": 250 / original_height,
     "width": 450 / original_width,
     "height": 700 / original_height,
     "font": ('Calibri',10, 'bold', 'italic'),
