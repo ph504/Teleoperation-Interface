@@ -32,8 +32,8 @@
     {
         "key": "intro_4",
         "next": "intro_5",
-        "Q_S": "Thought you'd never ask! In today's quest I'm looking for a specific sensor to read at the end of the maze — it seems like it's kind of a big deal for the equipment team.",
-        "A1_S": "Let's get that data!",
+        "Q_S": "Thought you'd never ask! In today's quest I'm looking for a sensitive sensor to read at the end of the maze — it seems like it's kind of a big deal for the equipment team. But for practice, I’ve swapped it out with a paper stand-in, so don’t worry if it looks a bit low-key.",
+        "A1_S": "Let's get that!",
         "A2_S": "Okay. I'll tag along.",
         "Q_NS": "Task Constraints: reach the end of the maze and extract sensor data from the assigned target device.",
         "A1_NS": "Objective received.",
