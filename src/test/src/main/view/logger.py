@@ -10,7 +10,7 @@ class Logger():
     elapsed_time = ""
     
     def generate_filename():
-        file_name = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
+        file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
         file_name += str(global_variables.participant)
         if global_variables.second_round:
             file_name += "_2"

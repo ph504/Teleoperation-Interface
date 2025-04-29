@@ -4,7 +4,7 @@
 import sys
 import os
 
-# sys.path.append('C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/')
+# sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 # print("TEH FILE IS HERE", __file__)
 # print(project_root)

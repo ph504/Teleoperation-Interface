@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 import sys
-import os
 
-# sys.path.append('C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/')
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-# print("TEH FILE IS HERE", __file__)
-sys.path.insert(0, project_root)
+# Hardcode the real project path where "main" lives
+ABSOLUTE_PROJECT_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src"
+
+if ABSOLUTE_PROJECT_PATH not in sys.path:
+    sys.path.insert(0, ABSOLUTE_PROJECT_PATH)
+# print("sys.path = ", sys.path)
 
 from main.utils import ros_guard as rg
 if rg.HAS_ROS:

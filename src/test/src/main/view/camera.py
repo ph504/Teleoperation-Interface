@@ -122,7 +122,7 @@ class CameraView():
         
 
         #convert numpy image (with array interface) to pillow image
-        img = Image.fromarray(image_np).resize((self.width,self.height),  Image.Resampling.LANCZOS)
+        img = Image.fromarray(image_np).resize((self.width,self.height),  Image.LANCZOS)
         
 
         
@@ -134,9 +134,9 @@ class CameraView():
 
     def image_placeholder(self, string):
         if string == "flir":
-            img = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height),  Image.Resampling.LANCZOS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height),  Image.LANCZOS)
         else:
-            img = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width,self.height),  Image.Resampling.LANCZOS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width,self.height),  Image.LANCZOS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)

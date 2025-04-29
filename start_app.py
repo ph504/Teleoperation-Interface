@@ -1,7 +1,12 @@
-from main.utils.path_setup import extend_path_to_root
-extend_path_to_root()
-
 import sys
+
+# Hardcode the real project path where "main" lives
+ABSOLUTE_PROJECT_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src"
+ABSOLUTE_PROJECT_ROOT = "/home/ph504/Desktop/Projects/Teleoperation-Interface/"
+PYTHON_EXECUTABLE = sys.executable
+
+if ABSOLUTE_PROJECT_PATH not in sys.path:
+    sys.path.insert(0, ABSOLUTE_PROJECT_PATH)
 import os
 import subprocess
 import time
@@ -34,7 +39,7 @@ VIEW_MODULE = "src/test/src/main/view/view.py"
 def replace_hardcoded_paths():
     print("[Launcher] Replacing hardcoded paths (slash-agnostic)...")
 
-    OLD_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
+    OLD_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
     NEW_PATH = os.getcwd()
     NEW_PATH = NEW_PATH.replace("\\", "/")
 
@@ -73,19 +78,30 @@ def replace_file_content(full_path, NEW_PATH, OLD_PATH):
 
 
 def launch_camera():
-    os.system(f'python {TELEOP_CAMERA_MODULE}')
+    if platform.system() == "Windows":
+        # os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
+        os.system(f'start {PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{TELEOP_CAMERA_MODULE}')
+    else:
+        os.system(f'{PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{TELEOP_CAMERA_MODULE} &')
     time.sleep(5)
 
 def launch_wheel():
-    os.system(f'python {TELEOP_WHEEL_MODULE}')
+    if platform.system() == "Windows":
+        # os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
+        os.system(f'start {PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{TELEOP_WHEEL_MODULE}')
+    else:
+        os.system(f'{PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{TELEOP_WHEEL_MODULE} &')
     time.sleep(1)
 
 def launch_view(args):
     # print(f'python {VIEW_MODULE} {" ".join(args)}')
     if platform.system() == "Windows":
-        os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
+        # os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
+        os.system(f'start {PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE}')
+
     else:
-        os.system(f'python {VIEW_MODULE} {" ".join(args)} &')
+        os.system(f'{PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE} {" ".join(args)} &')
+
     
 
 
