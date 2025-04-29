@@ -1,13 +1,57 @@
 import sys
+import os
+
+def replace_file_content(full_path, NEW_PATH, OLD_PATH):
+    try:
+        with open(full_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        # print(f"looking for the old path {OLD_PATH} in {full_path}")
+        if OLD_PATH in content:
+            new_content = content.replace(OLD_PATH, NEW_PATH)
+
+            with open(full_path, "w", encoding="utf-8") as f:
+                f.write(new_content)
+            # print(f"✅ Replaced in {full_path}")
+
+        # else:
+        #     print(f"No changes in {full_path}")
+            
+    except Exception as e:
+        print(f"⚠️ Skipped {full_path}: {e}")
+
+
+# ✅ Path replacement, the path from previous machine to this one
+def replace_hardcoded_paths():
+    print("[Launcher] Replacing hardcoded paths (slash-agnostic)...")
+
+    OLD_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
+    NEW_PATH = os.getcwd()
+    NEW_PATH = NEW_PATH.replace("\\", "/")
+
+    for dirpath, _, filenames in os.walk("."):
+        for file in filenames:
+            # Only process text file types
+            if not file.endswith((".sh", ".py", ".txt", ".csv", ".json")):
+                continue
+            
+            full_path = os.path.join(dirpath, file)
+            # if file.endswith((".py", ".json", ".sh")):
+            #     replace_file_content(full_path, NEW_PYPATH, OLD_PATH)
+            
+            # else:
+            replace_file_content(full_path, NEW_PATH, OLD_PATH)
+            
+
+replace_hardcoded_paths()
 
 # Hardcode the real project path where "main" lives
-ABSOLUTE_PROJECT_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src"
-ABSOLUTE_PROJECT_ROOT = "/home/ph504/Desktop/Projects/Teleoperation-Interface/"
+ABSOLUTE_PROJECT_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src"
+ABSOLUTE_PROJECT_ROOT = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/"
 PYTHON_EXECUTABLE = sys.executable
 
 if ABSOLUTE_PROJECT_PATH not in sys.path:
     sys.path.insert(0, ABSOLUTE_PROJECT_PATH)
-import os
 import subprocess
 import time
 import platform
@@ -34,49 +78,7 @@ if rg.HAS_ROS:
 TELEOP_CAMERA_MODULE = "src/test/src/main/control/teleop_camera.py"
 TELEOP_WHEEL_MODULE = "src/test/src/main/control/teleop_wheel.py"
 VIEW_MODULE = "src/test/src/main/view/view.py"
-
-# ✅ Path replacement, the path from previous machine to this one
-def replace_hardcoded_paths():
-    print("[Launcher] Replacing hardcoded paths (slash-agnostic)...")
-
-    OLD_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
-    NEW_PATH = os.getcwd()
-    NEW_PATH = NEW_PATH.replace("\\", "/")
-
-    for dirpath, _, filenames in os.walk("."):
-        for file in filenames:
-            # Only process text file types
-            if not file.endswith((".sh", ".py", ".txt", ".csv", ".json")):
-                continue
             
-            full_path = os.path.join(dirpath, file)
-            # if file.endswith((".py", ".json", ".sh")):
-            #     replace_file_content(full_path, NEW_PYPATH, OLD_PATH)
-            
-            # else:
-            replace_file_content(full_path, NEW_PATH, OLD_PATH)
-            
-            
-def replace_file_content(full_path, NEW_PATH, OLD_PATH):
-    try:
-        with open(full_path, "r", encoding="utf-8") as f:
-            content = f.read()
-        
-        # print(f"looking for the old path {OLD_PATH} in {full_path}")
-        if OLD_PATH in content:
-            new_content = content.replace(OLD_PATH, NEW_PATH)
-
-            with open(full_path, "w", encoding="utf-8") as f:
-                f.write(new_content)
-            # print(f"✅ Replaced in {full_path}")
-
-        # else:
-        #     print(f"No changes in {full_path}")
-            
-    except Exception as e:
-        print(f"⚠️ Skipped {full_path}: {e}")
-
-
 def launch_camera():
     if platform.system() == "Windows":
         # os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
@@ -97,7 +99,7 @@ def launch_view(args):
     # print(f'python {VIEW_MODULE} {" ".join(args)}')
     if platform.system() == "Windows":
         # os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
-        os.system(f'start {PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE}')
+        os.system(f'start {PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE} {" ".join(args)}')
 
     else:
         os.system(f'{PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE} {" ".join(args)} &')

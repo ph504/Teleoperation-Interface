@@ -31,7 +31,7 @@ else
     roscore &
 fi
 
-SEARCH_STRING="/home/ph504/Desktop/Projects/Teleoperation-Interface"
+SEARCH_STRING="C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
 
 # Get the current directory (workspace)
 REPLACEMENT_STRING=$(pwd)
