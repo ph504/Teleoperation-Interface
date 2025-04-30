@@ -114,7 +114,7 @@ class AvalogueController():
                             self.curr_avalogue = new_avalogue                        
             
                 if self.curr_avalogue[1].wipe_with_button:
-                    print("9 --- waiting for buttons, enable it and if talking it should be idle")
+                    print("*** ARYA DEBUG LOG :: --- waiting for buttons, enable it and if talking it should be idle")
                     self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
                     
                     # if self.curr_avalogue[1].key == "choice_q":

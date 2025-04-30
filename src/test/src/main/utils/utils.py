@@ -20,4 +20,7 @@ def register(text, func):
 
     
 def find_func(text):
+    print(f"*** ARYA DEBUG LOG :: button text: {text}")
+    print(f"*** ARYA DEBUG LOG :: button function: {registered_func[text]}")
+    
     return registered_func[text]
