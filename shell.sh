@@ -31,7 +31,7 @@ else
     roscore &
 fi
 
-SEARCH_STRING="C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
+SEARCH_STRING="/home/ph504/Desktop/Projects/Teleoperation-Interface"
 
 # Get the current directory (workspace)
 REPLACEMENT_STRING=$(pwd)
@@ -43,18 +43,13 @@ if [ "$SEARCH_STRING" != "$REPLACEMENT_STRING" ]; then
     find . -type f -exec sed -i "s|${SEARCH_STRING}|${REPLACEMENT_STRING}|g" {} +
 fi
 
-# Find and replace the string in all files within the directory and subdirectories
+echo "Activating Joystick in a seperate terminal"
+# gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
+rosparam set joy_node/dev "/dev/input/js0"
+# sleep 1
+rosrun joy joy_node &
 
-
-# echo "The current directory matches with the workspace directory."
-
-# echo "Activating Joystick in a seperate terminal"
-# # gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
-# rosparam set joy_node/dev "/dev/input/js0"
-# # sleep 1
-# rosrun joy joy_node &
-
-# echo "Joystick Activated"
+echo "***Arya*** Joystick Activated"
 
 python3 src/test/src/main/control/teleop_camera.py &
 

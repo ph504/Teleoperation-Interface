@@ -221,7 +221,7 @@ class DialogueObject():
                 if l == " ":   
                     time.sleep(self.space_pause)
                 else:
-                    #playsound.playsound("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
+                    #playsound.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
                     time.sleep(global_config.beep_sliced_sound.get_length() * 1.5)
                     global_config.beep_sliced_sound.play()
 
@@ -359,7 +359,9 @@ class DialogueController(object):
         if self.button_press:
             self.view.hide_buttons(self.curr_dialogue.button_num)
             func = utils.find_func(self.btn_press_name)
-            print(func)
+            print(f"*** ARYA DEBUG LOG :: function : {func}")
+            print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue.finished}")
+            print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue}")
             self.curr_dialogue = None
             self.button_press = False
             self.btn_press_name = None

@@ -2,7 +2,7 @@
 import sys
 
 # Hardcode the real project path where "main" lives
-ABSOLUTE_PROJECT_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src"
+ABSOLUTE_PROJECT_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src"
 
 if ABSOLUTE_PROJECT_PATH not in sys.path:
     sys.path.insert(0, ABSOLUTE_PROJECT_PATH)

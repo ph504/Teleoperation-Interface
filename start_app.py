@@ -25,7 +25,7 @@ def replace_file_content(full_path, NEW_PATH, OLD_PATH):
 def replace_hardcoded_paths():
     print("[Launcher] Replacing hardcoded paths (slash-agnostic)...")
 
-    OLD_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface"
+    OLD_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
     NEW_PATH = os.getcwd()
     NEW_PATH = NEW_PATH.replace("\\", "/")
 
@@ -46,8 +46,8 @@ def replace_hardcoded_paths():
 replace_hardcoded_paths()
 
 # Hardcode the real project path where "main" lives
-ABSOLUTE_PROJECT_PATH = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src"
-ABSOLUTE_PROJECT_ROOT = "C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/"
+ABSOLUTE_PROJECT_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src"
+ABSOLUTE_PROJECT_ROOT = "/home/ph504/Desktop/Projects/Teleoperation-Interface/"
 PYTHON_EXECUTABLE = sys.executable
 
 if ABSOLUTE_PROJECT_PATH not in sys.path:
@@ -179,14 +179,16 @@ def open_menu():
         social = social_var.get()
         pid = participant_id_var.get()
         pid = pid if not pid=="" else "arya_testing"
-        print(f"*** ARYA DEBUG LOG :: PARTICIPANT ID: \"{pid}\"")
+        # print(f"*** ARYA DEBUG LOG :: PARTICIPANT ID: \"{cpid}\"")
 
         if tutorial:
-            args = ["tutorial", social, "0" if practice else "1"]
+            args = ["t", social, "0" if practice else "1"]
         else:
             args = [pid, social]
 
         root.destroy()
+        # print(f"*** ARYA DEBUG LOG :: args: \"{args}\"")
+
         start_app(args)
 
     root.mainloop()

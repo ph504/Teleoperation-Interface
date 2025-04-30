@@ -22,7 +22,7 @@ from main.data import global_statics as gs
 #Make it false when you are not working with jackal
 # camera_available = True
 def camera_available():
-    return False
+    return True
     try:
         node_list = rosnode.get_node_names()
         print(node_list)
@@ -134,9 +134,9 @@ class CameraView():
 
     def image_placeholder(self, string):
         if string == "flir":
-            img = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height),  Image.LANCZOS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width, self.height),  Image.LANCZOS)
         else:
-            img = Image.open("C:/APH508/UNB/Thesis/Teleoepration-Interface/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width,self.height),  Image.LANCZOS)
+            img = Image.open("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/images/elden-ring.jpg").resize((self.width,self.height),  Image.LANCZOS)
 
         
         self.imgtk = ImageTk.PhotoImage(image=img)
