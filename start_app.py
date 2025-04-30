@@ -102,7 +102,9 @@ def launch_view(args):
         os.system(f'start {PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE} {" ".join(args)}')
 
     else:
-        os.system(f'{PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE} {" ".join(args)} &')
+        # os.system(f'{PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE} {" ".join(args)} &')
+        subprocess.run([PYTHON_EXECUTABLE,
+                    f"{ABSOLUTE_PROJECT_ROOT}{VIEW_MODULE}", *args])
 
     
 

@@ -356,16 +356,19 @@ class DialogueController(object):
             self.curr_dialogue = None
 
         #if the current dialogue is finished (for button mode) 
+        print(f"*** ARYA DEBUG LOG :: button press? : {self.button_press}")
         if self.button_press:
             self.view.hide_buttons(self.curr_dialogue.button_num)
-            func = utils.find_func(self.btn_press_name)
-            print(f"*** ARYA DEBUG LOG :: function : {func}")
+            # func = utils.find_func(self.btn_press_name)
+            # print(f"*** ARYA DEBUG LOG :: function : {func}")
             print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue.finished}")
             print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue}")
             self.curr_dialogue = None
             self.button_press = False
             self.btn_press_name = None
-            func()
+            # func()
+
+
 
         Tk.after(self.frame, 100, self.update_view)
 
