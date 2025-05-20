@@ -15,12 +15,12 @@ def thread(func):
         # Do something after the function.
     return wrapper
 
-def register(text, func):
-    registered_func[text] = func
+# def register(text, func):
+#     registered_func[text] = func
 
     
-def find_func(text):
-    print(f"*** ARYA DEBUG LOG :: button text: {text}")
-    print(f"*** ARYA DEBUG LOG :: button function: {registered_func[text]}")
+# def find_func(text):
+#     print(f"*** ARYA DEBUG LOG :: button text: {text}")
+#     print(f"*** ARYA DEBUG LOG :: button function: {registered_func[text]}")
     
-    return registered_func[text]
+#     return registered_func[text]

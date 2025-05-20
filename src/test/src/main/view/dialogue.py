@@ -11,6 +11,7 @@ import threading
 import random
 import playsound
 from main.data import global_config
+from main.control import event_manager
 
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
@@ -49,7 +50,7 @@ class BaseButton():
 
 class DialogueView():
     
-    def __init__(self, frame,  dict_info) -> None:
+    def __init__(self, frame,  dict_info, widgets) -> None:
         
         #box data
         self.frame = frame
@@ -60,17 +61,24 @@ class DialogueView():
         self.font =  dict_info["font"]
         self.bg = dict_info["bg"]
         self.wraplength = dict_info["wraplength"]
+
+        self.widgets = widgets
         
-        if not global_config.social_mode:
-            self.dbox = Label(frame,font=self.font, bg=self.bg)
-        else:
-            self.dbox = Label(frame,font=self.font, bg=self.bg, wraplength=self.wraplength)
+        self.dbox = Label(
+            frame,
+            font=self.font,
+            bg=self.bg,
+            fg="#f5f5f5",  # Optional: match theme
+            wraplength=dict_info["wraplength"],
+            anchor="nw",
+            justify="left"
+        )
 
         self.dbox.place(x = self.x, y = self.y, width= self.width, height=self.height)
         
-        self.button_press = False
-        self.button_press_1 = False
-        self.button_press_2 = False
+        # self.button_press = False
+        # self.button_press_1 = False
+        # self.button_press_2 = False
         self.sentence = ""
         
         self.button_press_name = None
@@ -82,7 +90,12 @@ class DialogueView():
         self.btn1 = BaseButton(self.frame, dict_info["btn1_info"], activate=False, enable= False)
         self.btn2 = BaseButton(self.frame, dict_info["btn2_info"], activate=False, enable= False)
         self.btn =  BaseButton(self.frame, dict_info["btn_info"], activate=False, enable=False)
-    
+
+        self.btn.add_event(self.button_press_event)
+        self.btn1.add_event(self.button_press_event)
+        self.btn2.add_event(self.button_press_event)
+
+
         self.display()
     
     def set_sentence(self, string):
@@ -96,41 +109,48 @@ class DialogueView():
     
     #btn 
     def button_press_event(self):
-        self.button_press = True 
-        self.button_press_name = self.btn.text
+        # print(f"*** ARYA DEBUG LOG :: button pressed: {self.btn.text}")        # post event button press
+        event_manager.EventManager.post_event("dialogue_answer", self.widgets)
+        # idk if this is setting it or just renaming it.
+        # self.button_press_name = self.btn.text
+        # not needed
+        # self.d_view.hide_buttons(self.curr_avalogue[1].button_num)
+        # self.curr_avalogue = None
+        # self.btn_press_name = self.view.button_press_name
+
     #btn 1
-    def button_press_event_1(self):
-        self.button_press_1 = True 
-        self.button_press_name_1 = self.btn1.text
-    #btn 2
-    def button_press_event_2(self):
-        self.button_press_2 = True
-        self.button_press_name_2 = self.btn2.text   
+    # def button_press_event_1(self):
+    #     self.button_press_name_1 = self.btn1.text
+    # #btn 2
+    # def button_press_event_2(self):
+    #     self.button_press_name_2 = self.btn2.text   
          
-    def init_buttons(self,num, text = "", text1 = "", text2= ""):
+    def set_buttons(self,num, text = "", text1 = "", text2= ""):
         if num == 0:
               return
         elif num == 1:
               self.btn.activate()
               self.btn.set_text(text)
               self.btn.add_event(self.button_press_event)
+              
         elif num == 2:
              self.btn1.activate()
              self.btn1.set_text(text1)
-             self.btn1.add_event(self.button_press_event_1)
+             self.btn1.add_event(self.button_press_event)
+
              self.btn2.activate()
              self.btn2.set_text(text2)
-             self.btn2.add_event(self.button_press_event_2)
+             self.btn2.add_event(self.button_press_event)
 
-    def hide_buttons(self, num):
-        if num == 0:
-            return
-        elif num == 1:
-            self.btn.deactivate()
+    # def hide_buttons(self, num):
+    #     if num == 0:
+    #         return
+    #     elif num == 1:
+    #         self.btn.deactivate()
               
-        elif num == 2:
-            self.btn1.deactivate()
-            self.btn2.deactivate()
+    #     elif num == 2:
+    #         self.btn1.deactivate()
+    #         self.btn2.deactivate()
          
     def enable_buttons(self, num):
         if num == 0:
@@ -161,6 +181,7 @@ class DialogueObject():
         self.button2_title = dict_info["btn2_title"]   
         self.random = eval(dict_info["random"].lower().capitalize()) #choose text randomly from the list of texts or not
         self.sociality = dict_info["sociality"]
+        self.next = dict_info["next"] #next dialogue key
  
 
         if self.random:
@@ -276,111 +297,114 @@ class DialogueModel():
      def __init__(self, frame,  csv_filepath) -> None:
           self.frame = frame
           self.csv_filepath = csv_filepath
+          self.dialogue_key = None
 
      def find_obj(self, key):
+          self.dialogue_key = key
+        #   print(f"*** ARYA DEBUG LOG :: DialogueModel: find_obj: {key}")
           with open(self.csv_filepath, mode='r', newline='') as csv_f:
-               csv_reader = csv.DictReader(csv_f)
+               csv_reader = csv.DictReader(csv_f, skipinitialspace=True)
                line_count = 0
                for row in csv_reader:
+                        # print(f"*** ARYA DEBUG LOG :: DialogueModel: find_obj: {row}")
                         if row['key'] == key:
                              return DialogueObject(row)
 
-class DialogueController(object):
+# class DialogueController(object):
     
-    def __init__(self, frame, model: DialogueModel, view: DialogueView):
+#     def __init__(self, frame, model: DialogueModel, view: DialogueView):
             
-            self.frame = frame 
-            self.view = view
-            self.model = model
-            self.curr_dialogue = None
-            self.dialogue_stack = deque()
-            self.button_press = False
-            self.btn_press_name = None
+#             self.frame = frame 
+#             self.view = view
+#             self.model = model
+#             self.curr_dialogue = None
+#             self.dialogue_stack = deque()
+#             self.button_press = False
+#             self.btn_press_name = None
             
             
-            self.update_btnpress()
-            self.update_view()
+#             self.update_btnpress()
+#             self.update_view()
             
-    def update_btnpress(self):
+#     def update_btnpress(self):
 
-       if self.view.button_press:
-            self.button_press = True
-            self.btn_press_name = self.view.button_press_name
-            self.view.button_press = False
+#        if self.view.button_press:
+            
         
-       if self.view.button_press_1:
-            self.button_press = True
-            self.btn_press_name = self.view.button_press_name_1
-            self.view.button_press_1 = False
+#        if self.view.button_press_1:
+#             self.button_press = True
+#             self.btn_press_name = self.view.button_press_name_1
+#             self.view.button_press_1 = False
 
-       if self.view.button_press_2:
-            self.button_press = True
-            self.btn_press_name = self.view.button_press_name_2
-            self.view.button_press_2 = False
+#        if self.view.button_press_2:
+#             self.button_press = True
+#             self.btn_press_name = self.view.button_press_name_2
+#             self.view.button_press_2 = False
         
 
-       Tk.after(self.frame, 100, self.update_btnpress)
+#        Tk.after(self.frame, 100, self.update_btnpress)
 
-    def update_view(self):
+#     def update_view(self):
 
-        #if there is no dialogue
-        if not self.dialogue_stack and self.curr_dialogue is None:
-            self.view.set_sentence('')
+#         print(f"*** ARYA DEBUG LOG :: THE UPDATE VIEW GETS INVOKED")
+#         #if there is no dialogue
+#         if not self.dialogue_stack and self.curr_dialogue is None:
+#             self.view.set_sentence('')
 
-        #if there is a new dialogue
-        if self.dialogue_stack and self.curr_dialogue is None: 
-            self.curr_dialogue = self.dialogue_stack.pop()
-            self.curr_dialogue.start_letterbyletter()
+#         #if there is a new dialogue
+#         if self.dialogue_stack and self.curr_dialogue is None: 
+#             self.curr_dialogue = self.dialogue_stack.pop()
+#             self.curr_dialogue.start_letterbyletter()
 
-        #if in the middle of a dialogue, a "new" dialogue comes up that it's queue flag is not set (means it hasn't been used)
-        #i did that because of what bug? because when the new bialogue came and then it finished, it again put it on the stack after the bigger one is finished.
-        #since it's dialogue dependent ... makes sense to put that in avalogue
-        if self.dialogue_stack and self.curr_dialogue != None and not self.dialogue_stack[0].queue_flag:
-            self.curr_dialogue.pause_letterbyletter()
-            temp = self.curr_dialogue
-            self.curr_dialogue = self.dialogue_stack.pop()
-            self.curr_dialogue.start_letterbyletter()
-            self.dialogue_stack.append(temp)
+#         #if in the middle of a dialogue, a "new" dialogue comes up that it's queue flag is not set (means it hasn't been used)
+#         #i did that because of what bug? because when the new bialogue came and then it finished, it again put it on the stack after the bigger one is finished.
+#         #since it's dialogue dependent ... makes sense to put that in avalogue
+#         if self.dialogue_stack and self.curr_dialogue != None and not self.dialogue_stack[0].queue_flag:
+#             self.curr_dialogue.pause_letterbyletter()
+#             temp = self.curr_dialogue
+#             self.curr_dialogue = self.dialogue_stack.pop()
+#             self.curr_dialogue.start_letterbyletter()
+#             self.dialogue_stack.append(temp)
 
 
-        #If the current dialogue is not finished (it is showing as well)
-        if self.curr_dialogue is not None and not self.curr_dialogue.finished:
-            self.view.set_sentence(self.curr_dialogue.shown_text)
+#         #If the current dialogue is not finished (it is showing as well)
+#         if self.curr_dialogue is not None and not self.curr_dialogue.finished:
+#             self.view.set_sentence(self.curr_dialogue.shown_text)
       
-        #If dialogue is done showing and waiting for buttons (avatars should be idle this time)
-        if self.curr_dialogue is not None and not self.curr_dialogue.showing:
-            self.view.enable_buttons(self.curr_dialogue.button_num)
+#         #If dialogue is done showing and waiting for buttons (avatars should be idle this time)
+#         if self.curr_dialogue is not None and not self.curr_dialogue.showing:
+#             self.view.enable_buttons(self.curr_dialogue.button_num)
         
-        #if the current dialogue is finished (for non-button mode, it's wiped actually) , Avatar should be idle here
-        if self.curr_dialogue is not None and self.curr_dialogue.finished:
-            self.curr_dialogue = None
+#         #if the current dialogue is finished (for non-button mode, it's wiped actually) , Avatar should be idle here
+#         if self.curr_dialogue is not None and self.curr_dialogue.finished:
+#             self.curr_dialogue = None
 
-        #if the current dialogue is finished (for button mode) 
-        print(f"*** ARYA DEBUG LOG :: button press? : {self.button_press}")
-        if self.button_press:
-            self.view.hide_buttons(self.curr_dialogue.button_num)
-            # func = utils.find_func(self.btn_press_name)
-            # print(f"*** ARYA DEBUG LOG :: function : {func}")
-            print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue.finished}")
-            print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue}")
-            self.curr_dialogue = None
-            self.button_press = False
-            self.btn_press_name = None
-            # func()
+#         #if the current dialogue is finished (for button mode) 
+#         # print(f"*** ARYA DEBUG LOG :: button press? : {self.button_press}")
+#         # if self.button_press:
+#         #     self.view.hide_buttons(self.curr_dialogue.button_num)
+#         #     # func = utils.find_func(self.btn_press_name)
+#         #     # print(f"*** ARYA DEBUG LOG :: function : {func}")
+#         #     # print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue.finished}")
+#         #     # print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue}")
+#         #     self.curr_dialogue = None
+#         #     self.button_press = False
+#         #     self.btn_press_name = None
+#             # func()
 
 
 
-        Tk.after(self.frame, 100, self.update_view)
+#         Tk.after(self.frame, 100, self.update_view)
 
-    def set_dialogue(self, key):
-        dialogue_obj = self.model.find_obj(key)
+#     def set_dialogue(self, key):
+#         dialogue_obj = self.model.find_obj(key)
         
-        self.view.init_buttons(dialogue_obj.button_num, 
-                               dialogue_obj.button_title,
-                                dialogue_obj.button1_title,
-                                dialogue_obj.button2_title)
+#         self.view.set_buttons(dialogue_obj.button_num, 
+#                                dialogue_obj.button_title,
+#                                 dialogue_obj.button1_title,
+#                                 dialogue_obj.button2_title)
         
-        self.dialogue_stack.append(dialogue_obj)
+#         self.dialogue_stack.append(dialogue_obj)
         
 
 

@@ -1,18 +1,27 @@
-sociality,key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
-s,start_q,1,None,None,Start,"Heyyy again! Shall we go for more challenge?!",FALSE,TRUE,0,5
-s,start_a,0,None,None,None,Let's goooooo!!!!!!,FALSE,FALSE,5,0
-s,sens_calib,0,None,None,None,I think I am going to do better in future if I try it again. I got ya buddy!,FALSE,FALSE,5,0
-s,danger_s2,0,None,None,None,That alarm again! It's your turn to handle that. ,FALSE,FALSE,5,0
-s,danger_e2,0,None,None,None,You did 3 mistakes only.\ Our score state transitioned from YELLOW to ORANGE.\ But good job! You performed two times better than me!,FALSE,FALSE,5,0
-s,danger_fail,0,None,None,None,"Hey, just wanted you to know that ... your experiment reward that is 18 dollars ... is   AT STAKE!",FALSE,FALSE,5,0
-s,choice_q,2,Yes,No,None,"At first round, I did 6 mistakes.\ At second round, You did 3 mistakes.\ Together, we did 9 mistakes overall.\ If critical state happens again, would you let me do it again?",FALSE,TRUE,0,0
-s,choice_y,0,None,None,None,Thanks buddy!! I'll try my best.,FALSE,FALSE,5,0
-s,choice_n,0,None,None,None,It's fine. I can understand.,FALSE,FALSE,5,0
-s,congrats,0,None,None,None,"Nice!,You got it!,Wooho!, Yesss!",TRUE,FALSE,5,0
-s,collision,0,None,None,None,"Uhh!!,That hurts!,Ouch!",TRUE,FALSE,5,0
-s,mistake,0,None,None,None,"Oh my bad!,Missed!,Oh no!",TRUE,FALSE,5,0
-s,end,0,None,None,None,"It was nice working with you! Hope you enjoyed the experiment!\ To notify experiment that you are finished, just come near him (or kick him!) and rotate towards him, he will return to you.\ Remember that it is all about the journey buddy!",FALSE,FALSE,5,0
+sociality,key,next,btn_num,btn1_title,btn2_title,btn_title,random,wipe_with_button,wipe_time,wait_before_start,text
+s,intro_1,intro_2,2,"Hi, I'm fine thanks! How are you?","Hello... I’m okay.",None,FALSE,TRUE,0,3,"Hi, I am Scout, how are you?"
+s,intro_2,intro_3,2,"Of course! I'd be happy to help, what do you need?","Okay.  What is it?",None,FALSE,FALSE,5,0,"It's nice meeting you! I could really use your help with something at work today — is that alright with you?"
+s,intro_3,intro_4,2,"Whoa, this sounds fun! What do you need me to do?","Okay... what  should I do?",None,FALSE,FALSE,5,0,"I'm collaborating with a local factory doing inspections. I’m on probation, so I need a few practice runs before officially starting."
+s,intro_4,intro_5,2,"Let's get that data!","Okay. I understand.",None,FALSE,FALSE,5,0,"Thought you'd never ask! In today's quest I'm looking for a sensitive sensor to read at the end of the maze — it seems like it's kind of a big deal for the equipment team. But for practice, I’ve swapped it out with a paper stand-in, so don’t worry if it looks a bit low-key."
+s,intro_5,intro_6,2,"Time to show off my a-maze-ing driving skills!","Alright. I'll give it a shot.",None,FALSE,FALSE,5,0,"Great! Just be careful — the challenge is to finish the maze as fast as you can while avoiding the walls. It's designed to test how well you can guide me."
+s,intro_6,intro_7,2,"Haha, glad you're into it!","Okay.",None,FALSE,FALSE,5,0,"I can't lie — I'm kinda excited. I love mazes!"
+s,intro_7,timer_1,2,"Got it! Let's do this!","Doesn't sound too bad...",None,FALSE,TRUE,5,0,"Alright! Before we jump into it, we'll do a warm-up round. You'll guide me through the maze, and I'll try to point things out along the way — sound good?"
+s,start_experiment,None,0,Yes,No,None,FALSE,TRUE,5,0, ""
+s,timer_1,camera,2,"Haha no pressure — we'll crush it.","Noted. I'll keep an eye on it.",None,FALSE,FALSE,5,0,"Oh — see that timer on the right? It's just there to track how fast we go. I hope we can finish in a good time."
+s,camera,control_1,2,"Seems pretty good!","I see it.",None,FALSE,FALSE,5,0,"I brought a camera with me to the practice ground so you can see what I can, pretty neat huh?"
+s,control_1,control_2,2,"Perfect. I'll drive smart.","I understand.",None,FALSE,FALSE,5,0,"You can steer me using the controller — forwards, backwards, or turning, using the left joystick."
+s,control_2,None,2,"Alright, I've got your back.","Got it.",None,FALSE,FALSE,5,0,"The arrows on the walls trace a factory floor layout. You need to turn at the arrow . Going off-route disqualifies me from passing the test, so carefully follow the arrows!"
+s,paper,None,2,"Got it — sounds easy enough!","I see.",None,TRUE,FALSE,5,0,"You see the code on that paper? Hover over the inspection tab and click on it—you'll find a box to enter the code. Get it right, and voilà, sensor checked!"
+s,code_check_1,end_tutorial,2,"That's awesome to hear!","You’re welcome.",None,TRUE,FALSE,5,0,"I really like reading these sensors, it gives me a great sense of accomplishment, you know? I really appreciate you helping me with them!"
+s,code_check_2,end_experiment,2,"Right? It's actually pretty satisfying","Yeah, it’s alright.",None,TRUE,FALSE,5,0,"Nothing beats getting these read correctly — it's kinda relaxing.."
+s,congrats,None,2,None,None,None,TRUE,FALSE,5,0,"placeholder dialogue testing, congrats"
+s,collision_1,None,2,"Oh no! I'll be more careful.","Noted. I’ll try to keep that in mind.",None,TRUE,FALSE,5,0,"Oof... that wall hit hard. I don’t really like colliding with things."
+s,collision_2,None,2,"Oh no! I'll be more careful.","Sorry.",None,TRUE,FALSE,5,0,"Ouch!!"
+s,collision_3,None,2,"My bad! I need to avoid those.","That wasn't great... I'll do better.",None,TRUE,FALSE,5,0,"That hurts!! Ahhh!"
+s,encouragement_1,None,2,"Thanks!","You're welcome.",None,TRUE,FALSE,5,0,"We're making progress! Step by step. I feel great about this."
+s,encouragement_2,None,2,"It's been fun. You're great company!","You're welcome.",None,TRUE,FALSE,5,0,"Thanks for sticking with me — I know I talk a lot when I'm nervous."
+s,timer_2,None,2,"We'll crush it","I have my eyes on it.",None,TRUE,FALSE,5,0,"Hmm, I think we're doing okay on time… I think."
+s,timer_3,None,2,"I'm with you on that!","I don't blame you.",None,TRUE,FALSE,5,0,"This part always makes me wish I had a pause button on that timer."
+s,end_tutorial,None,2,"Let's do our best!","Okay.",None,FALSE,FALSE,5,0,"Alright, you're ready. Time to begin the real  test!"
+s,end_experiment,None,2,"You were awesome, Scout.","Thanks, we did it.",None,FALSE,FALSE,5,0,"We did it! Oh wow, I mean—we really did it! You guided me through, we read the sensors, and I didn't even explode once. I can't thank you enough!"
 ,,,,,,,,,
-s,t_start_q,1,Button1,Button2,Setting,"Hi, How are you?",FALSE,TRUE,0,5
-s,t_start_a,0,None,None,None,Let's gooooo!,FALSE,FALSE,5,0
-s,t_end,0,None,None,None,"Cool, we finished the training session. Now let’s get ready for the real experiment! Best of luck buddy!",FALSE,FALSE,5,0

@@ -3,6 +3,7 @@ import tkinter as tk
 original_width, original_height = 1920, 1080
 
 DARK_BG = "#1e1e2f"
+DIALOGUE_BOX = '#2c2f4a'
 FG_COLOR = "#f5f5f5"
 ACCENT = "#8c9eff"
 HOVER = "#5c6bc0"
@@ -38,7 +39,7 @@ big_camera_label_percent = {
 
 button_calibrate_info_percent = {
     "x": 1615 / original_width,
-    "y": 850 / original_height,
+    "y": 750 / original_height,
     "width": 150 / original_width,
     "height": 50 / original_height,
     "text": "Calibrate",
@@ -47,7 +48,7 @@ button_calibrate_info_percent = {
 }
 
 clbr_label_percent = {
-    "x": 5 / original_width,
+    "x": 1615 / original_width,
     "y": 815 / original_height,
     "width": 300 / original_width,
     "height": 20 / original_height,
@@ -97,25 +98,25 @@ dialogueview_info_percent = {
     "y": 250 / original_height,
     "width": 450 / original_width,
     "height": 700 / original_height,
-    "font": ('Calibri',10, 'bold', 'italic'),
-    "bg": '#d9d7bd',
-    "wraplength": 450,
+    "font": ('Calibri', 10, 'bold', 'italic'),
+    "bg": DIALOGUE_BOX,
+    "wraplength": 200,
     
 
     "btn1_info_percent": {
         "x": 1615 / original_width,
-        "y": 940 / original_height,
-        "width": 100 / original_width,
-        "height": 30 / original_height,
+        "y": 850 / original_height,
+        "width": 150 / original_width,
+        "height": 50 / original_height,
         "text": "Button 1", 
         
     },
 
     "btn2_info_percent": { 
         "x": 1615 / original_width,
-        "y": 940 / original_height,
-        "width": 100 / original_width,
-        "height": 30 / original_height,
+        "y": 930 / original_height,
+        "width": 150 / original_width,
+        "height": 50 / original_height,
         "text": "Button 2",
     },
 

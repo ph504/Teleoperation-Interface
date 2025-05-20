@@ -82,7 +82,10 @@ class EventRegistrar:
             ],
             event_model.EVENTS["JOY"]: [
                 # lambda: widgets : ,
-            ],            
+            ],
+            event_model.EVENTS["DIALOGUE_ANSWER"]: [
+                lambda widgets : widgets['avalogue'].btnpress_event()
+            ],
             event_model.EVENTS["AVALOGUE_COLLISION"]: [
                 lambda widgets : widgets['avalogue'].on_collision()
             ],
@@ -115,14 +118,14 @@ class EventRegistrar:
                 lambda widgets, canvas : widgets['jackal_ai'].press_red_init(canvas),
                 lambda widgets, canvas : widgets['jackal_ai'].mode_switchter(canvas)
             ],
-            # TODO check the type arg
-            event_model.EVENTS["STEP_ERROR_DANGER"]: [
-                lambda widgets, type : widgets['jackal_ai'].subtract_score(type),
-            ],
-            # TODO check the type arg
-            event_model.EVENTS["ASSISTED_SECOND"]: [
-                lambda widgets, type : widgets['jackal_ai'].second_round(type),
-            ],
+            # # TODO check the type arg
+            # event_model.EVENTS["STEP_ERROR_DANGER"]: [
+            #     lambda widgets, type : widgets['jackal_ai'].subtract_score(type),
+            # ],
+            # # TODO check the type arg
+            # event_model.EVENTS["ASSISTED_SECOND"]: [
+            #     lambda widgets, type : widgets['jackal_ai'].second_round(type),
+            # ],
             event_model.EVENTS["START_CNTDWN"]: [
                 lambda widgets : widgets['ui_fsm'].start_cntdwn(),
             ],

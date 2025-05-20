@@ -50,7 +50,7 @@ csv_reactive = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/sr
 
 def init():
     # print("*** ARYA DEBUG LOG :: view started")
-    print(sys.argv)
+    # print(sys.argv)
     if len(sys.argv) != 4 and len(sys.argv) != 3:
         print("Argument length:" + str(len(sys.argv)))
         print("Usage: python3 main.py tutorial 0/1(practice mode or not) n(number of mistakes)")
@@ -253,7 +253,7 @@ def widget_init(root, tab1, tab2):
         
     def initialize_dialogue_system():
         if not gv.tutorial_mode or gv.practice_mode:
-            widgets['dialogue_view'] = dialogue.DialogueView(root, gs.dialogueview_info)
+            widgets['dialogue_view'] = dialogue.DialogueView(root, gs.dialogueview_info, widgets)
             widgets['dialogue_model'] = dialogue.DialogueModel(root, csv_dialogue_ns if not gv.social_mode else csv_dialogue_s)
             widgets['avatar_view'] = avatar_view.AvatarView(root, gs.javatar_info, gv.social_mode)
             widgets['avatar_model'] = avatar_view.AvatarModel(csv_idle, csv_talking, csv_reactive)
@@ -261,9 +261,9 @@ def widget_init(root, tab1, tab2):
             widgets['avalogue'] = avalogue.AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
 
             if not gv.tutorial_mode:
-                widgets['avalogue'].set_avalogue("t_default", "start_q")
+                widgets['avalogue'].set_avalogue("t_default", "start_experiment")
             else:
-                widgets['avalogue'].set_avalogue("t_default", "t_start_q")
+                widgets['avalogue'].set_avalogue("t_default", "intro_1")
         else:
             widgets['avatar_view'] = None
             widgets['avatar_model'] = None

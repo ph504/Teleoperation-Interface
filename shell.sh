@@ -43,11 +43,11 @@ if [ "$SEARCH_STRING" != "$REPLACEMENT_STRING" ]; then
     find . -type f -exec sed -i "s|${SEARCH_STRING}|${REPLACEMENT_STRING}|g" {} +
 fi
 
-echo "Activating Joystick in a seperate terminal"
-# gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
-rosparam set joy_node/dev "/dev/input/js0"
-# sleep 1
-rosrun joy joy_node &
+# echo "Activating Joystick in a seperate terminal"
+# # gnome-terminal -- bash -c "rosrun joy joy_node ; exec bash"
+# rosparam set joy_node/dev "/dev/input/js0"
+# # sleep 1
+# rosrun joy joy_node &
 
 echo "***Arya*** Joystick Activated"
 

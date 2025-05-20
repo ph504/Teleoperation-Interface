@@ -135,6 +135,7 @@ class AvatarObject():
         self.finished = False
         self.curr_img = None
         self.type = None
+        self.key = None
 
     def change_currimg(self, img):
         self.curr_img = img
@@ -150,11 +151,13 @@ class AvatarReactive(AvatarObject):
         super().__init__()
 
         self.type = "Reactive"
+        self.key = dict_info['key']
         self.emotion = dict_info['emotion']
         self.reaction_path = dict_info['reaction_path']
         self.reaction_time = float(dict_info['reaction_time'])
         self.blink_path = dict_info['blink_path']
         self.blink_time = float(dict_info['blink_time'])
+
         
         self.reaction_img = Image.open(self.reaction_path)
         self.blink_img = Image.open(self.blink_path)
@@ -179,6 +182,7 @@ class AvatarTalking(AvatarObject):
         super().__init__()        
 
         self.type = "Talking"
+        self.key = dict_info['key']
         self.emotion = dict_info['emotion']
         self.default_path = dict_info['default_path']
         self.talking_path = dict_info['talking_path']
@@ -215,6 +219,8 @@ class AvatarIdle(AvatarObject):
         super().__init__()
         
         self.type = "Idle"
+        self.key = dict_info['key']
+
         self.emotion = dict_info['emotion']
 
         self.idleloop_time = float(dict_info['idleloop_time'])
@@ -244,7 +250,7 @@ class AvatarIdle(AvatarObject):
         self.change_currimg(self.default_img)
 
         while True: 
-            print("Idle Loop is happening.")
+            # print("Idle Loop is happening.")
             
             time.sleep(self.idleloop_time)
             self.change_currimg(self.blink_img)

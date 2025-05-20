@@ -22,7 +22,7 @@ from main.data import global_statics as gs
 #Make it false when you are not working with jackal
 # camera_available = True
 def camera_available():
-    return True
+    return False
     try:
         node_list = rosnode.get_node_names()
         print(node_list)
