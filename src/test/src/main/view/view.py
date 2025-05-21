@@ -132,9 +132,11 @@ def main():
     style.theme_use('default')
     style.configure("TNotebook", background=gs.DARK_BG, borderwidth=0)
     style.configure("TNotebook.Tab", background=gs.BOX_HIGHLIGHT, foreground=gs.FG_COLOR)
-    style.map("TNotebook.Tab", background=[("selected", gs.HOVER)], foreground=[("selected", gs.ACCENT)])
+    style.map("TNotebook.Tab", background=[("selected", gs.HOVER)], foreground=[("selected", gs.COLOR_CODE['white'])])
     tab1 = tk.Frame(tabControl)
     tab2 = tk.Frame(tabControl)
+    tab1.configure(bg=gs.DARK_BG)
+    tab2.configure(bg=gs.DARK_BG)
     tabControl.add(tab1, text = "Main")
     tabControl.add(tab2, text = "Inspection")
     tabControl.place(x = 5, y = 5, width=width ,height=height)
@@ -230,7 +232,7 @@ def widget_init(root, tab1, tab2):
 
     def initialize_camera_views():
         # widgets['view_back'] = camera.CameraView(tab1, gs.flir_info, camera.camera_available(), "flir")
-        widgets['camera_front'] = camera.CameraView(tab1, gs.axis_info, camera.camera_available(), "axis")
+        widgets['camera_front'] = camera.CameraView(tab1, gs.front_camera_info, camera.camera_available(), "axis")
 
     def initialize_buttons():
         widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)

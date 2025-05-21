@@ -20,6 +20,7 @@ class CameraLabel():
         self.font = label_info["font"]
         
         self.label = tk.Label(r, text= self.text, font=self.font, fg=gs.FG_COLOR, bg=gs.DARK_BG)
+        print(f"***ARYA DEBUG LOG :: CameraLabel: {self.text}")
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
 
@@ -48,7 +49,7 @@ class CalibrateLabel():
         self.color = label_info["color"]
         
         
-        self.label = tk.Label(r, text= self.text, font=self.font, fg=self.color, anchor='s')
+        self.label = tk.Label(r, text= self.text, font=self.font, bg=gs.DARK_BG, fg=self.color, anchor='s')
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
     def activate(self):

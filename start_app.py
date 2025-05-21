@@ -124,7 +124,7 @@ def open_menu():
     
     root.configure(bg=gs.DARK_BG)
 
-    tutorial_var = tk.BooleanVar()
+    tutorial_var = tk.BooleanVar(value=True)
     practice_var = tk.BooleanVar()
     social_var = tk.StringVar(value="s")
 
@@ -136,7 +136,7 @@ def open_menu():
     # Checkbuttons
     tk.Checkbutton(root, text="Tutorial Mode", variable=tutorial_var,
                    bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
-                   activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT).pack(pady=2)
+                   activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT, relief='flat').pack(pady=2)
 
     tk.Checkbutton(root, text="Practice Mode (if tutorial)", variable=practice_var,
                    bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,

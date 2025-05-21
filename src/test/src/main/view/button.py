@@ -5,6 +5,7 @@ extend_path_to_root()
 import tkinter as tk
 from main.view import canvas
 from main.control import event_manager
+from main.data import global_statics as gs
 
 
 class BaseButton():
@@ -17,7 +18,7 @@ class BaseButton():
         self.state = info_dict["state"]
         self.tag = info_dict["tag"]
         self.active = self.state == tk.ACTIVE
-        self.button = tk.Button(r, width= self.width, height=self.height, text= self.text)
+        self.button = tk.Button(r, fg=gs.FG_COLOR, bg=gs.ACCENT, width= self.width, height=self.height, text= self.text)
 
         
         if enable == True: self.enable()

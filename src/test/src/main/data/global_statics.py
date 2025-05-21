@@ -56,13 +56,13 @@ clbr_label_percent = {
     "font": ('Helvetica', '20', 'bold')
 }
 
-axis_info_percent = {
+front_camera_info_percent = {
     "x": 560 / original_width,
     "y": 90 / original_height,
     "width": 900 / original_width,
     "height": 850 / original_height,
     # "colors": {"light_green": '#03fc0f', "yellow": '#ecfc03', "orange": '#faa94d', "red": "#f70505"}
-    "color" : COLOR_CODE['black'],
+    "outline_color" : FG_COLOR,
 }
 
 timer_canvas_info_percent = {
@@ -70,7 +70,7 @@ timer_canvas_info_percent = {
     "y": 250 / original_height,  # 6.94%
     "width": 200 / original_width,  # 10.42%
     "height": 50 / original_height,  # 4.63%
-    "color": "black",
+    "color": FG_COLOR,
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
@@ -80,7 +80,7 @@ timer_label_info_percent = {
     "y": 200 / original_height,  # 5.56%
     "width": 100 / original_width,  # 2.60%
     "height": 50 / original_height,  # 1.57%
-    "color": "black",
+    "color": ACCENT,
     "text": "Timer",
     "font": ('Helvetica', '24', 'bold'),
 }
@@ -95,29 +95,32 @@ javatar_info_percent = {
 
 dialogueview_info_percent = {
     "x": 50 / original_width,
-    "y": 250 / original_height,
+    "y": 100 / original_height,
     "width": 450 / original_width,
-    "height": 700 / original_height,
+    "height": 600 / original_height,
     "font": ('Calibri', 10, 'bold', 'italic'),
     "bg": DIALOGUE_BOX,
-    "wraplength": 200,
+    "color": FG_COLOR,
+    "wraplength": 450 / original_width,
     
 
     "btn1_info_percent": {
-        "x": 1615 / original_width,
-        "y": 850 / original_height,
-        "width": 150 / original_width,
-        "height": 50 / original_height,
+        "x": 50 / original_width,
+        "y": 725 / original_height,
+        "width": 450 / original_width,
+        "height": 100 / original_height,
         "text": "Button 1", 
+        "wraplength": 200 / original_width,
         
     },
 
     "btn2_info_percent": { 
-        "x": 1615 / original_width,
-        "y": 930 / original_height,
-        "width": 150 / original_width,
-        "height": 50 / original_height,
+        "x": 50 / original_width,
+        "y": 850 / original_height,
+        "width": 450 / original_width,
+        "height": 100 / original_height,
         "text": "Button 2",
+        "wraplength": 200 / original_width,
     },
 
     "btn_info_percent": {   
@@ -151,7 +154,7 @@ javatar_images = {
 #############################################################################
 def load_all_pixel_info(screen_width, screen_height):
     # 📌 Declare all globals to assign them from inside this function
-    global axis_info
+    global front_camera_info
     global big_camera_label, small_camera_label, clbr_label
     global big_canvas_info, small_canvas_info
     global timer_canvas_info, timer_label_info
@@ -163,7 +166,7 @@ def load_all_pixel_info(screen_width, screen_height):
     global javatar_info
 
     # 🎥 Camera views
-    axis_info = convert_to_pixels(axis_info_percent, screen_width, screen_height)
+    front_camera_info = convert_to_pixels(front_camera_info_percent, screen_width, screen_height)
 
     # 🏷️ Camera label overlays and calibration label
     big_camera_label = convert_to_pixels(big_camera_label_percent, screen_width, screen_height)
@@ -245,6 +248,7 @@ def convert_to_pixels(percent_info, screen_width, screen_height):
         "wraplength": wraplength,
         "text": percent_info.get("text", None), # Keep the text as is
         "color": percent_info.get("color", None),  # Colors stay the same
+        "outline_color": percent_info.get("outline_color", None),  # Colors stay the same
         "font": font,
         "active" : percent_info.get("active", None),  # Keep the boolean as is
         "state" : percent_info.get("state", None),  # Keep the state as is

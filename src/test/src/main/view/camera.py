@@ -41,7 +41,7 @@ class CameraView():
         self.y = dict_info["y"]
         self.width = dict_info["width"]
         self.height = dict_info["height"]
-        self.border_color = dict_info["color"]
+        self.border_color = dict_info["outline_color"]
         self.camera = camera
         self.state = "green"
         self.imagetk = None

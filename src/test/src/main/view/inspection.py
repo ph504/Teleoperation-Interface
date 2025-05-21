@@ -8,18 +8,19 @@ from main.view import canvas
 import time
 import threading
 from main.data import global_config as gv
+from main.data import global_statics as gs
 
 class InspectionPage():
     def __init__(self, root):
         
-        self.description_lbl = tk.Label(root, text= "Enter the string written on each paper")
+        self.description_lbl = tk.Label(root, fg=gs.FG_COLOR, bg=gs.DARK_BG, text= "Enter the string written on each paper")
         self.description_lbl.place(x= 760, y= 340, width= 500,height= 20)
 
         # simple text for TODO
         self.entry_lbl =  tk.Entry(root)
         self.entry_lbl.place(x= 760 ,y= 370 ,width= 500, height= 25)
 
-        self.error_lbl = tk.Label(root, text= "")
+        self.error_lbl = tk.Label(root, bg=gs.DARK_BG, text= "")
         self.error_lbl.place(x= 760, y = 405, width = 500, height = 25)
         
         self.btn_validate = tk.Button(root, text= "Validate" , command= self.validate)

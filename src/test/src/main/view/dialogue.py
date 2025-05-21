@@ -2,6 +2,7 @@ from main.utils.path_setup import extend_path_to_root
 extend_path_to_root()
 
 from tkinter import Label, Button, ACTIVE, DISABLED
+from tkinter import font as tkFont
 import time
 from tkinter import Tk
 from main.utils import utils
@@ -12,6 +13,7 @@ import random
 import playsound
 from main.data import global_config
 from main.control import event_manager
+from main.data import global_statics as gs
 
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
@@ -20,8 +22,21 @@ class BaseButton():
         self.width = info_dict["width"]
         self.height = info_dict["height"]
         self.text = info_dict["text"]
-        self.button = Button(r, width= self.width, height=self.height, text= self.text)
-        
+        self.wraplength = info_dict["wraplength"]
+        self.button = Button(r,  
+                             activebackground=gs.HOVER, 
+                             activeforeground=gs.FG_COLOR,             
+                             highlightbackground=gs.FG_COLOR,bg=gs.FG_COLOR, 
+                             fg=gs.DARK_BG, 
+                             text= self.text, 
+                             wraplength=self.wraplength)
+
+        # font = tkFont.Font(font=("Helvetica", 12, "bold"))
+        # text_width = font.measure(self.text)
+        # text_height = font.metrics("linespace")
+        # self.width = text_width + 20  # Add padding
+        # self.height = text_height + 10
+
         if enable == True: self.enable()
         elif enable == False: self.disable()
         
@@ -39,9 +54,28 @@ class BaseButton():
             self.button.config(state=DISABLED)
       
     def deactivate(self):
+        self.button.config(
+            bg=gs.FG_COLOR,
+            fg=gs.DARK_BG,
+            activebackground=gs.HOVER,
+            activeforeground=gs.FG_COLOR,
+            highlightbackground=gs.FG_COLOR,
+            relief="flat",
+            borderwidth=1
+        )
         self.button.place(x = 5000, y = self.y, width=self.width, height=self.height)
     
     def activate(self):
+        # print(f"*** ARYA DEBUG LOG :: BaseButton: activate")
+        self.button.config(
+            bg=gs.FG_COLOR,
+            fg=gs.DARK_BG,
+            activebackground=gs.HOVER,
+            activeforeground=gs.FG_COLOR,
+            highlightbackground=gs.FG_COLOR,
+            relief="flat",
+            borderwidth=1
+        )
         self.button.place(x = self.x, y = self.y, width=self.width, height=self.height)
 
     def set_text(self, text):
@@ -59,17 +93,19 @@ class DialogueView():
         self.width = dict_info["width"]
         self.height = dict_info["height"]
         self.font =  dict_info["font"]
+        self.fg = dict_info["color"]
         self.bg = dict_info["bg"]
         self.wraplength = dict_info["wraplength"]
 
         self.widgets = widgets
         
+        # print(f"*** ARYA DEBUG LOG :: DialogueView: __init__: {dict_info['wraplength']}")
         self.dbox = Label(
             frame,
             font=self.font,
             bg=self.bg,
-            fg="#f5f5f5",  # Optional: match theme
-            wraplength=dict_info["wraplength"],
+            fg=self.fg,  # Optional: match theme
+            wraplength=self.wraplength,
             anchor="nw",
             justify="left"
         )
@@ -129,16 +165,16 @@ class DialogueView():
         if num == 0:
               return
         elif num == 1:
-              self.btn.activate()
+            #   self.btn.activate()
               self.btn.set_text(text)
               self.btn.add_event(self.button_press_event)
               
         elif num == 2:
-             self.btn1.activate()
+            #  self.btn1.activate()
              self.btn1.set_text(text1)
              self.btn1.add_event(self.button_press_event)
 
-             self.btn2.activate()
+            #  self.btn2.activate()
              self.btn2.set_text(text2)
              self.btn2.add_event(self.button_press_event)
 
@@ -156,9 +192,12 @@ class DialogueView():
         if num == 0:
             return
         elif num == 1:
+            self.btn.activate()
             self.btn.enable()
         elif num == 2:
+            self.btn1.activate()
             self.btn1.enable()
+            self.btn2.activate()
             self.btn2.enable()
     
     def disable_buttons(self, num):
@@ -169,6 +208,15 @@ class DialogueView():
         elif num == 2:
              self.btn1.disable()
              self.btn2.disable()
+
+    def deactivate_buttons(self, num):
+        if num == 0:
+              return
+        elif num == 1:
+              self.btn.deactivate()
+        elif num == 2:
+             self.btn1.deactivate()
+             self.btn2.deactivate()
 
 class DialogueObject():
     
@@ -249,15 +297,21 @@ class DialogueObject():
                 self.update_texts(l)
         
         elif(self.sociality=='s'):
+            # for every alternating word, play the sound
+            alternate = 0
             for w in self.full_text.split():
                 # print(w)
-                self.event.wait()
+                alternate += 1
+                               
                 # word gap
+                self.update_texts(w+' ')
+                if alternate % 2 == 0:
+                    continue
+                self.event.wait()
                 time.sleep(self.space_pause)
                 sound = random.choice(global_config.animalese_sound)
                 time.sleep(sound.get_length() - 2*self.space_pause)
                 sound.play()
-                self.update_texts(w+' ')
         else:
             pass # TODO should raise error
                 
