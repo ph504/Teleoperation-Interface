@@ -222,6 +222,7 @@ class DialogueObject():
     
     def __init__(self, dict_info):
         
+
         self.key = dict_info["key"]
         self.button_num = int(dict_info["btn_num"])
         self.button_title = dict_info["btn_title"]
@@ -237,12 +238,12 @@ class DialogueObject():
         else: 
             self.full_text = str(dict_info["text"]) 
             
-
         self.str_index= 0
         self.shown_text = ""
         self.remaining_text = self.full_text
         
-        self.wipe_with_button = eval(dict_info["wipe_with_button"].lower().capitalize())
+        # if this is true, the dialogue will wait for a button press
+        self.forced_reply = eval(dict_info["forced_reply"].lower().capitalize())
        
         self.wipe_time = int(dict_info["wipe_time"])
 
@@ -250,12 +251,14 @@ class DialogueObject():
         self.space_pause = 0.2
         self.letter_pause = 0.1
         
-        self.started = False
-        self.showing = False
-        self.stopped = False
-        self.finished = False
-        self.wait_for_button = False
-        self.queue_flag = False
+        # this is to retain the state of the dialogue
+        # once we are going back to it after an interrupting dialogue.
+        self.state_dict = {
+            "showing": 0,
+            "wait_button": 1,
+            "recitation": 2,
+        }
+        self.state = self.state_dict["showing"]
         
         self.event = threading.Event()
         self.event.set()
@@ -316,11 +319,11 @@ class DialogueObject():
             pass # TODO should raise error
                 
             
+        # if we are telling it to wait for a button press
+        if not self.forced_reply: 
+            self.wipe(self.wipe_time)
         
-        if not self.wipe_with_button: 
-           self.wipe(self.wipe_time)
-        else:
-            self.wait_for_button = True
+        self.wait_for_button = self.forced_reply
                
         self.showing = False
         self.stopped = True
@@ -363,109 +366,3 @@ class DialogueModel():
                         # print(f"*** ARYA DEBUG LOG :: DialogueModel: find_obj: {row}")
                         if row['key'] == key:
                              return DialogueObject(row)
-
-# class DialogueController(object):
-    
-#     def __init__(self, frame, model: DialogueModel, view: DialogueView):
-            
-#             self.frame = frame 
-#             self.view = view
-#             self.model = model
-#             self.curr_dialogue = None
-#             self.dialogue_stack = deque()
-#             self.button_press = False
-#             self.btn_press_name = None
-            
-            
-#             self.update_btnpress()
-#             self.update_view()
-            
-#     def update_btnpress(self):
-
-#        if self.view.button_press:
-            
-        
-#        if self.view.button_press_1:
-#             self.button_press = True
-#             self.btn_press_name = self.view.button_press_name_1
-#             self.view.button_press_1 = False
-
-#        if self.view.button_press_2:
-#             self.button_press = True
-#             self.btn_press_name = self.view.button_press_name_2
-#             self.view.button_press_2 = False
-        
-
-#        Tk.after(self.frame, 100, self.update_btnpress)
-
-#     def update_view(self):
-
-#         print(f"*** ARYA DEBUG LOG :: THE UPDATE VIEW GETS INVOKED")
-#         #if there is no dialogue
-#         if not self.dialogue_stack and self.curr_dialogue is None:
-#             self.view.set_sentence('')
-
-#         #if there is a new dialogue
-#         if self.dialogue_stack and self.curr_dialogue is None: 
-#             self.curr_dialogue = self.dialogue_stack.pop()
-#             self.curr_dialogue.start_letterbyletter()
-
-#         #if in the middle of a dialogue, a "new" dialogue comes up that it's queue flag is not set (means it hasn't been used)
-#         #i did that because of what bug? because when the new bialogue came and then it finished, it again put it on the stack after the bigger one is finished.
-#         #since it's dialogue dependent ... makes sense to put that in avalogue
-#         if self.dialogue_stack and self.curr_dialogue != None and not self.dialogue_stack[0].queue_flag:
-#             self.curr_dialogue.pause_letterbyletter()
-#             temp = self.curr_dialogue
-#             self.curr_dialogue = self.dialogue_stack.pop()
-#             self.curr_dialogue.start_letterbyletter()
-#             self.dialogue_stack.append(temp)
-
-
-#         #If the current dialogue is not finished (it is showing as well)
-#         if self.curr_dialogue is not None and not self.curr_dialogue.finished:
-#             self.view.set_sentence(self.curr_dialogue.shown_text)
-      
-#         #If dialogue is done showing and waiting for buttons (avatars should be idle this time)
-#         if self.curr_dialogue is not None and not self.curr_dialogue.showing:
-#             self.view.enable_buttons(self.curr_dialogue.button_num)
-        
-#         #if the current dialogue is finished (for non-button mode, it's wiped actually) , Avatar should be idle here
-#         if self.curr_dialogue is not None and self.curr_dialogue.finished:
-#             self.curr_dialogue = None
-
-#         #if the current dialogue is finished (for button mode) 
-#         # print(f"*** ARYA DEBUG LOG :: button press? : {self.button_press}")
-#         # if self.button_press:
-#         #     self.view.hide_buttons(self.curr_dialogue.button_num)
-#         #     # func = utils.find_func(self.btn_press_name)
-#         #     # print(f"*** ARYA DEBUG LOG :: function : {func}")
-#         #     # print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue.finished}")
-#         #     # print(f"*** ARYA DEBUG LOG :: finished : {self.curr_dialogue}")
-#         #     self.curr_dialogue = None
-#         #     self.button_press = False
-#         #     self.btn_press_name = None
-#             # func()
-
-
-
-#         Tk.after(self.frame, 100, self.update_view)
-
-#     def set_dialogue(self, key):
-#         dialogue_obj = self.model.find_obj(key)
-        
-#         self.view.set_buttons(dialogue_obj.button_num, 
-#                                dialogue_obj.button_title,
-#                                 dialogue_obj.button1_title,
-#                                 dialogue_obj.button2_title)
-        
-#         self.dialogue_stack.append(dialogue_obj)
-        
-
-
-    
-        
-
-
-
-        
-

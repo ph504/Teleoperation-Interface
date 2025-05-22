@@ -1,4 +1,4 @@
-sociality,key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
+sociality,key,btn_num,btn1_title,btn2_title,btn_title,text,random,forced_reply,wipe_time,wait_before_start
 ns,start_q,1,None,None,Start,"1-> login: Jackal, FM06 -> main objective: find and scan equipment\3-> secondary objective: log natural variables\4-> session: real experiment",FALSE,TRUE,0,5
 ns,start_a,0,None,None,None,1-> mission start: true <3eb6>,FALSE,FALSE,5,0
 ns,danger_s1,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (ASSISTED),FALSE,FALSE,5,0

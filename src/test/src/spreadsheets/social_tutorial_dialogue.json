@@ -9,7 +9,7 @@
     "A1": "Hi, I'm fine thanks! How are you?",
     "A2": "Hello... Okay?",
     "random": false,
-    "wipe_with_button": true,
+    "forced_reply": true,
     "wipe_time": 0,
     "wait_before_start": 5
   },
@@ -24,7 +24,7 @@
     "A1": ,
     "A2": ,
     "random": false,
-    "wipe_with_button": true,
+    "forced_reply": true,
     "wipe_time": 0,
     "wait_before_start": 5
   },
@@ -38,7 +38,7 @@
     "text": "I am collaborating with a local lumbering company. My job is to do maintenance for the company.",
     "btn_title": "Of course! I’d be happy to help, what do you need?",
     "random": false,
-    "wipe_with_button": true,
+    "forced_reply": true,
     "wipe_time": 0,
     "wait_before_start": 5
   },
@@ -54,7 +54,7 @@
       "btn_title": null,
       "text": "Awesome. Let's do this!",
       "random": false,
-      "wipe_with_button": false,
+      "forced_reply": false,
       "wipe_time": 5,
       "wait_before_start": 0
     },

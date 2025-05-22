@@ -1,4 +1,4 @@
-key,btn_num,btn1_title,btn2_title,btn_title,text,random,wipe_with_button,wipe_time,wait_before_start
+key,btn_num,btn1_title,btn2_title,btn_title,text,random,forced_reply,wipe_time,wait_before_start
 start_q,1,None,None,Start,"LogInfo: This is jackal, a robotic training platform for search and rescue. This operation requires identifying and scanning different equipment in a building damaged by earthquake. Meanwhile, logging the amount of methane in the environment is another task of this operation which is needed for safety measures. Start the experiment?",FALSE,TRUE,0,5
 start_a,0,None,None,None,LogInfo: Mission started.,FALSE,FALSE,5,0
 danger_w,0,None,None,None,"LogWarning: Checking other harmful gases maybe required. If it's the user's turn, the user must take care of logging task (Manual Mode). Otherwise, the system will intervene and handle it (Assisted Mode). In Assisted Mode, user CANNOT log gases!",FALSE,FALSE,5,0

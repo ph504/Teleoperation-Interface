@@ -10,7 +10,7 @@ from main.utils import utils
 import tkinter as tk
 class AvalogueController():
     def __init__(self, frame, 
-                 d_model: dialogue.DialogueModel, 
+                 d_model: dialogue.DialogueModel,
                  d_view: dialogue.DialogueView, 
                  a_model: avatar_view.AvatarModel, 
                  a_view: avatar_view.AvatarView):
@@ -31,6 +31,17 @@ class AvalogueController():
         #a tuple = first var is avatar, second var is dialogue
         self.avalogue_stack = deque()
 
+        # this is to control the flow of the avalogue in the update loop
+        self.state_dict = {
+            # avatar is showing
+            "showing": 0, 
+            # avatar is finished showing and waiting for button, or is idle
+            "wait_button": 1,
+            # avatar is finshed
+            "finished": 2,
+        }
+        self.state = self.state_dict["finihed"]
+        self.is_interrupted = False
 
         
         # EventManager.subscribe("congratulations", self.on_congrats)
@@ -47,6 +58,7 @@ class AvalogueController():
             self.set_avalogue("i_default", self.curr_avalogue[1].key)
         # we reset the avalogue because it's going to be assigned with the avalogue stack, in the update loop
         self.curr_avalogue = None
+        self.state = self.state_dict["finished"]
         # set the next dialogue and avatar depending on the next_key
         
 
@@ -55,135 +67,92 @@ class AvalogueController():
     #the avatar is dependent on the dialogue
     def update_loop(self):
 
-
+        
         # either no avalogue or the previous one is finished
-        if self.curr_avalogue is None:   
-            # no avalogue         
+        if self.state == self.state_dict["finished"]:   
+            # no avalogue yet, change to idle      
             if not self.avalogue_stack:
-                print("1 --- stack is empty and no current avatar")
-                self.empty_view()
+                print("1 --- stack is empty and no current avatar ************ARYA DEBUG WHYYYYYYYYYY")
+                self.idle_view()
+
             # previous one is finished
             else:
                 print("2 --- a new avalogue is added to stack")
                 self.curr_avalogue = self.avalogue_stack.pop()
                 # print(f"*** ARYA DEBUG LOG :: setting the dialogue to {self.curr_avalogue[1].key}")
                 self.curr_avalogue[1].start_letterbyletter()
-            
-            tk.Tk.after(self.frame, 100, self.update_loop)
-            return
+
         
-        # there is something in the stack and the current avalogue is not finished
-        if self.avalogue_stack:
-            if not (self.avalogue_stack[0])[1].queue_flag:
-                self.curr_avalogue[1].pause_letterbyletter()
-                temp = self.curr_avalogue
-                self.curr_avalogue = self.avalogue_stack.pop()
-                self.curr_avalogue[1].start_letterbyletter()
-                self.avalogue_stack.append(temp)
-                if temp[1].button_num != 0:
-                    print("4 --- if the previous avalogue had buttons, disable it")
-                    self.d_view.disable_buttons(temp[1].button_num)
-    
+        if self.is_interrupted:
+            self.polling_avalogue_stack()
 
-        if not self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
-            print(f"*** ARYA DEBUG LOG :: --- THIS HAPPENED waiting for start!!!!!!!!!")
-        #    print("5 --- it is waiting for start (in seconds)")
-            self.empty_view()
+        self.update_view()
 
-        elif self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
-            #  print("6 --- it is talking")
-                self.update_view()
-                #if self.curr_avalogue[1].queue_flag and self.curr_avalogue[1].wipe_with_button:
-                # print("7 --- if the avalogue that was showing, got hidden and now is showing again had buttons, enable it(should we?)")
-                # self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
-
-        elif not self.curr_avalogue[1].showing and self.curr_avalogue[1].stopped and not self.curr_avalogue[1].finished:
+        if self.state == self.state_dict["wait_button"]:
             # print("*** ARYA DEBUG LOG :: --- full text is shown and is either waiting for button or to wipe")
+            # change the avatar to idle
             if self.curr_avalogue[0].type == "Talking":
-                    #print("11 --- for talking it needs to be idle(default/sad) while waiting for button, and wipe?")
-                    if self.curr_avalogue[0].emotion == "sad":
-                        new_avalogue = (self.sad_idle_avatar, self.curr_avalogue[1])
-                        self.curr_avalogue = new_avalogue
-                    else:
-                        new_avalogue = (self.idle_avatar, self.curr_avalogue[1])
-                        self.curr_avalogue = new_avalogue                        
-        
-            if self.curr_avalogue[1].wipe_with_button:
+                #print("11 --- for talking it needs to be idle(default/sad) while waiting for button, and wipe?")
+                if self.curr_avalogue[0].emotion == "sad":
+                    new_avalogue = (self.sad_idle_avatar, self.curr_avalogue[1])
+                    self.curr_avalogue = new_avalogue
+                else:
+                    new_avalogue = (self.idle_avatar, self.curr_avalogue[1])
+                    self.curr_avalogue = new_avalogue
+
+            # enable the buttons to be pressed
+            if self.curr_avalogue[1].forced_reply:
                 # print("*** ARYA DEBUG LOG :: --- waiting for buttons, enable it and if talking it should be idle")
                 self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
+
+
+        # if not self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
+        #     print(f"*** ARYA DEBUG LOG :: --- THIS HAPPENED waiting for start!!!!!!!!!")
+        # #    print("5 --- it is waiting for start (in seconds)")
+        #     self.empty_view()
+
+        # elif self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
+        #     #  print("6 --- it is talking")
+        #         self.update_view()
+        #         #if self.curr_avalogue[1].queue_flag and self.curr_avalogue[1].forced_reply:
+        #         # print("7 --- if the avalogue that was showing, got hidden and now is showing again had buttons, enable it(should we?)")
+        #         # self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
+
+        # elif not self.curr_avalogue[1].showing and self.curr_avalogue[1].stopped and not self.curr_avalogue[1].finished:
+        #     # print("8 --- it is waiting for button")
+        
+            
                 
                 # if self.curr_avalogue[1].key == "choice_q":
                 #     #print("!!! --- START COUNTDOWN")
                 #     event_manager.EventManager.post_event("start_cntdwn", -1)
 
-            self.update_view()   
+            
 
         tk.Tk.after(self.frame, 100, self.update_loop)
        
-       
-    '''
-               #if there is no new avalogue, d is empty and a is idle
-        if not self.avalogue_stack and self.curr_avalogue is None:
-            self.empty_view()
-            
-        #if a new avalogue shows up
-        if self.avalogue_stack and self.curr_avalogue is None:
-            self.curr_avalogue = self.avalogue_stack.pop()
-            self.curr_avalogue[1].start_letterbyletter()
-
-        #if in the midst of a new avalogue, a new one comes up that hasn't been used
-        if self.avalogue_stack and self.curr_avalogue != None and not (self.avalogue_stack[0])[1].queue_flag:
+    
+    def polling_avalogue_stack(self):
+        # there is something in the stack and the current avalogue is not finished
+        if self.avalogue_stack:
+            # change state of dialogue
+            # change state of avalogue
             
             self.curr_avalogue[1].pause_letterbyletter()
             temp = self.curr_avalogue
             self.curr_avalogue = self.avalogue_stack.pop()
             self.curr_avalogue[1].start_letterbyletter()
             self.avalogue_stack.append(temp)
-            
             if temp[1].button_num != 0:
+                print("4 --- if the previous avalogue had buttons, disable it")
                 self.d_view.disable_buttons(temp[1].button_num)
-            
-
-        if self.curr_avalogue is not None and self.curr_avalogue[1].showing:        
-            
-            if self.curr_avalogue[1].queue_flag and not self.curr_avalogue[1].showing:
-                print("sdfsdf")
-                self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
-            
-            self.update_view()
-            
-        if self.curr_avalogue is not None and not self.curr_avalogue[1].showing and not self.curr_avalogue[0].finished:
-            self.update_view()             
-            #full dialogue shown, avatar is idle, waiting for button press
-            if self.curr_avalogue[1].button_num != 0:    
-                self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
-                new_avalogue = (self.idle_avatar, self.curr_avalogue[1])
-                self.curr_avalogue = new_avalogue
-                self.update_view()
-                if self.curr_avalogue[1].key == "choice_q":
-                    EventManager.post_event("start_cntdwn", -1)
-                
-
-        #if the current dialogue is finished (for non-button mode, it's wiped actually), Avatar should be idle here
-        if self.curr_avalogue is not None and self.curr_avalogue[1].finished:
-            self.curr_avalogue = None
-        
-        if self.button_press:
-            self.d_view.hide_buttons(self.curr_avalogue[1].button_num)
-            func = utils.find_func(self.btn_press_name)
-            self.curr_avalogue = None
-            self.button_press = None
-            self.btn_press_name = None
-            func()
-
-       ''' 
 
     def update_view(self):
         self.d_view.set_sentence(self.curr_avalogue[1].shown_text)
         img = self.curr_avalogue[0].get_currimage()
         self.a_view.set_image(img)
 
-    def empty_view(self):
+    def idle_view(self):
         self.d_view.set_sentence('')
         img = self.idle_avatar.get_currimage()
         self.a_view.set_image(img)
@@ -204,10 +173,6 @@ class AvalogueController():
 
     def on_congrats(self, dummy):
         self.set_avalogue("r_happy", "congrats")
-    
-    # def on_mistake(self, dummy):
-    #     if gv.jackalai_active:
-    #         self.set_avalogue("r_sad", "mistake")
     
     def on_collision(self, dummy):
         self.set_avalogue("r_sad", "collision")

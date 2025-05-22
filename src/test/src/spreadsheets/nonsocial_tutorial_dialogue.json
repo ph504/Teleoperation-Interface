@@ -9,7 +9,7 @@
         "btn_title": "Okay.",
         "text": "1-> login: Jackal, FM06",
         "random": false,
-        "wipe_with_button": true,
+        "forced_reply": true,
         "wipe_time": 0,
         "wait_before_start": 5
     },
@@ -24,7 +24,7 @@
         "btn_title": "Proceed.",
         "text": ,
         "random": false,
-        "wipe_with_button": true,
+        "forced_reply": true,
         "wipe_time": 0,
         "wait_before_start": 5
     },
