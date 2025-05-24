@@ -37,14 +37,14 @@ class BaseCanvas():
 class TimerCanvas(BaseCanvas):
     def __init__(self, r, dict_info):
         super().__init__(r, dict_info)
-        self.color = dict_info["color"]
+        self.text_color = dict_info["text_color"]
         self.font = dict_info["font"]
         self.seconds = '00'
         self.minutes = '00'
         self.text = self.minutes + ":" + self.seconds
         self.countdown = None
         self.fsm = None
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.text_color, font= self.font)
 
     def start(self, dummy = 0):
         if self.countdown == None:
@@ -73,5 +73,5 @@ class TimerCanvas(BaseCanvas):
         self.text = self.minutes + ":" + self.seconds
         event_manager.EventManager.post_event("countdown", self.text)
         self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.text_color, font= self.font)
     

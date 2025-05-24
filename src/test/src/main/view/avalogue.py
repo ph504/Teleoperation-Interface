@@ -8,6 +8,14 @@ from main.data import global_config as gv
 from collections import deque
 from main.utils import utils
 import tkinter as tk
+state_dict = {
+    # avatar is showing
+    "showing": 0, 
+    # avatar is finished showing and waiting for button, or is idle
+    "wait_button": 1,
+    # avatar is finshed
+    "finished": 2,
+}
 class AvalogueController():
     def __init__(self, frame, 
                  d_model: dialogue.DialogueModel,
@@ -32,18 +40,9 @@ class AvalogueController():
         self.avalogue_stack = deque()
 
         # this is to control the flow of the avalogue in the update loop
-        self.state_dict = {
-            # avatar is showing
-            "showing": 0, 
-            # avatar is finished showing and waiting for button, or is idle
-            "wait_button": 1,
-            # avatar is finshed
-            "finished": 2,
-        }
-        self.state = self.state_dict["finihed"]
+        self.state = state_dict["finished"]
         self.is_interrupted = False
 
-        
         # EventManager.subscribe("congratulations", self.on_congrats)
         # EventManager.subscribe("mistake", self.on_mistake)
         self.update_loop()
@@ -58,7 +57,7 @@ class AvalogueController():
             self.set_avalogue("i_default", self.curr_avalogue[1].key)
         # we reset the avalogue because it's going to be assigned with the avalogue stack, in the update loop
         self.curr_avalogue = None
-        self.state = self.state_dict["finished"]
+        self.state = state_dict["finished"]
         # set the next dialogue and avatar depending on the next_key
         
 
@@ -66,29 +65,34 @@ class AvalogueController():
 
     #the avatar is dependent on the dialogue
     def update_loop(self):
-
-        
+        # print("*** ARYA DEBUG LOG :: --- UPDATE LOOP")
         # either no avalogue or the previous one is finished
-        if self.state == self.state_dict["finished"]:   
+        if self.state == state_dict["finished"]:   
             # no avalogue yet, change to idle      
+            # print(f"*** ARYA DEBUG LOG :: --- a new avalogue is added to stack {self.avalogue_stack}")
             if not self.avalogue_stack:
-                print("1 --- stack is empty and no current avatar ************ARYA DEBUG WHYYYYYYYYYY")
                 self.idle_view()
 
             # previous one is finished
             else:
-                print("2 --- a new avalogue is added to stack")
-                self.curr_avalogue = self.avalogue_stack.pop()
-                # print(f"*** ARYA DEBUG LOG :: setting the dialogue to {self.curr_avalogue[1].key}")
-                self.curr_avalogue[1].start_letterbyletter()
+                # print("*** ARYA DEBUG LOG :: --- a new avalogue is added to stack")
+                self.start_dialogue()
+                # print(f"*** ARYA DEBUG LOG :: --- a new avalogue is added to stack {self.curr_avalogue[1]}")
+                self.state = state_dict["showing"]
+                self.is_interrupted = False
+            
+        else:
+            self.update_view()
+            # if there was an interrupt, 
+            # we should call start letter by letter... 
+            # but shouldnt do that if it was interrupted more than once
+            if not self.is_interrupted:
+                self.polling_avalogue_stack()
+                self.state = state_dict["showing"]
+                self.is_interrupted = True
 
-        
-        if self.is_interrupted:
-            self.polling_avalogue_stack()
 
-        self.update_view()
-
-        if self.state == self.state_dict["wait_button"]:
+        if self.state == state_dict["wait_button"]:
             # print("*** ARYA DEBUG LOG :: --- full text is shown and is either waiting for button or to wipe")
             # change the avatar to idle
             if self.curr_avalogue[0].type == "Talking":
@@ -101,10 +105,8 @@ class AvalogueController():
                     self.curr_avalogue = new_avalogue
 
             # enable the buttons to be pressed
-            if self.curr_avalogue[1].forced_reply:
-                # print("*** ARYA DEBUG LOG :: --- waiting for buttons, enable it and if talking it should be idle")
-                self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
-
+            # print("*** ARYA DEBUG LOG :: --- waiting for buttons, enable it and if talking it should be idle")
+            self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
 
         # if not self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
         #     print(f"*** ARYA DEBUG LOG :: --- THIS HAPPENED waiting for start!!!!!!!!!")
@@ -137,15 +139,20 @@ class AvalogueController():
         if self.avalogue_stack:
             # change state of dialogue
             # change state of avalogue
-            
-            self.curr_avalogue[1].pause_letterbyletter()
+            self.curr_avalogue[1].pause_letterbyletter(self.state)
             temp = self.curr_avalogue
-            self.curr_avalogue = self.avalogue_stack.pop()
-            self.curr_avalogue[1].start_letterbyletter()
+            self.start_dialogue()
             self.avalogue_stack.append(temp)
-            if temp[1].button_num != 0:
-                print("4 --- if the previous avalogue had buttons, disable it")
-                self.d_view.disable_buttons(temp[1].button_num)
+            
+    def wait_for_button(self):
+        self.state = state_dict["wait_button"]
+
+    def start_dialogue(self):
+        self.curr_avalogue = self.avalogue_stack.pop()
+        self.curr_avalogue[1].start_letterbyletter()
+        if self.curr_avalogue[1].button_num != 0:
+            # print("4 --- if the previous avalogue had buttons, disable it")
+            self.d_view.disable_buttons(self.curr_avalogue[1].button_num)
 
     def update_view(self):
         self.d_view.set_sentence(self.curr_avalogue[1].shown_text)
@@ -161,7 +168,7 @@ class AvalogueController():
         # print(f"*** ARYA DEBUG LOG :: --- set_avalogue {d_key}")
         avatar_obj  = self.a_model.find_obj(a_key)
         
-        dialogue_obj = self.d_model.find_obj(d_key)
+        dialogue_obj = self.d_model.find_obj(d_key, self)
         
         self.d_view.set_buttons(dialogue_obj.button_num, 
                                 dialogue_obj.button_title,

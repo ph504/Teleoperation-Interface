@@ -17,8 +17,10 @@ class BaseButton():
         self.text = info_dict["text"]
         self.state = info_dict["state"]
         self.tag = info_dict["tag"]
+        self.text_color = info_dict["text_color"]
+        self.bg_color = info_dict["bg_color"]
         self.active = self.state == tk.ACTIVE
-        self.button = tk.Button(r, fg=gs.FG_COLOR, bg=gs.ACCENT, width= self.width, height=self.height, text= self.text)
+        self.button = tk.Button(r, fg=self.text_color, bg=self.bg_color, width= self.width, height=self.height, text= self.text)
 
         
         if enable == True: self.enable()

@@ -1,5 +1,5 @@
 sociality,key,next,btn_num,btn1_title,btn2_title,btn_title,random,forced_reply,wipe_time,wait_before_start,text
-s,intro_1,intro_2,2,"Hi, I'm fine thanks! How are you?","Hello... I’m okay.",None,FALSE,TRUE,0,10,"Hi, I am Scout, how are you?"
+s,intro_1,intro_2,2,"Hi, I'm fine thanks! How are you?","Hello... I’m okay.",None,FALSE,TRUE,0,3,"Hi, I am Scout, how are you?"
 s,intro_2,intro_3,2,"Of course! I'd be happy to help, what do you need?","Okay.  What is it?",None,FALSE,FALSE,5,0,"It's nice meeting you! I could really use your help with something at work today — is that alright with you?"
 s,intro_3,intro_4,2,"Whoa, this sounds fun! What do you need me to do?","Okay... what  should I do?",None,FALSE,FALSE,5,0,"I'm collaborating with a local factory doing inspections. I’m on probation, so I need a few practice runs before officially starting."
 s,intro_4,intro_5,2,"Let's get that data!","Okay. I understand.",None,FALSE,FALSE,5,0,"Thought you'd never ask! In today's quest I'm looking for a sensitive sensor to read at the end of the maze — it seems like it's kind of a big deal for the equipment team. But for practice, I’ve swapped it out with a paper stand-in, so don’t worry if it looks a bit low-key."

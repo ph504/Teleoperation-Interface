@@ -83,6 +83,9 @@ class EventRegistrar:
             event_model.EVENTS["JOY"]: [
                 # lambda: widgets : ,
             ],
+            event_model.EVENTS["DIALOGUE_WAIT_RESPONSE"]: [
+                lambda avalogue : avalogue.wait_for_button(),
+            ],
             event_model.EVENTS["DIALOGUE_ANSWER"]: [
                 lambda widgets : widgets['avalogue'].btnpress_event()
             ],

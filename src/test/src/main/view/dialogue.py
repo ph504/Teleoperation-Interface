@@ -93,7 +93,7 @@ class DialogueView():
         self.width = dict_info["width"]
         self.height = dict_info["height"]
         self.font =  dict_info["font"]
-        self.fg = dict_info["color"]
+        self.fg = dict_info["text_color"]
         self.bg = dict_info["bg"]
         self.wraplength = dict_info["wraplength"]
 
@@ -220,7 +220,7 @@ class DialogueView():
 
 class DialogueObject():
     
-    def __init__(self, dict_info):
+    def __init__(self, dict_info, widgets):
         
 
         self.key = dict_info["key"]
@@ -231,7 +231,8 @@ class DialogueObject():
         self.random = eval(dict_info["random"].lower().capitalize()) #choose text randomly from the list of texts or not
         self.sociality = dict_info["sociality"]
         self.next = dict_info["next"] #next dialogue key
- 
+
+        self.widgets = widgets
 
         if self.random:
             self.full_text = self.return_random_d(dict_info["text"])
@@ -253,12 +254,14 @@ class DialogueObject():
         
         # this is to retain the state of the dialogue
         # once we are going back to it after an interrupting dialogue.
-        self.state_dict = {
-            "showing": 0,
-            "wait_button": 1,
-            "recitation": 2,
-        }
-        self.state = self.state_dict["showing"]
+        
+        # state dict is from avalogue.py
+        # setting to the starting state of a dialogue
+        self.state = 0
+        self.interrupted = False
+        # if we repeat the itnerrupted dialogue, this will be true
+        # so to avoid more repetitions
+        self.repeated = False
         
         self.event = threading.Event()
         self.event.set()
@@ -286,7 +289,6 @@ class DialogueObject():
         
         time.sleep(self.wait_before_start)
 
-        self.showing = True
         if(self.sociality=='ns'):
             for l in self.full_text:
                 self.event.wait()
@@ -318,37 +320,35 @@ class DialogueObject():
         else:
             pass # TODO should raise error
                 
-            
+        event_manager.EventManager.post_event("dialogue_wait_response", self.widgets)
         # if we are telling it to wait for a button press
-        if not self.forced_reply: 
-            self.wipe(self.wipe_time)
+        # if not self.forced_reply: 
+        #     self.wipe(self.wipe_time)
         
-        self.wait_for_button = self.forced_reply
-               
-        self.showing = False
-        self.stopped = True
-        
-    def pause_letterbyletter(self):  
-        self.showing = False
-        self.queue_flag = True  
+    def pause_letterbyletter(self, state):
+        self.curr_avalogue[1].interrupted = True
+        self.state = state
         self.event.clear()
 
     def start_letterbyletter(self):
-        if not self.started:
-            self.started = True
-            self.letterbyletter()
-        else:
-            if not self.wait_for_button:
-                self.showing = True
+        # print(f"*** ARYA DEBUG LOG :: DialogueObject: start_letterbyletter: want to see how many times this gets called")
+        
+        # means if it was interrupted before unpausing, or is this a new dialogue starting
+        # if interrupted, how many times has it been interrupted, hence the use of repeated
+        if self.interrupted and not self.repeated:
+            self.repeated = True
+            # add reciting text to the shown text
 
+
+        self.letterbyletter()
         self.event.set()
        
-    @utils.thread
-    def wipe(self, wipe_time):
-        time.sleep(wipe_time)
-        self.shown_text = " "
-        time.sleep(0.05)
-        self.finished = True
+    # @utils.thread
+    # def wipe(self, wipe_time):
+    #     time.sleep(wipe_time)
+    #     self.shown_text = " "
+    #     time.sleep(0.05)
+    #     self.finished = True
 
 class DialogueModel():
      def __init__(self, frame,  csv_filepath) -> None:
@@ -356,7 +356,7 @@ class DialogueModel():
           self.csv_filepath = csv_filepath
           self.dialogue_key = None
 
-     def find_obj(self, key):
+     def find_obj(self, key, avalogue):
           self.dialogue_key = key
         #   print(f"*** ARYA DEBUG LOG :: DialogueModel: find_obj: {key}")
           with open(self.csv_filepath, mode='r', newline='') as csv_f:
@@ -365,4 +365,4 @@ class DialogueModel():
                for row in csv_reader:
                         # print(f"*** ARYA DEBUG LOG :: DialogueModel: find_obj: {row}")
                         if row['key'] == key:
-                             return DialogueObject(row)
+                             return DialogueObject(row, avalogue)

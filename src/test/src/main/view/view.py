@@ -244,13 +244,11 @@ def widget_init(root, tab1, tab2):
     def initialize_labels():
         # widgets['small_label'] = labels.CameraLabel(tab1, gs.small_camera_label)
         widgets['big_label'] = labels.CameraLabel(tab1, gs.big_camera_label)
-        timer_label = tk.Label(root, text=gs.timer_label_info["text"], font=gs.timer_label_info["font"], fg=gs.FG_COLOR, bg=gs.DARK_BG)
-
         widgets['calibrate_label'] = labels.CalibrateLabel(root, gs.clbr_label, "")
         # TODO idk what to do with this
         widgets['calibrate_button'].add_event(widgets['calibrate_label'].activate)
 
-        timer_label = tk.Label(root, text=gs.timer_label_info["text"], font=gs.timer_label_info["font"], fg=gs.timer_label_info["color"])
+        timer_label = tk.Label(root, text=gs.timer_label_info["text"], font=gs.timer_label_info["font"], fg=gs.timer_label_info["text_color"], bg=gs.DARK_BG)
         timer_label.place(x = gs.timer_label_info["x"], y = gs.timer_label_info["y"], width=gs.timer_label_info["width"], height=gs.timer_label_info["height"])
         
     def initialize_dialogue_system():

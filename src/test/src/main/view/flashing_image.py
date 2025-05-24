@@ -9,7 +9,7 @@ from main.view import canvas
 class CountdownCanvas(canvas.BaseCanvas):
     def __init__(self, r, dict_info):
         super().__init__(r, dict_info)
-        self.color = dict_info["color"]
+        self.fg = dict_info["text_color"]
         self.font = dict_info["font"]
         self.seconds = '45'
         self.bg = dict_info['bg']
@@ -17,7 +17,7 @@ class CountdownCanvas(canvas.BaseCanvas):
         self.countdown = None
         self.fsm = None
         self.canvas.configure(bg = self.bg, borderwidth='1p', relief=tk.FLAT)
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font, anchor= tk.CENTER, justify="center")
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.fg, font= self.font, anchor= tk.CENTER, justify="center")
 
 
     def disable(self):
@@ -57,5 +57,5 @@ class CountdownCanvas(canvas.BaseCanvas):
         self.text = self.seconds
     
         self.canvas.delete('all')
-        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.color, font= self.font)
+        self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.fg, font= self.font)
  

@@ -44,6 +44,8 @@ button_calibrate_info_percent = {
     "height": 50 / original_height,
     "text": "Calibrate",
     "state": tk.ACTIVE,
+    "text_color": COLOR_CODE["gray"],
+    "bg_color": COLOR_CODE["black"],
     "tag": 7,    
 }
 
@@ -52,7 +54,7 @@ clbr_label_percent = {
     "y": 815 / original_height,
     "width": 300 / original_width,
     "height": 20 / original_height,
-    "color": "red",
+    "text_color": "red",
     "font": ('Helvetica', '20', 'bold')
 }
 
@@ -70,7 +72,7 @@ timer_canvas_info_percent = {
     "y": 250 / original_height,  # 6.94%
     "width": 200 / original_width,  # 10.42%
     "height": 50 / original_height,  # 4.63%
-    "color": FG_COLOR,
+    "text_color": FG_COLOR,
     "font": ('Helvetica', '24', 'bold'),
     "active": True
 }
@@ -80,7 +82,7 @@ timer_label_info_percent = {
     "y": 200 / original_height,  # 5.56%
     "width": 100 / original_width,  # 2.60%
     "height": 50 / original_height,  # 1.57%
-    "color": ACCENT,
+    "text_color": ACCENT,
     "text": "Timer",
     "font": ('Helvetica', '24', 'bold'),
 }
@@ -100,7 +102,7 @@ dialogueview_info_percent = {
     "height": 600 / original_height,
     "font": ('Calibri', 10, 'bold', 'italic'),
     "bg": DIALOGUE_BOX,
-    "color": FG_COLOR,
+    "text_color": FG_COLOR,
     "wraplength": 450 / original_width,
     
 
@@ -247,7 +249,8 @@ def convert_to_pixels(percent_info, screen_width, screen_height):
         "outline_width": percent_info.get("outline_width", None),  # Leave unchanged
         "wraplength": wraplength,
         "text": percent_info.get("text", None), # Keep the text as is
-        "color": percent_info.get("color", None),  # Colors stay the same
+        "text_color": percent_info.get("text_color", None),  # Colors stay the same
+        "bg_color": percent_info.get("bg_color", None),  # Colors stay the same
         "outline_color": percent_info.get("outline_color", None),  # Colors stay the same
         "font": font,
         "active" : percent_info.get("active", None),  # Keep the boolean as is

@@ -13,6 +13,7 @@ EVENTS = {
     "CALIBRATE_START": "calibrate_start",
     "CALIBRATE_PAUSE": "calibrate_pause",
     "JOY": "joy",
+    "DIALOGUE_WAIT_RESPONSE": "dialogue_wait_response",
     "DIALOGUE_ANSWER": "dialogue_answer",
     "AVALOGUE_COLLISION": "avalogue_collision",
     "AVALOGUE_MISTAKE": "avalogue_mistake",

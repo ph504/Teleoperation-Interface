@@ -46,10 +46,10 @@ class CalibrateLabel():
         self.height = label_info["height"]
         self.text = text
         self.font = label_info["font"]
-        self.color = label_info["color"]
+        self.fg = label_info["text_color"]
         
         
-        self.label = tk.Label(r, text= self.text, font=self.font, bg=gs.DARK_BG, fg=self.color, anchor='s')
+        self.label = tk.Label(r, text= self.text, font=self.font, bg=gs.DARK_BG, fg=self.fg, anchor='s')
         self.label.place(x = self.x , y = self.y, width = self.width, height = self.height)
 
     def activate(self):
