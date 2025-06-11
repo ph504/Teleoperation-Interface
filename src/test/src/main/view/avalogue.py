@@ -164,10 +164,24 @@ class AvalogueController():
         img = self.idle_avatar.get_currimage()
         self.a_view.set_image(img)
 
+    def set_controls(self, d_key):
+        # print(f"*** ARYA DEBUG LOG :: --- set_controls {d_key}")
+        # this is to set the controls for the dialogue
+        if d_key not in ds.DISABLE_CONTROL_DIALOGUE_KEYS:
+            # print(f"*** ARYA DEBUG LOG :: --- enable controls {d_key}")
+            event_manager.EventManager.post_event("enable_controls", True)
+            # event_manager.EventManager.post_event("set_btnpress_name", "btn_press")
+            # timer resume or start
+        elif d_key in ds.DISABLE_CONTROL_DIALOGUE_KEYS:
+            event_manager.EventManager.post_event("enable_controls", False)
+            # event_manager.EventManager.post_event("set_btnpress_name", "btn_press")
+            # timer pause
+
     def set_avalogue(self, a_key, d_key):
         # print(f"*** ARYA DEBUG LOG :: --- set_avalogue {d_key}")
         # there should be a better solution
-        self.d_view.set_key(d_key)
+        # self.d_view.set_key(d_key)
+        set_controls(d_key)
         avatar_obj  = self.a_model.find_obj(a_key)
         
         dialogue_obj = self.d_model.find_obj(d_key, self)
@@ -185,7 +199,7 @@ class AvalogueController():
     
     def on_collision(self, dummy):
         # disable controls because we want the controls to freeze if we have collision, to grab extra attention
-        event_manager.EventManager.post_event("enable_controls", False)
+        # event_manager.EventManager.post_event("enable_controls", False)
         self.set_avalogue("r_sad", "collision")
 
         

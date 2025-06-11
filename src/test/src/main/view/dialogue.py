@@ -14,6 +14,7 @@ import playsound
 from main.data import global_config
 from main.control import event_manager
 from main.data import global_statics as gs
+from main.data import dialogue_statics as ds
 
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
@@ -100,6 +101,7 @@ class DialogueView():
         # There should be a better software solution for this,
         # but I dont have time to think about it.
         self.key = None
+        self.next_key = None
 
         self.widgets = widgets
         
@@ -147,6 +149,7 @@ class DialogueView():
     
     def set_key(self, key):
         self.key = key
+        # self.next_key = nex_key
     
     # a lousy way to find out which button is pressed
     
@@ -156,9 +159,9 @@ class DialogueView():
         event_manager.EventManager.post_event("dialogue_answer", self.widgets)
 
         # there should be a better solution to this
-        # print(f"***ARYA DEBUG LOG :: the dialogue key is {self.key}")
-        if(self.key == "timer_1" or "collision" in self.key): 
-            event_manager.EventManager.post_event("freeze_controls", False)
+        print(f"***ARYA DEBUG LOG :: the dialogue key is {self.key}")
+        # if(self.key == "timer_1" or self.key not in ): 
+        #     event_manager.EventManager.post_event("freeze_controls", False)
 
         # idk if this is setting it or just renaming it.
         # self.button_press_name = self.btn.text
