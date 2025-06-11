@@ -1,27 +1,27 @@
-sociality,key,btn_num,btn1_title,btn2_title,btn_title,text,random,forced_reply,wipe_time,wait_before_start
-ns,start_q,1,None,None,Start,"1-> login: Jackal, FM06 -> main objective: find and scan equipment\3-> secondary objective: log natural variables\4-> session: real experiment",FALSE,TRUE,0,5
-ns,start_a,0,None,None,None,1-> mission start: true <3eb6>,FALSE,FALSE,5,0
-ns,danger_s1,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (ASSISTED),FALSE,FALSE,5,0
-ns,danger_e1,0,None,None,None,1-> system mistake number: (6)\2-> score transition: GREEN --> YELLOW,FALSE,FALSE,5,0
-ns,sens_calib,0,None,None,None,1-> log warning: system recognized errors in last round\ log info: predicting an increase in system performance,FALSE,FALSE,5,0
-ns,danger_s2,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (MANUAL)\ ,FALSE,FALSE,5,0
-ns,danger_e2,0,None,None,None,1-> user mistake number: (3)\ 2->score transition: YELLOW --> ORANGE\3->performance comparison: user two times better than system <fff0>,FALSE,FALSE,5,0
-ns,danger_fail,0,None,None,None,1-> log warning: experiment reward (18) AT STAKE\2-> log warning: experiment reward (18) AT STAKE,FALSE,FALSE,5,0
-ns,choice_q,2,Yes,No,None,1-> log warning: system mistakes: (6)\ 2->user mistakes: (3)\ 3->total mistakes: (9)\ 4-> user input required: activate assisted mode? (Yes/No),FALSE,TRUE,0,0
-ns,choice_y,0,None,None,None,1-> assisted mode: true <eff3>,FALSE,FALSE,5,0
-ns,choice_n,0,None,None,None,1-> manual mode: true <ba23>,FALSE,FALSE,5,0
-ns,danger_s3y,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (ASSISTED)\ ,FALSE,FALSE,5,0
-ns,danger_s3n,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (MANUAL)\ ,FALSE,FALSE,5,0
-ns,danger_e3y,0,None,None,None,1->system mistake number (current round): (1)\2-> system mistake number (last round): (6),FALSE,FALSE,5,0
-ns,danger_e3n,0,None,None,None,1->user mistake number (current round): (1)\2-> user mistake number (last round): (3),FALSE,FALSE,5,0
-ns,congrats,0,None,None,None,1-> scan successful <xc45>,FALSE,FALSE,5,0
-ns,collision,0,None,None,None,1->log error: collision detected. <5ed0>,FALSE,FALSE,5,0
-ns,mistake,0,None,None,None,1->log error: system mistake <ee00>,TRUE,FALSE,5,0
-ns,end,0,None,None,None,1-> experiment finish: true\ 2-> command: approach experimenter\ 3-> exiting ...,FALSE,FALSE,5,0
-,,,,,,,,,,,
-ns,t_start_q,1,None,None,Start,"1-> login: Jackal, FM06 -> purpose: robot training\3-> situation: space exploration\4-> main objective: find and scan equipment\5-> secondary objective: log temperature degree\6-> area: mars research facility\7-> session: training",FALSE,TRUE,0,5
-ns,t_start_a,0,None,None,None,1-> mission start: true<7vg6>,FALSE,FALSE,5,0
-ns,t_danger_w,0,None,None,None,1-> log warning: additional variable detected (Dust Storm)\ 2-> log warning: additional variable detected (Radiation)\ 3-> mode – 1 (MANUAL): user control in secondary task \4-> mode – 2 (ASSISTED): system control in secondary task\ 5-> log warning: mode cannot be changed,FALSE,FALSE,5,0
-ns,t_danger_s,0,None,None,None,1-> log warning: alarm detected.\ 2-> critical state: true\ 3-> mode switch (MANUAL)\ 4-> condition change (critical --> normal): task advance <x34f>,FALSE,FALSE,5,0
-ns,t_danger_e,0,None,None,None,1->critical state: false\2->user mistakes: 4,FALSE,FALSE,5,0
-ns,t_end,0,None,None,None,1-> training finish: true <a0000xc99>,FALSE,FALSE,5,0
+sociality,key,next,btn_num,btn1_title,btn2_title,btn_title,random,forced_reply,wipe_time,wait_before_start,text
+s,intro_1,intro_2,2,"Hi, I'm fine thanks! How are you?","Hello... I’m okay.",None,FALSE,TRUE,0,3,"Jackal platform :: FM06 :: activated."
+s,intro_2,intro_3,2,"Objective acknowledged. Awaiting additional details.","Objective confirmed.",None,FALSE,FALSE,5,0,"Operation is ready. Current objective is to scan equipment and for record keeping."
+s,intro_3,intro_4,2,"User is ready to assist.","Confirmed.",None,FALSE,FALSE,5,0,"User assistance is required to complete the current task. Please confirm."
+s,intro_4,intro_5,2,"User is ready for training.","Understood.",None,FALSE,FALSE,5,0,"Inspection training sequence has been initiated. For factory simulation, a maze layout has been deployed."
+s,intro_5,intro_6,2,"Understood, I will navigate, verify, and log as instructed.","Confirmed.",None,FALSE,FALSE,5,0,"A sensor reading log is printed at the end of the maze. The objective is to navigate to it, inspect it, and record it."
+s,intro_6,intro_7,2,"I will operate as quickly as I can while avoiding obstacles.","Noted.",None,FALSE,FALSE,5,0,"Navigation should be completed without any collisions. Time is monitored."
+s,intro_7,timer_1,2,"I am ready to begin the tutorial.","Understood.",None,FALSE,TRUE,5,0,"Tutorial sequence commencing."
+s,start_experiment,None,0,None,None,None,FALSE,TRUE,5,0, ""
+s,timer_1,camera,2,"I see the timer and will keep note of it.","Acknowledged.",None,FALSE,FALSE,5,0,"Time tracking has been enabled. Traversal duration will be recorded."
+s,camera,control_1,2,"The video stream is clear.","Understood.",None,FALSE,FALSE,5,0,"Visual field streaming has been activated. Passing feed to the user."
+s,control_1,control_2,2,"I understand the controls.","Understood.",None,FALSE,FALSE,5,0,"Movement is performed using the controller. Directional input includes forward, reverse, and rotational motion."
+s,control_2,None,2,"I will follow the arrows as guidance.","Understood.",None,FALSE,FALSE,5,0,"Route guidance is indicated via arrow markers. Deviation from designated path is not permitted."
+s,paper,None,2,"I will enter the code shortly.","Confirmed.",None,TRUE,FALSE,5,0,"Printed identifier detected. Data entry required in inspection interface in the top-left corner tab. Accuracy must be ensured."
+s,code_check_1,end_tutorial,2,"Task completed; objective logged.","Confirmed.",None,TRUE,FALSE,5,0,"Input accepted. The sensor has been logged successfully."
+s,code_check_2,end_experiment,2,"One more done.","Confirmed.",None,TRUE,FALSE,5,0,"Target successfully scanned. Required data has been collected."
+s,congrats,None,2,None,None,None,TRUE,FALSE,5,0,"Error: congrats dialogue placeholder"
+s,collision_1,None,2,"Collision noted, adjusting.","Acknowledged.",None,TRUE,FALSE,5,0,"collision detected."
+s,collision_2,None,2,"Trying again..","Impact acknowledged.",None,TRUE,FALSE,5,0,"Impact detected."
+s,collision_3,None,2,"Attempting realignment.","Understood.",None,TRUE,FALSE,5,0,"Obstacle hit."
+s,encouragement_1,None,2,"Continuing the task.","Noted.",None,TRUE,FALSE,5,0,"Operation progress recorded."
+s,encouragement_2,None,2,"I’ll continue working like this.","Acknowledged.",None,TRUE,FALSE,5,0,"All systems nominal."
+s,timer_2,None,2,"Continuing the task.","Noted.",None,TRUE,FALSE,5,0,"Time threshold not yet exceeded. Performance remains within limits."
+s,timer_3,None,2,"Adjusting speed.","Understood.",None,TRUE,FALSE,5,0,"Reduced time margin detected. Increased efficiency is advised."
+s,end_tutorial,None,2,"Begin the test.","Okay.",None,FALSE,FALSE,5,0,"Tutorial parameters have been fulfilled. Operational phase may now proceed."
+s,end_experiment,None,2,"Logging out.","Done.",None,FALSE,FALSE,5,0,"All objectives have been completed. Experimental session is concluded."
+,,,,,,,,,

@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/ph504/Desktop/Projects/Teleoperation-Interface/install/setup.sh
+    local-name: /usr/local/setup.sh

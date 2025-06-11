@@ -166,6 +166,8 @@ class AvalogueController():
 
     def set_avalogue(self, a_key, d_key):
         # print(f"*** ARYA DEBUG LOG :: --- set_avalogue {d_key}")
+        # there should be a better solution
+        self.d_view.set_key(d_key)
         avatar_obj  = self.a_model.find_obj(a_key)
         
         dialogue_obj = self.d_model.find_obj(d_key, self)
@@ -182,6 +184,8 @@ class AvalogueController():
         self.set_avalogue("r_happy", "congrats")
     
     def on_collision(self, dummy):
+        # disable controls because we want the controls to freeze if we have collision, to grab extra attention
+        event_manager.EventManager.post_event("enable_controls", False)
         self.set_avalogue("r_sad", "collision")
 
         

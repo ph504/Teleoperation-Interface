@@ -97,6 +97,10 @@ class DialogueView():
         self.bg = dict_info["bg"]
         self.wraplength = dict_info["wraplength"]
 
+        # There should be a better software solution for this,
+        # but I dont have time to think about it.
+        self.key = None
+
         self.widgets = widgets
         
         # print(f"*** ARYA DEBUG LOG :: DialogueView: __init__: {dict_info['wraplength']}")
@@ -141,12 +145,21 @@ class DialogueView():
         self.dbox.config(text = self.sentence)
         Tk.after(self.frame, 100, self.display)
     
+    def set_key(self, key):
+        self.key = key
+    
     # a lousy way to find out which button is pressed
     
     #btn 
     def button_press_event(self):
         # print(f"*** ARYA DEBUG LOG :: button pressed: {self.btn.text}")        # post event button press
         event_manager.EventManager.post_event("dialogue_answer", self.widgets)
+
+        # there should be a better solution to this
+        # print(f"***ARYA DEBUG LOG :: the dialogue key is {self.key}")
+        if(self.key == "timer_1" or "collision" in self.key): 
+            event_manager.EventManager.post_event("freeze_controls", False)
+
         # idk if this is setting it or just renaming it.
         # self.button_press_name = self.btn.text
         # not needed

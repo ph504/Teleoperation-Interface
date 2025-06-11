@@ -59,7 +59,7 @@ def start():
         joystick_input = 0
 
         next_pos = 0 
-        print('***Arya*** Camera Node Activated!')
+        print('[Arya] Camera Node Activated!')
         if rg.HAS_ROS:
             rospy.init_node('teleop_camera_node')
             pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=1)

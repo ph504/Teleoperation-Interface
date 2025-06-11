@@ -49,7 +49,7 @@ fi
 # # sleep 1
 # rosrun joy joy_node &
 
-echo "***Arya*** Joystick Activated"
+echo "[Arya] Joystick Activated"
 
 python3 src/test/src/main/control/teleop_camera.py &
 

@@ -1,7 +1,10 @@
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 import csv
-from event import EventManager
 import time
-import global_variables
+
+from main.control import event_manager
+from main.data import global_config as gc
+
 
 class Logger():
     
@@ -9,10 +12,11 @@ class Logger():
     dict_list = []
     elapsed_time = ""
     
+    @staticmethod
     def generate_filename():
         file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
-        file_name += str(global_variables.participant)
-        if global_variables.second_round:
+        file_name += str(gc.participant)
+        if gc.second_round:
             file_name += "_2"
         else:
             file_name += "_1"
@@ -30,8 +34,9 @@ class Logger():
     def time_update(text):
         Logger.elapsed_time = text
 
+    @staticmethod
     def write_data():
-        if global_variables.tutorial_mode: return
+        if gc.tutorial_mode: return
         with open(Logger.generate_filename(), 'w', newline='') as file: 
             writer = csv.DictWriter(file, fieldnames = Logger.fields, dialect='excel')
             writer.writeheader() 

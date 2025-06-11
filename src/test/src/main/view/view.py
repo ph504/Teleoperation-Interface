@@ -33,6 +33,7 @@ from main.control import jackal_ai_controller
 from main.control import userAI
 from main.control import event_registrar
 from main.control import event_manager
+from main.utils import logger
 import random
 import time
 import threading
@@ -116,7 +117,7 @@ def init():
 def main(): 
     
     global NODE_INITIALIZED
-    print('***Arya*** View Node Activated!')
+    print('[Arya] View Node Activated!')
 
     root = tk.Tk()
     root.configure(bg=gs.DARK_BG)
@@ -142,8 +143,8 @@ def main():
     tabControl.place(x = 5, y = 5, width=width ,height=height)
     # TODO: uncomment, commented for debugging.
     # fake collision detector, woz style
-    # x = threading.Thread(target=server_program)
-    # x.start()
+    x = threading.Thread(target=server_program)
+    x.start()
     
     if camera.camera_available() and rg.HAS_ROS: 
         rospy.init_node("viewer", anonymous= True)
@@ -211,13 +212,13 @@ def main():
     
     # TODO
     if camera.camera_available() and rg.HAS_ROS:
-        print('***Arya*** Camera Available.')
+        print('[Arya] Camera Available.')
         try:
             tab1.mainloop()
         except rospy.ROSInterruptException:
             pass
     else:     
-        print('***Arya*** Camera Unavailable.')
+        print('[Arya] Camera Unavailable.')
         tab1.mainloop()
 
 def camera_widget(root, tab1, tab2):
@@ -227,12 +228,12 @@ def camera_widget(root, tab1, tab2):
 #############################################################################
 def widget_init(root, tab1, tab2):
 
-    print('***Arya*** Initializing Widgets ...')
+    print('[Arya] Initializing Widgets ...')
     widgets = {}
 
     def initialize_camera_views():
         # widgets['view_back'] = camera.CameraView(tab1, gs.flir_info, camera.camera_available(), "flir")
-        widgets['camera_front'] = camera.CameraView(tab1, gs.front_camera_info, camera.camera_available(), "axis")
+        widgets['camera_front'] = camera.CameraView(tab1, gs.front_camera_info, camera.camera_available(), "flir")
 
     def initialize_buttons():
         widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)
@@ -347,7 +348,7 @@ def server_program():
     socketserver.TCPServer.allow_reuse_address = True
 
     # collision detector device
-    HOST = '192.168.2.191'
+    HOST = '192.168.2.168'
     PORT = 4001
 
     while True:
@@ -372,16 +373,16 @@ def server_program():
                                 print("timeout error!!!!")
                                 break
                     
-                        print("From connected user: " + data)
+                        print("*** Arya From connected user: " + data)
                         if int(data) == 0:
-                            Logger.log("calibration", 1) # type: ignore
+                            logger.Logger.log("calibration", 1) # type: ignore
                             event_manager.EventManager.post_event("activate_calibration", -1) # type: ignore
                         else:
-                            Logger.log("collision", data) # type: ignore
+                            logger.Logger.log("collision", data) # type: ignore
                             event_manager.EventManager.post_event("collision", data) # type: ignore
             
             except Exception as e:
-                print("shit happened: " + str(e))  
+                print("ERROR happened: " + str(e))  
                 break      
     
 def change_angle(data, canvases):
@@ -412,11 +413,11 @@ def change_angle(data, canvases):
 #         event_manager.EventManager.post_event("stop_talking", 1) # type: ignore
 
 def playsound_beep_thread():
-    x = threading.Thread(target=ps.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav"))   
+    x = threading.Thread(target=playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav"))   
     x.start()
 
 def playsound_animalese_thread():
-    x = threading.Thread(target=ps.playsound(random.choice(gv.animalese_sound_dir)))
+    x = threading.Thread(target=playsound(random.choice(gv.animalese_sound_dir)))
     x.start
 
 if __name__ == "__main__":

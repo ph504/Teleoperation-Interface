@@ -71,7 +71,7 @@ def start():
 
         count = 0
 
-        print('***Arya*** Joy Node Activated!')
+        print('[Arya] Joy Node Activated!')
         rospy.init_node('teleop_joy_node')
         pub_jackal = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
         pub_axis = rospy.Publisher('/axis/cmd', Axis, queue_size=10)

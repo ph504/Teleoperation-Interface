@@ -12,6 +12,7 @@ class Logger():
     dict_list = []
     elapsed_time = ""
     
+    @staticmethod
     def generate_filename():
         file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
         file_name += str(gv.participant)
@@ -21,16 +22,17 @@ class Logger():
             file_name += "_1"
         
         file_name += ".csv"
+        print(f"***ARYA DEBUG LOG :: filename is {file_name}")
         return file_name
         
-    def __init__(self) -> None:
-        pass
 
+    @staticmethod
     def log(event, value):    
         Logger.dict_list.append({"Event": event, "Value": value, "Timestamp": Logger.elapsed_time})
         Logger.write_data()
     
 
+    @staticmethod
     def write_data():
         if gv.tutorial_mode: return
         with open(Logger.generate_filename(), 'w', newline='') as file: 
@@ -39,6 +41,8 @@ class Logger():
             writer.writerows(Logger.dict_list)
 
 
+    # def __init__(self) -> None:
+    #     pass
     
     
     

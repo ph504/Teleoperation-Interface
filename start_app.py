@@ -1,5 +1,7 @@
 import sys
 import os
+import pathlib
+import re
 
 def replace_file_content(full_path, NEW_PATH, OLD_PATH):
     try:
@@ -19,6 +21,9 @@ def replace_file_content(full_path, NEW_PATH, OLD_PATH):
             
     except Exception as e:
         print(f"⚠️ Skipped {full_path}: {e}")
+
+
+
 
 
 # ✅ Path replacement, the path from previous machine to this one
@@ -78,7 +83,122 @@ if rg.HAS_ROS:
 TELEOP_CAMERA_MODULE = "src/test/src/main/control/teleop_camera.py"
 TELEOP_WHEEL_MODULE = "src/test/src/main/control/teleop_wheel.py"
 VIEW_MODULE = "src/test/src/main/view/view.py"
-            
+
+
+
+
+def ensure_ros_master():
+    """Check if a ROS master is up; if not, launch one."""
+    try:
+        print("[Launcher] Checking for existing ROS master…")
+        # Try listing nodes to see if master exists
+        subprocess.run(
+            ["rosnode", "list"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=True
+        )
+        print("[Launcher] ROS master is already running.")
+    except subprocess.CalledProcessError:
+        print("[Launcher] No ROS master detected; launching roscore…")
+        # Fire up roscore in background
+        subprocess.Popen(
+            ["roscore"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        time.sleep(2)  # give it a moment to spin up
+
+
+
+
+
+def ensure_ros_hostname():
+    """
+    ▸ 1.  Detect this VM’s primary IP   (first token of `hostname -I`)
+    ▸ 2.  Export ROS_HOSTNAME / ROS_IP for *this* process + all children
+    ▸ 3.  Persist the setting in ~/.bashrc (update if it’s already there)
+    """
+    ip_addr = subprocess.check_output(["hostname", "-I"], universal_newlines=True).split()[0]
+    os.environ["ROS_HOSTNAME"] = ip_addr          # visible to every Popen we spawn
+    os.environ["ROS_IP"]       = ip_addr          # some nodes look at ROS_IP instead
+
+    # ── persist in ~/.bashrc ───────────────────────────────────────────────
+    bashrc = pathlib.Path.home() / ".bashrc"
+    line   = f"export ROS_HOSTNAME={ip_addr}\n"
+
+    if bashrc.exists():
+        txt = bashrc.read_text().splitlines(keepends=True)
+        pattern = re.compile(r"^export +ROS_HOSTNAME=")
+        found   = False
+        for i, l in enumerate(txt):
+            if pattern.match(l):
+                txt[i] = line        # overwrite old value
+                found = True
+                break
+        if not found:
+            txt.append(line)         # add a new line
+        bashrc.write_text("".join(txt))
+    else:
+        # rare: no ~/.bashrc yet
+        bashrc.write_text(line)
+
+    print(f"[Launcher] ROS_HOSTNAME/ROS_IP set to {ip_addr}")
+
+
+
+
+
+def launch_joystick():
+    """Start the ROS joy_node (if ROS is enabled)."""
+    if not rg.HAS_ROS:
+        print("[Launcher] ROS not available; skipping joystick.")
+        return
+
+    print("[Launcher] Launching joystick node…")
+    # Try setting the device parameter (optional)
+    try:
+        subprocess.run(
+            ["rosparam", "set", "joy_node/dev", "/dev/input/js1"],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        time.sleep(0.5)  # brief pause
+    except Exception:
+        print("[Launcher] Warning: could not set joy_node/dev parameter.")
+
+    # Now fire up the joy_node
+    if platform.system() == "Windows":
+        os.system("start rosrun joy joy_node")
+    else:
+        # print("*** ARYA DEBUG LOG :: running joy node")
+        subprocess.Popen(
+            ["rosnode", "kill", "/joy_node"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        time.sleep(0.5)  # brief pause
+        subprocess.Popen(
+            ["rosrun", "joy", "joy_node"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    time.sleep(1)
+
+    # Set twist_mux selected input to joystick
+    try:
+        subprocess.run(
+            ["rosparam", "set", "/twist_mux/selected", "joy_teleop/cmd_vel"],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+        print("[Launcher] Set twist_mux selected input to joy_teleop/cmd_vel.")
+    except Exception as e:
+        print(f"[Launcher] Failed to set twist_mux input: {e}")
+
+
 def launch_camera():
     if platform.system() == "Windows":
         # os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
@@ -87,6 +207,10 @@ def launch_camera():
         os.system(f'{PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{TELEOP_CAMERA_MODULE} &')
     time.sleep(5)
 
+
+
+
+
 def launch_wheel():
     if platform.system() == "Windows":
         # os.system(f'start python {VIEW_MODULE} {" ".join(args)}')
@@ -94,6 +218,9 @@ def launch_wheel():
     else:
         os.system(f'{PYTHON_EXECUTABLE} {ABSOLUTE_PROJECT_ROOT}{TELEOP_WHEEL_MODULE} &')
     time.sleep(1)
+
+
+
 
 def launch_view(args):
     # print(f'python {VIEW_MODULE} {" ".join(args)}')
@@ -111,10 +238,17 @@ def launch_view(args):
 
 def start_app(args):
     print(f"[Launcher] ROS Available: {rg.HAS_ROS}")
+    if rg.HAS_ROS:
+        ensure_ros_master()    # ← check/start master
+        launch_joystick()      # ← try to start joystick
+        ensure_ros_hostname()
     replace_hardcoded_paths()
     launch_camera()
     launch_wheel()
     launch_view(args)
+
+
+
 
 def open_menu():
     root = tk.Tk()

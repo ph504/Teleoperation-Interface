@@ -3,13 +3,19 @@
 # extend_path_to_root()
 import sys
 import os
+# from main.control import teleop_wheel
 
+ABSOLUTE_PROJECT_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src"
+
+if ABSOLUTE_PROJECT_PATH not in sys.path:
+    sys.path.insert(0, ABSOLUTE_PROJECT_PATH)
 # sys.path.append('/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/')
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-# print("TEH FILE IS HERE", __file__)
-# print(project_root)
-sys.path.insert(0, project_root)
+# project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# # print("TEH FILE IS HERE", __file__)
+# # print(project_root)
+# sys.path.insert(0, project_root)
 
+from main.data import global_config as gc
 from main.utils import ros_guard as rg
 if rg.HAS_ROS:
     import rospy
@@ -20,11 +26,10 @@ if rg.HAS_ROS:
     
 from main.data import global_config as gv
 
-global freeze_var
-
-freeze_var = True 
+# gc.freeze = False 
 
 def callback(data):
+    global twist
     # print('yesysytesyseyseyseyesysyesysey')
     # forward backward motion   
     twist.linear.x = -2 * data.axes[1]
@@ -40,15 +45,14 @@ def start():
         
         
 
+        print(f"*** ARYA DEBUG LOG :: freeze being invoked {gc.freeze}")
         def freeze_manager(data):
             print(data)
-            
-            global freeze_var
-
-            freeze_var = data.data
+            print(f"*** ARYA DEBUG LOG :: freeze manager is being invoked")
+            gc.freeze = data.data
 
 
-        print('***Arya*** Wheel Node Activated!')
+        print('[Arya] Wheel Node Activated!')
 
         if rg.HAS_ROS:
             rospy.init_node('teleop_wheel_node')
@@ -59,9 +63,12 @@ def start():
 
             rate = rospy.Rate(30)
 
+            print(f"** ARYA DEBUG LOG :: freeze? {gc.freeze}")
             while not rospy.is_shutdown():
-                # print(freeze_var)
-                if not freeze_var: pub_jackal.publish(twist)
+                # print(f"** ARYA DEBUG LOG :: freeze? {gc.freeze}")
+
+                # print(gc.freeze)
+                if not gc.freeze: pub_jackal.publish(twist)
                 # pub_jackal.publish(twist)
                 rate.sleep()
              
@@ -69,5 +76,7 @@ def start():
             rospy.spin()    
 
 if __name__ == '__main__':   
+        # global gc.freeze
+        gc.freeze = True
         start()
 

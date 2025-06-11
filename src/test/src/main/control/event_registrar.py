@@ -9,6 +9,7 @@ if rg.HAS_ROS:
 
 from main.model import event_model
 from main.control import event_manager
+from main.control import teleop_wheel
 from main.utils import logger
 from tkinter import ACTIVE as tk_ACTIVE
 from tkinter import DISABLED as tk_DISABLED
@@ -43,6 +44,10 @@ class EventRegistrar:
         # time is string type
         def logger_timestamp(time):
             logger.Logger.elapsed_time = time
+
+        # def switch_controls(switch):
+        #     print(f"*** ARYA DEBUG LOG :: freeze var is {teleop_wheel.freeze_var}")
+        #     print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
 
         event_handlers = {
             event_model.EVENTS["FREEZE"]: [
@@ -88,6 +93,9 @@ class EventRegistrar:
             ],
             event_model.EVENTS["DIALOGUE_ANSWER"]: [
                 lambda widgets : widgets['avalogue'].btnpress_event()
+            ],
+            event_model.EVENTS["FREEZE_CONTROLS"]: [
+                lambda switch : rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch), 
             ],
             event_model.EVENTS["AVALOGUE_COLLISION"]: [
                 lambda widgets : widgets['avalogue'].on_collision()

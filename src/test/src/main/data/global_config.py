@@ -71,6 +71,8 @@ ds3_scoreloss_social_h = 175
 jackalai_active = False
 danger_mode = False
 
+freeze = True
+
 #Social | Non-Social
 #===================
 # Human    |    AI

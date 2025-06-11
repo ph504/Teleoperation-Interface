@@ -22,7 +22,7 @@ from main.data import global_statics as gs
 #Make it false when you are not working with jackal
 # camera_available = True
 def camera_available():
-    return False
+    return True
     try:
         node_list = rosnode.get_node_names()
         print(node_list)
@@ -70,17 +70,17 @@ class CameraView():
             if self.camera == "flir":
                 rospy.loginfo("using flir")
                 self.flir_image = rospy.Subscriber("/camera/image_color/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
-                self.is_front = False
+                self.is_front = True
             else:
                 rospy.loginfo("using axis")
                 self.axis_image = rospy.Subscriber("axis/image_raw/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
-                self.is_front = True
+                self.is_front = False
         else:
             # if self.camera == "flir":
             #     self.flir_image = self.image_placeholder("flir")
             #     self.is_front = False      
             # else:
-            self.axis_image = self.image_placeholder("axis")
+            self.axis_image = self.image_placeholder(self.camera)
             self.is_front = True
 
     def one_second_counter(self):

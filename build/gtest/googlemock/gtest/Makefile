@@ -48,7 +48,7 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ph504/Desktop/Projects/Teleoperation-Interface/src
+CMAKE_SOURCE_DIR = /home/ph504/Desktop/Projects/Teleoperation-Interface/src/test
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/ph504/Desktop/Projects/Teleoperation-Interface/build

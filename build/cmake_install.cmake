@@ -1,8 +1,8 @@
-# Install script for directory: /home/ph504/Desktop/Projects/Teleoperation-Interface/src
+# Install script for directory: /home/ph504/Desktop/Projects/Teleoperation-Interface/src/test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/ph504/Desktop/Projects/Teleoperation-Interface/install")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "Debug")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -49,38 +49,38 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/ph504/Desktop/Projects/Teleoperation-Interface/install/_setup_util.py")
+   "/usr/local/_setup_util.py")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/ph504/Desktop/Projects/Teleoperation-Interface/install" TYPE PROGRAM FILES "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/_setup_util.py")
+file(INSTALL DESTINATION "/usr/local" TYPE PROGRAM FILES "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/_setup_util.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/ph504/Desktop/Projects/Teleoperation-Interface/install/env.sh")
+   "/usr/local/env.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/ph504/Desktop/Projects/Teleoperation-Interface/install" TYPE PROGRAM FILES "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/env.sh")
+file(INSTALL DESTINATION "/usr/local" TYPE PROGRAM FILES "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/env.sh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/ph504/Desktop/Projects/Teleoperation-Interface/install/setup.bash;/home/ph504/Desktop/Projects/Teleoperation-Interface/install/local_setup.bash")
+   "/usr/local/setup.bash;/usr/local/local_setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/ph504/Desktop/Projects/Teleoperation-Interface/install" TYPE FILE FILES
+file(INSTALL DESTINATION "/usr/local" TYPE FILE FILES
     "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/setup.bash"
     "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/local_setup.bash"
     )
@@ -88,14 +88,14 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/ph504/Desktop/Projects/Teleoperation-Interface/install/setup.sh;/home/ph504/Desktop/Projects/Teleoperation-Interface/install/local_setup.sh")
+   "/usr/local/setup.sh;/usr/local/local_setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/ph504/Desktop/Projects/Teleoperation-Interface/install" TYPE FILE FILES
+file(INSTALL DESTINATION "/usr/local" TYPE FILE FILES
     "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/setup.sh"
     "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/local_setup.sh"
     )
@@ -103,14 +103,14 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/ph504/Desktop/Projects/Teleoperation-Interface/install/setup.zsh;/home/ph504/Desktop/Projects/Teleoperation-Interface/install/local_setup.zsh")
+   "/usr/local/setup.zsh;/usr/local/local_setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/ph504/Desktop/Projects/Teleoperation-Interface/install" TYPE FILE FILES
+file(INSTALL DESTINATION "/usr/local" TYPE FILE FILES
     "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/setup.zsh"
     "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/local_setup.zsh"
     )
@@ -118,20 +118,34 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/ph504/Desktop/Projects/Teleoperation-Interface/install/.rosinstall")
+   "/usr/local/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/ph504/Desktop/Projects/Teleoperation-Interface/install" TYPE FILE FILES "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/.rosinstall")
+file(INSTALL DESTINATION "/usr/local" TYPE FILE FILES "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/.rosinstall")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/test.pc")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/test/cmake" TYPE FILE FILES
+    "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/testConfig.cmake"
+    "/home/ph504/Desktop/Projects/Teleoperation-Interface/build/catkin_generated/installspace/testConfig-version.cmake"
+    )
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/test" TYPE FILE FILES "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/package.xml")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/ph504/Desktop/Projects/Teleoperation-Interface/build/gtest/cmake_install.cmake")
-  include("/home/ph504/Desktop/Projects/Teleoperation-Interface/build/test/cmake_install.cmake")
 
 endif()
 
