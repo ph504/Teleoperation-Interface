@@ -11,7 +11,7 @@ from main.data import global_config as gv
 from main.data import global_statics as gs
 
 class InspectionPage():
-    def __init__(self, root):
+    def __init__(self, root, widgets):
         
         self.description_lbl = tk.Label(root, fg=gs.FG_COLOR, bg=gs.DARK_BG, text= "Enter the string written on each paper")
         self.description_lbl.place(x= 760, y= 340, width= 500,height= 20)

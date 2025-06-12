@@ -109,3 +109,7 @@ RECITATION_DIALOGUES = [
                     "getting back to it..."
                     ]
 
+CODECHECK_DIALOGUE_KEYS = [
+                    "code_check_1",
+                    "code_check_2"
+                    ]

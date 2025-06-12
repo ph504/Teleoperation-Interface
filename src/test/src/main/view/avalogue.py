@@ -222,6 +222,20 @@ class AvalogueController():
         sound.play()
         time.sleep(1.5)
 
+    def on_success(self, dummy):
+        # enable controls because we want the controls to freeze if we have collision, to grab extra attention
+        # event_manager.EventManager.post_event("enable_controls", True)
+        # d_key = random.choice(ds.CODECHECK_DIALOGUE_KEYS)
+        if gc.tutorial_mode:
+            d_key = "code_check_1"
+        else:
+            d_key = "code_check_2"
+            
+        self.set_avalogue("r_happy", d_key)
+        # sound = gc.get_success_sound()
+        # sound.play()
+        # time.sleep(1.5)
+
         
         
 
