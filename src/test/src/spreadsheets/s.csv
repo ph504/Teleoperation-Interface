@@ -22,6 +22,6 @@ s,encouragement_1,None,2,"Thanks!","You're welcome.",None,TRUE,FALSE,5,0,"We're 
 s,encouragement_2,None,2,"It's been fun. You're great company!","You're welcome.",None,TRUE,FALSE,5,0,"Thanks for sticking with me — I know I talk a lot when I'm nervous."
 s,timer_2,None,2,"We'll crush it","I have my eyes on it.",None,TRUE,FALSE,5,0,"Hmm, I think we're doing okay on time… I think."
 s,timer_3,None,2,"I'm with you on that!","I don't blame you.",None,TRUE,FALSE,5,0,"This part always makes me wish I had a pause button on that timer."
-s,end_tutorial,None,2,"Let's do our best!","Okay.",None,FALSE,FALSE,5,0,"Alright, you're ready. Time to begin the real  test!"
-s,end_experiment,None,2,"You were awesome, Scout.","Thanks, we did it.",None,FALSE,FALSE,5,0,"We did it! Oh wow, I mean—we really did it! You guided me through, we read the sensors, and I didn't even explode once. I can't thank you enough!"
+s,end_tutorial,end,2,"Let's do our best!","Okay.",None,FALSE,FALSE,5,0,"Alright, you're ready. Time to begin the real  test!"
+s,end_experiment,end,2,"You were awesome, Scout.","Thanks, we did it.",None,FALSE,FALSE,5,0,"We did it! Oh wow, I mean—we really did it! You guided me through, we read the sensors, and I didn't even explode once. I can't thank you enough!"
 ,,,,,,,,,

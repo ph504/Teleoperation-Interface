@@ -1,6 +1,8 @@
 from main.utils.path_setup import extend_path_to_root
 extend_path_to_root()
 
+import os
+import signal
 import random
 import time
 import dialogue
@@ -169,6 +171,12 @@ class AvalogueController():
 
     def set_controls(self, d_key):
         # print(f"*** ARYA DEBUG LOG :: --- set_controls {d_key}")
+
+        if d_key == "end":
+            # terminate program
+            print("[Arya] Terminating the program.")
+            os.kill(os.getpid(), signal.SIGINT)
+
         # this is to set the controls for the dialogue
         if d_key in ds.DISABLE_CONTROL_DIALOGUE_KEYS:
             # print(f"*** ARYA DEBUG LOG :: --- enable controls {d_key}")
