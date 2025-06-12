@@ -24,4 +24,5 @@ s,timer_2,None,2,"We'll crush it","I have my eyes on it.",None,TRUE,FALSE,5,0,"H
 s,timer_3,None,2,"I'm with you on that!","I don't blame you.",None,TRUE,FALSE,5,0,"This part always makes me wish I had a pause button on that timer."
 s,end_tutorial,end,2,"Let's do our best!","Okay.",None,FALSE,FALSE,5,0,"Alright, you're ready. Time to begin the real  test!"
 s,end_experiment,end,2,"You were awesome, Scout.","Thanks, we did it.",None,FALSE,FALSE,5,0,"We did it! Oh wow, I mean—we really did it! You guided me through, we read the sensors, and I didn't even explode once. I can't thank you enough!"
+s,end,None,0,None,None,None,FALSE,FALSE,5,0,""
 ,,,,,,,,,

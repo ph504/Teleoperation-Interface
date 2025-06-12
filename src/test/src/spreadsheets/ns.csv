@@ -24,4 +24,5 @@ ns,timer_2,None,2,"Continuing the task.","Noted.",None,TRUE,FALSE,5,0,"Time thre
 ns,timer_3,None,2,"Adjusting speed.","Understood.",None,TRUE,FALSE,5,0,"Reduced time margin detected. Increased efficiency is advised."
 ns,end_tutorial,end,2,"Begin the test.","Okay.",None,FALSE,FALSE,5,0,"Tutorial parameters have been fulfilled. Operational phase may now proceed."
 ns,end_experiment,end,2,"Logging out.","Done.",None,FALSE,FALSE,5,0,"All objectives have been completed. Experimental session is concluded."
+ns,end,None,0,None,None,None,FALSE,FALSE,5,0,""
 ,,,,,,,,,
