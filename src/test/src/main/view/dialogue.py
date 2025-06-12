@@ -14,7 +14,7 @@ import playsound
 from main.control import event_manager
 from main.data import global_config as gc
 from main.data import global_statics as gs
-# from main.data import dialogue_statics as ds
+from main.data import dialogue_statics as ds
 
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
@@ -274,10 +274,10 @@ class DialogueObject():
         # state dict is from avalogue.py
         # setting to the starting state of a dialogue
         self.state = 0
-        self.interrupted = False
-        # if we repeat the itnerrupted dialogue, this will be true
-        # so to avoid more repetitions
-        self.repeated = False
+        self.interrupt_counter = 0
+        # # if we repeat the itnerrupted dialogue, this will be true
+        # # so to avoid more repetitions
+        # self.repeated = False
         
         self.event = threading.Event()
         self.event.set()
@@ -343,7 +343,7 @@ class DialogueObject():
         #     self.wipe(self.wipe_time)
         
     def pause_letterbyletter(self, state):
-        self.curr_avalogue[1].interrupted = True
+        self.curr_avalogue[1].interrupt_counter += 1
         self.state = state
         self.event.clear()
 
@@ -352,9 +352,9 @@ class DialogueObject():
         
         # means if it was interrupted before unpausing, or is this a new dialogue starting
         # if interrupted, how many times has it been interrupted, hence the use of repeated
-        if self.interrupted and not self.repeated:
-            self.repeated = True
+        if self.interrupt_counter > 0 and self.interrupt_counter < 2:
             # add reciting text to the shown text
+            self.full_text = random.choice(ds.RECITATION_DIALOGUES) + self.full_text
 
 
         self.letterbyletter()

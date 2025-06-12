@@ -17,6 +17,7 @@ EVENTS = {
     "DIALOGUE_ANSWER": "dialogue_answer",
     "FREEZE_CONTROLS" : "freeze_controls",
     "AVALOGUE_COLLISION": "avalogue_collision",
+    "PAPER_REACH": "paper_reach",
     "AVALOGUE_MISTAKE": "avalogue_mistake",
     "AVALOGUE_CONGRATULATIONS": "avalogue_congratulations",
     "COUNTDOWN": "countdown",

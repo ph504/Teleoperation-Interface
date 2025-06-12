@@ -375,8 +375,8 @@ def server_program():
                     
                         print("*** Arya From connected user: " + data)
                         if int(data) == 0:
-                            logger.Logger.log("calibration", 1) # type: ignore
-                            event_manager.EventManager.post_event("activate_calibration", -1) # type: ignore
+                            logger.Logger.log("paper", 1) # type: ignore
+                            event_manager.EventManager.post_event("paper_reach", -1) # type: ignore
                         else:
                             logger.Logger.log("collision", data) # type: ignore
                             event_manager.EventManager.post_event("avalogue_collision", data) # type: ignore

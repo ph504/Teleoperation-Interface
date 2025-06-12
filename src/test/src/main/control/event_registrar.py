@@ -97,6 +97,9 @@ class EventRegistrar:
             event_model.EVENTS["FREEZE_CONTROLS"]: [
                 lambda switch : rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch), 
             ],
+            event_model.EVENTS["PAPER_REACH"]: [
+                lambda widgets : widgets['avalogue'].paper_reach()
+            ],
             event_model.EVENTS["AVALOGUE_COLLISION"]: [
                 lambda widgets : widgets['avalogue'].on_collision()
             ],

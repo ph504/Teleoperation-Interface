@@ -206,8 +206,11 @@ class AvalogueController():
         self.avalogue_stack.append((avatar_obj, dialogue_obj))
    
 
-    def on_congrats(self, dummy):
-        self.set_avalogue("r_happy", "congrats")
+    # def on_congrats(self, dummy):
+    #     self.set_avalogue("r_happy", "congrats")
+
+    def paper_reach(self, dummy):
+        self.set_avalogue("r_happy", "paper")
     
     def on_collision(self, dummy):
         # disable controls because we want the controls to freeze if we have collision, to grab extra attention

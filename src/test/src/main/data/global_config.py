@@ -68,20 +68,20 @@ def get_collision_sound():
     
     return pain_sound
 
-ds1_scoreloss_nonsocial = 200
-ds2_scoreloss_nonsocial = 250
-ds3_scoreloss_nonsocial_ai = 150
-ds3_scoreloss_nonsocial_h = 175
+# ds1_scoreloss_nonsocial = 200
+# ds2_scoreloss_nonsocial = 250
+# ds3_scoreloss_nonsocial_ai = 150
+# ds3_scoreloss_nonsocial_h = 175
 
-#Social - DS1 for Human and DS2 for AI
-ds1_scoreloss_social = 250
-ds2_scoreloss_social = 200
-ds3_scoreloss_social_ai = 150
-ds3_scoreloss_social_h = 175
+# #Social - DS1 for Human and DS2 for AI
+# ds1_scoreloss_social = 250
+# ds2_scoreloss_social = 200
+# ds3_scoreloss_social_ai = 150
+# ds3_scoreloss_social_h = 175
 
 
-jackalai_active = False
-danger_mode = False
+# jackalai_active = False
+# danger_mode = False
 
 freeze = True
 

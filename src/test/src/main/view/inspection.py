@@ -59,9 +59,6 @@ class InspectionPage():
          self.btn_validate.configure(state=tk.ACTIVE)
          
     def validate(self):
-            
-            
-
             string = str(self.entry_lbl.get())
             self.entry_lbl.delete(0, len(string))
             
