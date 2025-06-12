@@ -4,10 +4,11 @@ extend_path_to_root()
 import dialogue
 import avatar_view
 from main.control import event_manager
-from main.data import global_config as gv
 from collections import deque
 from main.utils import utils
 import tkinter as tk
+from main.data import global_config as gv
+from main.data import dialogue_statics as ds
 state_dict = {
     # avatar is showing
     "showing": 0, 
@@ -167,15 +168,15 @@ class AvalogueController():
     def set_controls(self, d_key):
         # print(f"*** ARYA DEBUG LOG :: --- set_controls {d_key}")
         # this is to set the controls for the dialogue
-        if d_key not in ds.DISABLE_CONTROL_DIALOGUE_KEYS:
+        if d_key in ds.DISABLE_CONTROL_DIALOGUE_KEYS:
             # print(f"*** ARYA DEBUG LOG :: --- enable controls {d_key}")
-            event_manager.EventManager.post_event("enable_controls", True)
-            # event_manager.EventManager.post_event("set_btnpress_name", "btn_press")
-            # timer resume or start
-        elif d_key in ds.DISABLE_CONTROL_DIALOGUE_KEYS:
-            event_manager.EventManager.post_event("enable_controls", False)
-            # event_manager.EventManager.post_event("set_btnpress_name", "btn_press")
+            event_manager.EventManager.post_event("freeze_controls", True)
             # timer pause
+        elif d_key in ds.ALL_DIALOGUE_KEYS:
+            event_manager.EventManager.post_event("freeze_controls", False)
+            # timer resume or start
+        else:
+            raise ValueError(f"The key {d_key} is not in the list of dialogue keys {ds.ALL_DIALOGUE_KEYS}")
 
     def set_avalogue(self, a_key, d_key):
         # print(f"*** ARYA DEBUG LOG :: --- set_avalogue {d_key}")

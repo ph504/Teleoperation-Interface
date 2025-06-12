@@ -91,7 +91,7 @@ DISABLE_CONTROL_DIALOGUE_KEYS = [
                     "timer_3",
                     "end_tutorial",
                     "end_experiment"
-]
+                    ]
 
 RECITATION_DIALOGUES = [
                     "yes, as I was saying...",

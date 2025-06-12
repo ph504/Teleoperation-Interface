@@ -14,7 +14,7 @@ import playsound
 from main.data import global_config
 from main.control import event_manager
 from main.data import global_statics as gs
-from main.data import dialogue_statics as ds
+# from main.data import dialogue_statics as ds
 
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
