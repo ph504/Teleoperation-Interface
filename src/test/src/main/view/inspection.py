@@ -88,8 +88,7 @@ class InspectionPage():
                         self.code_list.remove(string)
 
                     self.code_list_used.append(string)
-                    # self.task_count += 1
-                    # self.task_canvas.plus()
+                    event_manager.EventManager.post_event("inspection_success", -1)
             
             elif string not in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!") # type: ignore

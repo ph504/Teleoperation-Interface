@@ -60,6 +60,7 @@ EVENTS = {
     "THRESHOLD_CROSS_DANGER": "threshold_cross_danger",
     "COLLISION_HIT": "collision_hit",
     "WRONG_ENTRY": "wrong_entry",
+    "INSPECT_SUCCESS": "inspect_success",
     "DUPLICATE_ENTRY": "duplicate_entry",
     "LABEL_CAMERA_SWITCH": "label_camera_switch",
     "TOGGLE_BAR": "toggle_bar",
