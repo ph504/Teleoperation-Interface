@@ -11,8 +11,8 @@ from collections import deque
 import threading
 import random
 import playsound
-from main.data import global_config
 from main.control import event_manager
+from main.data import global_config as gc
 from main.data import global_statics as gs
 # from main.data import dialogue_statics as ds
 
@@ -312,8 +312,9 @@ class DialogueObject():
                     time.sleep(self.space_pause)
                 else:
                     #playsound.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
-                    time.sleep(global_config.beep_sliced_sound.get_length() * 1.5)
-                    global_config.beep_sliced_sound.play()
+                    sound = gc.get_talking_sound()
+                    time.sleep(sound.get_length() * 1.5)
+                    sound.play()
 
                 self.update_texts(l)
         
@@ -330,8 +331,8 @@ class DialogueObject():
                     continue
                 self.event.wait()
                 time.sleep(self.space_pause)
-                sound = random.choice(global_config.animalese_sound)
                 time.sleep(sound.get_length() - 2*self.space_pause)
+                sound = gc.get_talking_sound()
                 sound.play()
         else:
             pass # TODO should raise error

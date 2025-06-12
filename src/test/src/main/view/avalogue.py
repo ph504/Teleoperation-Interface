@@ -2,13 +2,14 @@ from main.utils.path_setup import extend_path_to_root
 extend_path_to_root()
 
 import random
+import time
 import dialogue
 import avatar_view
 from main.control import event_manager
 from collections import deque
 from main.utils import utils
 import tkinter as tk
-from main.data import global_config as gv
+from main.data import global_config as gc
 from main.data import dialogue_statics as ds
 state_dict = {
     # avatar is showing
@@ -43,7 +44,7 @@ class AvalogueController():
 
         # this is to control the flow of the avalogue in the update loop
         self.state = state_dict["finished"]
-        self.is_interrupted = False
+        self.interrupt_ongoing = False
 
         # EventManager.subscribe("congratulations", self.on_congrats)
         # EventManager.subscribe("mistake", self.on_mistake)
@@ -81,17 +82,17 @@ class AvalogueController():
                 self.start_dialogue()
                 # print(f"*** ARYA DEBUG LOG :: --- a new avalogue is added to stack {self.curr_avalogue[1]}")
                 self.state = state_dict["showing"]
-                self.is_interrupted = False
+                self.interrupt_ongoing = False
             
         else:
             self.update_view()
             # if there was an interrupt, 
             # we should call start letter by letter... 
             # but shouldnt do that if it was interrupted more than once
-            if not self.is_interrupted:
+            if not self.interrupt_ongoing:
                 self.polling_avalogue_stack()
                 self.state = state_dict["showing"]
-                self.is_interrupted = True
+                self.interrupt_ongoing = True
 
 
         if self.state == state_dict["wait_button"]:
@@ -184,7 +185,7 @@ class AvalogueController():
         # there should be a better solution
         # self.d_view.set_key(d_key)
         self.set_controls(d_key)
-        
+
         avatar_obj  = self.a_model.find_obj(a_key)
         
         dialogue_obj = self.d_model.find_obj(d_key, self)
@@ -206,6 +207,9 @@ class AvalogueController():
         d_key = random.choice(ds.COLLISION_DIALOGUE_KEYS)
         self.set_avalogue("r_sad",d_key)
         # play error sound depending on the sociality
+        sound = gc.get_collision_sound()
+        sound.play()
+        time.sleep(1.5)
 
         
         

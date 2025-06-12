@@ -379,7 +379,7 @@ def server_program():
                             event_manager.EventManager.post_event("activate_calibration", -1) # type: ignore
                         else:
                             logger.Logger.log("collision", data) # type: ignore
-                            event_manager.EventManager.post_event("collision", data) # type: ignore
+                            event_manager.EventManager.post_event("avalogue_collision", data) # type: ignore
             
             except Exception as e:
                 print("ERROR happened: " + str(e))  

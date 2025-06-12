@@ -2,7 +2,8 @@ from main.utils import ros_guard as rg
 if rg.HAS_ROS:
     from pickle5 import pickle
 
-# from types import SimpleNamespace
+# from types import SimpleNamespace'
+import random
 import pygame
 from playsound import playsound
 
@@ -55,7 +56,17 @@ error_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Int
 pain_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/s_error.wav")
 inspect_succ_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/inspect_succ.wav")
 
+def get_talking_sound():
+    if not social_mode:
+        return beep_sliced_sound
+    
+    return random.choice(animalese_sound)
 
+def get_collision_sound():
+    if not social_mode:
+        return error_sound
+    
+    return pain_sound
 
 ds1_scoreloss_nonsocial = 200
 ds2_scoreloss_nonsocial = 250
