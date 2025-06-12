@@ -32,9 +32,9 @@ def callback(data):
     global twist
     # print('yesysytesyseyseyseyesysyesysey')
     # forward backward motion   
-    twist.linear.x = -2 * data.axes[1]
+    twist.linear.x = data.axes[1]
     # turning motion
-    twist.angular.z = 2 * data.axes[0]      
+    twist.angular.z = data.axes[0]      
 
 def start():
         if rg.HAS_ROS:
