@@ -159,7 +159,7 @@ class DialogueView():
         event_manager.EventManager.post_event("dialogue_answer", self.widgets)
 
         # there should be a better solution to this
-        print(f"***ARYA DEBUG LOG :: the dialogue key is {self.key}")
+        # print(f"***ARYA DEBUG LOG :: the dialogue key is {self.key}")
         # if(self.key == "timer_1" or self.key not in ): 
         #     event_manager.EventManager.post_event("freeze_controls", False)
 
@@ -355,7 +355,6 @@ class DialogueObject():
         if self.interrupt_counter > 0 and self.interrupt_counter < 2:
             # add reciting text to the shown text
             self.full_text = random.choice(ds.RECITATION_DIALOGUES) + self.full_text
-
 
         self.letterbyletter()
         self.event.set()
