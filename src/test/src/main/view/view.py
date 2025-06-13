@@ -207,7 +207,7 @@ def main():
     
 
     if gv.tutorial_mode: 
-        bind_keyboard(root, widgets['camera_front'], widgets['jackal_ai'])
+        bind_keyboard(root)
 
     
     # TODO
@@ -273,14 +273,14 @@ def widget_init(root, tab1, tab2):
             widgets['dialogue_model'] = None
         widgets['dialogue_text'] = None
 
-    def initialize_misc_components():
+    def initialize_misc_components(avalogue):
         # widgets['flashing_image'] = flashing_image.FlashingImage(root, gs.flashing_image_info)
-        widgets['inspection_page'] = inspection.InspectionPage(tab2)
+        widgets['inspection_page'] = inspection.InspectionPage(tab2, avalogue)
 
 
-    def initialize_ai():
-        widgets['jackal_ai'] = jackal_ai_controller.JackalAI(root)
-        widgets['user_ai'] = userAI.UserAI(root)
+    # def initialize_ai():
+        # widgets['jackal_ai'] = jackal_ai_controller.JackalAI(root)
+        # widgets['user_ai'] = userAI.UserAI(root)
 
     # def initialize_finite_statemachine():   
     #     if not gv.tutorial_mode:
@@ -300,15 +300,15 @@ def widget_init(root, tab1, tab2):
     initialize_canvases()
     initialize_labels()
     initialize_dialogue_system()
-    initialize_misc_components()
-    initialize_ai()
+    initialize_misc_components(widgets["avalogue"])
+    # initialize_ai()
     # initialize_finite_statemachine()
 
     return widgets
 #############################################################################
 
 #############################################################################
-def bind_keyboard(tab1, camera_front, jackal_ai):
+def bind_keyboard(tab1):
 # def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
     
     if not gv.practice_mode:

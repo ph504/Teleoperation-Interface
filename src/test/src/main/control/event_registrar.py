@@ -119,7 +119,7 @@ class EventRegistrar:
                 lambda widgets : widgets['inspection_page'].try_again()
             ],
             event_model.EVENTS["INSPECTION_SUCCESS"]: [
-                lambda widgets : widgets['avalogue'].on_success()
+                lambda avalogue : avalogue.on_success()
             ],
             event_model.EVENTS["CLEAR_WAIT_FLAG"]: [
                 lambda widgets : widgets['inspection_page'].clear_wait_flag()

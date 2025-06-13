@@ -331,8 +331,8 @@ class DialogueObject():
                     continue
                 self.event.wait()
                 time.sleep(self.space_pause)
-                time.sleep(sound.get_length() - 2*self.space_pause)
                 sound = gc.get_talking_sound()
+                time.sleep(sound.get_length() - 2*self.space_pause)
                 sound.play()
         else:
             pass # TODO should raise error
