@@ -79,6 +79,13 @@ class AvatarModel():
                 for row in csv_reader:
                     if row['key'] == key:
                         return AvatarReactive(row)
+                    
+
+    def get_idle_avatar(self, avatar):
+        if avatar.emotion == "sad":
+            return self.find_obj("i_sad")
+        else:
+            return self.find_obj("i_default")
 
 #TODO: Avatar Object should be created in the model not in controller
 class AvatarController(object):

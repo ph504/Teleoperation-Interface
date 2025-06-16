@@ -24,13 +24,18 @@ class BaseButton():
         self.height = info_dict["height"]
         self.text = info_dict["text"]
         self.wraplength = info_dict["wraplength"]
+        self.font = info_dict["font"]
         self.button = Button(r,  
                              activebackground=gs.HOVER, 
                              activeforeground=gs.FG_COLOR,             
                              highlightbackground=gs.FG_COLOR,bg=gs.FG_COLOR, 
                              fg=gs.DARK_BG, 
                              text= self.text, 
-                             wraplength=self.wraplength)
+                             wraplength=self.wraplength,
+                             font=self.font,
+                             padx=12,
+                             pady=10
+                            )
 
         # font = tkFont.Font(font=("Helvetica", 12, "bold"))
         # text_width = font.measure(self.text)
@@ -343,7 +348,7 @@ class DialogueObject():
         #     self.wipe(self.wipe_time)
         
     def pause_letterbyletter(self, state):
-        self.curr_avalogue[1].interrupt_counter += 1
+        self.interrupt_counter += 1
         self.state = state
         self.event.clear()
 

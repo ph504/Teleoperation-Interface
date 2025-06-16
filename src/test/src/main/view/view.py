@@ -142,9 +142,7 @@ def main():
     tabControl.add(tab2, text = "Inspection")
     tabControl.place(x = 5, y = 5, width=width ,height=height)
     # TODO: uncomment, commented for debugging.
-    # fake collision detector, woz style
-    x = threading.Thread(target=server_program)
-    x.start()
+    
     
     if camera.camera_available() and rg.HAS_ROS: 
         rospy.init_node("viewer", anonymous= True)
@@ -157,7 +155,6 @@ def main():
         x = rospy.wait_for_message("/axis/state", ac_msg.Axis).pan
         print("Initial angle: " + str(x))
 
-
     global cs, dialogue_end
     cs = 0
     dialogue_end = 0
@@ -165,6 +162,12 @@ def main():
     widgets = widget_init(root, tab1, tab2)
 
     event_registrar.EventRegistrar.register_events()
+    
+    # fake collision detector, woz style
+    # controls vision stuff, like reaching the sensor 
+    # or detecting collisions via the signals sent from experimenter
+    x = threading.Thread(target=server_program, args=(widgets["avalogue"],))
+    x.start()
     
     def freeze(dummy = 0):
         pub.publish(True)
@@ -236,7 +239,8 @@ def widget_init(root, tab1, tab2):
         widgets['camera_front'] = camera.CameraView(tab1, gs.front_camera_info, camera.camera_available(), "flir")
 
     def initialize_buttons():
-        widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)
+        pass
+        # widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)
 
     def initialize_canvases():
         # widgets['countdown'] = flashing_image.CountdownCanvas(root, gs.countdown_info)
@@ -247,7 +251,7 @@ def widget_init(root, tab1, tab2):
         widgets['big_label'] = labels.CameraLabel(tab1, gs.big_camera_label)
         widgets['calibrate_label'] = labels.CalibrateLabel(root, gs.clbr_label, "")
         # TODO idk what to do with this
-        widgets['calibrate_button'].add_event(widgets['calibrate_label'].activate)
+        # widgets['calibrate_button'].add_event(widgets['calibrate_label'].activate)
 
         timer_label = tk.Label(root, text=gs.timer_label_info["text"], font=gs.timer_label_info["font"], fg=gs.timer_label_info["text_color"], bg=gs.DARK_BG)
         timer_label.place(x = gs.timer_label_info["x"], y = gs.timer_label_info["y"], width=gs.timer_label_info["width"], height=gs.timer_label_info["height"])
@@ -344,7 +348,7 @@ def change_scan_mode():
     camera.CameraView.scan_mode = not camera.CameraView.scan_mode
     print(camera.CameraView.scan_mode)
 
-def server_program():
+def server_program(widgets):
     socketserver.TCPServer.allow_reuse_address = True
 
     # collision detector device
@@ -376,10 +380,10 @@ def server_program():
                         print("*** Arya From connected user: " + data)
                         if int(data) == 0:
                             logger.Logger.log("paper", 1) # type: ignore
-                            event_manager.EventManager.post_event("paper_reach", -1) # type: ignore
+                            event_manager.EventManager.post_event("paper_reach", widgets) # type: ignore
                         else:
                             logger.Logger.log("collision", data) # type: ignore
-                            event_manager.EventManager.post_event("avalogue_collision", data) # type: ignore
+                            event_manager.EventManager.post_event("avalogue_collision", widgets) # type: ignore
             
             except Exception as e:
                 print("ERROR happened: " + str(e))  

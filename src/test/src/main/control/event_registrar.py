@@ -19,8 +19,11 @@ from tkinter import DISABLED as tk_DISABLED
 class EventRegistrar:
     # def register_all(widgets):
     #     pass
+    
     @staticmethod
     def register_events():
+        
+        # rospy.init_node('event_registrar_node', anonymous=True)
         
         def on_freeze_all(widgets): 
             # for all the selected widgets, make them frozen
@@ -39,6 +42,11 @@ class EventRegistrar:
         def on_unfreeze(widget_name, widgets):
             # activate frozen/deactivated widget
             widgets[widget_name].config(state=tk_ACTIVE)
+
+        def on_freeze_controls(switch):
+            # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
+            rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
+
 
         # updates the timestamp for the logger
         # time is string type
@@ -95,13 +103,13 @@ class EventRegistrar:
                 lambda widgets : widgets['avalogue'].btnpress_event()
             ],
             event_model.EVENTS["FREEZE_CONTROLS"]: [
-                lambda switch : rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch), 
+                lambda switch : on_freeze_controls(switch), 
             ],
             event_model.EVENTS["PAPER_REACH"]: [
-                lambda widgets : widgets['avalogue'].paper_reach()
+                lambda avalogue : avalogue.paper_reach()
             ],
             event_model.EVENTS["AVALOGUE_COLLISION"]: [
-                lambda widgets : widgets['avalogue'].on_collision()
+                lambda avalogue : avalogue.on_collision()
             ],
             event_model.EVENTS["AVALOGUE_MISTAKE"]: [
                 lambda widgets : widgets['avalogue'].on_mistake() 
