@@ -45,14 +45,13 @@ def start():
         
         
 
-        print(f"*** ARYA DEBUG LOG :: freeze being invoked {gc.freeze}")
+        # print(f"*** ARYA DEBUG LOG :: freeze being invoked {gc.freeze}")
         def freeze_manager(data):
-            print(data)
-            print(f"*** ARYA DEBUG LOG :: freeze manager is being invoked")
+            # print(data)
+            # print(f"*** ARYA DEBUG LOG :: freeze manager is being invoked")
             gc.freeze = data.data
 
 
-        print('[Arya] Wheel Node Activated!')
 
         if rg.HAS_ROS:
             rospy.init_node('teleop_wheel_node')
@@ -60,10 +59,11 @@ def start():
             
             rospy.Subscriber("freeze", std_msg.Bool , callback=freeze_manager)
             rospy.Subscriber("joy", sen_msg.Joy, callback)
+            print('[Arya] Wheel Node Activated!')
 
             rate = rospy.Rate(30)
 
-            print(f"** ARYA DEBUG LOG :: freeze? {gc.freeze}")
+            # print(f"** ARYA DEBUG LOG :: freeze? {gc.freeze}")
             while not rospy.is_shutdown():
                 # print(f"** ARYA DEBUG LOG :: freeze? {gc.freeze}")
 
