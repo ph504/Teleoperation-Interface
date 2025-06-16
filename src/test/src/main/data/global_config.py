@@ -36,19 +36,26 @@ pygame.mixer.init()
 
 
 beep_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/beep.wav")
-animalese_sound = [pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 1.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 2.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 3.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 4.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 5.wav"),
-                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 6.wav")]
+animalese_sound = [pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-01.wav"),
+                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-02.wav"),
+                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-03.wav"),
+                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-04.wav"),
+                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-05.wav"),
+                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-06.wav"),
+                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-07.wav"),
+                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-08.wav"),
+                   pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-09.wav"),]
 
-animalese_sound_dir =   [pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 1.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 2.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 3.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 4.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 5.wav"),
-                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/convo 6.wav")]
+animalese_sound_dir =   [
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-01.wav"),
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-02.wav"),
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-03.wav"),
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-04.wav"),
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-05.wav"),
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-06.wav"),
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-07.wav"),
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-08.wav"),
+                        pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/arya-giberish-09.wav")]
 
 beep_sliced_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
 danger_alarm_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/danger-alarm.wav")
