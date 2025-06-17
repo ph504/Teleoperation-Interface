@@ -60,7 +60,10 @@ animalese_sound_dir =   [
 beep_sliced_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
 danger_alarm_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/danger-alarm.wav")
 error_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/ns_error.wav")
-pain_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/ns_error.wav")
+pain_sounds = [pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/pain-noises-01.wav"),
+               pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/pain-noises-02.wav"),
+               pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/pain-noises-03.wav"),
+               pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/pain-noises-04.wav")]
 inspect_succ_sound = pygame.mixer.Sound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/inspect_succ.wav")
 
 def get_talking_sound():
@@ -73,7 +76,7 @@ def get_collision_sound():
     if not social_mode:
         return error_sound
     
-    return pain_sound
+    return random.choice(pain_sounds)
 
 # ds1_scoreloss_nonsocial = 200
 # ds2_scoreloss_nonsocial = 250
