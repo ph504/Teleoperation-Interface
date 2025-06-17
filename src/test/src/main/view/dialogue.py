@@ -360,6 +360,7 @@ class DialogueObject():
         if self.interrupt_counter > 0 and self.interrupt_counter < 2:
             # add reciting text to the shown text
             self.full_text = random.choice(ds.RECITATION_DIALOGUES) + self.full_text
+            print(f'*** ARYA DEBUG LOG :: full text: {self.full_text}')
 
         self.letterbyletter()
         self.event.set()
