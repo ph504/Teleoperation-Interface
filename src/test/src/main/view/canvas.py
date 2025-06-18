@@ -59,9 +59,10 @@ class TimerCanvas(BaseCanvas):
     def plus(self):
         sec = self.seconds
         sec = int(sec)
+        sec += 1
+        
         min = self.minutes
         min = int(min)
-        sec += 1
         
         if sec == 60:
             sec = 0

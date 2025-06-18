@@ -23,7 +23,8 @@ ALL_DIALOGUE_KEYS = [
                     "timer_2",
                     "timer_3",
                     "end_tutorial",
-                    "end_experiment"
+                    "end_experiment",
+                    "end"
                     ]
 
 ALL_ACTIVE_DIALOGUE_KEYS = [
@@ -93,20 +94,22 @@ DISABLE_CONTROL_DIALOGUE_KEYS = [
                     "end_experiment"
                     ]
 
+ENABLE_CONTROL_DIALOGUE_KEYS = [x for x in ALL_ACTIVE_DIALOGUE_KEYS if x not in DISABLE_CONTROL_DIALOGUE_KEYS]
+
 RECITATION_DIALOGUES = [
-                    "yes, as I was saying...",
-                    "where was I? ah, right...",
-                    "now, back to what I was saying...",
-                    "what was I talking about? oh yes—this.",
-                    "so anyway...",
-                    "let me continue...",
-                    "as I was mentioning earlier...",
-                    "oh right, I was saying...",
-                    "back to the point...",
-                    "picking up where I left off...",
-                    "getting back on track...",
-                    "where did we leave off?",
-                    "getting back to it..."
+                    "Yes, as I was saying...",
+                    "Where was I? ah, right...",
+                    "Now, back to what I was saying...",
+                    "What was I talking about? oh yes—this.",
+                    "So anyway...",
+                    "Let me continue...",
+                    "As I was mentioning earlier...",
+                    "Oh right, I was saying...",
+                    "Back to the point...",
+                    "Picking up where I left off...",
+                    "Getting back on track...",
+                    "Where did we leave off?",
+                    "Getting back to it..."
                     ]
 
 CODECHECK_DIALOGUE_KEYS = [

@@ -68,7 +68,7 @@ def init():
             
         else:
             gv.tutorial_mode = False
-            event_manager.EventManager.post_event("freeze", -1) # type: ignore
+            # event_manager.EventManager.post_event("freeze") # type: ignore
             sys.exit(1)
         
         if arg2 == "s":
@@ -86,10 +86,10 @@ def init():
         
         if arg3 == '1':
             gv.practice_mode = True
-            event_manager.EventManager.post_event("freeze", -1) # type: ignore
+            # event_manager.EventManager.post_event("freeze") # type: ignore
         elif arg3 == '0':
             gv.practice_mode = False
-            event_manager.EventManager.post_event("unfreeze", -1) # type: ignore
+            # event_manager.EventManager.post_event("unfreeze") # type: ignore
         else:
             print("Incorrect command or typo")
             sys.exit(1)
@@ -142,9 +142,7 @@ def main():
     tabControl.add(tab2, text = "Inspection")
     tabControl.place(x = 5, y = 5, width=width ,height=height)
     # TODO: uncomment, commented for debugging.
-    # fake collision detector, woz style
-    x = threading.Thread(target=server_program)
-    x.start()
+    
     
     if camera.camera_available() and rg.HAS_ROS: 
         rospy.init_node("viewer", anonymous= True)
@@ -157,14 +155,19 @@ def main():
         x = rospy.wait_for_message("/axis/state", ac_msg.Axis).pan
         print("Initial angle: " + str(x))
 
-
     global cs, dialogue_end
     cs = 0
     dialogue_end = 0
 
     widgets = widget_init(root, tab1, tab2)
 
-    event_registrar.EventRegistrar.register_events()
+    event_registrar.EventRegistrar.register_events(root, widgets)
+    
+    # fake collision detector, woz style
+    # controls vision stuff, like reaching the sensor 
+    # or detecting collisions via the signals sent from experimenter
+    x = threading.Thread(target=server_program, args=(widgets["avalogue"],))
+    x.start()
     
     def freeze(dummy = 0):
         pub.publish(True)
@@ -233,10 +236,11 @@ def widget_init(root, tab1, tab2):
 
     def initialize_camera_views():
         # widgets['view_back'] = camera.CameraView(tab1, gs.flir_info, camera.camera_available(), "flir")
-        widgets['camera_front'] = camera.CameraView(tab1, gs.front_camera_info, camera.camera_available(), "flir")
+        widgets['camera_front'] = camera.CameraView(tab1, gs.front_camera_info, camera.camera_available(), "axis")
 
     def initialize_buttons():
-        widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)
+        pass
+        # widgets['calibrate_button'] = button.BaseButton(root, gs.button_calibrate_info, activate=True, enable=False)
 
     def initialize_canvases():
         # widgets['countdown'] = flashing_image.CountdownCanvas(root, gs.countdown_info)
@@ -247,7 +251,7 @@ def widget_init(root, tab1, tab2):
         widgets['big_label'] = labels.CameraLabel(tab1, gs.big_camera_label)
         widgets['calibrate_label'] = labels.CalibrateLabel(root, gs.clbr_label, "")
         # TODO idk what to do with this
-        widgets['calibrate_button'].add_event(widgets['calibrate_label'].activate)
+        # widgets['calibrate_button'].add_event(widgets['calibrate_label'].activate)
 
         timer_label = tk.Label(root, text=gs.timer_label_info["text"], font=gs.timer_label_info["font"], fg=gs.timer_label_info["text_color"], bg=gs.DARK_BG)
         timer_label.place(x = gs.timer_label_info["x"], y = gs.timer_label_info["y"], width=gs.timer_label_info["width"], height=gs.timer_label_info["height"])
@@ -264,7 +268,7 @@ def widget_init(root, tab1, tab2):
             if not gv.tutorial_mode:
                 widgets['avalogue'].set_avalogue("t_default", "start_experiment")
             else:
-                widgets['avalogue'].set_avalogue("t_default", "intro_1")
+                widgets['avalogue'].set_avalogue("t_default", "control_2")
         else:
             widgets['avatar_view'] = None
             widgets['avatar_model'] = None
@@ -336,15 +340,7 @@ def start_tutorial(tab):
     tab.unbind_all('9')
     # t_fsm.initializing_to_start()
 
-def toggle_barcontroller():
-    gv.bar_controller = not gv.bar_controller
-    event_manager.EventManager.post_event("start_move_bars", -1) # type: ignore
-
-def change_scan_mode():
-    camera.CameraView.scan_mode = not camera.CameraView.scan_mode
-    print(camera.CameraView.scan_mode)
-
-def server_program():
+def server_program(widgets):
     socketserver.TCPServer.allow_reuse_address = True
 
     # collision detector device
@@ -361,6 +357,7 @@ def server_program():
                 conn, addr = s.accept() 
                 with conn:
                     print(f"Connected by {addr}")
+                    conn.settimeout(None)
                     while True:
                         try:
                             data = conn.recv(1024)
@@ -376,10 +373,10 @@ def server_program():
                         print("*** Arya From connected user: " + data)
                         if int(data) == 0:
                             logger.Logger.log("paper", 1) # type: ignore
-                            event_manager.EventManager.post_event("paper_reach", -1) # type: ignore
+                            event_manager.EventManager.post_event("paper_reach") # type: ignore
                         else:
                             logger.Logger.log("collision", data) # type: ignore
-                            event_manager.EventManager.post_event("avalogue_collision", data) # type: ignore
+                            event_manager.EventManager.post_event("avalogue_collision") # type: ignore
             
             except Exception as e:
                 print("ERROR happened: " + str(e))  

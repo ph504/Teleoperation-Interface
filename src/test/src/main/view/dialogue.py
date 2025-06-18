@@ -24,13 +24,18 @@ class BaseButton():
         self.height = info_dict["height"]
         self.text = info_dict["text"]
         self.wraplength = info_dict["wraplength"]
+        self.font = info_dict["font"]
         self.button = Button(r,  
                              activebackground=gs.HOVER, 
                              activeforeground=gs.FG_COLOR,             
                              highlightbackground=gs.FG_COLOR,bg=gs.FG_COLOR, 
                              fg=gs.DARK_BG, 
                              text= self.text, 
-                             wraplength=self.wraplength)
+                             wraplength=self.wraplength,
+                             font=self.font,
+                             padx=12,
+                             pady=10
+                            )
 
         # font = tkFont.Font(font=("Helvetica", 12, "bold"))
         # text_width = font.measure(self.text)
@@ -156,7 +161,7 @@ class DialogueView():
     #btn 
     def button_press_event(self):
         # print(f"*** ARYA DEBUG LOG :: button pressed: {self.btn.text}")        # post event button press
-        event_manager.EventManager.post_event("dialogue_answer", self.widgets)
+        event_manager.EventManager.post_event("dialogue_answer")
 
         # there should be a better solution to this
         # print(f"***ARYA DEBUG LOG :: the dialogue key is {self.key}")
@@ -257,7 +262,7 @@ class DialogueObject():
             
         self.str_index= 0
         self.shown_text = ""
-        self.remaining_text = self.full_text
+        # self.remaining_text = self.full_text
         
         # if this is true, the dialogue will wait for a button press
         self.forced_reply = eval(dict_info["forced_reply"].lower().capitalize())
@@ -295,16 +300,27 @@ class DialogueObject():
         if mystr == "\\":
             mystr="\n"
         
+        # dirty code but i have no choice
+        # if self.shown_text+mystr != self.full_text[:self.str_index+1]:
+        #     if mystr=="\n":
+        #         print(f"*** ARYA DEBUG LOG :: my str was the enter character so it didn't get through")
+
+        #     print(f"*** ARYA DEBUG LOG :: it didn't get through, full text: {self.full_text[:self.str_index+1]}, shown text: {self.shown_text+mystr}")
+        #     return
+        
         self.shown_text += mystr
         # print("*Shown Text*; " + self.shown_text)
         
-
-
+    def recite_text(self):
+        self.shown_text = ""
+        if self.interrupt_counter>0 and self.interrupt_counter<2:
+            self.full_text = random.choice(ds.RECITATION_DIALOGUES) + " " + self.full_text
+        
     @utils.thread
     def letterbyletter(self):
         
         time.sleep(self.wait_before_start)
-
+        previous_interrupt_index = self.interrupt_counter
         if(self.sociality=='ns'):
             for l in self.full_text:
                 self.event.wait()
@@ -320,30 +336,45 @@ class DialogueObject():
         
         elif(self.sociality=='s'):
             # for every alternating word, play the sound
-            alternate = 0
-            for w in self.full_text.split():
-                # print(w)
-                alternate += 1
-                               
-                # word gap
-                self.update_texts(w+' ')
-                if alternate % 2 == 0:
-                    continue
-                self.event.wait()
-                time.sleep(self.space_pause)
-                sound = gc.get_talking_sound()
-                time.sleep(sound.get_length() - 2*self.space_pause)
-                sound.play()
+            while True:
+
+                alternate = 0
+                for w in self.full_text.split():
+                    if self.interrupt_counter>previous_interrupt_index:
+                        # a new interrupt has happened...
+                        # add the new recitation text after adding the old text
+                        break
+                    # print(w)
+                    alternate += 1
+                    self.str_index += 1
+                                
+                    # word gap
+                    self.update_texts(w+' ')
+                    if alternate % 5 != 0:
+                        continue
+                    self.event.wait()
+                    sound = gc.get_talking_sound()
+                    time.sleep(sound.get_length() - 2*self.space_pause)
+                    sound.play()
+                    time.sleep(self.space_pause)
+
+                if previous_interrupt_index == self.interrupt_counter:
+                    break
+                
+                self.recite_text()
+                previous_interrupt_index = self.interrupt_counter
+                
         else:
             pass # TODO should raise error
                 
-        event_manager.EventManager.post_event("dialogue_wait_response", self.widgets)
+        event_manager.EventManager.post_event("dialogue_wait_response")
         # if we are telling it to wait for a button press
         # if not self.forced_reply: 
         #     self.wipe(self.wipe_time)
+
         
     def pause_letterbyletter(self, state):
-        self.curr_avalogue[1].interrupt_counter += 1
+        self.interrupt_counter += 1
         self.state = state
         self.event.clear()
 
@@ -352,11 +383,11 @@ class DialogueObject():
         
         # means if it was interrupted before unpausing, or is this a new dialogue starting
         # if interrupted, how many times has it been interrupted, hence the use of repeated
-        if self.interrupt_counter > 0 and self.interrupt_counter < 2:
-            # add reciting text to the shown text
-            self.full_text = random.choice(ds.RECITATION_DIALOGUES) + self.full_text
-
-        self.letterbyletter()
+        # if self.interrupt_counter > 0 and self.interrupt_counter < 2:
+        #     # add reciting text to the shown text
+        #     self.recite_text()
+        if self.interrupt_counter==0:
+            self.letterbyletter()
         self.event.set()
        
     # @utils.thread

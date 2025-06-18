@@ -19,8 +19,11 @@ from tkinter import DISABLED as tk_DISABLED
 class EventRegistrar:
     # def register_all(widgets):
     #     pass
+    
     @staticmethod
-    def register_events():
+    def register_events(root, widgets):
+        
+        # rospy.init_node('event_registrar_node', anonymous=True)
         
         def on_freeze_all(widgets): 
             # for all the selected widgets, make them frozen
@@ -40,6 +43,15 @@ class EventRegistrar:
             # activate frozen/deactivated widget
             widgets[widget_name].config(state=tk_ACTIVE)
 
+        def on_freeze_controls(switch):
+            # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
+            rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
+
+        def inspection_success(widgets):
+            print(f"*** ARYA DEBUG LOG :: AVALOGUE IS THE PROBLEM THIS IS OKAY")
+            widgets["avalogue"].on_success()
+
+
         # updates the timestamp for the logger
         # time is string type
         def logger_timestamp(time):
@@ -56,58 +68,58 @@ class EventRegistrar:
                 # I changed the definition to the opposite, at it was ACTIVE before
 
                 # I don't know if the widgets arguments passing is necessary but I will try after fixing all this, getting one clean run should be the blessing
-                lambda widget_name, widgets : on_freeze(widget_name, widgets),
+                lambda widget_name : on_freeze(widget_name, widgets),
                 lambda : rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(True), 
                 
                 
             ],
             event_model.EVENTS["UNFREEZE"]: [
-                lambda widget_name, widgets : on_unfreeze(widget_name, widgets) 
+                lambda widget_name : on_unfreeze(widget_name, widgets) 
             ],
             event_model.EVENTS["FREEZE_ALL"]: [
-                lambda widgets : on_freeze_all(widgets)
+                lambda : on_freeze_all(widgets)
             ],
             event_model.EVENTS["UNFREEZE_ALL"]: [
-                lambda widgets : on_unfreeze_all(widgets)
+                lambda : on_unfreeze_all(widgets)
             ],
             # event_model.EVENTS["CALIBRATE"]: [
             #     lambda: ,
             # ]
             event_model.EVENTS["CALIBRATE_START"]: [
                 # probably two unrelated events
-                lambda widgets : widgets['timer_canvas'].start(),
+                lambda : widgets['timer_canvas'].start(),
                 # should probably disable using the unfreeze event
-                lambda widgets : widgets['calibrate_button'].enable(),
+                lambda : widgets['calibrate_button'].enable(),
             ],
             event_model.EVENTS["CALIBRATE_PAUSE"]: [
                 # probably two unrelated events
-                lambda widgets : widgets['timer_canvas'].stop(),
+                lambda : widgets['timer_canvas'].stop(),
                 # should probably disable using the freeze event
-                lambda widgets : widgets['calibrate_button'].disable(),
+                lambda : widgets['calibrate_button'].disable(),
             ],
             event_model.EVENTS["JOY"]: [
                 # lambda: widgets : ,
             ],
             event_model.EVENTS["DIALOGUE_WAIT_RESPONSE"]: [
-                lambda avalogue : avalogue.wait_for_button(),
+                lambda : widgets["avalogue"].wait_for_button(),
             ],
             event_model.EVENTS["DIALOGUE_ANSWER"]: [
-                lambda widgets : widgets['avalogue'].btnpress_event()
+                lambda : widgets['avalogue'].btnpress_event()
             ],
             event_model.EVENTS["FREEZE_CONTROLS"]: [
-                lambda switch : rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch), 
+                lambda switch : on_freeze_controls(switch), 
             ],
             event_model.EVENTS["PAPER_REACH"]: [
-                lambda widgets : widgets['avalogue'].paper_reach()
+                lambda : widgets["avalogue"].paper_reach()
             ],
             event_model.EVENTS["AVALOGUE_COLLISION"]: [
-                lambda widgets : widgets['avalogue'].on_collision()
+                lambda : widgets["avalogue"].on_collision()
             ],
             event_model.EVENTS["AVALOGUE_MISTAKE"]: [
-                lambda widgets : widgets['avalogue'].on_mistake() 
+                lambda : widgets['avalogue'].on_mistake() 
             ],
             event_model.EVENTS["AVALOGUE_CONGRATULATIONS"]: [
-                lambda widgets : widgets['avalogue'].on_congrats()
+                lambda : widgets['avalogue'].on_congrats()
             ],
             event_model.EVENTS["COUNTDOWN"]: [
                 lambda time : logger_timestamp(time)
@@ -116,24 +128,24 @@ class EventRegistrar:
             # but this doesn't make sense, because it's talking about count in canvas that I don't know what it is for. 
             # So I am curious what happens if I just remove that. same goes for congratulations
             event_model.EVENTS["TRY_AGAIN"]: [
-                lambda widgets : widgets['inspection_page'].try_again()
+                lambda : widgets['inspection_page'].try_again()
             ],
             event_model.EVENTS["INSPECTION_SUCCESS"]: [
-                lambda avalogue : avalogue.on_success()
+                lambda : inspection_success(widgets)
             ],
             event_model.EVENTS["CLEAR_WAIT_FLAG"]: [
-                lambda widgets : widgets['inspection_page'].clear_wait_flag()
+                lambda : widgets['inspection_page'].clear_wait_flag()
             ],
             event_model.EVENTS["USER_RESET"]: [
-                lambda widgets, canvas : widgets['user_ai'].bar_hit_slow(canvas)
+                lambda canvas : widgets['user_ai'].bar_hit_slow(canvas)
             ],
             event_model.EVENTS["YELLOW_MODE"]: [
-                lambda widgets, canvas : widgets['jackal_ai'].press_yellow(canvas),
-                lambda widgets, canvas : widgets['user_ai'].normal_counterback(canvas)
+                lambda canvas : widgets['jackal_ai'].press_yellow(canvas),
+                lambda canvas : widgets['user_ai'].normal_counterback(canvas)
             ],
             event_model.EVENTS["RED_INIT_MODE"]: [
-                lambda widgets, canvas : widgets['jackal_ai'].press_red_init(canvas),
-                lambda widgets, canvas : widgets['jackal_ai'].mode_switchter(canvas)
+                lambda canvas : widgets['jackal_ai'].press_red_init(canvas),
+                lambda canvas : widgets['jackal_ai'].mode_switchter(canvas)
             ],
             # # TODO check the type arg
             # event_model.EVENTS["STEP_ERROR_DANGER"]: [
@@ -144,17 +156,17 @@ class EventRegistrar:
             #     lambda widgets, type : widgets['jackal_ai'].second_round(type),
             # ],
             event_model.EVENTS["START_CNTDWN"]: [
-                lambda widgets : widgets['ui_fsm'].start_cntdwn(),
+                lambda : widgets['ui_fsm'].start_cntdwn(),
             ],
             # event_model.EVENTS["MANUAL_SECOND"]: lambda: ,
             # TODO check the type arg
             event_model.EVENTS["MANUAL_SECOND"]: [
-                lambda widgets, type : widgets['jackal_ai'].second_round(type),
-                lambda widgets, type : widgets['user_ai'].second_round(type),
+                lambda type : widgets['jackal_ai'].second_round(type),
+                lambda type : widgets['user_ai'].second_round(type),
             ],
             event_model.EVENTS["COLOR_TRANS"]: [
                 # lambda widgets : widgets['view_back'].color_transition(),
-                lambda widgets : widgets['camera_front'].color_transition(),
+                lambda : widgets['camera_front'].color_transition(),
                 # lambda widgets : widgets['circle_canvas'].color_transition(),
             ],
             # event_model.EVENTS["TALKING_STARTED"]: lambda: ,      # avatar raw disabled
@@ -174,7 +186,7 @@ class EventRegistrar:
             event_model.EVENTS["BUTTON_ACTIVATE"]: [
                 # lambda widgets, tag : widgets['manual_button'].enable_event(tag),
                 # lambda widgets, tag : widgets['auto_button'].enable_event(tag),
-                lambda widgets, tag : widgets['calibrate_button'].enable_event(tag),
+                lambda tag : widgets['calibrate_button'].enable_event(tag),
             ],
             # event_model.EVENTS["TASK_COUNT"]: lambda: ,               # score canvas was disabled.
             # event_model.EVENTS["STEP_ERROR"]: lambda: ,               # this is in the jackal ai controller code but it uses the bar canvas which was removed.
@@ -185,8 +197,8 @@ class EventRegistrar:
             # event_model.EVENTS["DUPLICATE_ENTRY"]: lambda: ,          # score canvas was disabled.
             # event_model.EVENTS["LABEL_CAMERA_SWITCH"]: lambda: ,
             event_model.EVENTS["LABEL_CAMERA_SWITCH"]: [
-                lambda widgets, tag : widgets['small_label'].switch_camera(),
-                lambda widgets, tag : widgets['big_label'].switch_camera(),
+                lambda tag : widgets['small_label'].switch_camera(),
+                lambda tag : widgets['big_label'].switch_camera(),
             ],
             # event_model.EVENTS["TOGGLE_BAR"]: lambda:                         # toggle bar is not apparent.
             # event_model.EVENTS["STATE_INITIALIZING"]: [ lambda widgets :],    # state disabled
@@ -200,6 +212,9 @@ class EventRegistrar:
             # event_model.EVENTS["STATE_DANGER3_START"]: lambda: ,              # state disabled
             # event_model.EVENTS["STATE_DANGER3_END"]: lambda: ,                # state disabled  
             # event_model.EVENTS["STATE_TERMINATION"]: lambda: ,                # state disabled  
+            event_model.EVENTS["TERMINATE"]: [
+                lambda : root.destroy()
+            ]
         }
         for event, handlers in event_handlers.items():
             event_manager.EventManager.register_event(event)

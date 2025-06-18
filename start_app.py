@@ -253,7 +253,7 @@ def start_app(args):
 def open_menu():
     root = tk.Tk()
     root.title("Teleop GUI Launcher")
-    root.geometry("500x500")
+    root.geometry("350x400")
     root.resizable(False, False)
     
     root.configure(bg=gs.DARK_BG)
@@ -301,11 +301,11 @@ def open_menu():
              fg=gs.FG_COLOR, insertbackground=gs.FG_COLOR).pack(pady=4)
     
 
-    # Participant ID
-    tk.Label(root, text="Enter Participant Name:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
-    participant_name_var = tk.StringVar()
-    tk.Entry(root, textvariable=participant_name_var, font=("Helvetica", 12), bg=gs.BOX_HIGHLIGHT,
-             fg=gs.FG_COLOR, insertbackground=gs.FG_COLOR).pack(pady=4)
+    # # Participant ID
+    # tk.Label(root, text="Enter Participant Name:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
+    # participant_name_var = tk.StringVar()
+    # tk.Entry(root, textvariable=participant_name_var, font=("Helvetica", 12), bg=gs.BOX_HIGHLIGHT,
+    #          fg=gs.FG_COLOR, insertbackground=gs.FG_COLOR).pack(pady=4)
     
 
     # Callback to launch

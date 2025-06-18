@@ -100,7 +100,7 @@ dialogueview_info_percent = {
     "y": 100 / original_height,
     "width": 450 / original_width,
     "height": 600 / original_height,
-    "font": ('Calibri', 10, 'bold', 'italic'),
+    "font": ('Calibri', 14, 'bold', 'italic'),
     "bg": DIALOGUE_BOX,
     "text_color": FG_COLOR,
     "wraplength": 450 / original_width,
@@ -113,6 +113,7 @@ dialogueview_info_percent = {
         "height": 100 / original_height,
         "text": "Button 1", 
         "wraplength": 200 / original_width,
+        "font": ('Calibri', 14, 'bold', 'italic'),
         
     },
 
@@ -123,6 +124,7 @@ dialogueview_info_percent = {
         "height": 100 / original_height,
         "text": "Button 2",
         "wraplength": 200 / original_width,
+        "font": ('Calibri', 14, 'bold', 'italic'),
     },
 
     "btn_info_percent": {   

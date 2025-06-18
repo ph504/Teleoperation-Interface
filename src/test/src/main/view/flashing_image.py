@@ -26,7 +26,7 @@ class CountdownCanvas(canvas.BaseCanvas):
         
 
     def start_countdown(self, dummy = 0):
-        event_manager.EventManager.post_event("unfreeze", -1)
+        event_manager.EventManager.post_event("unfreeze")
         
         if self.countdown == None:
             self.countdown = repeated_timer.RepeatedTimer(1, self.minus)
@@ -49,7 +49,7 @@ class CountdownCanvas(canvas.BaseCanvas):
         sec -= 1
         
         if sec == 0 and self.fsm.is_s6:
-           event_manager.EventManager.post_event("freeze", -1)
+           event_manager.EventManager.post_event("freeze")
            self.stop()
            
 

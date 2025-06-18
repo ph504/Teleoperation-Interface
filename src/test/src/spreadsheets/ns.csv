@@ -1,5 +1,5 @@
 sociality,key,next,btn_num,btn1_title,btn2_title,btn_title,random,forced_reply,wipe_time,wait_before_start,text
-ns,intro_1,intro_2,2,"Hi, I'm fine thanks! How are you?","Hello... I’m okay.",None,FALSE,TRUE,0,3,"Jackal platform :: FM06 :: activated."
+ns,intro_1,intro_2,2,"Start-up is confirmed.","Standing by.",None,FALSE,TRUE,0,3,"Jackal platform :: FM06 :: activated."
 ns,intro_2,intro_3,2,"Objective acknowledged. Awaiting additional details.","Objective confirmed.",None,FALSE,FALSE,5,0,"Operation is ready. Current objective is to scan equipment and for record keeping."
 ns,intro_3,intro_4,2,"User is ready to assist.","Confirmed.",None,FALSE,FALSE,5,0,"User assistance is required to complete the current task. Please confirm."
 ns,intro_4,intro_5,2,"User is ready for training.","Understood.",None,FALSE,FALSE,5,0,"Inspection training sequence has been initiated. For factory simulation, a maze layout has been deployed."

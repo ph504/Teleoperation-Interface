@@ -60,11 +60,12 @@ EVENTS = {
     "THRESHOLD_CROSS_DANGER": "threshold_cross_danger",
     "COLLISION_HIT": "collision_hit",
     "WRONG_ENTRY": "wrong_entry",
-    "INSPECTION_SUCCESS": "INSPECTION_SUCCESS",
+    "INSPECTION_SUCCESS": "inspection_success",
     "DUPLICATE_ENTRY": "duplicate_entry",
     "LABEL_CAMERA_SWITCH": "label_camera_switch",
     "TOGGLE_BAR": "toggle_bar",
-    "ACTIVATE_CALIBRATION": "activate_calibration"
+    "ACTIVATE_CALIBRATION": "activate_calibration",
+    "TERMINATE": "terminate"
 }
 
 # Example usage:

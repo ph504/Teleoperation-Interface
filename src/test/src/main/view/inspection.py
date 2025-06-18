@@ -65,7 +65,7 @@ class InspectionPage():
             if string in self.code_list_used:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg="yellow", text="This equipment has been validated before.") # type: ignore
                 logger.Logger.log("duplicated_entry", "N/A") # type: ignore
-                event_manager.EventManager.post_event("duplicate_entry")
+                event_manager.EventManager.post_event("duplicate_entry", -1)
                 self.delete_err_lbl()
 
         
@@ -82,18 +82,21 @@ class InspectionPage():
                     self.delete_err_lbl()
                     
                     if gv.tutorial_mode:
-                        
+                        # print(f"*** ARYA DEBUG LOG :: string is {string}")
                         self.tutorial_code_list.remove(string)
                     else:
+                        # print(f"*** ARYA DEBUG LOG ::  is {}")
                         self.code_list.remove(string)
 
+                    print(f"*** ARYA DEBUG LOG :: code list is {self.tutorial_code_list}")
                     self.code_list_used.append(string)
-                    event_manager.EventManager.post_event("inspection_success", -1)
+                    event_manager.EventManager.post_event("inspection_success")
+                    print(f"*** ARYA DEBUG LOG :: insection success")
             
             elif string not in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!") # type: ignore
                 logger.Logger.log("wrong_entry", "N/A") # type: ignore
-                event_manager.EventManager.post_event("wrong_entry")
+                event_manager.EventManager.post_event("wrong_entry", -1)
                 self.delete_err_lbl()
             
             if len(self.code_list) == 0:

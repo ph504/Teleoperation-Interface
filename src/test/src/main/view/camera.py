@@ -45,7 +45,6 @@ class CameraView():
         self.camera = camera
         self.state = "green"
         self.imagetk = None
-        self.is_front = None
         self.cam_available = cam_available
         if rg.HAS_ROS:
             self.bridge = CvBridge()
@@ -70,18 +69,14 @@ class CameraView():
             if self.camera == "flir":
                 rospy.loginfo("using flir")
                 self.flir_image = rospy.Subscriber("/camera/image_color/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
-                self.is_front = True
             else:
                 rospy.loginfo("using axis")
                 self.axis_image = rospy.Subscriber("axis/image_raw/compressed", sensor_msgs.msg.CompressedImage, self.update_image, queue_size=1)
-                self.is_front = False
         else:
             # if self.camera == "flir":
             #     self.flir_image = self.image_placeholder("flir")
-            #     self.is_front = False      
             # else:
             self.axis_image = self.image_placeholder(self.camera)
-            self.is_front = True
 
     def one_second_counter(self):
         
@@ -96,7 +91,6 @@ class CameraView():
         self.y = dict_info["y"]
         self.width = dict_info["width"]
         self.height = dict_info["height"]
-        self.is_front = not self.is_front
         self.frame.place_configure(x= self.x - self.border_thick, y = self.y - self.border_thick , width=self.width + self.border_thick * 2, height=self.height + self.border_thick * 2)
         self.imagewidget.place(x= 0, y= 0, width= self.width, height= self.height)
         
