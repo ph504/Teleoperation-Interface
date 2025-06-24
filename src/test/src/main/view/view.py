@@ -375,9 +375,12 @@ def server_program(widgets):
                         if int(data) == 0:
                             logger.Logger.log("paper", 1) # type: ignore
                             event_manager.EventManager.post_event("paper_reach") # type: ignore
-                        else:
+                        elif int(data) == 1:
                             logger.Logger.log("collision", data) # type: ignore
                             event_manager.EventManager.post_event("avalogue_collision") # type: ignore
+                        else:
+                            logger.Logger.log("anomally", data) # type: ignore
+                            event_manager.EventManager.post_event("emergency") # type: ignore
             
             except Exception as e:
                 print("ERROR happened: " + str(e))  

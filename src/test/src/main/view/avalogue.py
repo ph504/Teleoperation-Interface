@@ -252,6 +252,15 @@ class AvalogueController():
         # sound.play()
         # time.sleep(1.5)
 
+    def on_emergency(self):
+        # disable controls because we want the controls to freeze if we have collision, to grab extra attention
+        # event_manager.EventManager.post_event("enable_controls", False)
+        self.set_avalogue("r_sad", "emergency")
+        # play error sound depending on the sociality
+        sound = gc.get_emergency_sound()
+        sound.play()
+        time.sleep(1.5)
+
         
         
 

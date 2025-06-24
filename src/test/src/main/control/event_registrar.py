@@ -212,7 +212,10 @@ class EventRegistrar:
             # event_model.EVENTS["STATE_DECISION_OUTCOME"]: lambda: ,           # state disabled 
             # event_model.EVENTS["STATE_DANGER3_START"]: lambda: ,              # state disabled
             # event_model.EVENTS["STATE_DANGER3_END"]: lambda: ,                # state disabled  
-            # event_model.EVENTS["STATE_TERMINATION"]: lambda: ,                # state disabled  
+            # event_model.EVENTS["STATE_TERMINATION"]: lambda: ,                # state disabled
+            event_model.EVENTS["EMERGENCY"]: [
+                lambda : widgets['avalogue'].on_emergency()
+            ],  
             event_model.EVENTS["TERMINATE"]: [
                 lambda : root.destroy()
             ]

@@ -65,6 +65,7 @@ EVENTS = {
     "LABEL_CAMERA_SWITCH": "label_camera_switch",
     "TOGGLE_BAR": "toggle_bar",
     "ACTIVATE_CALIBRATION": "activate_calibration",
+    "EMERGENCY": "emergency",
     "TERMINATE": "terminate"
 }
 
