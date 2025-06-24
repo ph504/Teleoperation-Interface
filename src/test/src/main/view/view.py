@@ -162,6 +162,11 @@ def main():
     widgets = widget_init(root, tab1, tab2)
 
     event_registrar.EventRegistrar.register_events(root, widgets)
+
+    if not gv.tutorial_mode:
+        widgets['avalogue'].set_avalogue("t_default", "start_experiment")
+    else:
+        widgets['avalogue'].set_avalogue("t_default", "intro_1")
     
     # fake collision detector, woz style
     # controls vision stuff, like reaching the sensor 
@@ -236,7 +241,7 @@ def widget_init(root, tab1, tab2):
 
     def initialize_camera_views():
         # widgets['view_back'] = camera.CameraView(tab1, gs.flir_info, camera.camera_available(), "flir")
-        widgets['camera_front'] = camera.CameraView(tab1, gs.front_camera_info, camera.camera_available(), "axis")
+        widgets['camera_front'] = camera.CameraView(tab1, gs.front_camera_info, camera.camera_available(), "flir")
 
     def initialize_buttons():
         pass
@@ -265,10 +270,6 @@ def widget_init(root, tab1, tab2):
 
             widgets['avalogue'] = avalogue.AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
 
-            if not gv.tutorial_mode:
-                widgets['avalogue'].set_avalogue("t_default", "start_experiment")
-            else:
-                widgets['avalogue'].set_avalogue("t_default", "control_2")
         else:
             widgets['avatar_view'] = None
             widgets['avatar_model'] = None

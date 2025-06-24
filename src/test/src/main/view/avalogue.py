@@ -53,8 +53,6 @@ class AvalogueController():
         self.update_loop()
 
     def btnpress_event(self):
-        
-
         self.d_view.deactivate_buttons(self.curr_avalogue[1].button_num)
         # key gets updated when we search for the key in the model
         # print(f"*** ARYA DEBUG LOG :: the next key is : {self.curr_avalogue[1].next}")
@@ -93,12 +91,15 @@ class AvalogueController():
             else:
                 # print("*** ARYA DEBUG LOG :: --- a new avalogue is added to stack")
                 self.start_dialogue()
+                self.set_controls(self.curr_avalogue[1].key)
+
                 # print(f"*** ARYA DEBUG LOG :: --- a new avalogue is added to stack {self.curr_avalogue[1]}")
                 self.state = state_dict["showing"]
                 self.interrupt_ongoing = False
             
         else:
             self.update_view()
+            self.set_controls(self.curr_avalogue[1].key)
             # if there was an interrupt, 
             # we should call start letter by letter... 
             # but shouldnt do that if it was interrupted more than once
@@ -149,8 +150,7 @@ class AvalogueController():
     def polling_avalogue_stack(self):
         # there is something in the stack and the current avalogue is not finished
         if self.avalogue_stack:
-            print(f" ***ARYA DEBUG LOG :: state interrupt happened")
-
+            # print(f" ***ARYA DEBUG LOG :: state interrupt happened")
             # change state of dialogue
             # change state of avalogue
             self.curr_avalogue[1].pause_letterbyletter(self.state)
@@ -182,7 +182,7 @@ class AvalogueController():
         self.a_view.set_image(img)
 
     def set_controls(self, d_key):
-        print(f"*** ARYA DEBUG LOG :: --- set_controls {d_key}")
+        # print(f"*** ARYA DEBUG LOG :: --- set_controls {d_key}")
 
         if d_key == "end":
             # terminate program
@@ -192,11 +192,12 @@ class AvalogueController():
 
         # this is to set the controls for the dialogue
         if d_key in ds.DISABLE_CONTROL_DIALOGUE_KEYS:
-            # print(f"*** ARYA DEBUG LOG :: --- enable controls {d_key}")
+            # print(f"*** ARYA DEBUG LOG :: --- disabled controls {d_key}")
             event_manager.EventManager.post_event("freeze_controls", True)
             # timer pause
             # pass
         elif d_key in ds.ALL_DIALOGUE_KEYS:
+            # print(f"*** ARYA DEBUG LOG :: --- enabled controls {d_key}")
             event_manager.EventManager.post_event("freeze_controls", False)
             # timer resume or start
         else:
@@ -206,7 +207,7 @@ class AvalogueController():
         # print(f"*** ARYA DEBUG LOG :: --- set_avalogue {d_key}")
         # there should be a better solution
         # self.d_view.set_key(d_key)
-        self.set_controls(d_key)
+        # self.set_controls(d_key)
 
         avatar_obj  = self.a_model.find_obj(a_key)
         

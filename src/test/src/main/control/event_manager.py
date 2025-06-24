@@ -41,7 +41,10 @@ class EventManager:
 
     @staticmethod
     def post_event(event_name, *args, **kwargs):
+        # print(f"*** ARYA DEBUG LOG :: subscribers: {EventManager._subscribers}")
         """Trigger event and call all subscribers."""
         if event_name in EventManager._subscribers:
             for handler in EventManager._subscribers[event_name]:
                 handler(*args, **kwargs)
+
+        # return EventManager._subscribers!={}

@@ -37,43 +37,42 @@ def callback(data):
     twist.angular.z = data.axes[0]      
 
 def start():
-        if rg.HAS_ROS:
-            global pub_jackal
-            global twist
-            
-            twist =  geo_msg.Twist()
+    if rg.HAS_ROS:
+        global pub_jackal
+        global twist
         
+        twist =  geo_msg.Twist()
+    
+    
+
+    # print(f"*** ARYA DEBUG LOG :: freeze being invoked {gc.freeze}")
+    def freeze_manager(data):
+        # print(f"*** ARYA DEBUG LOG :: freeze manager is being invoked and freeze is set to {data}")
+        gc.freeze = data.data
+
+
+
+    if rg.HAS_ROS:
+        rospy.init_node('teleop_wheel_node')
+        pub_jackal = rospy.Publisher('/cmd_vel', geo_msg.Twist, queue_size=1)
         
+        rospy.Subscriber("freeze", std_msg.Bool , callback=freeze_manager)
+        rospy.Subscriber("joy", sen_msg.Joy, callback)
+        print('[Arya] Wheel Node Activated!')
 
-        # print(f"*** ARYA DEBUG LOG :: freeze being invoked {gc.freeze}")
-        def freeze_manager(data):
-            # print(data)
-            # print(f"*** ARYA DEBUG LOG :: freeze manager is being invoked")
-            gc.freeze = data.data
+        rate = rospy.Rate(30)
 
-
-
-        if rg.HAS_ROS:
-            rospy.init_node('teleop_wheel_node')
-            pub_jackal = rospy.Publisher('/cmd_vel', geo_msg.Twist, queue_size=1)
-            
-            rospy.Subscriber("freeze", std_msg.Bool , callback=freeze_manager)
-            rospy.Subscriber("joy", sen_msg.Joy, callback)
-            print('[Arya] Wheel Node Activated!')
-
-            rate = rospy.Rate(30)
-
+        # print(f"** ARYA DEBUG LOG :: freeze? {gc.freeze}")
+        while not rospy.is_shutdown():
             # print(f"** ARYA DEBUG LOG :: freeze? {gc.freeze}")
-            while not rospy.is_shutdown():
-                # print(f"** ARYA DEBUG LOG :: freeze? {gc.freeze}")
 
-                # print(gc.freeze)
-                if not gc.freeze: pub_jackal.publish(twist)
-                # pub_jackal.publish(twist)
-                rate.sleep()
-             
+            # print(gc.freeze)
+            if not gc.freeze: pub_jackal.publish(twist)
+            # pub_jackal.publish(twist)
+            rate.sleep()
+            
 
-            rospy.spin()    
+        rospy.spin()    
 
 if __name__ == '__main__':   
         # global gc.freeze
