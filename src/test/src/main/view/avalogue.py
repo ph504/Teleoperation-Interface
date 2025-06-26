@@ -20,6 +20,7 @@ state_dict = {
     "wait_button": 1,
     # avatar is finshed
     "finished": 2,
+    # something unexpected has occured should wait for the signal
 }
 class AvalogueController():
     def __init__(self, frame, 
@@ -47,6 +48,7 @@ class AvalogueController():
         # this is to control the flow of the avalogue in the update loop
         self.state = state_dict["finished"]
         self.interrupt_ongoing = False
+        self.emergency = False
 
         # EventManager.subscribe("congratulations", self.on_congrats)
         # EventManager.subscribe("mistake", self.on_mistake)
@@ -57,19 +59,20 @@ class AvalogueController():
         # key gets updated when we search for the key in the model
         # print(f"*** ARYA DEBUG LOG :: the next key is : {self.curr_avalogue[1].next}")
         # print(f"*** ARYA DEBUG LOG :: the condition is : {self.curr_avalogue[1].next!=None}")
-        if self.curr_avalogue[1].next != "None":
-            # print(f"*** ARYA DEBUG LOG :: the next key is : {self.curr_avalogue[1].next}")
-            # print(f"*** ARYA DEBUG LOG :: the condition is : {self.curr_avalogue[1].next!=None}")
-            # print(f"*** ARYA DEBUG LOG :: the current key is : {self.curr_avalogue[1].key}")
+        if not self.emergency:
+            if self.curr_avalogue[1].next != "None":
+                # print(f"*** ARYA DEBUG LOG :: the next key is : {self.curr_avalogue[1].next}")
+                # print(f"*** ARYA DEBUG LOG :: the condition is : {self.curr_avalogue[1].next!=None}")
+                # print(f"*** ARYA DEBUG LOG :: the current key is : {self.curr_avalogue[1].key}")
 
-            self.set_avalogue("t_default", self.curr_avalogue[1].next)
-        # elif in the end, collision, and paper reach cases:
-        #     self.set_avalogue("i_default", self.curr_avalogue[1].key)
-        # we reset the avalogue because it's going to be assigned with the avalogue stack, in the update loop
-        # enble controls by default
-        self.set_controls(ds.ENABLE_CONTROL_DIALOGUE_KEYS[0])
-        self.curr_avalogue = None
-        self.state = state_dict["finished"]
+                self.set_avalogue("t_default", self.curr_avalogue[1].next)
+            # elif in the end, collision, and paper reach cases:
+            #     self.set_avalogue("i_default", self.curr_avalogue[1].key)
+            # we reset the avalogue because it's going to be assigned with the avalogue stack, in the update loop
+            # enble controls by default
+            self.set_controls(ds.ENABLE_CONTROL_DIALOGUE_KEYS[0])
+            self.curr_avalogue = None
+            self.state = state_dict["finished"]
         # set the next dialogue and avatar depending on the next_key
         
 
@@ -94,7 +97,7 @@ class AvalogueController():
                 self.set_controls(self.curr_avalogue[1].key)
 
                 # print(f"*** ARYA DEBUG LOG :: --- a new avalogue is added to stack {self.curr_avalogue[1]}")
-                self.state = state_dict["showing"]
+                # self.state = state_dict["showing"]
                 self.interrupt_ongoing = False
             
         else:
@@ -108,6 +111,7 @@ class AvalogueController():
                 self.polling_avalogue_stack()
 
 
+
         if self.state == state_dict["wait_button"]:
             # print("*** ARYA DEBUG LOG :: --- full text is shown and is either waiting for button or to wipe")
             # change the avatar to idle
@@ -118,8 +122,10 @@ class AvalogueController():
                 self.curr_avalogue = new_avalogue
 
             # enable the buttons to be pressed
-            # print("*** ARYA DEBUG LOG :: --- waiting for buttons, enable it and if talking it should be idle")
-            self.d_view.enable_buttons(self.curr_avalogue[1].button_num)
+            print("*** ARYA DEBUG LOG :: --- waiting for buttons, enable it and if talking it should be idle")
+            self.d_view.enable_buttons(self.curr_avalogue[1].button_num,
+                                       self.curr_avalogue[1].button1_title,
+                                       self.curr_avalogue[1].button2_title)
 
         # if not self.curr_avalogue[1].showing and not self.curr_avalogue[1].stopped:
         #     print(f"*** ARYA DEBUG LOG :: --- THIS HAPPENED waiting for start!!!!!!!!!")
@@ -153,6 +159,7 @@ class AvalogueController():
             # print(f" ***ARYA DEBUG LOG :: state interrupt happened")
             # change state of dialogue
             # change state of avalogue
+            self.d_view.disable_buttons(self.curr_avalogue[1].button_num)
             self.curr_avalogue[1].pause_letterbyletter(self.state)
             temp = self.curr_avalogue
             self.start_dialogue()
@@ -167,9 +174,11 @@ class AvalogueController():
     def start_dialogue(self):
         self.curr_avalogue = self.avalogue_stack.pop()
         self.curr_avalogue[1].start_letterbyletter()
-        if self.curr_avalogue[1].button_num != 0:
-            # print("4 --- if the previous avalogue had buttons, disable it")
-            self.d_view.disable_buttons(self.curr_avalogue[1].button_num)
+        self.state = self.curr_avalogue[1].state
+        print(f"*** ARYA DEBUG LOG :: state was {self.state}")
+        # if self.curr_avalogue[1].button_num != 0:
+        #     # print("4 --- if the previous avalogue had buttons, disable it")
+        #     self.d_view.disable_buttons(self.curr_avalogue[1].button_num)
 
     def update_view(self):
         self.d_view.set_sentence(self.curr_avalogue[1].shown_text)
@@ -214,7 +223,7 @@ class AvalogueController():
         dialogue_obj = self.d_model.find_obj(d_key, self)
         
         self.d_view.set_buttons(dialogue_obj.button_num, 
-                                dialogue_obj.button_title,
+                                # dialogue_obj.button_title,
                                 dialogue_obj.button1_title,
                                 dialogue_obj.button2_title)
         
@@ -255,12 +264,27 @@ class AvalogueController():
     def on_emergency(self):
         # disable controls because we want the controls to freeze if we have collision, to grab extra attention
         # event_manager.EventManager.post_event("enable_controls", False)
-        self.set_avalogue("r_sad", "emergency")
-        # play error sound depending on the sociality
-        sound = gc.get_emergency_sound()
-        sound.play()
-        time.sleep(1.5)
+        if not self.emergency:
+            self.set_avalogue("r_sad", "emergency")
+            gc.error_sound.play()
+            time.sleep(1.5)
+        else:
+            if self.curr_avalogue[1].next != "None":
+                # print(f"*** ARYA DEBUG LOG :: the next key is : {self.curr_avalogue[1].next}")
+                # print(f"*** ARYA DEBUG LOG :: the condition is : {self.curr_avalogue[1].next!=None}")
+                # print(f"*** ARYA DEBUG LOG :: the current key is : {self.curr_avalogue[1].key}")
 
+                self.set_avalogue("t_default", self.curr_avalogue[1].next)
+            # elif in the end, collision, and paper reach cases:
+            #     self.set_avalogue("i_default", self.curr_avalogue[1].key)
+            # we reset the avalogue because it's going to be assigned with the avalogue stack, in the update loop
+            # enble controls by default
+            self.set_controls(ds.ENABLE_CONTROL_DIALOGUE_KEYS[0])
+            self.curr_avalogue = None
+            self.state = state_dict["finished"]
+        
+        # toggle
+        self.emergency = not self.emergency
         
         
 

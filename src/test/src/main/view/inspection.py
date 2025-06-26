@@ -90,8 +90,8 @@ class InspectionPage():
 
                     print(f"*** ARYA DEBUG LOG :: code list is {self.tutorial_code_list}")
                     self.code_list_used.append(string)
-                    event_manager.EventManager.post_event("inspection_success")
-                    print(f"*** ARYA DEBUG LOG :: insection success")
+                    # event_manager.EventManager.post_event("inspection_success")
+                    # print(f"*** ARYA DEBUG LOG :: insection success")
             
             elif string not in self.code_list:
                 self.error_lbl.configure(font=('Helvetica', '12', 'bold'), fg = "red", text="The string you entered is not valid!") # type: ignore

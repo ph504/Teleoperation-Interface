@@ -182,13 +182,13 @@ class DialogueView():
     # def button_press_event_2(self):
     #     self.button_press_name_2 = self.btn2.text   
          
-    def set_buttons(self,num, text = "", text1 = "", text2= ""):
+    def set_buttons(self,num, text1 = "", text2= ""):
         if num == 0:
               return
-        elif num == 1:
-            #   self.btn.activate()
-              self.btn.set_text(text)
-              self.btn.add_event(self.button_press_event)
+        # elif num == 1:
+        #     #   self.btn.activate()
+        #       self.btn.set_text(text)
+        #       self.btn.add_event(self.button_press_event)
               
         elif num == 2:
             #  self.btn1.activate()
@@ -209,26 +209,30 @@ class DialogueView():
     #         self.btn1.deactivate()
     #         self.btn2.deactivate()
          
-    def enable_buttons(self, num):
+    def enable_buttons(self, num, text1="", text2=""):
         if num == 0:
             return
-        elif num == 1:
-            self.btn.activate()
-            self.btn.enable()
-        elif num == 2:
-            self.btn1.activate()
-            self.btn1.enable()
+        # elif num == 1:
+        #     self.btn.activate()
+        #     self.btn.enable()
+       
+        self.btn1.set_text(text1)
+        self.btn1.activate()
+        self.btn1.enable()
+
+        if num == 2:
+            self.btn2.set_text(text2)
             self.btn2.activate()
             self.btn2.enable()
     
     def disable_buttons(self, num):
         if num == 0:
               return
-        elif num == 1:
-              self.btn.disable()
-        elif num == 2:
-             self.btn1.disable()
-             self.btn2.disable()
+        # elif num == 1:
+        #       self.btn.disable()
+        # elif num == 2:
+        self.btn1.disable()
+        self.btn2.disable()
 
     def deactivate_buttons(self, num):
         if num == 0:

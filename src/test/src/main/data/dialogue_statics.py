@@ -24,6 +24,7 @@ ALL_DIALOGUE_KEYS = [
                     "timer_3",
                     "end_tutorial",
                     "end_experiment",
+                    "emergency",
                     "end"
                     ]
 
@@ -47,10 +48,15 @@ ALL_ACTIVE_DIALOGUE_KEYS = [
                     "collision_2",
                     "collision_3",
                     "end_tutorial",
+                    "emergency",
                     "end_experiment"
                     ]
 
 experimenter_invoked_dialogue_keys = [
+                    "emergency",
+                    "collision_1",
+                    "collision_2",
+                    "collision_3",
                     "encouragement_1",
                     "encouragement_2",
                     "timer_2",
@@ -90,6 +96,7 @@ DISABLE_CONTROL_DIALOGUE_KEYS = [
                     "encouragement_2",
                     "timer_2",
                     "timer_3",
+                    "emergency",
                     "end_tutorial",
                     "end_experiment"
                     ]
