@@ -14,7 +14,7 @@ class Logger():
     
     @staticmethod
     def generate_filename():
-        file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
+        file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface/"
         file_name += str(gc.participant)
         if gc.second_round:
             file_name += "_2"

@@ -236,7 +236,9 @@ class DialogueView():
         #       self.btn.disable()
         # elif num == 2:
         self.btn1.disable()
+        self.btn1.deactivate()
         self.btn2.disable()
+        self.btn2.deactivate()
 
     def deactivate_buttons(self, num):
         if num == 0:

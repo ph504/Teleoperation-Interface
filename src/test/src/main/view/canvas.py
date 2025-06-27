@@ -47,6 +47,7 @@ class TimerCanvas(BaseCanvas):
         self.start_time = 0
         self.elapsed_time_before_pause = 0
         self.running = False
+        # print(f"*** ARYA DEBUG LOG :: canvas? {self.canvas}")
         # self.countdown = None
         # self.stopwatch = threading.Event()
         # self.stopwatch.set()
@@ -65,6 +66,9 @@ class TimerCanvas(BaseCanvas):
             self.start_time = time.time()
             # self.elapsed_before_pause = 0
             self.running = True
+        
+        # print(f"*** ARYA DEBUG LOG :: timer started")
+        
         # if self.countdown == None:
         #     self.countdown = repeated_timer.RepeatedTimer(1, self.plus)
         # else:
@@ -122,20 +126,24 @@ class TimerCanvas(BaseCanvas):
     #     self.canvas.create_text(self.width/2, self.height/2, text= self.text, fill= self.text_color, font= self.font)
     
     def update_loop(self):
-        if self.running and self.start_time is not None:
-                elapsed = time.time() - self.start_time + self.elapsed_before_pause
-                mins = int(elapsed // 60)
-                secs = int(elapsed % 60)
-                formatted = f"{mins:02d}:{secs:02d}"
-                self.canvas.delete("all")
-                self.canvas.create_text(
-                    self.width / 2,
-                    self.height / 2,
-                    text=self.text,
-                    fill=self.text_color,
-                    font=self.font
-                )
-                logger.Logger.set_elapsed_time(formatted)
-                # event_manager.EventManager.post_event("countdown", formatted)
+        # print(f"*** ARYA DEBUG LOG :: timer running {self.running}")
+        # print(f"*** ARYA DEBUG LOG :: timer start time {self.start_time}")
+        if self.running:
+            # print(f"*** ARYA DEBUG LOG :: should start timer {self.text}")
+            
+            elapsed = time.time() - self.start_time + self.elapsed_time_before_pause
+            mins = int(elapsed // 60)
+            secs = int(elapsed % 60)
+            self.text = f"{mins:02d}:{secs:02d}"
+            self.canvas.delete("all")
+            self.canvas.create_text(
+                self.width / 2,
+                self.height / 2,
+                text=self.text,
+                fill=self.text_color,
+                font=self.font
+            )
+            logger.Logger.set_elapsed_time(self.text)
+            # event_manager.EventManager.post_event("countdown", formatted)
 
         self.canvas.after(1000, self.update_loop)

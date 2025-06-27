@@ -14,12 +14,12 @@ class Logger():
     
     @staticmethod
     def generate_filename():
-        file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
+        file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface/"
         file_name += str(gv.participant)
         # file_name += gv.round_number
         
         file_name += ".csv"
-        print(f"***ARYA DEBUG LOG :: filename is {file_name}")
+        # print(f"***ARYA DEBUG LOG :: filename is {file_name}")
         return file_name
         
     @staticmethod

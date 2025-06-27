@@ -1,3 +1,4 @@
+import sys
 # control/event_registrar.py
 from main.utils.path_setup import extend_path_to_root
 extend_path_to_root()
@@ -50,6 +51,9 @@ class EventRegistrar:
                 # freeze the time
                 widgets['timer_canvas'].pause()
             else:
+                # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
+                # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
+
                 widgets['timer_canvas'].start()
             rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
             # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
@@ -57,6 +61,10 @@ class EventRegistrar:
         def inspection_success(widgets):
             # print(f"*** ARYA DEBUG LOG :: AVALOGUE IS THE PROBLEM THIS IS OKAY")
             widgets["avalogue"].on_success()
+
+        def terminate():
+            root.destroy()
+            sys.exit(0)
 
 
         # updates the timestamp for the logger
@@ -223,7 +231,7 @@ class EventRegistrar:
                 lambda : widgets['avalogue'].on_emergency()
             ],  
             event_model.EVENTS["TERMINATE"]: [
-                lambda : root.destroy()
+                lambda : terminate()
             ]
         }
         for event, handlers in event_handlers.items():

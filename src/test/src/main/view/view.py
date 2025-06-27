@@ -50,7 +50,7 @@ csv_talking = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src
 csv_reactive = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
 
 def init():
-    # print("*** ARYA DEBUG LOG :: view started")
+    # print(f"*** ARYA DEBUG LOG :: view started -- args: {sys.argv}")
     # print(sys.argv)
     if len(sys.argv) != 4 and len(sys.argv) != 3:
         print("Argument length:" + str(len(sys.argv)))
@@ -67,6 +67,7 @@ def init():
             gv.tutorial_mode = True
             
         else:
+            # incorrect format
             gv.tutorial_mode = False
             # event_manager.EventManager.post_event("freeze") # type: ignore
             sys.exit(1)
@@ -166,7 +167,7 @@ def main():
     if not gv.tutorial_mode:
         widgets['avalogue'].set_avalogue("t_default", "start_experiment")
     else:
-        widgets['avalogue'].set_avalogue("t_default", "control_2")
+        widgets['avalogue'].set_avalogue("t_default", "intro_1")
     
     # fake collision detector, woz style
     # controls vision stuff, like reaching the sensor 
@@ -384,7 +385,7 @@ def server_program(widgets):
             
             except Exception as e:
                 print("ERROR happened: " + str(e))  
-                break      
+                # break      
     
 def change_angle(data, canvases):
     global prev_angle
