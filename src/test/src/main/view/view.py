@@ -166,7 +166,7 @@ def main():
     if not gv.tutorial_mode:
         widgets['avalogue'].set_avalogue("t_default", "start_experiment")
     else:
-        widgets['avalogue'].set_avalogue("t_default", "intro_1")
+        widgets['avalogue'].set_avalogue("t_default", "control_2")
     
     # fake collision detector, woz style
     # controls vision stuff, like reaching the sensor 
@@ -373,7 +373,7 @@ def server_program(widgets):
                     
                         print("*** Arya From connected user: " + data)
                         if int(data) == 0:
-                            logger.Logger.log("paper", 1) # type: ignore
+                            logger.Logger.log("paper", 0) # type: ignore
                             event_manager.EventManager.post_event("paper_reach") # type: ignore
                         elif int(data) == 1:
                             logger.Logger.log("collision", data) # type: ignore

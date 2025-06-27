@@ -18,7 +18,7 @@ s,congrats,None,2,None,None,None,False,FALSE,5,1,"placeholder dialogue testing, 
 s,collision_1,None,2,"Oh no! I'll be more careful.","Noted. I’ll try to keep that in mind.",None,False,FALSE,5,1,"Oof... that wall hit hard. I don’t really like colliding with things."
 s,collision_2,None,2,"Oh no! I'll be more careful.","Sorry.",None,False,FALSE,5,1,"Ouch!!"
 s,collision_3,None,2,"My bad! I need to avoid those.","That wasn't great... I'll do better.",None,False,FALSE,5,1,"That hurts!! Ahhh!"
-s,emergency,None,1,None,None,"Okay",False,FALSE,5,1,"Stop ...!"
+s,emergency,None,1,"Okay",None,None,False,FALSE,5,1,"Oh no! We went off the course!! Wait for a bit ...!"
 s,encouragement_1,None,2,"Thanks!","You're welcome.",None,False,FALSE,5,1,"We're making progress! Step by step. I feel great about this."
 s,encouragement_2,None,2,"It's been fun. You're great company!","You're welcome.",None,False,FALSE,5,1,"Thanks for sticking with me — I know I talk a lot when I'm nervous."
 s,timer_2,None,2,"We'll crush it","I have my eyes on it.",None,False,FALSE,5,1,"Hmm, I think we're doing okay on time… I think."

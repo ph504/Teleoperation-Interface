@@ -16,15 +16,16 @@ class Logger():
     def generate_filename():
         file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface"
         file_name += str(gv.participant)
-        if gv.second_round:
-            file_name += "_2"
-        else:
-            file_name += "_1"
+        # file_name += gv.round_number
         
         file_name += ".csv"
         print(f"***ARYA DEBUG LOG :: filename is {file_name}")
         return file_name
         
+    @staticmethod
+    def set_elapsed_time(time):
+        # print(f"***ARYA DEBUG LOG :: Elapsed Time is {Logger.elapsed_time}")
+        Logger.elapsed_time = time
 
     @staticmethod
     def log(event, value):    

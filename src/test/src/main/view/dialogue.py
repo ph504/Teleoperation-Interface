@@ -15,6 +15,7 @@ from main.control import event_manager
 from main.data import global_config as gc
 from main.data import global_statics as gs
 from main.data import dialogue_statics as ds
+from main.utils import logger
 
 class BaseButton():
     def __init__(self, r, info_dict, activate=True, enable = True):
@@ -139,8 +140,8 @@ class DialogueView():
         self.btn =  BaseButton(self.frame, dict_info["btn_info"], activate=False, enable=False)
 
         self.btn.add_event(self.button_press_event)
-        self.btn1.add_event(self.button_press_event)
-        self.btn2.add_event(self.button_press_event)
+        self.btn1.add_event(lambda:self.button_press_event(1))
+        self.btn2.add_event(lambda:self.button_press_event(2))
 
 
         self.display()
@@ -159,7 +160,10 @@ class DialogueView():
     # a lousy way to find out which button is pressed
     
     #btn 
-    def button_press_event(self):
+    def button_press_event(self, button_number):
+        value = f"A{button_number}@d_key={self.key}"
+        event = f"button_reposnse"
+        logger.Logger.log(event, value)
         # print(f"*** ARYA DEBUG LOG :: button pressed: {self.btn.text}")        # post event button press
         event_manager.EventManager.post_event("dialogue_answer")
 
@@ -193,11 +197,11 @@ class DialogueView():
         elif num == 2:
             #  self.btn1.activate()
              self.btn1.set_text(text1)
-             self.btn1.add_event(self.button_press_event)
+             self.btn1.add_event(lambda:self.button_press_event(1))
 
             #  self.btn2.activate()
              self.btn2.set_text(text2)
-             self.btn2.add_event(self.button_press_event)
+             self.btn2.add_event(lambda:self.button_press_event(2))
 
     # def hide_buttons(self, num):
     #     if num == 0:

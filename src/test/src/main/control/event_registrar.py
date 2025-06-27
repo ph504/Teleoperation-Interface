@@ -45,6 +45,12 @@ class EventRegistrar:
 
         def on_freeze_controls(switch):
             # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
+            if switch:
+                # freeze the teleop wheel
+                # freeze the time
+                widgets['timer_canvas'].pause()
+            else:
+                widgets['timer_canvas'].start()
             rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
             # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
 
@@ -55,8 +61,8 @@ class EventRegistrar:
 
         # updates the timestamp for the logger
         # time is string type
-        def logger_timestamp(time):
-            logger.Logger.elapsed_time = time
+        # def logger_timestamp(time):
+        #     logger.Logger.elapsed_time = time
 
         # def switch_controls(switch):
         #     print(f"*** ARYA DEBUG LOG :: freeze var is {teleop_wheel.freeze_var}")
@@ -122,9 +128,9 @@ class EventRegistrar:
             event_model.EVENTS["AVALOGUE_CONGRATULATIONS"]: [
                 lambda : widgets['avalogue'].on_congrats()
             ],
-            event_model.EVENTS["COUNTDOWN"]: [
-                lambda time : logger_timestamp(time)
-            ],
+            # event_model.EVENTS["COUNTDOWN"]: [
+            #     lambda time : logger_timestamp(time)
+            # ],
             # changes the wait flag to True, waits if the network connection is faulty, 
             # but this doesn't make sense, because it's talking about count in canvas that I don't know what it is for. 
             # So I am curious what happens if I just remove that. same goes for congratulations
@@ -137,17 +143,17 @@ class EventRegistrar:
             event_model.EVENTS["CLEAR_WAIT_FLAG"]: [
                 lambda : widgets['inspection_page'].clear_wait_flag()
             ],
-            event_model.EVENTS["USER_RESET"]: [
-                lambda canvas : widgets['user_ai'].bar_hit_slow(canvas)
-            ],
-            event_model.EVENTS["YELLOW_MODE"]: [
-                lambda canvas : widgets['jackal_ai'].press_yellow(canvas),
-                lambda canvas : widgets['user_ai'].normal_counterback(canvas)
-            ],
-            event_model.EVENTS["RED_INIT_MODE"]: [
-                lambda canvas : widgets['jackal_ai'].press_red_init(canvas),
-                lambda canvas : widgets['jackal_ai'].mode_switchter(canvas)
-            ],
+            # event_model.EVENTS["USER_RESET"]: [
+            #     lambda canvas : widgets['user_ai'].bar_hit_slow(canvas)
+            # ],
+            # event_model.EVENTS["YELLOW_MODE"]: [
+            #     lambda canvas : widgets['jackal_ai'].press_yellow(canvas),
+            #     lambda canvas : widgets['user_ai'].normal_counterback(canvas)
+            # ],
+            # event_model.EVENTS["RED_INIT_MODE"]: [
+            #     lambda canvas : widgets['jackal_ai'].press_red_init(canvas),
+            #     lambda canvas : widgets['jackal_ai'].mode_switchter(canvas)
+            # ],
             # # TODO check the type arg
             # event_model.EVENTS["STEP_ERROR_DANGER"]: [
             #     lambda widgets, type : widgets['jackal_ai'].subtract_score(type),
@@ -156,15 +162,15 @@ class EventRegistrar:
             # event_model.EVENTS["ASSISTED_SECOND"]: [
             #     lambda widgets, type : widgets['jackal_ai'].second_round(type),
             # ],
-            event_model.EVENTS["START_CNTDWN"]: [
-                lambda : widgets['ui_fsm'].start_cntdwn(),
-            ],
+            # event_model.EVENTS["START_CNTDWN"]: [
+            #     lambda : widgets['ui_fsm'].start_cntdwn(),
+            # ],
             # event_model.EVENTS["MANUAL_SECOND"]: lambda: ,
             # TODO check the type arg
-            event_model.EVENTS["MANUAL_SECOND"]: [
-                lambda type : widgets['jackal_ai'].second_round(type),
-                lambda type : widgets['user_ai'].second_round(type),
-            ],
+            # event_model.EVENTS["MANUAL_SECOND"]: [
+            #     lambda type : widgets['jackal_ai'].second_round(type),
+            #     lambda type : widgets['user_ai'].second_round(type),
+            # ],
             event_model.EVENTS["COLOR_TRANS"]: [
                 # lambda widgets : widgets['view_back'].color_transition(),
                 lambda : widgets['camera_front'].color_transition(),

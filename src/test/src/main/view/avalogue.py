@@ -13,6 +13,8 @@ from main.utils import utils
 import tkinter as tk
 from main.data import global_config as gc
 from main.data import dialogue_statics as ds
+from main.utils import logger
+
 state_dict = {
     # avatar is showing
     "showing": 0, 
@@ -55,7 +57,7 @@ class AvalogueController():
         self.update_loop()
 
     def btnpress_event(self):
-        self.d_view.deactivate_buttons(self.curr_avalogue[1].button_num)
+        self.d_view.disable_buttons(self.curr_avalogue[1].button_num)
         # key gets updated when we search for the key in the model
         # print(f"*** ARYA DEBUG LOG :: the next key is : {self.curr_avalogue[1].next}")
         # print(f"*** ARYA DEBUG LOG :: the condition is : {self.curr_avalogue[1].next!=None}")
@@ -217,6 +219,8 @@ class AvalogueController():
         # there should be a better solution
         # self.d_view.set_key(d_key)
         # self.set_controls(d_key)
+
+        logger.Logger.log("dialogue_change", d_key)
 
         avatar_obj  = self.a_model.find_obj(a_key)
         

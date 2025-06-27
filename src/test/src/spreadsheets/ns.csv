@@ -18,7 +18,7 @@ ns,congrats,None,2,None,None,None,TRUE,FALSE,5,0,"Error: congrats dialogue place
 ns,collision_1,None,2,"Collision noted, adjusting.","Acknowledged.",None,TRUE,FALSE,5,0,"collision detected."
 ns,collision_2,None,2,"Trying again..","Impact acknowledged.",None,TRUE,FALSE,5,0,"Impact detected."
 ns,collision_3,None,2,"Attempting realignment.","Understood.",None,TRUE,FALSE,5,0,"Obstacle hit."
-ns,emergency,None,1,None,None,"Confirm.",False,FALSE,5,1,"Paused! Please wait ..."
+ns,emergency,None,1,None,None,"Confirm.",False,FALSE,5,1,"Emergency off-track stop in progress, please wait ..."
 ns,encouragement_1,None,2,"Continuing the task.","Noted.",None,TRUE,FALSE,5,0,"Operation progress recorded."
 ns,encouragement_2,None,2,"I’ll continue working like this.","Acknowledged.",None,TRUE,FALSE,5,0,"All systems nominal."
 ns,timer_2,None,2,"Continuing the task.","Noted.",None,TRUE,FALSE,5,0,"Time threshold not yet exceeded. Performance remains within limits."
