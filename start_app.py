@@ -119,7 +119,9 @@ def ensure_ros_hostname():
     ▸ 2.  Export ROS_HOSTNAME / ROS_IP for *this* process + all children
     ▸ 3.  Persist the setting in ~/.bashrc (update if it’s already there)
     """
+    print(f'***ARYA DEBUG LOG :: ')
     ip_addr = subprocess.check_output(["hostname", "-I"], universal_newlines=True).split()[0]
+
     os.environ["ROS_HOSTNAME"] = ip_addr          # visible to every Popen we spawn
     os.environ["ROS_IP"]       = ip_addr          # some nodes look at ROS_IP instead
 

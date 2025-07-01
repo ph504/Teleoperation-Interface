@@ -167,7 +167,7 @@ def main():
     if not gv.tutorial_mode:
         widgets['avalogue'].set_avalogue("t_default", "start_experiment")
     else:
-        widgets['avalogue'].set_avalogue("t_default", "intro_1")
+        widgets['avalogue'].set_avalogue("t_default", "control_2")
     
     # fake collision detector, woz style
     # controls vision stuff, like reaching the sensor 
