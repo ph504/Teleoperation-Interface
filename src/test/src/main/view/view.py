@@ -48,6 +48,8 @@ csv_talking = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src
 csv_reactive = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
 
 def init():
+    print(f"*** ARYA DEBUG LOG :: the process id in view: {os.getpid()}")
+
     # print(f"*** ARYA DEBUG LOG :: view started -- args: {sys.argv}")
     # print(sys.argv)
     if len(sys.argv) != 4 and len(sys.argv) != 3:

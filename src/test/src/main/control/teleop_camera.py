@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import os
 
 # Hardcode the real project path where "main" lives
 ABSOLUTE_PROJECT_PATH = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src"
@@ -57,6 +58,7 @@ def start():
             axis.zoom = 0 
 
         joystick_input = 0
+        print(f"*** ARYA DEBUG LOG :: the process id in camera: {os.getpid()}")
 
         next_pos = 0 
         print('[Arya] Camera Node Activated!')
@@ -80,5 +82,5 @@ def start():
         
             rospy.spin()
 
-if __name__ == '__main__':   
+if __name__ == '__main__':
         start()

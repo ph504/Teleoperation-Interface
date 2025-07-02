@@ -35,7 +35,7 @@ class Logger():
 
     @staticmethod
     def write_data():
-        if gv.tutorial_mode: return
+        # if gv.tutorial_mode: return
         with open(Logger.generate_filename(), 'w', newline='') as file: 
             writer = csv.DictWriter(file, fieldnames = Logger.fields, dialect='excel')
             writer.writeheader() 
