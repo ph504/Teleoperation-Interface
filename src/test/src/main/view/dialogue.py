@@ -339,8 +339,10 @@ class DialogueObject():
                 else:
                     #playsound.playsound("/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/sounds/bleep_sliced.wav")
                     sound = gc.get_talking_sound()
+                    volume = gc.get_sound_volume()
                     time.sleep(sound.get_length() * 1.5)
                     sound.play()
+                    sound.set_volume(volume)
 
                 self.update_texts(l)
         
@@ -364,8 +366,10 @@ class DialogueObject():
                         continue
                     self.event.wait()
                     sound = gc.get_talking_sound()
+                    volume = gc.get_sound_volume()
                     time.sleep(sound.get_length() - 2*self.space_pause)
                     sound.play()
+                    sound.set_volume(volume)
                     time.sleep(self.space_pause)
 
                 if previous_interrupt_index == self.interrupt_counter:

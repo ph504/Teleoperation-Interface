@@ -265,6 +265,7 @@ class AvalogueController():
         # play error sound depending on the sociality
         sound = gc.get_collision_sound()
         sound.play()
+        # sound.set_volume(gc.sounds_volume)
         time.sleep(1.5)
 
     def on_success(self):

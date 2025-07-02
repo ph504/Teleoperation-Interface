@@ -72,6 +72,12 @@ def get_talking_sound():
     
     return random.choice(animalese_sound)
 
+def get_sound_volume():
+    if not social_mode:
+        return 0.8
+    
+    return 1
+
 def get_collision_sound():
     if not social_mode:
         return error_sound
