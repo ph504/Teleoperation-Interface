@@ -14,7 +14,7 @@ class Logger():
     
     @staticmethod
     def generate_filename():
-        file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface/"
+        file_name = "/home/ph504/Desktop/Projects/Teleoperation-Interface/log_data/"
         file_name += str(gv.participant)
         # file_name += gv.round_number
         
