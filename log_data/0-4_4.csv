@@ -1,0 +1,10 @@
+Event,Value,Timestamp
+dialogue_change,start_experiment,
+collision,1,00:16
+dialogue_change,collision_1,00:16
+button_reposnse,A2@d_key=None,00:16
+dialogue_change,code_check_2,10:48
+button_reposnse,A2@d_key=None,10:48
+dialogue_change,end_experiment,10:48
+button_reposnse,A2@d_key=None,10:49
+dialogue_change,end,10:49

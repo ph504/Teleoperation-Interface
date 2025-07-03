@@ -275,18 +275,18 @@ def open_menu():
                    bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
                    activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT, relief='flat', highlightthickness=0).pack(pady=2)
 
-    tk.Checkbutton(root, text="Practice Mode (if tutorial)", variable=practice_var,
-                   bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
-                   activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT, highlightthickness=0).pack(pady=2)
+    # tk.Checkbutton(root, text="Practice Mode (if tutorial)", variable=practice_var,
+    #                bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
+    #                activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT, highlightthickness=0).pack(pady=2)
 
     # Radio buttons
     tk.Label(root, text="Choose Mode:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
 
-    tk.Radiobutton(root, text="Social", variable=social_var, value="s",
+    tk.Radiobutton(root, text="Scout", variable=social_var, value="s",
                    bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
                    activeforeground=gs.ACCENT, highlightthickness=0, selectcolor=gs.BOX_HIGHLIGHT).pack()
 
-    tk.Radiobutton(root, text="Non-Social", variable=social_var, value="ns",
+    tk.Radiobutton(root, text="FM-06", variable=social_var, value="ns",
                    bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
                    activeforeground=gs.ACCENT, highlightthickness=0, selectcolor=gs.BOX_HIGHLIGHT).pack()
 

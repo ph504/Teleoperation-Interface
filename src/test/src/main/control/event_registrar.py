@@ -55,7 +55,7 @@ class EventRegistrar:
                 # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
 
                 widgets['timer_canvas'].start()
-            # rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
+            rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
             # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
 
         def inspection_success(widgets):
