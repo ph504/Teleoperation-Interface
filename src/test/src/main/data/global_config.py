@@ -74,7 +74,7 @@ def get_talking_sound():
 
 def get_sound_volume():
     if not social_mode:
-        return 0.8
+        return 0.6
     
     return 1
 
