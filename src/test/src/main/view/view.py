@@ -265,20 +265,13 @@ def widget_init(root, tab1, tab2):
         timer_label.place(x = gs.timer_label_info["x"], y = gs.timer_label_info["y"], width=gs.timer_label_info["width"], height=gs.timer_label_info["height"])
         
     def initialize_dialogue_system():
-        if not gv.tutorial_mode or gv.practice_mode:
-            widgets['dialogue_view'] = dialogue.DialogueView(root, gs.dialogueview_info, widgets)
-            widgets['dialogue_model'] = dialogue.DialogueModel(root, csv_dialogue_ns if not gv.social_mode else csv_dialogue_s)
-            widgets['avatar_view'] = avatar_view.AvatarView(root, gs.javatar_info, gv.social_mode)
-            widgets['avatar_model'] = avatar_view.AvatarModel(csv_idle, csv_talking, csv_reactive)
+        widgets['dialogue_view'] = dialogue.DialogueView(root, gs.dialogueview_info, widgets)
+        widgets['dialogue_model'] = dialogue.DialogueModel(root, csv_dialogue_ns if not gv.social_mode else csv_dialogue_s)
+        widgets['avatar_view'] = avatar_view.AvatarView(root, gs.javatar_info, gv.social_mode)
+        widgets['avatar_model'] = avatar_view.AvatarModel(csv_idle, csv_talking, csv_reactive)
 
-            widgets['avalogue'] = avalogue.AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
+        widgets['avalogue'] = avalogue.AvalogueController(root, widgets['dialogue_model'], widgets['dialogue_view'], widgets['avatar_model'], widgets['avatar_view'])
 
-        else:
-            widgets['avatar_view'] = None
-            widgets['avatar_model'] = None
-            widgets['avalogue'] = None
-            widgets['dialogue_view'] = None
-            widgets['dialogue_model'] = None
         widgets['dialogue_text'] = None
 
     def initialize_misc_components(avalogue):
