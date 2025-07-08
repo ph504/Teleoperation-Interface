@@ -166,6 +166,8 @@ def main():
 
     if not gv.tutorial_mode:
         widgets['avalogue'].set_avalogue("t_default", "start_experiment")
+    elif gv.tutorial_mode and gv.practice_mode:
+        widgets['avalogue'].set_avalogue("t_default", "start_experiment")
     else:
         widgets['avalogue'].set_avalogue("t_default", "intro_1")
     
@@ -379,9 +381,12 @@ def server_program(widgets):
                         elif int(data) == 1:
                             logger.Logger.log("collision", data) # type: ignore
                             event_manager.EventManager.post_event("avalogue_collision") # type: ignore
-                        else:
+                        elif int(data) == 2:
                             logger.Logger.log("anomally", data) # type: ignore
                             event_manager.EventManager.post_event("emergency") # type: ignore
+                        else:
+                            print("Unknown data received: " + str(data))
+                            continue
             
             except Exception as e:
                 print("ERROR happened: " + str(e))  

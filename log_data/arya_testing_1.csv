@@ -1,7 +1,2 @@
 Event,Value,Timestamp
 dialogue_change,start_experiment,
-dialogue_change,code_check_2,00:31
-button_reposnse,A1@d_key=None,00:31
-dialogue_change,end_experiment,00:31
-button_reposnse,A1@d_key=None,00:31
-dialogue_change,end,00:31

@@ -275,9 +275,9 @@ def open_menu():
                    bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
                    activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT, relief='flat', highlightthickness=0).pack(pady=2)
 
-    # tk.Checkbutton(root, text="Practice Mode (if tutorial)", variable=practice_var,
-    #                bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
-    #                activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT, highlightthickness=0).pack(pady=2)
+    tk.Checkbutton(root, text="Practice Mode (if tutorial)", variable=practice_var,
+                   bg=gs.DARK_BG, fg=gs.FG_COLOR, activebackground=gs.BOX_HIGHLIGHT,
+                   activeforeground=gs.ACCENT, selectcolor=gs.BOX_HIGHLIGHT, highlightthickness=0).pack(pady=2)
 
     # Radio buttons
     tk.Label(root, text="Choose Mode:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
