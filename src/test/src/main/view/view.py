@@ -167,6 +167,7 @@ def main():
     if not gv.tutorial_mode:
         widgets['avalogue'].set_avalogue("t_default", "start_experiment")
     elif gv.tutorial_mode and gv.practice_mode:
+        print(f"*** ARYA DEBUG LOG :: practice? {gv.practice_mode} tutorial? {gv.tutorial_mode}")
         widgets['avalogue'].set_avalogue("t_default", "start_experiment")
     else:
         widgets['avalogue'].set_avalogue("t_default", "intro_1")
@@ -200,7 +201,7 @@ def main():
     if rg.HAS_ROS:
         pub = rospy.Publisher("freeze", std_msg.Bool, queue_size=10)
 
-    if gv.tutorial_mode and not gv.practice_mode:
+    if gv.tutorial_mode:
         unfreeze()
     
     
