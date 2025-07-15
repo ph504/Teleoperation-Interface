@@ -48,7 +48,7 @@ class EventRegistrar:
             rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
 
         def inspection_success(widgets):
-            print(f"*** ARYA DEBUG LOG :: AVALOGUE IS THE PROBLEM THIS IS OKAY")
+            # print(f"*** ARYA DEBUG LOG :: AVALOGUE IS THE PROBLEM THIS IS OKAY")
             widgets["avalogue"].on_success()
 
 

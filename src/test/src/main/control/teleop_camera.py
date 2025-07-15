@@ -58,7 +58,7 @@ def start():
             axis.zoom = 0 
 
         joystick_input = 0
-        print(f"*** ARYA DEBUG LOG :: the process id in camera: {os.getpid()}")
+        # print(f"*** ARYA DEBUG LOG :: the process id in camera: {os.getpid()}")
 
         next_pos = 0 
         print('[Arya] Camera Node Activated!')

@@ -3,6 +3,7 @@ import os
 import pathlib
 import re
 
+
 def replace_file_content(full_path, NEW_PATH, OLD_PATH):
     try:
         with open(full_path, "r", encoding="utf-8") as f:
@@ -70,6 +71,7 @@ from tkinter import messagebox
 
 from main.utils import ros_guard as rg
 from main.data import global_statics as gs
+from main.data import global_config as gc
 
 
 # ✅ ROS optional imports
@@ -247,7 +249,7 @@ def start_app(args):
     launch_camera()
     launch_wheel()
     launch_view(args)
-    print(f"*** ARYA DEBUG LOG :: the process id in start_app: {os.getpid()}")
+    # print(f"*** ARYA DEBUG LOG :: the process id in start_app: {os.getpid()}")
     # print("start appp yess hello world")
 
 
@@ -269,6 +271,10 @@ def open_menu():
     # Title
     tk.Label(root, text="Welcome to HCI LAB!", font=("Helvetica", 14, "bold"),
              bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=10)
+
+    if gc.DEBUG_MODE:
+        tk.Label(root, text="DEBUG MODE IS ON", font=("Helvetica", 14, "bold"),
+        bg=gs.DARK_BG, fg=gs.COLOR_CODE["red"]).pack(pady=10)
 
     # Checkbuttons
     tk.Checkbutton(root, text="Tutorial Mode", variable=tutorial_var,
@@ -305,10 +311,10 @@ def open_menu():
     
 
     # round number
-    tk.Label(root, text="Enter Round Number:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
-    round_number_var = tk.StringVar()
-    tk.Entry(root, textvariable=round_number_var, font=("Helvetica", 12), bg=gs.BOX_HIGHLIGHT,
-             fg=gs.FG_COLOR, insertbackground=gs.FG_COLOR).pack(pady=4)
+    # tk.Label(root, text="Enter Round Number:", bg=gs.DARK_BG, fg=gs.ACCENT).pack(pady=8)
+    # round_number_var = tk.StringVar()
+    # tk.Entry(root, textvariable=round_number_var, font=("Helvetica", 12), bg=gs.BOX_HIGHLIGHT,
+    #          fg=gs.FG_COLOR, insertbackground=gs.FG_COLOR).pack(pady=4)
     
 
     # Callback to launch
@@ -317,14 +323,14 @@ def open_menu():
         practice = practice_var.get()
         social = social_var.get()
         pid = participant_id_var.get()
-        rid = round_number_var.get()
+        # rid = round_number_var.get()
         pid = pid if not pid=="" else "arya_testing"
-        rid = rid if not rid=="" else "1"
-        pid = pid + "_" + rid
+        # rid = rid if not rid=="" else "1"
+        # pid = pid + "_" + rid
         # print(f"*** ARYA DEBUG LOG :: PARTICIPANT ID: \"{cpid}\"")
 
         if tutorial:
-            args = ["t", social, "0" if practice else "1"]
+            args = ["t", social, pid, "0" if practice else "1"]
         else:
             args = [pid, social]
 

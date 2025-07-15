@@ -7,6 +7,8 @@ import random
 import pygame
 from playsound import playsound
 
+DEBUG_MODE = False
+
 tutorial_mode = None
 practice_mode = None # if true, start state machine and no binding, if false then it is pure tutorial
 bar_controller = True #true stop, false active. only for tutorial, in practice mode not training session

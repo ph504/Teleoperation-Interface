@@ -48,72 +48,55 @@ csv_talking = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src
 csv_reactive = "/home/ph504/Desktop/Projects/Teleoperation-Interface/src/test/src/spreadsheets/ReactiveAvatars.csv"
 
 def init():
-    print(f"*** ARYA DEBUG LOG :: the process id in view: {os.getpid()}")
+    # print(f"*** ARYA DEBUG LOG :: the process id in view: {os.getpid()}")
 
     # print(f"*** ARYA DEBUG LOG :: view started -- args: {sys.argv}")
     # print(sys.argv)
-    if len(sys.argv) != 4 and len(sys.argv) != 3:
+    if len(sys.argv) != 5 and len(sys.argv) != 3:
         print("Argument length:" + str(len(sys.argv)))
         print("Usage: python3 main.py tutorial 0/1(practice mode or not) n(number of mistakes)")
         print("Usage: python3 main.py p[0:infinite] social/nonsocial")
         sys.exit(1)
         
-    if len(sys.argv) == 4:
+    if len(sys.argv) == 5:
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
         arg3 = sys.argv[3]
-        
-        if arg1 == "t":
-            gv.tutorial_mode = True
-            
-        else:
-            # incorrect format
-            gv.tutorial_mode = False
-            # event_manager.EventManager.post_event("freeze") # type: ignore
-            sys.exit(1)
-        
-        if arg2 == "s":
-            gv.social_mode = True
-        elif arg2 == "ns":
-             gv.social_mode = False
-        elif arg2 == "nn":
-            gv.social_mode = None
-            gv.practice_mode = False
-        else:
-            print("Incorrect command or typo")
-            sys.exit(1)
-        
+        arg4 = sys.argv[4]
+        # print(f"*** ARYA DEBUG LOG :: view started -- args: {sys.argv}")
 
         
-        if arg3 == '1':
-            gv.practice_mode = True
-            # event_manager.EventManager.post_event("freeze") # type: ignore
-        elif arg3 == '0':
-            gv.practice_mode = False
-            # event_manager.EventManager.post_event("unfreeze") # type: ignore
-        else:
-            print("Incorrect command or typo")
+        if arg1 != "t":
             sys.exit(1)
+
+        if arg4 != "0" and arg4 != "1":
+            sys.exit(1)
+            
+        gv.tutorial_mode = True
+        gv.social_mode = arg2 == "s"
+        gv.participant = arg3
+        gv.practice_mode = arg4 == '0'
+            # event_manager.EventManager.post_event("freeze") # type: ignore
+        
 
     if len(sys.argv) == 3:
-    
+        
+        
         arg1 = sys.argv[1]
         arg2 = sys.argv[2]
+        if arg2 != "s" and arg2 != "ns":
+            print("Usage: python3 main.py p[0:infinite] social/nonsocial")
+            sys.exit(1)
 
         gv.practice_mode = False
         gv.tutorial_mode = False
          
         gv.participant = arg1
+        gv.social_mode = arg2 == "s"
         # print(f"*** ARYA DEBUG LOG :: PARTICIPANT ID: \"{arg1}\"")
         # print("*** ARYA DEBUG LOG: ", gv.participant)
-       
-        if arg2 == "s":
-            gv.social_mode = True
-        elif arg2 == "ns":
-            gv.social_mode = False
-        else:
-            print("Incorrect command or typo")
-            sys.exit(1)
+
+    logger.Logger.log("new_round", "sociality=" + str(gv.social_mode) + "@tutorial=" + str(gv.tutorial_mode) + "@practice=" + str(gv.practice_mode)) # type: ignore
 
 def main(): 
     
@@ -167,7 +150,7 @@ def main():
     if not gv.tutorial_mode:
         widgets['avalogue'].set_avalogue("t_default", "start_experiment")
     elif gv.tutorial_mode and gv.practice_mode:
-        print(f"*** ARYA DEBUG LOG :: practice? {gv.practice_mode} tutorial? {gv.tutorial_mode}")
+        # print(f"*** ARYA DEBUG LOG :: practice? {gv.practice_mode} tutorial? {gv.tutorial_mode}")
         widgets['avalogue'].set_avalogue("t_default", "start_experiment")
     else:
         widgets['avalogue'].set_avalogue("t_default", "intro_1")
@@ -218,8 +201,8 @@ def main():
     tab_checker()
     
 
-    if gv.tutorial_mode: 
-        bind_keyboard(root)
+    # if gv.tutorial_mode: 
+    #     bind_keyboard(root)
 
     
     # TODO
@@ -310,32 +293,32 @@ def widget_init(root, tab1, tab2):
 #############################################################################
 
 #############################################################################
-def bind_keyboard(tab1):
-# def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
+# def bind_keyboard(tab1):
+# # def bind_keyboard(tab1, cursor_canvas_small, cursor_canvas_big, task_canvas, view_back, camera_front, manual_button, auto_button, circle_canvas, jackal_ai, tutorial_fsm):
     
-    if not gv.practice_mode:
-        tab1.bind('b', lambda e: toggle_barcontroller())
-        tab1.bind('x', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
-        tab1.bind('z', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
+#     if not gv.practice_mode:
+#         # tab1.bind('b', lambda e: toggle_barcontroller())
+#         tab1.bind('x', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
+#         tab1.bind('z', lambda e: pygame.mixer.find_channel().play(gv.beep_sound))
         
-    elif gv.practice_mode:
-        tab1.bind('9', lambda e: start_tutorial(tab1))
-        tab1.bind('x', lambda e: playsound_beep_thread())
-        tab1.bind('z', lambda e: playsound_beep_thread())       
+#     elif gv.practice_mode:
+#         tab1.bind('9', lambda e: start_tutorial(tab1))
+#         tab1.bind('x', lambda e: playsound_beep_thread())
+#         tab1.bind('z', lambda e: playsound_beep_thread())       
     
-def start_tutorial(tab):
-    tab.unbind_all('s')
-    tab.unbind_all('w')
-    tab.unbind_all('`')
-    tab.unbind_all('1')
-    tab.unbind_all('2')
-    tab.unbind_all('3')
-    tab.unbind_all('o') 
-    tab.unbind_all('[')
-    tab.unbind_all(']')
-    tab.unbind_all('b')
-    tab.unbind_all('a')
-    tab.unbind_all('9')
+# def start_tutorial(tab):
+#     tab.unbind_all('s')
+#     tab.unbind_all('w')
+#     tab.unbind_all('`')
+#     tab.unbind_all('1')
+#     tab.unbind_all('2')
+#     tab.unbind_all('3')
+#     tab.unbind_all('o') 
+#     tab.unbind_all('[')
+#     tab.unbind_all(']')
+#     tab.unbind_all('b')
+#     tab.unbind_all('a')
+#     tab.unbind_all('9')
     # t_fsm.initializing_to_start()
 
 def server_program(widgets):

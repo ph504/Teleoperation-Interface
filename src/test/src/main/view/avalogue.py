@@ -58,7 +58,10 @@ class AvalogueController():
         # EventManager.subscribe("mistake", self.on_mistake)
         self.update_loop()
 
-    def btnpress_event(self):
+    def btnpress_event(self, button_number):
+        value = f"A{button_number}@d_key={self.curr_avalogue[1].key}"
+        event = f"button_reposnse"
+        logger.Logger.log(event, value)
         self.d_view.disable_buttons(self.curr_avalogue[1].button_num)
         # key gets updated when we search for the key in the model
         # print(f"*** ARYA DEBUG LOG :: the next key is : {self.curr_avalogue[1].next}")

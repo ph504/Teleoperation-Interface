@@ -11,6 +11,7 @@ if rg.HAS_ROS:
 from main.model import event_model
 from main.control import event_manager
 from main.control import teleop_wheel
+from main.data import global_config as gc
 # from main.utils import logger
 from tkinter import ACTIVE as tk_ACTIVE
 from tkinter import DISABLED as tk_DISABLED
@@ -55,7 +56,9 @@ class EventRegistrar:
                 # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
 
                 widgets['timer_canvas'].start()
-            rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
+            
+            if not gc.DEBUG_MODE:
+                rospy.Publisher("freeze", std_msg.Bool, queue_size=10).publish(switch)
             # print(f"*** ARYA DEBUG LOG :: freeze var is set to {switch}")
 
         def inspection_success(widgets):
@@ -119,7 +122,7 @@ class EventRegistrar:
                 lambda : widgets["avalogue"].wait_for_button(),
             ],
             event_model.EVENTS["DIALOGUE_ANSWER"]: [
-                lambda : widgets['avalogue'].btnpress_event()
+                lambda button_number : widgets['avalogue'].btnpress_event(button_number)
             ],
             event_model.EVENTS["FREEZE_CONTROLS"]: [
                 lambda switch : on_freeze_controls(switch), 

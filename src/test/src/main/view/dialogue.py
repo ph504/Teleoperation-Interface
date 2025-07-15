@@ -161,11 +161,8 @@ class DialogueView():
     
     #btn 
     def button_press_event(self, button_number):
-        value = f"A{button_number}@d_key={self.key}"
-        event = f"button_reposnse"
-        logger.Logger.log(event, value)
         # print(f"*** ARYA DEBUG LOG :: button pressed: {self.btn.text}")        # post event button press
-        event_manager.EventManager.post_event("dialogue_answer")
+        event_manager.EventManager.post_event("dialogue_answer", button_number)
 
         # there should be a better solution to this
         # print(f"***ARYA DEBUG LOG :: the dialogue key is {self.key}")

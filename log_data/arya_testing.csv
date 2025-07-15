@@ -1,0 +1,5 @@
+Event,Value,Timestamp
+new_round,sociality=True@tutorial=True@practice=False,
+dialogue_change,intro_1,
+new_round,sociality=True@tutorial=True@practice=False,
+dialogue_change,intro_1,

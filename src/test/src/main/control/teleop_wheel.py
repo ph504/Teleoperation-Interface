@@ -77,6 +77,6 @@ def start():
 if __name__ == '__main__':   
         # global gc.freeze
         gc.freeze = True
-        print(f"*** ARYA DEBUG LOG :: the process id in wheel: {os.getpid()}")
+        # print(f"*** ARYA DEBUG LOG :: the process id in wheel: {os.getpid()}")
         start()
 

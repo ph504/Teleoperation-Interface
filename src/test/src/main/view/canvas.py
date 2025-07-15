@@ -135,6 +135,7 @@ class TimerCanvas(BaseCanvas):
             mins = int(elapsed // 60)
             secs = int(elapsed % 60)
             self.text = f"{mins:02d}:{secs:02d}"
+            elapsed_seconds = int(elapsed)
             self.canvas.delete("all")
             self.canvas.create_text(
                 self.width / 2,
@@ -143,7 +144,7 @@ class TimerCanvas(BaseCanvas):
                 fill=self.text_color,
                 font=self.font
             )
-            logger.Logger.set_elapsed_time(self.text)
+            logger.Logger.set_elapsed_time(elapsed_seconds)
             # event_manager.EventManager.post_event("countdown", formatted)
 
         self.canvas.after(1000, self.update_loop)
