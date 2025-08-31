@@ -352,13 +352,16 @@ def server_program(widgets):
                                 break
                     
                         print("*** Arya From connected user: " + data)
-                        if int(data) == 0:
+                        # if int(data) == 0:
+                        if data == '\'0\'':
                             logger.Logger.log("paper", 0) # type: ignore
                             event_manager.EventManager.post_event("paper_reach") # type: ignore
-                        elif int(data) == 1:
+                        # elif int(data) == 1:
+                        elif data == '\'1\'':
                             logger.Logger.log("collision", data) # type: ignore
                             event_manager.EventManager.post_event("avalogue_collision") # type: ignore
-                        elif int(data) == 2:
+                        # elif int(data) == 2:
+                        elif data == '\'2\'':
                             logger.Logger.log("anomally", data) # type: ignore
                             event_manager.EventManager.post_event("emergency") # type: ignore
                         else:
