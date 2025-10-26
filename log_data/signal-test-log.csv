@@ -1,0 +1,7 @@
+Event,Value,Timestamp
+new_round,sociality=True@tutorial=True@practice=True,
+dialogue_change,start_experiment,
+collision,'1',6
+dialogue_change,collision_1,6
+anomally,'2',6
+dialogue_change,emergency,6
